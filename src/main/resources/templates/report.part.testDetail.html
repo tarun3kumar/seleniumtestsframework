@@ -1,0 +1,66 @@
+<div id='$testId' style='width: 100%'>
+	<div class="yuk_tab_panel suitePanel">
+		<div class="yuk_goldgrad_tl">
+			<div class="yuk_goldgrad_tr">
+				<div class="yuk_goldgrad_m"></div>
+			</div>
+		</div>
+
+		<div class="yuk_tabbed_nav">
+			<h2 class="yuk_tab_title" id='$testId'>Test Details - $testName</h2>
+			<!-- <a href='#' style='background: none; float: right; border-style: none'>More filters</a>-->
+			<div style='float: right'>
+				<input type='checkbox'name='$testId' value="skipped" checked='checked'>
+				<font color="grey"><b>skipped</b></font>
+			</div>
+			<div style='float: right'>
+				<input type='checkbox' name='$testId' value='failed' checked='checked'>
+				<font color="red"><b>failed</b></font>
+			</div>
+			<div style='float: right'>
+				<input type='checkbox' name='$testId' value='passed' checked='checked'>
+				<font color="green"><b>passed</b></font>
+			</div>
+
+			<ul id='$testId'>
+				<li class='tab  ' id='envt'>
+					<a href="#"><span>Environment (
+					<font color="green">$envtp</font> 
+					/ <font color="red">$envtf</font> 
+					/ <font color="grey">$envts</font>
+					)</span></a>
+				</li>
+				<li class='tab active' id='test'>
+					<a href="#"><span>Tests (
+					<font color="green">$testp</font> 
+					/ <font color="red">$testf</font> 
+					/ <font color="grey">$tests</font>
+					)</span></a>
+				</li>
+				<!-- 
+				<li class='tab' id='cal'>
+					<a href="#"><span>CAL Errors ( <font color="red">$calcount</font> )</span></a>
+				</li>
+				 -->
+				$globalerrortabs
+			</ul>
+		</div>
+	
+		<div class="clear_both"></div>
+		
+		<div class='envt' style='width: 98%;margin-left:15px;'>
+			$envthtml
+		</div>
+		
+		<div class='test' style='width: 98%;margin-left:15px;'>
+			$testhtml
+		</div>
+
+		<!-- 
+		<div class='cal' style='width: 98%;margin-left:15px;'>
+			$calhtml
+		</div>
+		 -->
+		$globalerrorhtmls
+	</div>
+</div>

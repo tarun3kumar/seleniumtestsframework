@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html" ; charset="utf-8" />
+<!-- 
+	<title>${title}</title>
+	 -->
+<title>Selenium Test Report</title>
+
+<script src="resources/js/jquery-1.3.min.js" language="JavaScript"></script>
+<script src="resources/js/mktree.js" language="JavaScript"></script>
+<script src="resources/js/jquery.lightbox-0.5.min.js"
+	language="JavaScript" /></script>
+<script src="resources/js/report.js" language="JavaScript" /></script>
+<script src="resources/js/browserdetect.js" language="JavaScript" /></script>
+
+<link rel="stylesheet" type="text/css"
+	href="resources/css/jquery.lightbox-0.5.css" media="screen">
+<link rel="stylesheet" type="text/css" href="resources/css/report.css">
+<link rel="stylesheet" type="text/css" href="resources/css/mktree.css">
+<script type="text/javascript">
+	$(function() {
+		$('.lightbox').lightBox();
+	});
+</script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+
+						$('.filmStrip a').lightBox();
+
+						$('.tab')
+								.click(
+										function(event) {
+											// highlight the right tab. 
+											$(this).parent().children()
+													.removeClass('active');
+											;
+											$(this).addClass('active');
+
+											// envt or test ?
+											var group = $(this).attr('id');
+
+											// report ID
+											var reportId = $(this).parent()
+													.attr('id');
+
+											var groupArray = '$groups'
+													.split(',');
+											for ( var i = 0; i < groupArray.length; i++) {
+												if (group == groupArray[i]) {
+													$('div#' + reportId)
+															.find(
+																	'.'
+																			+ groupArray[i])
+															.show();
+													$('div#' + reportId)
+															.find(
+																	'.'
+																			+ groupArray[i])
+															.addClass('active');
+												} else {
+													$('div#' + reportId)
+															.find(
+																	'.'
+																			+ groupArray[i])
+															.hide();
+													$('div#' + reportId)
+															.find(
+																	'.'
+																			+ groupArray[i])
+															.removeClass(
+																	'active');
+												}
+											}
+										});
+
+						$(':checkbox').click(
+								function(event) {
+									var suiteId = $(this).attr('name');
+									var value = $(this).attr('value');
+									var checked = $(this).attr('checked');
+									$('div#' + suiteId).find('.' + value)
+											.toggle(checked);
+								});
+
+						$('.toDetailLnk').click(function(event) {
+							$('div#reports').children().hide();
+							$('div#' + $(this).attr('tg')).show();
+						});
+
+						$('.exceptionlnk').click(
+								function(event) {
+									$(this).parent().find('div.exception')
+											.toggle('slow');
+								});
+
+						$('.testloglnk')
+								.click(
+										function(event) {
+											$(this).parent().parent().find(
+													'div.testlog').toggle(
+													'slow');
+											$(this)
+													.text(
+															$(this).text() == 'TestLog [+]' ? 'TestLog [ - ]'
+																	: 'TestLog [+]');
+										});
+
+						$('.xmldifflnk').click(function(event) {
+							var difftxt = $(this).text();
+							if (difftxt.indexOf('+') > -1) {
+								$(this).text(difftxt.replace('+', '-'));
+							} else {
+								$(this).text(difftxt.replace('-', '+'));
+							}
+						});
+
+						// show the first suite.
+						$('#reports').children().hide();
+						$('#reports').find('div:first').show();
+
+						// select envt per default
+						var groupArray = '$groups'.split(',');
+						for ( var i = 0; i < groupArray.length; i++) {
+							if ('test' == groupArray[i]) {
+								$('div#reports').find('.' + groupArray[i])
+										.show();
+								$('div#reports').find('.' + groupArray[i])
+										.addClass('active');
+							} else {
+								$('div#reports').find('.' + groupArray[i])
+										.hide();
+								$('div#reports').find('.' + groupArray[i])
+										.removeClass('active');
+							}
+						}
+
+					});
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+	<div id='selenium_header'>
+		<img src='http://docs.seleniumhq.org/images/selenium-logo.png'
+			class='floatLeft' />
+		<div id='report_info' class='floatRight'>
+			<div class="yuk_goldgrad_tl">
+				<div class="yuk_goldgrad_tr">
+					<div class="yuk_goldgrad_m"></div>
+				</div>
+			</div>
+			<h2 class="yuk_goldgrad_runinfo">
+				&nbsp; <a
+					href='http://www.seleniumtests.com/p/testing-forum.html'>Have a Question?</a><br />
+			</h2>
+		</div>
+
+		<div class="clear_both"></div>
+	</div>
+
+	<br />

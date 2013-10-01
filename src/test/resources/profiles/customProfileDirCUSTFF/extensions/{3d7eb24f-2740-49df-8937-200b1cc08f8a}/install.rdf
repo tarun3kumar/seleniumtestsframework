@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+    <Description about="urn:mozilla:install-manifest">
+        <em:id>{3d7eb24f-2740-49df-8937-200b1cc08f8a}</em:id>
+        <em:type>2</em:type>
+        <em:name>Flashblock</em:name>
+        <em:version>1.5.13</em:version>
+        <em:description>Replaces Flash objects with a button you can click to view them.</em:description>
+        <em:creator>The Flashblock Team</em:creator>
+        <em:contributor>Ted Drake</em:contributor>
+        <em:contributor>Ted Mielczarek</em:contributor>
+        <em:contributor>Przemyslaw Bialik</em:contributor>
+        <em:contributor>Lorenzo Colitti</em:contributor>
+        <em:contributor>Philip Chee</em:contributor>
+        <em:contributor>Special thanks to:</em:contributor>
+        <em:contributor> - Jesse Ruderman (initial idea)</em:contributor>
+        <em:contributor> - Neil Rashbrook (whitelist wizardry)</em:contributor>
+        <em:homepageURL>http://flashblock.mozdev.org/</em:homepageURL>
+        <em:iconURL>chrome://flashblock/content/flashblock-32.png</em:iconURL>
+        <em:optionsURL>chrome://flashblock/content/options.xul</em:optionsURL>
+
+        <!-- Firefox -->
+        <em:targetApplication>
+            <Description>
+                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+                <em:minVersion>1.5</em:minVersion>
+                <em:maxVersion>4.*.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+
+        <!-- Flock  -->
+        <em:targetApplication>
+            <Description>
+                <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+                <em:minVersion>1.0</em:minVersion>
+                <em:maxVersion>2.1.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+
+        <!-- Netscape Navigator -->
+        <em:targetApplication>
+            <Description>
+                <em:id>{3db10fab-e461-4c80-8b97-957ad5f8ea47}</em:id>
+                <em:minVersion>9.0b1</em:minVersion>
+                <em:maxVersion>9.0.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+
+        <!-- Intel Midbrowser (Mobile Internet Devices) -->
+        <em:targetApplication>
+            <Description>
+                <em:id>{aa5ca914-c309-495d-91cf-3141bbb04115}</em:id>
+                <em:minVersion>0.2</em:minVersion>
+                <em:maxVersion>2.0.0.*</em:maxVersion>
+            </Description>
+        </em:targetApplication>
+
+    </Description>
+</RDF>

@@ -1,0 +1,42 @@
+overlay	chrome://browser/content/browser.xul	chrome://flashblock/content/flashblock.xul
+overlay	chrome://global/content/customizeToolbar.xul	chrome://flashblock/content/flashblock.xul
+
+content	flashblock	jar:chrome/flashblock.jar!/content/flashblock/
+content	flashblock	jar:chrome/flashblock.jar!/content/flashblock/	contentaccessible=yes
+
+skin	flashblock	classic/1.0	jar:chrome/flashblock.jar!/skin/classic/flashblock/
+style	chrome://global/content/customizeToolbar.xul	chrome://flashblock/skin/flashblock.css
+
+locale	flashblock	en-US	jar:chrome/flashblock.jar!/locale/en-US/flashblock/
+locale	flashblock	it-IT	jar:chrome/flashblock.jar!/locale/it-IT/flashblock/
+locale	flashblock	nl-NL	jar:chrome/flashblock.jar!/locale/nl-NL/flashblock/
+locale	flashblock	de-DE	jar:chrome/flashblock.jar!/locale/de-DE/flashblock/
+locale	flashblock	fr-FR	jar:chrome/flashblock.jar!/locale/fr-FR/flashblock/
+locale	flashblock	pl-PL	jar:chrome/flashblock.jar!/locale/pl-PL/flashblock/
+locale	flashblock	ko-KR	jar:chrome/flashblock.jar!/locale/ko-KR/flashblock/
+locale	flashblock	pt-BR	jar:chrome/flashblock.jar!/locale/pt-BR/flashblock/
+locale	flashblock	da-DK	jar:chrome/flashblock.jar!/locale/da-DK/flashblock/
+locale	flashblock	hu-HU	jar:chrome/flashblock.jar!/locale/hu-HU/flashblock/
+locale	flashblock	cs-CZ	jar:chrome/flashblock.jar!/locale/cs-CZ/flashblock/
+locale	flashblock	es-ES	jar:chrome/flashblock.jar!/locale/es-ES/flashblock/
+locale	flashblock	ru-RU	jar:chrome/flashblock.jar!/locale/ru-RU/flashblock/
+locale	flashblock	ro-RO	jar:chrome/flashblock.jar!/locale/ro-RO/flashblock/
+locale	flashblock	ja-JP	jar:chrome/flashblock.jar!/locale/ja-JP/flashblock/
+locale	flashblock	zh-CN	jar:chrome/flashblock.jar!/locale/zh-CN/flashblock/
+locale	flashblock	ar	jar:chrome/flashblock.jar!/locale/ar/flashblock/
+locale	flashblock	fi-FI	jar:chrome/flashblock.jar!/locale/fi-FI/flashblock/
+locale	flashblock	sv-SE	jar:chrome/flashblock.jar!/locale/sv-SE/flashblock/
+locale	flashblock	sk-SK	jar:chrome/flashblock.jar!/locale/sk-SK/flashblock/
+locale	flashblock	zh-TW	jar:chrome/flashblock.jar!/locale/zh-TW/flashblock/
+locale	flashblock	tr-TR	jar:chrome/flashblock.jar!/locale/tr-TR/flashblock/
+locale	flashblock	el-GR	jar:chrome/flashblock.jar!/locale/el-GR/flashblock/
+locale	flashblock	bg-BG	jar:chrome/flashblock.jar!/locale/bg-BG/flashblock/
+locale	flashblock	uk-UA	jar:chrome/flashblock.jar!/locale/uk-UA/flashblock/
+locale	flashblock	te-IN	jar:chrome/flashblock.jar!/locale/te-IN/flashblock/
+locale	flashblock	ca-ES	jar:chrome/flashblock.jar!/locale/ca-ES/flashblock/
+locale	flashblock	is-IS	jar:chrome/flashblock.jar!/locale/is-IS/flashblock/
+locale	flashblock	pt-PT	jar:chrome/flashblock.jar!/locale/pt-PT/flashblock/
+locale	flashblock	vi-VN	jar:chrome/flashblock.jar!/locale/vi-VN/flashblock/
+locale	flashblock	no-NB	jar:chrome/flashblock.jar!/locale/no-NB/flashblock/
+locale	flashblock	es-AR	jar:chrome/flashblock.jar!/locale/es-AR/flashblock/
+locale	flashblock	sr-RS	jar:chrome/flashblock.jar!/locale/sr-RS/flashblock/

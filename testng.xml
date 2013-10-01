@@ -1,0 +1,79 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="Selenium Framework Test Suite" parallel="methods"
+	verbose="1" thread-count="5">
+	<listeners>
+		<listener class-name="com.seleniumtests.reporter.HTMLReporter" />
+		<listener class-name="com.seleniumtests.controller.TestRetryListener" />
+
+	</listeners>
+
+<!-- 	<parameter name="poolType" value="qa" /> qa, corp or sandbox
+	<parameter name="pool" value="QA" />
+ -->	<parameter name="localizedBuild" value="true" /> <!-- true or false -->
+	<parameter name="site" value="IN" /> 
+	<parameter name="appURL" value="http://www.ebay.in/"></parameter>
+	<parameter name="pop3Host" value="unicorn.qa.ebay.com" />
+
+	<parameter name="browser" value="*firefox" /> <!-- "*firefox, *chrome, *iexplore" -->
+	<parameter name="webRunMode" value="LocallyOnRC" /><!-- LocallyOnRC, 
+		ExistingGrid or CreateGrid http://qa-auto143:4444/wd/hub http://grid.qa.ebay.com:8080/wd/hub -->
+	<parameter name="webDriverGrid" value="http://grid.qa.ebay.com:8080/wd/hub" />
+	<parameter name="webSessionTimeOut" value="120000" />
+
+	<!-- <parameter name="webDriverGrid" value="http://qa-autodev05:4444/wd/hub" 
+		/> -->
+	<parameter name="openReportInBrowser" value="firefox" />
+	<parameter name="urlConvertClass"
+		value="com.ebay.maui.util.internal.web.URLConverter" />
+	<!-- <parameter name="viEndPoint" value="http://signin.qa.ebay.com/admin/v3console/ValidateInternals" 
+		/> -->
+
+	<parameter name="lazyLoadVI" value="true" />
+	<parameter name="maxConcurrentWebSessions" value="5" />
+	<parameter name="captureSnapshot" value="true" />
+	<parameter name="softAssertEnabled" value="true" />
+	<parameter name="webSessionTimeOut" value="60000" />
+
+	<parameter name="apiSchmaEndPoint" value="http://eazye.qa.ebay.com/ws/api.dll" />
+	<parameter name="apiSoapEndPoint" value="http://eazye.qa.ebay.com/wsapi" />
+	<parameter name="apiCsEndPoint"
+		value="http://tv3apicore.qa.ebay.com:8080/ws/websvc/eBayCSAPI" />
+	<parameter name="apiVersion" value="733" />
+	<parameter name="apiCertName" value="AdminCertificate" />
+	<parameter name="apiAppName" value="AdminApp" />
+	<parameter name="apiDevName" value="Admintest1" />
+	<parameter name="apiDetailLevel" value="4" />
+	<parameter name="cartServiceURI"
+		value="http://phx5qa01c-302b.stratus.phx.qa.ebay.com:8080/sparksvct/spark/shoppingcart/v1/" />
+
+	<!--<test name="Selenium Framework-FF Test" parallel="methods">
+		<groups>
+			<run>
+				<include name="retryTest1" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.seleniumtests.webtests.RetryTest1" />
+		</classes>
+	</test>
+	<test name="Selenium Framework-Chrome Test" parallel="methods">
+		<groups>
+			<run>
+				<include name="retryTest2" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.seleniumtests.webtests.RetryTest2" />
+		</classes>
+	</test>-->
+    <test name="Web Test in FF Test" parallel="methods">
+        <groups>
+            <run>
+                <include name="addSingleNonMSKUItemToCart"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.webtests.XOShoppingCartTestPlan"/>
+        </classes>
+    </test>
+</suite> 
