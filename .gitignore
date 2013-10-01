@@ -1,0 +1,12 @@
+test-output/
+target/
+build/
+bin/
+*.jar
+.project
+.classpath
+chromedriver.log
+.idea/
+.settings/
+seleniumtestsframework.iml
+velocity.log
