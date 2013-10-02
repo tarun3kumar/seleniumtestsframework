@@ -356,27 +356,5 @@ public class XNode
 
 	}
 
-
-
-	/**
-
-	 * Main method for debugging purpose only
-
-	 */	
-
-	public static void main(String[] args)
-
-	{
-
-		XNode x = new XNode();
-
-		
-
-		x.setXPath("/ebay/element[0]/whatsup[3]/element[2]");
-
-		System.out.println("No index str " + x.getNoIndexXPath());
-
-	}
-
 }
 
