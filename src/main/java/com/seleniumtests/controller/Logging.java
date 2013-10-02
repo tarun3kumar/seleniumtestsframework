@@ -218,7 +218,7 @@ public class Logging {
 	}
 
 	public static void logWebStep(String url, String message, boolean failed) {
-		log(url, "<li>" + (failed ? "<b>FailedStep</b>: " : "Step: ") + message
+		log(url, "<li>" + (failed ? "<b>FailedStep</b>: " : " ") + message
 				+ "</li>", failed, false);
 	}
 	
