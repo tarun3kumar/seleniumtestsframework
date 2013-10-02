@@ -431,10 +431,6 @@ public class Config
 
 	 * same type or not<br>
 
-	 * e.g. This flag will determine if there are multiple foo elements under ebay, an elist entry of the type
-
-	 * /ebay/foo/DateLong will be applied to foo[1], foo[2] etc or not
-
 	 */
 
 	public void setApplyEListToSiblings(boolean flag)
