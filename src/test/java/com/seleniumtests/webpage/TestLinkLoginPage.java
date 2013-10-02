@@ -1,5 +1,6 @@
 package com.seleniumtests.webpage;
 
+import com.seleniumtests.controller.Assertion;
 import com.seleniumtests.dataobject.User;
 import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.driver.web.element.Button;
@@ -23,7 +24,7 @@ public class TestLinkLoginPage extends WebPage {
 
 
     public TestLinkLoginPage() throws Exception {
-        // verifies that loginTextBox appears on login page else test would not make sense
+        // verifies that loginTextBox appears on loginAsValidUser page else test would not make sense
         super(loginTextBox);
     }
 
@@ -40,13 +41,41 @@ public class TestLinkLoginPage extends WebPage {
     private TextField passwordTextBox = new TextField("Password Te  xt Box", By.name("tl_password"));
     private Button loginButton = new Button("Login Button", By.name("login_submit"));
 
-
-    public AdminHomePage login(User user) throws Exception {
+    /**
+     * Logging in with valid credentials direct user to home page
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public AdminHomePage loginAsValidUser(User user) throws Exception {
         loginTextBox.clear();
         loginTextBox.sendKeys(user.getUserID());
         passwordTextBox.clear();
         passwordTextBox.sendKeys(user.getPassword());
         loginButton.submit();
         return new AdminHomePage();
+    }
+
+    /**
+     * Logging in with invalid credentials keeps user on login page
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    public TestLinkLoginPage loginAsInvalidUser(User user) throws Exception {
+        loginTextBox.clear();
+        loginTextBox.sendKeys(user.getUserID());
+        passwordTextBox.clear();
+        passwordTextBox.sendKeys(user.getPassword());
+        loginButton.submit();
+        return this;
+    }
+
+    public TestLinkLoginPage verifyLoginBoxPresence() {
+        getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));
+        Assertion.assertTrue(isElementPresent(loginTextBox.getBy()), "Invalid credentials don't block user from logging in");
+        return this;
     }
 }
