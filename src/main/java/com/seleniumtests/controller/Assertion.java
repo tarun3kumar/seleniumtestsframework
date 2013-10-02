@@ -16,10 +16,6 @@ import org.testng.Reporter;
 public class Assertion {
 
 	private static void _addVerificationFailure(Throwable e) {
-		// List<Throwable> verificationFailures = getVerificationFailures();
-		// verificationFailures.add(e);
-		// verificationFailuresMap.put(Reporter.getCurrentTestResult(),
-		// verificationFailures);
 		ContextManager.getThreadContext().addVerificationFailures(Reporter.getCurrentTestResult(), e);
 		Logging.log(null, "ASSERTION FAILED: " + e.getMessage(), true, true);
 	}
@@ -184,10 +180,6 @@ public class Assertion {
 	}
 
 	public static List<Throwable> getVerificationFailures() {
-		// List<Throwable> verificationFailures =
-		// verificationFailuresMap.get(Reporter.getCurrentTestResult());
-		// return verificationFailures == null ? new ArrayList<Throwable>() :
-		// verificationFailures;
 		return ContextManager.getThreadContext().getVerificationFailures(Reporter.getCurrentTestResult());
 	}
 
