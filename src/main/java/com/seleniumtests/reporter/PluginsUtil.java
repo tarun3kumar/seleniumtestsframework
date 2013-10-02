@@ -13,15 +13,12 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
+import com.seleniumtests.reporter.pluginmodel.*;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.controller.AbstractPageListener;
 import com.seleniumtests.driver.web.element.IPage;
-import com.seleniumtests.reporter.pluginmodel.Mauiplugins;
-import com.seleniumtests.reporter.pluginmodel.Method;
-import com.seleniumtests.reporter.pluginmodel.Page;
-import com.seleniumtests.reporter.pluginmodel.Plugin;
-import com.seleniumtests.reporter.pluginmodel.Test;
+import com.seleniumtests.reporter.pluginmodel.SeleniumTestsPlugins;
 
 public class PluginsUtil {
 	private static final Logger logger = Logger.getLogger(PluginsUtil.class);
@@ -34,10 +31,10 @@ public class PluginsUtil {
 		return _instance;
 	}
 
-	private Mauiplugins _mauiPlugins = null;
+	private SeleniumTestsPlugins _seleniumTestsPlugins = null;
 
-	public Mauiplugins getMauiplugins() {
-		return _mauiPlugins;
+	public SeleniumTestsPlugins getSeleniumTestsPlugins() {
+		return _seleniumTestsPlugins;
 	}
 
 	public List<AbstractPageListener> getPageListeners() {
@@ -51,12 +48,12 @@ public class PluginsUtil {
 	public void invokePageListeners(String testMethodSignature, IPage page,
 			boolean isPageLoad) {
 
-		if (_mauiPlugins == null)
+		if (_seleniumTestsPlugins == null)
 			return;
 
 		List<AbstractPageListener> pageListenerList = new ArrayList<AbstractPageListener>();
 
-		for (Plugin plugin : _mauiPlugins.getPlugin()) {
+		for (Plugin plugin : _seleniumTestsPlugins.getPlugin()) {
 			if (isPageListenerApplicable(plugin, testMethodSignature, page
 					.getClass().getCanonicalName()))
 				pageListenerList.add(pageListenerMap.get(plugin.getClassName()
@@ -120,17 +117,17 @@ public class PluginsUtil {
 	}
 
 	public void loadPlugins(File path) {
-		logger.info("Loading MAUI Plugins from " + path + " ...");
+		logger.info("Loading Selenium Tests Plugins from " + path + " ...");
 
 		InputStream is = null;
 		try {
 			is = new FileInputStream(path);
 			JAXBContext jc = JAXBContext
-					.newInstance("com.ebay.maui.reporter.pluginmodel");
+					.newInstance("com.seleniumtests.reporter.pluginmodel");
 			Unmarshaller u = jc.createUnmarshaller();
-			_mauiPlugins = (Mauiplugins) u.unmarshal(is);
+			_seleniumTestsPlugins = (SeleniumTestsPlugins) u.unmarshal(is);
 
-			for (Plugin plugin : _mauiPlugins.getPlugin()) {
+			for (Plugin plugin : _seleniumTestsPlugins.getPlugin()) {
 				try {
 					pageListenerMap
 							.put(plugin.getClassName().trim(),
@@ -138,7 +135,7 @@ public class PluginsUtil {
 											plugin.getClassName().trim())
 											.newInstance());
 				} catch (Exception e) {
-					logger.error("Unable to load MAUI Plugins.", e);
+					logger.error("Unable to load Plugins.", e);
 				}
 			}
 
