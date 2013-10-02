@@ -20,23 +20,11 @@ import com.seleniumtests.reporter.PluginsUtil;
  * 
  */
 public class Context {
-	// private static Logger logger = Logging.getLogger(Context.class);
-
 	/* The config defined in testng.xml */
 	public static final String TEST_CONFIG = "testConfig";
-	/*public static final String POOL = "pool";
-	public static final String POOL_TYPE = "poolType";*/
 	public static final String SITE = "site";
 	public static final String APP_URL = "appURL";	
-	public static final String LOCALIZED_BUILD = "localizedBuild";
-	public static final String COBRAND = "cobrand";
-	public static final String POP3_HOST = "pop3Host";
-	public static final String GBH_SITE = "gbhSite";
-	public static final String IS_MOBILE_SITE = "isMobileSite";
-
-	public static final String DCT_WS_END_POINT_URL = "dctEndPointURL";
-
-	public static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
+    public static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
 	public static final String IMPLICIT_WAIT_TIME_OUT = "implicitWaitTimeOut";
 	public static final String EXPLICIT_WAIT_TIME_OUT = "explicitWaitTimeOut";
 	public static final String PAGE_LOAD_TIME_OUT = "pageLoadTimeout";
@@ -75,8 +63,6 @@ public class Context {
 
 	public static final String OPEN_REPORT_IN_BROWSER = "openReportInBrowser";
 	public static final String CAPTURE_SNAPSHOT = "captureSnapshot";
-	public static final String DB_LOG_ENABLED = "dbLogEnabled";
-	public static final String CAL_LOG_ENABLED = "calLogEnabled";
 	public static final String ENABLE_EXCEPTION_LISTENER = "enableExceptionListener";
 
 	public static final String DP_TAGS_INCLUDE = "dpTagsInclude";
@@ -86,11 +72,7 @@ public class Context {
 	public static final String SOFT_ASSERT_ENABLED = "softAssertEnabled";
 
 	public static final String OUTPUT_DIRECTORY = "outputDirectory";
-	public static final String EMAIL_RETENTION_POLICY = "emailRetentionPolicy";
-	public static final String URL_CONVERT_CLASS = "urlConvertClass";
 	public static final String WEB_DRIVER_LISTENER = "webDriverListener";
-
-	public static final String VALIDATE_INTERNALS_END_POINT = "viEndPoint";
 
 	/* running time context */
 	public static final String TEST_METHOD_SIGNATURE = "testMethodSignature";
@@ -110,10 +92,6 @@ public class Context {
 
 	private ITestContext testNGContext = null;
 
-	/* data stored for exception web page */
-	// private String webExceptionURL = null;
-	// private String webExceptionMessage = null;
-	// private String screenshotName = null;
 	private LinkedList<ScreenShot> screenshots = new LinkedList<ScreenShot>();
 
 	public LinkedList<ScreenShot> getScreenshots() {
@@ -150,22 +128,7 @@ public class Context {
 
 		setContextAttribute(context, TEST_DATA_FILE,
 				System.getProperty(TEST_DATA_FILE), "testCase");
-/*		setContextAttribute(context, POOL, System.getProperty(POOL), "staging");
-		setContextAttribute(context, POOL_TYPE, System.getProperty(POOL_TYPE),
-				"qa");*/
 		setContextAttribute(context, SITE, System.getProperty(SITE), "US");
-		setContextAttribute(context, LOCALIZED_BUILD,
-				System.getProperty(LOCALIZED_BUILD), "true");
-		setContextAttribute(context, POP3_HOST, System.getProperty(POP3_HOST),
-				null);
-		setContextAttribute(context, GBH_SITE, System.getProperty(GBH_SITE),
-				null);
-		setContextAttribute(context, IS_MOBILE_SITE,
-				System.getProperty(IS_MOBILE_SITE), "false");
-
-		setContextAttribute(context, DCT_WS_END_POINT_URL,
-				System.getProperty(DCT_WS_END_POINT_URL),
-				"http://dct.phx.qa.ebay.com:8088/DCTServiceWeb/DCTService");
 		setContextAttribute(context, WEB_SESSION_TIME_OUT,
 				System.getProperty(WEB_SESSION_TIME_OUT), "90000");
 		setContextAttribute(context, IMPLICIT_WAIT_TIME_OUT,
@@ -242,11 +205,6 @@ public class Context {
 		setContextAttribute(context, ENABLE_EXCEPTION_LISTENER,
 				System.getProperty(ENABLE_EXCEPTION_LISTENER), "true");
 
-		setContextAttribute(context, DB_LOG_ENABLED,
-				System.getProperty(DB_LOG_ENABLED), "true");
-		setContextAttribute(context, CAL_LOG_ENABLED,
-				System.getProperty(CAL_LOG_ENABLED), "true");
-
 		setContextAttribute(context, DP_TAGS_INCLUDE,
 				System.getProperty(DP_TAGS_INCLUDE), null);
 		setContextAttribute(context, DP_TAGS_EXCLUDE,
@@ -257,16 +215,8 @@ public class Context {
 		setContextAttribute(context, SOFT_ASSERT_ENABLED,
 				System.getProperty(SOFT_ASSERT_ENABLED), "false");
 
-		setContextAttribute(context, EMAIL_RETENTION_POLICY,
-				System.getProperty(EMAIL_RETENTION_POLICY), "1");
-		setContextAttribute(context, URL_CONVERT_CLASS,
-				System.getProperty(URL_CONVERT_CLASS), null);
 		setContextAttribute(context, WEB_DRIVER_LISTENER,
 				System.getProperty(WEB_DRIVER_LISTENER), null);
-
-		setContextAttribute(context, VALIDATE_INTERNALS_END_POINT,
-				System.getProperty(VALIDATE_INTERNALS_END_POINT),
-				"http://signin.qa.ebay.com/admin/v3console/ValidateInternals");
 
 		if (context != null) {
 			setContextAttribute(OUTPUT_DIRECTORY, null,
@@ -381,36 +331,12 @@ public class Context {
 		return (String) getAttribute(CHROME_DRIVER_PATH);
 	}
 
-	public int getCobrand() {
-		int i = 2;// default is ebay
-		try {
-			i = Integer.parseInt((String) getAttribute(COBRAND));
-			return i;
-		} catch (Exception e) {
-			throw new RuntimeException(
-					"Please specify a numeric value for Cobrand.");
-		}
-	}
-
-	public String getDCTEndPointURL() {
-		return (String) getAttribute(DCT_WS_END_POINT_URL);
-	}
-
-	public String getDPTagsExclude() {
+    public String getDPTagsExclude() {
 		return (String) getAttribute(DP_TAGS_EXCLUDE);
 	}
 
 	public String getDPTagsInclude() {
 		return (String) getAttribute(DP_TAGS_INCLUDE);
-	}
-
-	public double getEmailRetentionPolicy() {
-		try {
-			return Double
-					.parseDouble((String) getAttribute(EMAIL_RETENTION_POLICY));
-		} catch (Exception e) {
-			return 1;// Default is 1 day
-		}
 	}
 
 	public int getExplicitWaitTimeout() {
@@ -434,10 +360,6 @@ public class Context {
 
 	public String getFirefoxUserProfilePath() {
 		return (String) getAttribute(FIREFOX_USER_PROFILE_PATH);
-	}
-
-	public String getGBHSite() {
-		return (String) getAttribute(GBH_SITE);
 	}
 
 	public String getIEDriverPath() {
@@ -504,18 +426,6 @@ public class Context {
 		return (String) getAttribute(WEB_RUN_PLATFORM);
 	}
 
-/*	public String getPool() {
-		return (String) getAttribute(POOL);
-	}
-
-	public String getPoolType() {
-		return (String) getAttribute(POOL_TYPE);
-	}*/
-
-	public String getPop3Host() {
-		return (String) getAttribute(POP3_HOST);
-	}
-
 	public String getSite() {
 		return (String) getAttribute(SITE);
 	}
@@ -574,10 +484,6 @@ public class Context {
 		return (Map<Integer, Boolean>) getAttribute(TEST_PC_MAP);
 	}
 
-	public String getUrlConvertClass() {
-		return (String) getAttribute(URL_CONVERT_CLASS);
-	}
-
 	public String getWebDriverListener() {
 		return (String) getAttribute(WEB_DRIVER_LISTENER);
 	}
@@ -602,24 +508,6 @@ public class Context {
 		return (String) getAttribute(WEB_DRIVER_GRID);
 	}
 
-	// public String getWebExceptionMessage() {
-	// return webExceptionMessage;
-	// }
-	//
-	//
-	//
-	// public String getScreenshotName() {
-	// return screenshotName;
-	// }
-	//
-	// public void setScreenshotName(String screenshotName) {
-	// this.screenshotName = screenshotName;
-	// }
-	//
-	// public String getWebExceptionURL() {
-	// return webExceptionURL;
-	// }
-
 	public String getWebProxyAddress() {
 		return (String) getAttribute(WEB_PROXY_ADDRESS);
 	}
@@ -642,30 +530,6 @@ public class Context {
 					.parseInt((String) getAttribute(WEB_SESSION_TIME_OUT));
 		} catch (Exception e) {
 			return 90000; // Default
-		}
-	}
-
-	public boolean isCALLogEnabled() {
-		try {
-			return Boolean.parseBoolean((String) getAttribute(CAL_LOG_ENABLED));
-		} catch (Exception e) {
-			return true; // Default
-		}
-	}
-
-	public boolean isDBLogEnabled() {
-		try {
-			return Boolean.parseBoolean((String) getAttribute(DB_LOG_ENABLED));
-		} catch (Exception e) {
-			return true; // Default
-		}
-	}
-
-	public boolean isMobileSite() {
-		try {
-			return Boolean.parseBoolean((String) getAttribute(IS_MOBILE_SITE));
-		} catch (Exception e) {
-			return false; // Default
 		}
 	}
 
@@ -699,10 +563,6 @@ public class Context {
 
 	public void setAttribute(String name, Object value) {
 		contextDataMap.put(name, value);
-	}
-
-	public void setCobrand(int cobrand) {
-		setAttribute(COBRAND, cobrand);
 	}
 
 	private void setContextAttribute(ITestContext context) {
@@ -768,10 +628,6 @@ public class Context {
 		setAttribute(PAGE_LOAD_TIME_OUT, timeout);
 	}
 
-/*	public void setPool(String pool) {
-		setAttribute(POOL, pool);
-	}*/
-
 	public void setSite(String site) {
 		setAttribute(SITE, site);
 	}
@@ -779,13 +635,4 @@ public class Context {
 	public void setTestDataFile(String testDataFile) {
 		setAttribute(TEST_DATA_FILE, testDataFile);
 	}
-
-	// public void setWebExceptionMessage(String webExceptionMessage) {
-	// this.webExceptionMessage = webExceptionMessage;
-	// }
-	//
-	// public void setWebExceptionURL(String webExceptionURL) {
-	// this.webExceptionURL = webExceptionURL;
-	// }
-
 }
