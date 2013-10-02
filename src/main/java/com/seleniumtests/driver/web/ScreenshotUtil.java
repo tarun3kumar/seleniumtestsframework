@@ -131,32 +131,12 @@ public class ScreenshotUtil {
 				if (endIndex != -1) {
 					pageId = htmlSource.substring(startIndex + 13, startIndex
 							+ endIndex);
-					screenShot.setPageId(pageId);
 				}
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}// KEEPME
 
-	}
-
-	private void handlePageId(ScreenShot screenShot) {
-		String pageId = screenShot.getPageId();
-		if (pageId == null) {
-			URL url;
-			try {
-				url = new URL(screenShot.getLocation());
-				if (url.getQuery() != null) {
-					pageId = url.getQuery();
-					if (pageId.contains("&"))
-						pageId = pageId.substring(0, pageId.indexOf("&"));
-					screenShot.setPageId(pageId);
-
-				}
-			} catch (MalformedURLException e) {
-			}
-
-		}
 	}
 
 	private void handleImage(ScreenShot screenShot) {
@@ -216,7 +196,6 @@ public class ScreenshotUtil {
 
 			handleTitle(title, screenShot);
 			handleSource(pageSource, screenShot);
-			handlePageId(screenShot);
 			if (ContextManager.getThreadContext().getCaptureSnapshot()) {
 				handleImage(screenShot);
 			}
@@ -235,10 +214,6 @@ public class ScreenshotUtil {
 	 * Used by WebDriverExceptionListener, don't log the exception but put it
 	 * into context
 	 * 
-	 * @param driver
-	 * @param location
-	 * @param htmlSource
-	 * @param title
 	 */
 	public void capturePageSnapshotOnException() {
 		Boolean capture = ContextManager.getThreadContext()
