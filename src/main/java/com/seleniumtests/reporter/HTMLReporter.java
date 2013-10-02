@@ -1444,23 +1444,6 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 			VelocityContext context = new VelocityContext();
 
 			String userName = System.getProperty("user.name");
-			// original is URLHelper
-			// String poolInfo = "<a target=vi href='" +
-			// WebHelper.convertURL("http://signin.fp124.qa.ebay.com/admin/v3console/ValidateInternals")
-			// + "'>"
-			// + (String) ContextManager.getGlobalContext().getPool() + "</a>";
-
-			// String build =
-			// "<a href='http://ice.corp.ebay.com/ICEPanel/home/builddetails.jsp?dontrefreshopener=true&buildID="
-			// + (String)
-			// ContextManager.getGlobalContext().getAttribute(Context.BUILD_ID)
-			// + "' target=ice>"
-			// + (String)
-			// ContextManager.getGlobalContext().getAttribute(Context.BUILD_TAG)
-			// + "</a>";
-
-			// context.put("title", (String)
-			// ContextManager.getGlobalContext().getAttribute(Context.REPORT_TITLE));
 			context.put("userName", userName);
 			context.put("currentDate", new Date().toString());
 			// context.put("runId", (String)
