@@ -18,9 +18,6 @@ import org.testng.xml.XmlSuite;
 
 public class DefaultSuite implements ISuite {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1778730636766300291L;
 	private XmlSuite xmlSuite;
 	public DefaultSuite(){
