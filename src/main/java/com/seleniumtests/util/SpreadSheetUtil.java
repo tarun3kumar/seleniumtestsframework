@@ -30,7 +30,7 @@ import org.apache.log4j.Logger;
 
 import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.EasyFilter;
-import com.seleniumtests.exception.MauiException;
+import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.util.internal.entity.TestObject;
 
 public class SpreadSheetUtil {
@@ -221,7 +221,7 @@ public class SpreadSheetUtil {
             w = Workbook.getWorkbook(is);
 
             if (w.getSheetNames().length <= sheetNumber) {
-                throw new MauiException("Sheet # " + sheetNumber + " for "
+                throw new SeleniumTestsException("Sheet # " + sheetNumber + " for "
                         + filename + " not found.");
             }
 
@@ -299,7 +299,7 @@ public class SpreadSheetUtil {
             }
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new MauiException(
+                throw new SeleniumTestsException(
                         "Blank TestTitle and/or Site value(s) found on Row(s) "
                                 + sbBlank.toString() + ".");
             }
@@ -332,7 +332,7 @@ public class SpreadSheetUtil {
                             + sheet.getCell(testSiteColumnIndex, i)
                             .getContents();
                     if (uniqueDataSet.contains(uniqueString))
-                        throw new MauiException(
+                        throw new SeleniumTestsException(
                                 "Duplicate TestTitle and Site combination found in the spreadsheet "
                                         + "with TestTitle = {"
                                         + sheet.getCell(testTitleColumnIndex, i)
