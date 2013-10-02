@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
  * Date: 10/2/13
  * Time: 6:36 PM
  */
-public class TestLinkTest extends TestPlan {
+public class TestLinkLoginTest extends TestPlan {
 
     @DataProvider(name = "loginData", parallel = true)
     public static Iterator<Object[]> getUserInfo(Method m,
@@ -36,7 +36,7 @@ public class TestLinkTest extends TestPlan {
         classMap.put("User", User.class);
 
         return SpreadSheetUtil.getEntitiesFromSpreadsheet(
-                TestLinkTest.class, classMap, "loginuser.csv", 0,
+                TestLinkLoginTest.class, classMap, "loginuser.csv", 0,
                 null, filter);
     }
 
