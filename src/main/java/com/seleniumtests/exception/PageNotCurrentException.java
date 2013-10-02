@@ -1,6 +1,6 @@
 package com.seleniumtests.exception;
 
-public class PageNotCurrentException extends MauiException {
+public class PageNotCurrentException extends SeleniumTestsException {
 
 	private static final long serialVersionUID = -6598083737880253802L;
 
