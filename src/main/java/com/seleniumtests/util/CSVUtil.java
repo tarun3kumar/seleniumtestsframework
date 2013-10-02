@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 
 import com.seleniumtests.controller.EasyFilter;
 import com.seleniumtests.controller.Logging;
-import com.seleniumtests.exception.MauiException;
+import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.util.internal.entity.TestObject;
 
 public class CSVUtil {
@@ -99,7 +99,7 @@ public class CSVUtil {
             }
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new MauiException("Blank TestTitle and/or Site value(s) found on Row(s) " + sbBlank.toString() + ".");
+                throw new SeleniumTestsException("Blank TestTitle and/or Site value(s) found on Row(s) " + sbBlank.toString() + ".");
             }
 
             Set<String> uniqueDataSet = new TreeSet<String>();
@@ -127,7 +127,7 @@ public class CSVUtil {
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
                     String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$" + csvData[i][testSiteColumnIndex];
                     if (uniqueDataSet.contains(uniqueString))
-                        throw new MauiException("Duplicate TestTitle and Site combination found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
+                        throw new SeleniumTestsException("Duplicate TestTitle and Site combination found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
 
                     uniqueDataSet.add(uniqueString);
                 }
