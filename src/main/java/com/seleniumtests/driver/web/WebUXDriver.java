@@ -24,9 +24,7 @@ import com.seleniumtests.driver.web.factory.SafariDriverFactory;
 /**
  * This class provides factory to create webDriver session
  * 
-
- * 
- */
+*/
 public class WebUXDriver {
 
 	private static ThreadLocal<WebDriver> driverSession = new ThreadLocal<WebDriver>();
