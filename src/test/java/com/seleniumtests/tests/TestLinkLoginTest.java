@@ -41,29 +41,7 @@ public class TestLinkLoginTest extends TestPlan {
     }
 
     /**
-     * Logs in to TestLink as admin
-     * This test fails because of verifyDocumentationDropDownFail and is retried
-     *
-     * @param testObject
-     * @param user
-     * @throws Exception
-     */
-    @Test(groups = {"loginTestFailure"}, dataProvider = "loginData",
-            description = "Logs in to TestLink as admin, This test is marked for deliberate failure")
-    public void loginTestFailure(TestObject testObject, final User user)
-            throws Exception {
-
-        new TestLinkLoginPage(true)
-                .login(user)
-                .selectGivenTestProject(2)
-                .verifyDocumentationDropDownFail()      // Injected failure. Test would continue to run despite this failure
-                .selectGivenTestProject(1)
-                .verifyDocumentationDropDown();
-    }
-
-    /**
-     * Logs in to TestLink as admin
-     * This test succeeds
+     * Logs in to TestLink as valid user
      *
      * @param testObject
      * @param user
@@ -75,8 +53,28 @@ public class TestLinkLoginTest extends TestPlan {
             throws Exception {
 
         new TestLinkLoginPage(true)
-                .login(user)
+                .loginAsValidUser(user)
                 .verifyDocumentationDropDown();
     }
+
+    /**
+     * Logs in to TestLink as invalid user
+     *
+     * @param testObject
+     * @param user
+     * @throws Exception
+     */
+    @Test(groups = {"loginTestFailure"}, dataProvider = "loginData",
+            description = "Logs in to TestLink as invalid user")
+    public void loginTestFailure(TestObject testObject, final User user)
+            throws Exception {
+
+        new TestLinkLoginPage(true)
+                .loginAsInvalidUser(user)
+                .verifyLoginBoxPresence();
+    }
+
+
+
 
 }
