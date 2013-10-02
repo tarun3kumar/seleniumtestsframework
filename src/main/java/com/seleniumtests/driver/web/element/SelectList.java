@@ -170,14 +170,14 @@ public class SelectList extends HtmlElement {
 	}
 
 	public void selectByIndex(int index) {
-		Logging.logWebStep(null, "select index\"" + index + "\" on " + toHTML(), false);
+		Logging.logWebStep(null, "make selection using index\"" + index + "\" on " + toHTML(), false);
 		findElement();
 		WebElement option = options.get(index);
 		setSelected(option);
 	}
 
 	public void selectByIndex(int[] indexs) {
-		Logging.logWebStep(null, "select indexs\"" + indexs.toString() + "\" on " + toHTML(), false);
+		Logging.logWebStep(null, "make selection using indexs\"" + indexs.toString() + "\" on " + toHTML(), false);
 		findElement();
 		for (int i = 0; i < indexs.length; i++) {
 			WebElement option = options.get(indexs[i]);
@@ -190,7 +190,7 @@ public class SelectList extends HtmlElement {
 	 * @param text
 	 */
 	public void selectByText(String text) {
-		Logging.logWebStep(null, "select text\"" + text + "\" on " + toHTML(), false);
+		Logging.logWebStep(null, "make selection using text\"" + text + "\" on " + toHTML(), false);
 		findElement();
 		if(options==null)
 		{
@@ -211,7 +211,7 @@ public class SelectList extends HtmlElement {
 	}
 
 	public void selectByText(String[] texts) {
-		Logging.logWebStep(null, "select texts\"" + texts + "\" on " + toHTML(), false);
+		Logging.logWebStep(null, "make selection using texts\"" + texts + "\" on " + toHTML(), false);
 		findElement();
 		for (int i = 0; i < texts.length; i++) {
 			for (WebElement option : options) {
@@ -224,7 +224,7 @@ public class SelectList extends HtmlElement {
 	}
 
 	public void selectByValue(String value) {
-		Logging.logWebStep(null, "select value\"" + value + "\" on " + toHTML(), false);
+		Logging.logWebStep(null, "make selection using value\"" + value + "\" on " + toHTML(), false);
 		findElement();
 		for (WebElement option : options) {
 			if (option.getAttribute("value").equals(value)) {
@@ -235,7 +235,7 @@ public class SelectList extends HtmlElement {
 	}
 
 	public void selectByValue(String[] values) {
-		Logging.logWebStep(null, "select values\"" + values + "\" on " + toHTML(), false);
+		Logging.logWebStep(null, "make selection using values\"" + values + "\" on " + toHTML(), false);
 		findElement();
 		for (int i = 0; i < values.length; i++) {
 			for (WebElement option : options) {
