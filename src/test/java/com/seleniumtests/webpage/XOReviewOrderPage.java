@@ -264,9 +264,8 @@ public class XOReviewOrderPage extends WebPage {
         return this;
     }
 
-    public XOPaymentPage proceedToPay() throws Exception {
+    public void proceedToPay() throws Exception {
         proceedToPayButton.click();
-        return new XOPaymentPage();
     }
 
     public XOReviewOrderPage enterCouponCode(String couponCode) {
