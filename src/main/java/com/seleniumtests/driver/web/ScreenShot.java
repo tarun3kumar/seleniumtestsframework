@@ -7,7 +7,6 @@ public class ScreenShot {
 	private String location;
 	private String htmlSourcePath;
 	private String imagePath;
-	private String pageId;
 	private String rlogId;
 	private String title;
 	private String suiteName;
@@ -61,14 +60,6 @@ public class ScreenShot {
 
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
-	}
-
-	public String getPageId() {
-		return pageId;
-	}
-
-	public void setPageId(String pageId) {
-		this.pageId = pageId;
 	}
 
 	public String getRlogId() {
