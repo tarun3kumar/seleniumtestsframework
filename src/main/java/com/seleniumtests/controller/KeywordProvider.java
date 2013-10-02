@@ -34,7 +34,6 @@ public interface KeywordProvider {
 		/**
 		 * Load keywords for a domain flow.
 		 * 
-		 * @param flowClass
 		 * @throws Exception
 		 */
 		private void _loadKeywords(String site, Class stepClass) {
@@ -111,11 +110,7 @@ public interface KeywordProvider {
 
 		private String getLocalizedSite() {
 			String site = null;
-			if (ContextManager.getThreadContext().getGBHSite() != null) {
-				site = ContextManager.getThreadContext().getGBHSite();
-			} else {
 				site = ContextManager.getThreadContext().getSite();
-			}
 			return site;
 		}
 
@@ -128,20 +123,9 @@ public interface KeywordProvider {
 				_loadKeywords(site, stepClass);
 			}
 
-			boolean localizedBuild = Boolean.parseBoolean((String) ContextManager.getGlobalContext().getAttribute(Context.LOCALIZED_BUILD));
-			if (localizedBuild) {// false to skip the site related picking
-				if (s_keywordsMap.containsKey(m_resourceBaseName + "." + site + "." + stepClass.getCanonicalName() + "." + identifier))
-					return s_keywordsMap.get(m_resourceBaseName + "." + site + "." + stepClass.getCanonicalName() + "." + identifier);
-			}
-
 			if (s_keywordsMap.containsKey(m_resourceBaseName + "." + DEFAULT_KEYWORD_KEY_PREFIX + "." + stepClass.getCanonicalName() + "." + identifier))
 				return s_keywordsMap.get(m_resourceBaseName + "." + DEFAULT_KEYWORD_KEY_PREFIX + "." + stepClass.getCanonicalName() + "." + identifier);
 
-			// throw new
-			// RuntimeException("No mappings found in the resource(base-name: "
-			// + m_resourceBaseName + ") for keyword " +
-			// stepClass.getCanonicalName()
-			// + "." + identifier + " and site=" + site);
 			return null;
 		}
 
