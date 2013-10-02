@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "plugin" })
 @XmlRootElement(name = "mauiplugins")
-public class Mauiplugins {
+public class SeleniumTestsPlugins {
 
 	@XmlElement(required = true)
 	protected List<Plugin> plugin;
