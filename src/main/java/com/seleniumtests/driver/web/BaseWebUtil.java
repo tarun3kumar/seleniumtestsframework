@@ -52,7 +52,7 @@ public class BaseWebUtil {
 	
 	public static void main(String[] args){
 		WebUXDriver.getWebUXDriver().setMode("ExistingGrid");
-		WebUXDriver.getWebUXDriver().setHubUrl("http://d-shc-00437496.corp.ebay.com:4444/wd/hub");
+		WebUXDriver.getWebUXDriver().setHubUrl(" ");
 		WebDriver driver = WebUXDriver.getWebDriver(true);
 		System.out.print(driver.manage().window().getSize().width + ":"+driver.manage().window().getSize().height);
 	}
