@@ -11,8 +11,7 @@ import com.seleniumtests.reporter.PluginsUtil;
  * 
  * Any sub-class should define a public default constructor
  * 
- * @author apani
- * 
+ *
  */
 public abstract class AbstractPageListener {
 	protected static final Logger logger = Logging.getLogger(AbstractPageListener.class);
