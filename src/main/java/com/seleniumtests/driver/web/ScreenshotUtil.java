@@ -95,7 +95,6 @@ public class ScreenshotUtil {
 
 		}
 		String rlogId = null;
-		String pageId = null;
 		try {
 			int startIndex = htmlSource.indexOf("RlogId ");
 			if (startIndex != -1) {
@@ -129,8 +128,6 @@ public class ScreenshotUtil {
 					endIndex = endIndex1;
 
 				if (endIndex != -1) {
-					pageId = htmlSource.substring(startIndex + 13, startIndex
-							+ endIndex);
 				}
 			}
 		} catch (Throwable e) {
