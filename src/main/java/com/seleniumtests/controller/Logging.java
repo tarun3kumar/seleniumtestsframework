@@ -225,11 +225,11 @@ public class Logging {
 	public static String buildScreenshotLog(ScreenShot screenShot){
 		StringBuffer sbMessage = new StringBuffer("");
 		if(screenShot.getLocation()!=null)
-			sbMessage.append("<a href='" + screenShot.getLocation() + "' target=url>location</a>");
+			sbMessage.append("<a href='" + screenShot.getLocation() + "' target=url>Application URL</a>");
 		if(screenShot.getHtmlSourcePath()!=null)
-			sbMessage.append(" | <a href='" + screenShot.getHtmlSourcePath() + "' target=html>html</a>");
+			sbMessage.append(" | <a href='" + screenShot.getHtmlSourcePath() + "' target=html>Application HTML Source</a>");
 		if(screenShot.getImagePath()!=null)
-			sbMessage.append(" | <a href='" + screenShot.getImagePath()+"' class='lightbox'>screenshot</a>");
+			sbMessage.append(" | <a href='" + screenShot.getImagePath()+"' class='lightbox'>Application Snapshot</a>");
 		return sbMessage.toString();
 	}
 
