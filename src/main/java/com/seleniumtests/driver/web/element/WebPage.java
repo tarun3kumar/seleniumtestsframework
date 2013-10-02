@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +32,7 @@ import com.seleniumtests.driver.web.BaseWebUtil;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;
 import com.seleniumtests.driver.web.WebUXDriver;
-import com.seleniumtests.exception.MauiException;
+import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.exception.WebResponseException;
 import com.seleniumtests.helper.OSHelper;
@@ -68,7 +67,6 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	/**
 	 * Constructor for non-entry point page
 	 * 
-	 * @param pageIdentifierElement
 	 * @throws Exception
 	 */
 	public WebPage() throws Exception {
@@ -98,8 +96,6 @@ public class WebPage extends BaseHtmlPage implements IPage {
 					.getSuite().getName();
 			outputDirectory = ContextManager.getGlobalContext()
 					.getTestNGContext().getOutputDirectory();
-			// testMethodSignature =
-			// ContextManager.getThreadContext().getTestMethodSignature();
 		}
 
 		this.pageIdentifierElement = pageIdentifierElement;
@@ -285,12 +281,6 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	protected void assertCurrentPage(boolean log)
 			throws PageNotCurrentException {
 
-		// if (pageIdentifierElement != null){
-		// try {
-		// pageIdentifierElement.init();
-		// } catch (Exception e) {
-		// }
-		// }
 		if (pageIdentifierElement == null) {
 
 		} else if (this.isElementPresent(pageIdentifierElement.getBy())) {
@@ -437,7 +427,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 		}
 	}
 
-	public String convert(String url) {
+	/*public String convert(String url) {
 		if (ContextManager.getThreadContext() != null) {
 			String urlConvertClass = ContextManager.getThreadContext()
 					.getUrlConvertClass();
@@ -455,36 +445,36 @@ public class WebPage extends BaseHtmlPage implements IPage {
 			}
 		}
 		return url;
-	}
+	}*/
 
 	/**
-	 * Download a file to test-output\MauiTestSuite\downloads\ folder regardless
+	 * Download a file to test-output\**\downloads\ folder regardless
 	 * of local or GRID
 	 * 
 	 * @param fileName
 	 * @return full path of download file
-	 * @throws MauiException
+	 * @throws SeleniumTestsException
 	 */
 	public final String downloadFile(By by, String fileName)
-			throws MauiException {
+			throws SeleniumTestsException {
 		return downloadFile(driver.findElement(by).getAttribute("href"),
 				fileName);
 	}
 
 	/**
-	 * Download a file to test-output\MauiTestSuite\downloads\ folder regardless
+	 * Download a file to test-output\**\downloads\ folder regardless
 	 * of local or GRID
 	 * 
 	 * @return full path of download file
-	 * @throws MauiException
+	 * @throws SeleniumTestsException
 	 */
 	public final String downloadFile(String locatorOrDownloadUrl,
-			String fileNamePostFix) throws MauiException {
+			String fileNamePostFix) throws SeleniumTestsException {
 		if (locatorOrDownloadUrl.startsWith("http://")
 				|| locatorOrDownloadUrl.startsWith("https://")) {
 			// direct download
 			try {
-				locatorOrDownloadUrl = convert(locatorOrDownloadUrl);
+//				locatorOrDownloadUrl = convert(locatorOrDownloadUrl);
 			} catch (Exception e) {
 
 			}
@@ -545,7 +535,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 			return fileName;
 			
 		} else {
-			throw new MauiException("url not starts with http:// or https://");
+			throw new SeleniumTestsException("url not starts with http:// or https://");
 		}
 
 	}
@@ -634,7 +624,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 		return driver.manage().getCookieNamed(name).getValue();
 	}
 
-	public final int getElementCount(HtmlElement element) throws MauiException {
+	public final int getElementCount(HtmlElement element) throws SeleniumTestsException {
 		return driver.findElements(element.getBy()).size();
 	}
 
@@ -774,8 +764,8 @@ public class WebPage extends BaseHtmlPage implements IPage {
 		}
 
 		if (convert) {
-			String tempURL = convert(url);
-			url = tempURL;
+//			String tempURL = convert(url);
+//			url = tempURL;
 		}
 		setUrl(url);
 		Logging.logWebStep(url, "Open url <a href='" + url + "'>" + url
@@ -801,7 +791,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 			driver.navigate().to(url);
 		} catch (Throwable e) {
 			e.printStackTrace();
-			throw new MauiException(e);
+			throw new SeleniumTestsException(e);
 		}
 		switchToDefaultContent();
 	}
@@ -913,14 +903,6 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	protected void setHtmlSavedToPath(String htmlSavedToPath) {
 		this.htmlSavedToPath = htmlSavedToPath;
 	}
-
-	// protected void setHtmlSource(String htmlSource) {
-	// this.htmlSource = htmlSource;
-	// }
-
-	// protected void setLocation(String location) {
-	// this.location = location;
-	// }
 
 	protected void setTitle(String title) {
 		this.title = title;
