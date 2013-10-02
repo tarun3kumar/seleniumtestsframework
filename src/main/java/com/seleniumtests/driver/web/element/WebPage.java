@@ -767,7 +767,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 //			url = tempURL;
 		}
 		setUrl(url);
-		Logging.logWebStep(url, "Open url <a href='" + url + "'>" + url
+		Logging.logWebStep(url, "Launch application URL: <a href='" + url + "'>" + url
 				+ "</a>", false);
 
 		try {
