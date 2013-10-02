@@ -377,7 +377,6 @@ public class WebPage extends BaseHtmlPage implements IPage {
 		ScreenShot screenShot = new ScreenshotUtil(driver)
 				.captureWebPageSnapshot();
 		this.title = screenShot.getTitle();
-		this.pageId = screenShot.getPageId();
 		this.rlogId = screenShot.getRlogId();
 
 		if (screenShot.getHtmlSourcePath() != null) {
