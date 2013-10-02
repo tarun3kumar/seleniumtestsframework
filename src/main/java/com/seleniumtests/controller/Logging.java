@@ -58,8 +58,7 @@ public class Logging {
 			new Thread() {
 				public void run() {
 					try {
-						screenshotListener.doScreenCapture(
-								screenshot.getPageId(), screenshot.getRlogId(),
+						screenshotListener.doScreenCapture(screenshot.getRlogId(),
 								screenshot.getTitle(), "png",
 								screenshot.getFullImagePath());
 					} catch (Exception e) {
@@ -231,9 +230,6 @@ public class Logging {
 			sbMessage.append(" | <a href='" + screenShot.getHtmlSourcePath() + "' target=html>html</a>");
 		if(screenShot.getImagePath()!=null)
 			sbMessage.append(" | <a href='" + screenShot.getImagePath()+"' class='lightbox'>screenshot</a>");
-		if(screenShot.getCalLog()!=null)
-			sbMessage.append(" | <a href='"+screenShot.getCalLog() + "' target=cal>RlogId</a>");	
-		if(screenShot.getPageId()!=null)sbMessage.append(" | PageId="+screenShot.getPageId());
 		return sbMessage.toString();
 	}
 
