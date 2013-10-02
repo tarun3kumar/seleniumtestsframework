@@ -16,7 +16,7 @@ import com.seleniumtests.driver.web.WebUXDriver;
 
 /**
  * TestPlan takes charge of setup and teardown including initialize context,
- * clean up drivers and deal with customized TearDownService. Basically all the MAUI test
+ * clean up drivers and deal with customized TearDownService. Al the test
  * plan should extend TestPlan class.
  *
  */
@@ -86,15 +86,6 @@ public abstract class TestPlan {
         if (method != null) {
             ContextManager.getThreadContext().setAttribute(Context.TEST_METHOD_SIGNATURE, constructMethodSignature(method, parameters));
         }
-		/*
-		 * String siteCd =
-		 * ContextManager.getTestLevelContext(testContex).getSite(); if
-		 * (StringUtils.isEmpty(siteCd)) { siteCd =
-		 * ContextManager.getGlobalContext().getSite(); } String pool =
-		 * ContextManager.getGlobalContext().getPool();
-		 * System.out.println("*******Test Environment: [Pool=" + pool +
-		 * ", Site=" + siteCd + "]*******");
-		 */
     }
 
     @BeforeSuite(alwaysRun = true)
