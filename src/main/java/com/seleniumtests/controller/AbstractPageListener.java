@@ -7,8 +7,7 @@ import com.seleniumtests.helper.URLHelper;
 import com.seleniumtests.reporter.PluginsUtil;
 
 /**
- * Provides a plug-in architecture for people who want to write rules to test
- * Global Headers, RTM, SEO, Java Script, Accessibility etc.
+ * Provides a plug-in architecture for SEO, Java Script, Accessibility etc tests.
  * 
  * Any sub-class should define a public default constructor
  * 
