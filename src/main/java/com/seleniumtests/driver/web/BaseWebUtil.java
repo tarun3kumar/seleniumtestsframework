@@ -36,15 +36,13 @@ public class BaseWebUtil {
 			Dimension oldDimension = driver.manage().window().getSize();
 			driver.manage().window().maximize();
 			Dimension dimension = driver.manage().window().getSize();
-			Logging.logWebStep(null, "Maximize browser window from "+oldDimension.width+":"+oldDimension.height+" to "+dimension.width+":"+dimension.height, false);
 		} catch (Exception ex) {
-			Logging.logWebStep(null, "Maximize browser window got exception, retry", false);
 
 			try {
 				((JavascriptExecutor) driver)
 						.executeScript("if (window.screen){window.moveTo(0, 0);window.resizeTo(window.screen.availWidth,window.screen.availHeight);}");
 			} catch (Exception ignore) {
-				Logging.log("Maximize browser window got exception"
+				Logging.log("Exception when maximizing browser window"
 						+ ignore.getMessage());
 			}
 		}
