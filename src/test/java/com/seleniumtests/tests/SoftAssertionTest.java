@@ -1,6 +1,8 @@
 package com.seleniumtests.tests;
 
 import static com.seleniumtests.controller.Assertion.*;
+
+import com.seleniumtests.controller.TestPlan;
 import org.testng.annotations.Test;
 
 /**
@@ -8,7 +10,7 @@ import org.testng.annotations.Test;
  * Date: 10/2/13
  * Time: 4:59 PM
  */
-public class SoftAssertionTest {
+public class SoftAssertionTest extends TestPlan {
 
     /**
      * Continues with test execution even though assertions fail
