@@ -15,7 +15,7 @@ public class TextField extends HtmlElement {
 	}
 
 	public void clear() {
-		Logging.logWebStep(null, "clear value on " + toHTML(), false);
+		Logging.logWebStep(null, "remove data on " + toHTML(), false);
 		findElement();
 		// clear for file input, will get Exception:Element must be
 		// user-editable in order to clear it.
