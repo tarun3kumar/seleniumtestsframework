@@ -2303,10 +2303,6 @@ public class XMLUtil
 
      * Checks if Element Node is same as a Element name String
 
-     * <br>Compare Node type, name and is namespace aware, so to compare element with 
-
-     * namespace elementName argument should be seperated by ":" e.g. ebay:sale
-
      */
 
     public static boolean isStrElementNode(String elementName, Node elementNode, boolean ignoreCase)
