@@ -34,7 +34,7 @@ public class Button extends HtmlElement {
 	}
 
 	public void submit() {
-		captureSnapshot("before submitting form");
+		captureSnapshot("before form submission");
 		Logging.logWebStep(null, "submit form by clicking on " + toHTML(),
 				false);
 		findElement();
