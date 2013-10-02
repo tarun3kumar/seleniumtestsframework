@@ -70,6 +70,7 @@ public class TestLinkLoginPage extends WebPage {
         passwordTextBox.clear();
         passwordTextBox.sendKeys(user.getPassword());
         loginButton.submit();
+        getDriver().switchTo().defaultContent();
         return this;
     }
 
