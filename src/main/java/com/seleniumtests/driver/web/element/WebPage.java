@@ -757,7 +757,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	private void open(String url, boolean convert) throws Exception {
 
 		if (this.getDriver() == null) {
-			Logging.logWebStep(url, "Open browser", false);
+			Logging.logWebStep(url, "Launch browser", false);
 			driver = webUXDriver.createWebDriver();
 			//maximizeWindow();
 		}
@@ -774,7 +774,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 			driver.navigate().to(url);
 		} catch (UnreachableBrowserException e) {
 			// handle if the last window is closed
-			Logging.logWebStep(url, "Open browser", false);
+			Logging.logWebStep(url, "Launch browser", false);
 			driver = webUXDriver.createWebDriver();
 			maximizeWindow();
 			driver.navigate().to(url);
