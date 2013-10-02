@@ -24,7 +24,7 @@ public class TextField extends HtmlElement {
 	}
 
 	public void sendKeys(String keysToSend) {
-		Logging.logWebStep(null, "sendKeys \"" + keysToSend + "\" on "
+		Logging.logWebStep(null, "enter data: \"" + keysToSend + "\" on "
 				+ toHTML(), false);
 		findElement();
 		element.sendKeys(keysToSend);
