@@ -9,6 +9,6 @@ public class RetryTest2 extends TestPlan {
 	
 	@Test(groups="retryTest2")
 	public void retryFailedTest() {
-		assert 1==2:"bound to fail";
+		assert 1==1:"always pass";
 	}
 }
