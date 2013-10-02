@@ -67,8 +67,6 @@ public class XMLDog implements XMLDogConstants {
 
 	/**
 	 * Compares Test XML file with the Control XML file
-	 * @param controlDoc the control/golden XML file
-	 * @param testDoc the test XML file
 	 * @return the Differences between the files
 	 * @see Differences, FileUtil.writeListAsStr()
 	 */
@@ -84,7 +82,6 @@ public class XMLDog implements XMLDogConstants {
 	 * directory
 	 * @param controlDirPath the directory containing control docs
 	 * @param testDirPath the directory containing test docs
-	 * @param resultDir the directory containing the output files indicating the differences
 	 * @param suffix the suffix string to be appended to each file in controlDirPath, if null
 	 * nothing will be appended
 	 */
@@ -200,21 +197,6 @@ public class XMLDog implements XMLDogConstants {
 			System.out.println(diff.toString());
 			long t2 = System.currentTimeMillis();
 			System.out.println("Time to compare the docs " + (t2 - t1) + " millisecs");
-			/*			
-			 System.out.println("Comparing directories containing XML docs...");
-			 Config config = new Config();
-			 config.addExcludedElement("StartTime");
-			 config.addExcludedElement("EndTime");
-			 config.addExcludedElement("TimeLeft");
-			 XMLDog dog = new XMLDog(config);
-			 */
-			/*
-			 dog.compareDir("d:\\ebay\\xml307", 
-			 "d:\\ebay\\xml309", 
-			 "d:\\ebay\\result2", null);
-			 System.out.println(dog.compare("d:\\ebay\\xml307\\0095.xml", 
-			 "d:\\ebay\\xml309\\0095.xml"));							
-			 */
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
