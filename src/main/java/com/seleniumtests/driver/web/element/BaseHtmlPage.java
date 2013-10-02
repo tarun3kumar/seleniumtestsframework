@@ -52,9 +52,6 @@ public abstract class BaseHtmlPage {
 		try {
 			driver.switchTo().alert();
 		} catch (Exception ex) {
-			// AlertOverride alertOverride = new AlertOverride();
-			// assertHTML(alertOverride.isAlertPresent(driver),
-			// "assert alert present.");
 			assertAlertHTML(false, "assert alert present.");
 		}
 	}
@@ -281,11 +278,7 @@ public abstract class BaseHtmlPage {
 
 	public String getKeywordValue(String key) {
 		String site = null;
-		if (ContextManager.getThreadContext().getGBHSite() != null) {
-			site = ContextManager.getThreadContext().getGBHSite();
-		} else {
 			site = ContextManager.getThreadContext().getSite();
-		}
 		return Keyword.get(this.getClass(), key, site);
 	}
 
