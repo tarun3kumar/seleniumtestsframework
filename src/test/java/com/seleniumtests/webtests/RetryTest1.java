@@ -2,9 +2,10 @@ package com.seleniumtests.webtests;
 
 import java.util.GregorianCalendar;
 
+import com.seleniumtests.controller.TestPlan;
 import org.testng.annotations.Test;
 
-public class RetryTest1 {
+public class RetryTest1 extends TestPlan{
 	
 	@Test(groups="retryTest1")
 	public void retryFailedTest() {
