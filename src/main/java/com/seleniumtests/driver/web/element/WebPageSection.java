@@ -1,12 +1,12 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.exception.SeleniumTestsException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;
-import com.seleniumtests.exception.MauiException;
 
 public abstract class WebPageSection extends BaseHtmlPage {
 
@@ -26,7 +26,7 @@ public abstract class WebPageSection extends BaseHtmlPage {
 		this.by = by;
 	}
 
-	public WebPageSection(String name, String locator) throws MauiException {
+	public WebPageSection(String name, String locator) throws SeleniumTestsException {
 		super();
 		if (locator.startsWith("xpath=")) {
 			locator = locator.substring(6);
