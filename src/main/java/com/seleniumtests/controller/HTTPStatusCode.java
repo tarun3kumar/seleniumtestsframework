@@ -2,11 +2,7 @@ package com.seleniumtests.controller;
 
 /**
  * This enumeration will capture all the HTTP error status codes 4XX and 5XX For
- * more details on HTTP status codes refer to
- * 
- * 
- * 
- * 
+ *
  */
 public enum HTTPStatusCode {
 
