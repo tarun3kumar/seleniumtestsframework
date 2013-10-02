@@ -1,16 +1,14 @@
-package com.seleniumtests.webtests;
+package com.seleniumtests.tests;
 
 import com.seleniumtests.controller.TestPlan;
 import org.testng.annotations.Test;
 
-import java.util.GregorianCalendar;
-
 public class RetryTest2 extends TestPlan {
 
     /**
-     * Will not retry as test would not fail
+     * Will not retry as test would never fail
      */
-	@Test(groups="retryTest2")
+	@Test(groups="retryTest2", description = "Will not retry as test would never fail")
 	public void retryFailedTest() {
 		assert 1==1:"always pass";
 	}
