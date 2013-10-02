@@ -34,23 +34,23 @@ public class URLHelper {
 
 	// private static final int HTTPS_PORT = 443;
 
-	public static String convert(String url) {
-		String urlConvertClass = ContextManager.getThreadContext()
-				.getUrlConvertClass();
-		if (urlConvertClass != null) {
-			try {
-				Class<?> converterClass = Class.forName(urlConvertClass);
-				Object converter = converterClass.newInstance();
-				Method convert = converterClass.getMethod("convertURL",
-						String.class);
-				return (String) convert.invoke(converter, url);
-			} catch (Exception e) {
-				logger.warn("Convert URL failed", e);
-			}
-
-		}
-		return url;
-	}
+//	public static String convert(String url) {
+//		String urlConvertClass = ContextManager.getThreadContext()
+//				.getUrlConvertClass();
+//		if (urlConvertClass != null) {
+//			try {
+//				Class<?> converterClass = Class.forName(urlConvertClass);
+//				Object converter = converterClass.newInstance();
+//				Method convert = converterClass.getMethod("convertURL",
+//						String.class);
+//				return (String) convert.invoke(converter, url);
+//			} catch (Exception e) {
+//				logger.warn("Convert URL failed", e);
+//			}
+//
+//		}
+//		return url;
+//	}
 
 	public static String getRandomHashCode(String seed) {
 		String signature;
@@ -71,12 +71,6 @@ public class URLHelper {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//open("http://besbulk1.qa.ebay.com/admin/v3console/BESConsole?ConsumerType=SGFConsumerForBDX&EventTypes=SGF.BDX.JOB.NEW&EventTypes=SGF.BDX.RECURRING.JOB&EventTypes=SGF.BDX.SUBJOB.NEW&ReportType=ConsumerHostReport&CoverageType=ActiveTable&Time=5&MissedDeliveryEvent=&MissedDeliveryRetry=&DoReport=Submit");
-
-		
-		//String urlString= "http://www.wmss.stratus.qa.ebay.com/wmssvc/EBAY/users/1192676159?paymentInstrumentRefId=7409694308&creditCardType=MASTER&paymentInstrumentType=CreditCard&client=EBP&lastFour=0424&expirationDate=21 Mar 2013 05:20:36 GMT";
-		
-		
 	}
 	
    public static String encode(String urlString) throws MalformedURLException, UnsupportedEncodingException{
@@ -211,7 +205,7 @@ public class URLHelper {
 			int timeout,boolean useProxy) throws Exception {
 		// validate URL
 		if (convert)
-			convert(url);
+//			convert(url);
 
 		if (url.startsWith(HTTPS_PROTOCOL))
 			return openHttpsUrlAsStream(url,useProxy);
