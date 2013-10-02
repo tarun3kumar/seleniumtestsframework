@@ -1,0 +1,3 @@
+TestObject.TestMethod,TestObject.TestTitle,TestObject.TestSite,User.UserID,User.Password
+loginTestFailure,loginTestFailure,IN,admin,admin
+loginTestSuccess,loginTestSuccess,IN,admin,admin
