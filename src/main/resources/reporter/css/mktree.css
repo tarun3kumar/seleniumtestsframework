@@ -15,15 +15,15 @@
 	/* Show "bullets" in the links, depending on the class of the LI that the link's in */
 	ul.mktree  li.liOpen    .bullet {
 		cursor: pointer;
-		background: url(../images/mktree/minus.gif) center left no-repeat;
+		background: url(../images/mktree/seleniumtests_minus.gif) center left no-repeat;
 	}
 	ul.mktree  li.liClosed  .bullet {
 		cursor: pointer;
-		background: url(../images/mktree/plus.gif) center left no-repeat;
+		background: url(../images/mktree/seleniumtests_plus.gif) center left no-repeat;
 	}
 	ul.mktree  li.liBullet  .bullet {
 		cursor: default;
-		background: url(../images/mktree/bullet.gif) center left no-repeat;
+		background: url(../images/mktree/seleniumtests_bullet.gif) center left no-repeat;
 	}
 	/* Sublists are visible or not based on class of parent LI */
 	ul.mktree  li.liOpen    ul {
