@@ -6,7 +6,8 @@ import com.seleniumtests.controller.TestPlan;
 import org.testng.annotations.Test;
 
 /**
- * User: tbhadauria
+ * Demonstrate test execution continues even though assertions fail
+ *
  * Date: 10/2/13
  * Time: 4:59 PM
  */
