@@ -1,5 +1,8 @@
 package com.seleniumtests.dataobject;
 
+/**
+ * User account object for TestLink
+ */
 public class User {
 
     private String userID;
