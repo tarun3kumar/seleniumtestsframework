@@ -1,5 +1,8 @@
 package com.seleniumtests.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
@@ -89,7 +92,14 @@ public abstract class TestPlan {
     }
 
     @BeforeSuite(alwaysRun = true)
-    public void beforeTestSuite(ITestContext testContex) {
+    public void beforeTestSuite(ITestContext testContex) throws IOException {
+        String announcementFile = WebUXDriver.class.getResource("/seleniumtestsannouncement.txt").getPath();
+        BufferedReader br = new BufferedReader(new FileReader(announcementFile));
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+
         start = new Date();
         ContextManager.initGlobalContext(testContex);
         ContextManager.initThreadContext(testContex, null);//Add this to support users want to call some functions in @beforeSuite
