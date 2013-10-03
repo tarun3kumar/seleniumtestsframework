@@ -246,7 +246,7 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 		resources.add("reporter" + File.separator + "images" + File.separator + "mktree" + File.separator + "test3.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "mktree" + File.separator + "test3.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "footerbar_grad.gif");
-		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "goldgrad_mid.gif");
+		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "seleniumtests_mid.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "grey_bl.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "grey_br.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "hovertab_l.gif");
