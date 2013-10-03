@@ -1,25 +1,16 @@
 package com.seleniumtests.driver.web;
 
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Date;
-
+import com.seleniumtests.controller.Context;
+import com.seleniumtests.controller.ContextManager;
+import com.seleniumtests.driver.web.factory.*;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
-import com.seleniumtests.controller.Context;
-import com.seleniumtests.controller.ContextManager;
-import com.seleniumtests.driver.web.factory.AndroidDriverFactory;
-import com.seleniumtests.driver.web.factory.ChromeDriverFactory;
-import com.seleniumtests.driver.web.factory.FirefoxDriverFactory;
-import com.seleniumtests.driver.web.factory.HtmlUnitDriverFactory;
-import com.seleniumtests.driver.web.factory.IEDriverFactory;
-import com.seleniumtests.driver.web.factory.IWebDriverFactory;
-import com.seleniumtests.driver.web.factory.OperaDriverFactory;
-import com.seleniumtests.driver.web.factory.RemoteDriverFactory;
-import com.seleniumtests.driver.web.factory.SafariDriverFactory;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This class provides factory to create webDriver session
@@ -188,7 +179,7 @@ public class WebUXDriver {
 	}
 
 	public WebDriver createWebDriver() throws Exception {
-		System.out.println(Thread.currentThread() + ":" + new Date()
+        System.out.println(Thread.currentThread() + ":" + new Date()
 				+ "Start creating web driver instance: " +this.getBrowser());
 		driver = createRemoteWebDriver(config.getBrowser().getType(), config
 				.getMode().name());
