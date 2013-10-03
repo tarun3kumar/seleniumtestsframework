@@ -15,7 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 /**
- * User: tbhadauria
+ * Create new Test Plan in test link
+ *
  * Date: 10/3/13
  * Time: 12:17 AM
  */
