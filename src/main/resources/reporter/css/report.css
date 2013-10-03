@@ -52,7 +52,7 @@ h2.yuk_goldgrad_ltitle {
 	font-size: small;
 	font-weight: bold;
 	background: #faf5ce
-		url(../images/yukontoolbox/goldgrad_mid.gif)
+		url(../images/yukontoolbox/seleniumtests_mid.gif)
 		repeat-x bottom;
 	border-style: solid;
 	border-color: #fcd13c #fcd13c #e1bf48 #fcd13c;
@@ -67,7 +67,7 @@ h2.yuk_goldgrad_runinfo {
 	font-size: small;
 	font-weight: bold;
 	background: #faf5ce
-		url(../images/yukontoolbox/goldgrad_mid.gif)
+		url(../images/yukontoolbox/seleniumtests_mid.gif)
 		repeat-x bottom;
 	border-style: solid;
 	border-color: #fcd13c #fcd13c #e1bf48 #fcd13c;
@@ -83,7 +83,7 @@ h3.yuk_grad_ltitle_passed {
 	font-size: small;
 	font-weight: bold;
 	background: #faf5ce
-		url(../images/yukontoolbox/goldgrad_mid.gif)
+		url(../images/yukontoolbox/seleniumtests_mid.gif)
 		repeat-x bottom;
 	border-style: solid;
 	border-color: #fcd13c #fcd13c #e1bf48 #fcd13c;
@@ -99,7 +99,7 @@ h3.yuk_grad_ltitle_failed {
 	font-size: small;
 	font-weight: bold;
 	background: #faf5ce
-		url(../images/yukontoolbox/goldgrad_mid.gif)
+		url(../images/yukontoolbox/seleniumtests_mid.gif)
 		repeat-x bottom;
 	border-style: solid;
 	border-color: #fcd13c #fcd13c #e1bf48 #fcd13c;
@@ -115,7 +115,7 @@ h3.yuk_grad_ltitle_skipped {
 	font-size: small;
 	font-weight: bold;
 	background: #faf5ce
-		url(../images/yukontoolbox/goldgrad_mid.gif)
+		url(../images/yukontoolbox/seleniumtests_mid.gif)
 		repeat-x bottom;
 	border-style: solid;
 	border-color: #fcd13c #fcd13c #e1bf48 #fcd13c;
