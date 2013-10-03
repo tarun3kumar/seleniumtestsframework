@@ -181,7 +181,7 @@ h2.yuk_grey_midpnl_ltitle {padding:7px 9px 3px 9px; margin:0; color:#5d5d5d; fon
 	bottom: -1px;
 	right: -1px;
 	background:
-		url(../images/yukontoolbox/grey_br.gif)
+		url(../images/yukontoolbox/seleniumtests_grey_br.gif)
 		no-repeat bottom right;
 }
 
@@ -191,7 +191,7 @@ h2.yuk_grey_midpnl_ltitle {padding:7px 9px 3px 9px; margin:0; color:#5d5d5d; fon
 	height: 6px;
 	font-size: 0;
 	background:
-		url(../images/yukontoolbox/grey_bl.gif)
+		url(../images/yukontoolbox/seleniumtests_grey_bl.gif)
 		no-repeat bottom left;
 }
 
@@ -226,7 +226,7 @@ h2.yuk_grey_midpnl_ltitle {padding:7px 9px 3px 9px; margin:0; color:#5d5d5d; fon
 	border-color: #ccc #ccc #ccc #ccc;
 	border-width: 0 1px 0 0;
 	background: #fff
-		url(../images/yukontoolbox/table_zebrastripe_left.gif)
+		url(../images/yukontoolbox/seleniumtests_table_zebrastripe_left.gif)
 		repeat-y bottom left;
 	padding: 0 18px;
 }
@@ -234,20 +234,20 @@ h2.yuk_grey_midpnl_ltitle {padding:7px 9px 3px 9px; margin:0; color:#5d5d5d; fon
 #yuk_table tr.even td.last {
 	border: none;
 	background: #fff
-		url(../images/yukontoolbox/table_zebrastripe_right.gif)
+		url(../images/yukontoolbox/seleniumtests_table_zebrastripe_right.gif)
 		repeat-y bottom right;
 }
 
 /* -----------separator lines / other color determined by bg color of table--------------------------- */
 #yuk_table tr.alt td.first {
 	background: #fff
-		url(../images/yukontoolbox/table_sep_left.gif)
+		url(../images/yukontoolbox/seleniumtests_table_sep_left.gif)
 		repeat-x bottom left;
 }
 
 #yuk_table tr.alt td.last {
 	background: #fff
-		url(../images/yukontoolbox/table_sep_right.gif)
+		url(../images/yukontoolbox/seleniumtests_table_sep_right.gif)
 		repeat-x bottom right;
 }
 
@@ -325,7 +325,7 @@ h2.yuk_tab_title {
 	top: -1px;
 	right: -1px;
 	background:
-		url(../images/yukontoolbox/yellow_tr.gif)
+		url(../images/yukontoolbox/seleniumtests_yellow_tr.gif)
 		no-repeat top right;
 }
 
@@ -335,7 +335,7 @@ h2.yuk_tab_title {
 	height: 4px;
 	font-size: 0;
 	background:
-		url(../images/yukontoolbox/yellow_tl.gif)
+		url(../images/yukontoolbox/seleniumtests_yellow_tl.gif)
 		no-repeat top left;
 }
 
@@ -343,7 +343,7 @@ h2.yuk_tab_title {
 .yuk_tabbed_nav {
 	float: left;
 	background: #faf5ce
-		url(../images/yukontoolbox/tabbed_nav_goldgradbg.png)
+		url(../images/yukontoolbox/seleniumtests_tabbed_nav_goldgradbg.png)
 		repeat-x bottom;
 	border-style: solid;
 	border-color: #ccc #fcd13c #ccc #fcd13c;
@@ -369,7 +369,7 @@ h2.yuk_tab_title {
 .yuk_tabbed_nav a {
 	float: left;
 	background:
-		url(../images/yukontoolbox/hovertab_l.gif)
+		url(../images/yukontoolbox/seleniumtests_hovertab_l.gif)
 		no-repeat left top;
 	margin: 0;
 	padding: 0 3px 0 4px;
@@ -381,7 +381,7 @@ h2.yuk_tab_title {
 	float: left;
 	display: block;
 	background:
-		url(../images/yukontoolbox/hovertab_r.gif)
+		url(../images/yukontoolbox/seleniumtests_hovertab_r.gif)
 		no-repeat right top;
 	padding: 6px 8px 3px 4px;
 	font-weight: bold;
@@ -535,7 +535,7 @@ h4.yuk_pnl_subheading_skipped {
 	bottom: -1px;
 	right: -1px;
 	background:
-		url(../images/yukontoolbox/grey_br.gif)
+		url(../images/yukontoolbox/seleniumtests_grey_br.gif)
 		no-repeat bottom right;
 }
 
@@ -545,7 +545,7 @@ h4.yuk_pnl_subheading_skipped {
 	height: 6px;
 	font-size: 0;
 	background:
-		url(../images/yukontoolbox/grey_bl.gif)
+		url(../images/yukontoolbox/seleniumtests_grey_bl.gif)
 		no-repeat bottom left;
 }
 
