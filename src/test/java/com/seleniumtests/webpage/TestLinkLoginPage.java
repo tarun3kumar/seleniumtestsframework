@@ -10,7 +10,8 @@ import com.seleniumtests.driver.web.element.WebPage;
 import org.openqa.selenium.By;
 
 /**
- * User: tbhadauria
+ * Defines service for TestLink login page
+ *
  * Date: 10/2/13
  * Time: 6:15 PM
  */
