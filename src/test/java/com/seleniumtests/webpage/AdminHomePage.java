@@ -7,7 +7,8 @@ import com.seleniumtests.driver.web.element.WebPage;
 import org.openqa.selenium.By;
 
 /**
- * User: tbhadauria
+ * Provides services offered by TestLink login Admin Page
+ *
  * Date: 10/2/13
  * Time: 6:26 PM
  */
