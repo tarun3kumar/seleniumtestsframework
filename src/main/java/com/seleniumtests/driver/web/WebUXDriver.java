@@ -189,12 +189,12 @@ public class WebUXDriver {
 
 	public WebDriver createWebDriver() throws Exception {
 		System.out.println(Thread.currentThread() + ":" + new Date()
-				+ "Start creating web driver instance:" +this.getBrowser());
+				+ "Start creating web driver instance: " +this.getBrowser());
 		driver = createRemoteWebDriver(config.getBrowser().getType(), config
 				.getMode().name());
 
 		System.out.println(Thread.currentThread() + ":" + new Date()
-				+ "Finish creating web driver instance" +this.getBrowser());
+				+ "Finish creating web driver instance: " +this.getBrowser());
 
 		driverSession.set(driver);
 		return driver;
