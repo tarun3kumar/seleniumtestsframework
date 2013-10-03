@@ -16,7 +16,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 /**
- * User: tbhadauria
+ * Login test for TestLink
+ *
  * Date: 10/2/13
  * Time: 6:36 PM
  */
