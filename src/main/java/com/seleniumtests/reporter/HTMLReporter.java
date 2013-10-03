@@ -683,7 +683,7 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 					boolean hasThrowable = exception != null;
 					if (hasReporterOutput || hasThrowable) {
 						contentBuffer.append("<div class='leftContent' style='float: left; width: 100%;'>");
-						contentBuffer.append("<h4><a href='javascript:void(0);' class='testloglnk'>Test-Steps " + (style.equals("passed") ? "[+]" : "[ - ]")
+						contentBuffer.append("<h4><a href='javascript:void(0);' class='testloglnk'>Test Steps " + (style.equals("passed") ? "[+]" : "[ - ]")
 								+ "</a></h4>");
 						contentBuffer.append("<div class='testlog' " + (style.equals("passed") ? "style='display:none'" : "") + ">");
 						contentBuffer.append("<ol>");
