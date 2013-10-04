@@ -29,7 +29,7 @@ import com.thoughtworks.selenium.Wait;
  * 
  * 
  */
-public abstract class BaseHtmlPage {
+public abstract class BasePage {
 
 	protected WebDriver driver = WebUXDriver.getWebDriver();
 	protected final WebUXDriver webUXDriver = WebUXDriver.getWebUXDriver();
@@ -38,7 +38,7 @@ public abstract class BaseHtmlPage {
 	private int sessionTimeout = WebUXDriver.getWebUXDriver()
 			.getWebSessionTimeout();
 
-	public BaseHtmlPage() {
+	public BasePage() {
 	}
 
 	public void acceptAlert() throws PageNotCurrentException {

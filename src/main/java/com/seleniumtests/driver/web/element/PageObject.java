@@ -41,7 +41,7 @@ import com.seleniumtests.helper.URLHelper;
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
-public class PageObject extends BaseHtmlPage implements IPage {
+public class PageObject extends BasePage implements IPage {
 
 	private static final Logger logger = Logger.getLogger(PageObject.class);
 	private static final int MAX_WAIT_TIME_FOR_REDIRECTION = 3;

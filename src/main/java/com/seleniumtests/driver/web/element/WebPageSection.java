@@ -8,7 +8,7 @@ import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;
 
-public abstract class WebPageSection extends BaseHtmlPage {
+public abstract class WebPageSection extends BasePage {
 
 	private String name = null;
 	private String locator = null;
