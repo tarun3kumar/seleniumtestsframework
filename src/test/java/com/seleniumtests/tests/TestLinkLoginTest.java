@@ -66,7 +66,7 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
      * @throws Exception
      */
     @Test(groups = {"loginAsInvalidUser"}, dataProvider = "loginData",
-            description = "Logs in to TestLink as invalid user")
+            description = "Logs in to TestLink as invalid user and verifies login is unsuccessful")
     public void loginAsInvalidUser(TestEntity testEntity, final User user)
             throws Exception {
 
@@ -91,8 +91,4 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
                 .loginAsValidUser(user)
                 .verifyDocumentationDropDownFail();
     }
-
-
-
-
 }
