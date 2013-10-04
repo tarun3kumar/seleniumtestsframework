@@ -25,7 +25,7 @@ import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
 /**
- * Base html page abstraction. Used by WebPage and WebPageSection
+ * Base html page abstraction. Used by PageObject and WebPageSection
  * 
  * 
  */

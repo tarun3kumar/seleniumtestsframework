@@ -41,9 +41,9 @@ import com.seleniumtests.helper.URLHelper;
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
-public class WebPage extends BaseHtmlPage implements IPage {
+public class PageObject extends BaseHtmlPage implements IPage {
 
-	private static final Logger logger = Logger.getLogger(WebPage.class);
+	private static final Logger logger = Logger.getLogger(PageObject.class);
 	private static final int MAX_WAIT_TIME_FOR_REDIRECTION = 3;
 	private boolean popupFlag = false;
 	private boolean frameFlag = false;
@@ -69,11 +69,11 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * 
 	 * @throws Exception
 	 */
-	public WebPage() throws Exception {
+	public PageObject() throws Exception {
 		this(false, null, null, null, true, false);
 	}
 
-	public WebPage(boolean isPopup, String popUpWindowName) throws Exception {
+	public PageObject(boolean isPopup, String popUpWindowName) throws Exception {
 		this(isPopup, popUpWindowName, null, null, true, false);
 	}
 
@@ -84,9 +84,9 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param convert
 	 * @throws Exception
 	 */
-	private WebPage(boolean isPopup, String popupWindowName,
-			HtmlElement pageIdentifierElement, String url, boolean convert,
-			boolean waitForRedirection) throws Exception {
+	private PageObject(boolean isPopup, String popupWindowName,
+                       HtmlElement pageIdentifierElement, String url, boolean convert,
+                       boolean waitForRedirection) throws Exception {
 		Calendar start = Calendar.getInstance();
 		start.setTime(new Date());
 		
@@ -165,7 +165,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param pageIdentifierElement
 	 * @throws Exception
 	 */
-	public WebPage(HtmlElement pageIdentifierElement) throws Exception {
+	public PageObject(HtmlElement pageIdentifierElement) throws Exception {
 		this(false, null, pageIdentifierElement, null, true, false);
 	}
 
@@ -176,7 +176,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param waitForRedirection
 	 * @throws Exception
 	 */
-	public WebPage(HtmlElement pageIdentifierElement, boolean waitForRedirection)
+	public PageObject(HtmlElement pageIdentifierElement, boolean waitForRedirection)
 			throws Exception {
 		this(false, null, pageIdentifierElement, null, true, waitForRedirection);
 	}
@@ -189,8 +189,8 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param popupWindowName
 	 * @throws Exception
 	 */
-	public WebPage(HtmlElement pageIdentifierElement, boolean isPopup,
-			String popupWindowName) throws Exception {
+	public PageObject(HtmlElement pageIdentifierElement, boolean isPopup,
+                      String popupWindowName) throws Exception {
 		this(isPopup, popupWindowName, pageIdentifierElement, null, true, false);
 	}
 
@@ -202,7 +202,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param url
 	 * @throws Exception
 	 */
-	public WebPage(HtmlElement pageIdentifierElement, String url)
+	public PageObject(HtmlElement pageIdentifierElement, String url)
 			throws Exception {
 
 		this(false, null, pageIdentifierElement, url, true, false);
@@ -216,8 +216,8 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param waitForRedirection
 	 * @throws Exception
 	 */
-	public WebPage(HtmlElement pageIdentifierElement, String url,
-			boolean waitForRedirection) throws Exception {
+	public PageObject(HtmlElement pageIdentifierElement, String url,
+                      boolean waitForRedirection) throws Exception {
 		this(false, null, pageIdentifierElement, url, false, waitForRedirection);
 	}
 
@@ -240,8 +240,8 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param isAbsoluteURL
 	 * @throws Exception
 	 */
-	public WebPage(HtmlElement pageIdentifierElement, String url,
-			boolean isAbsoluteURL, boolean waitForRedirection) throws Exception {
+	public PageObject(HtmlElement pageIdentifierElement, String url,
+                      boolean isAbsoluteURL, boolean waitForRedirection) throws Exception {
 
 		this(false, null, pageIdentifierElement, url, !isAbsoluteURL,
 				waitForRedirection);
@@ -254,7 +254,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param url
 	 * @throws Exception
 	 */
-	public WebPage(String url) throws Exception {
+	public PageObject(String url) throws Exception {
 		this(false, null, null, url, false, false);
 	}
 
@@ -266,7 +266,7 @@ public class WebPage extends BaseHtmlPage implements IPage {
 	 * @param convert
 	 * @throws Exception
 	 */
-	public WebPage(String url, boolean convert) throws Exception {
+	public PageObject(String url, boolean convert) throws Exception {
 		this(false, null, null, url, convert, false);
 	}
 
