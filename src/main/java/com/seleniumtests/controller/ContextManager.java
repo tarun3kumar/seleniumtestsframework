@@ -51,7 +51,7 @@ public class ContextManager {
         if (testContext != null && testContext.getCurrentXmlTest() != null) {
             if (testLevelContext.get(testContext.getCurrentXmlTest().getName()) == null) {
                 // sometimes getTestLevelContext is called before @BeforeTest in
-                // TestPlan
+                // SeleniumTestPlan
                 initTestLevelContext(testContext, testContext.getCurrentXmlTest());
             }
             return testLevelContext.get(testContext.getCurrentXmlTest().getName());

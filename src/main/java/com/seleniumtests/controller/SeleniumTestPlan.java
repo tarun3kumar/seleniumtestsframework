@@ -18,13 +18,13 @@ import org.testng.xml.XmlTest;
 import com.seleniumtests.driver.web.WebUXDriver;
 
 /**
- * TestPlan takes charge of setup and teardown including initialize context,
+ * SeleniumTestPlan takes charge of setup and teardown including initialize context,
  * clean up drivers and deal with customized TearDownService. Al the test
- * plan should extend TestPlan class.
+ * plan should extend SeleniumTestPlan class.
  *
  */
-public abstract class TestPlan {
-    private static final Logger logger = Logging.getLogger(TestPlan.class);
+public abstract class SeleniumTestPlan {
+    private static final Logger logger = Logging.getLogger(SeleniumTestPlan.class);
     private Date start;
 
     static {

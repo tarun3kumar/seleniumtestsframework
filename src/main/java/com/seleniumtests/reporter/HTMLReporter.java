@@ -766,7 +766,7 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 	public void generateReport(List<XmlSuite> xml, List<ISuite> suites, String outdir) {
 		ITestContext testCtx = ContextManager.getGlobalContext().getTestNGContext();
 		if(testCtx == null) {
-		   logger.error("Please check if your class extends from TestPlan!");
+		   logger.error("Please check if your class extends from SeleniumTestPlan!");
 		   return;
 		}
 		File f = new File(ContextManager.getGlobalContext().getOutputDirectory());
