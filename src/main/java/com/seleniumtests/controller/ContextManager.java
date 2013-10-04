@@ -96,16 +96,16 @@ public class ContextManager {
     }
 
     public static void initTestLevelContext(ITestContext testNGCtx, XmlTest xmlTest) {
-        Context mauiCtx = new Context(testNGCtx);
+        Context seleniumTestsCtx = new Context(testNGCtx);
         if (xmlTest != null) {
             Map<String, String> testParameters = xmlTest.getTestParameters();
             // parse the test level parameters
             for (Entry<String, String> entry : testParameters.entrySet()) {
-                mauiCtx.setAttribute(entry.getKey(), entry.getValue());
+                seleniumTestsCtx.setAttribute(entry.getKey(), entry.getValue());
             }
 
         }
-        testLevelContext.put(xmlTest.getName(), mauiCtx);
+        testLevelContext.put(xmlTest.getName(), seleniumTestsCtx);
     }
 
     public static void initTestLevelContext(XmlTest xmlTest) {
@@ -121,9 +121,9 @@ public class ContextManager {
     }
 
     public static void initThreadContext(ITestContext testNGCtx, XmlTest xmlTest) {
-        Context mauiCtx = new Context(testNGCtx);
+        Context seleniumTestsCtx = new Context(testNGCtx);
 
-        loadCustomizedContextAttribute(testNGCtx, mauiCtx);
+        loadCustomizedContextAttribute(testNGCtx, seleniumTestsCtx);
 
         if (xmlTest != null) {
             Map<String, String> testParameters = xmlTest.getTestParameters();
@@ -131,22 +131,22 @@ public class ContextManager {
             for (Entry<String, String> entry : testParameters.entrySet()) {
 
                 if (System.getProperty(entry.getKey()) == null)
-                    mauiCtx.setAttribute(entry.getKey(), entry.getValue());
+                    seleniumTestsCtx.setAttribute(entry.getKey(), entry.getValue());
 
             }
 
         }
 
-        threadLocalContext.set(mauiCtx);
+        threadLocalContext.set(seleniumTestsCtx);
     }
 
     public static void initThreadContext(XmlTest xmlTest) {
         initThreadContext(globalContext.getTestNGContext(), xmlTest);
     }
 
-    private static void loadCustomizedContextAttribute(ITestContext testNGCtx, Context mauiCtx) {
+    private static void loadCustomizedContextAttribute(ITestContext testNGCtx, Context seleniumTestsCtx) {
         for (int i = 0; i < contexAttributeListenerList.size(); i++) {
-            contexAttributeListenerList.get(i).load(testNGCtx, mauiCtx);
+            contexAttributeListenerList.get(i).load(testNGCtx, seleniumTestsCtx);
         }
     }
 

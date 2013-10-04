@@ -72,8 +72,6 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 				"capability.policy.default.Document.compatMode.get",
 				"allAccess");
 		profile.setEnableNativeEvents(false);
-
-		// Fix unresponsive script problem jirap#MAUI-124
 		profile.setPreference("dom.max_chrome_script_run_time", 0);
 		profile.setPreference("dom.max_script_run_time", 0);
 	}
@@ -171,10 +169,6 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 				//String profilePath = "C:\\grid\\profile";
 				String profilePath = this.getClass().getResource("/").getPath() + "ffprofile";
 				profilePath = FileHelper.decodePath(profilePath);
-//				if (!OSHelper.isWindows()) {
-//					slash = "/";
-//					profilePath = "/tmp/maui";
-//				}
 
 				extractDefaultProfile(profilePath);
 				realPath = profilePath + OSHelper.getSlash() + "customProfileDirCUSTFF";

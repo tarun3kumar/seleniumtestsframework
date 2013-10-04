@@ -80,8 +80,7 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 	}
 
 	public void handleExtractResources() throws IOException {
-		String dir = this.getClass().getResource("/").getPath()
-				/*+ "mauiexternal"*/;
+		String dir = this.getClass().getResource("/").getPath();
 		dir = FileHelper.decodePath(dir);
 
 		if (!new File(dir).exists()) {

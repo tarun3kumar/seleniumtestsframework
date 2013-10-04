@@ -86,7 +86,6 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 				String profilePath = "C:\\grid\\profile";
 				if (!OSHelper.isWindows()) {
 					slash = "/";
-					profilePath = "/tmp/maui";
 				}
 				//2.23.0, opera doesn't create Temporary profile folder, so we create it, a mvn clean command will clear these folders
 				profilePath = this.getClass().getResource("/").getFile()+slash+"defaultOperaProfile";
