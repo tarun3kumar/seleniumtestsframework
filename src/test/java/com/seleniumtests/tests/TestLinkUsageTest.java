@@ -2,7 +2,7 @@ package com.seleniumtests.tests;
 
 import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.EasyFilter;
-import com.seleniumtests.controller.TestPlan;
+import com.seleniumtests.controller.SeleniumTestPlan;
 import com.seleniumtests.dataobject.TestLinkProject;
 import com.seleniumtests.dataobject.User;
 import com.seleniumtests.util.SpreadSheetUtil;
@@ -23,7 +23,7 @@ import java.util.UUID;
  * Date: 10/3/13
  * Time: 12:17 AM
  */
-public class TestLinkUsageTest extends TestPlan {
+public class TestLinkUsageTest extends SeleniumTestPlan {
 
     @DataProvider(name = "testlinkproject", parallel = true)
     public static Iterator<Object[]> getUserInfo(Method m,

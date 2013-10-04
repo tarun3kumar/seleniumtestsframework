@@ -3,7 +3,7 @@ package com.seleniumtests.webpage;
 import com.seleniumtests.controller.Assertion;
 import com.seleniumtests.driver.web.element.Link;
 import com.seleniumtests.driver.web.element.SelectList;
-import com.seleniumtests.driver.web.element.WebPage;
+import com.seleniumtests.driver.web.element.PageObject;
 import org.openqa.selenium.By;
 
 /**
@@ -12,7 +12,7 @@ import org.openqa.selenium.By;
  * Date: 10/2/13
  * Time: 6:26 PM
  */
-public class AdminHomePage extends WebPage {
+public class AdminHomePage extends PageObject {
 
     private static SelectList documentationDropDown = new SelectList("Documentation drop down", By.name("docs"));
 

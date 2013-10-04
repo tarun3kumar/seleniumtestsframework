@@ -2,7 +2,7 @@ package com.seleniumtests.tests;
 
 import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.EasyFilter;
-import com.seleniumtests.controller.TestPlan;
+import com.seleniumtests.controller.SeleniumTestPlan;
 import com.seleniumtests.dataobject.User;
 import com.seleniumtests.util.SpreadSheetUtil;
 import com.seleniumtests.util.internal.entity.TestObject;
@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
  * Date: 10/2/13
  * Time: 6:36 PM
  */
-public class TestLinkLoginTest extends TestPlan {
+public class TestLinkLoginTest extends SeleniumTestPlan {
 
     @DataProvider(name = "loginData", parallel = true)
     public static Iterator<Object[]> getUserInfo(Method m,

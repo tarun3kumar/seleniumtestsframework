@@ -2,11 +2,10 @@ package com.seleniumtests.webpage;
 
 import com.seleniumtests.controller.Assertion;
 import com.seleniumtests.dataobject.User;
-import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.driver.web.element.Button;
 import com.seleniumtests.driver.web.element.Link;
 import com.seleniumtests.driver.web.element.TextField;
-import com.seleniumtests.driver.web.element.WebPage;
+import com.seleniumtests.driver.web.element.PageObject;
 import org.openqa.selenium.By;
 
 /**
@@ -15,7 +14,7 @@ import org.openqa.selenium.By;
  * Date: 10/2/13
  * Time: 6:15 PM
  */
-public class TestLinkLoginPage extends WebPage {
+public class TestLinkLoginPage extends PageObject {
 
     private static final String PAGE_URL = "http://www.seleniumtests.com/2013/08/demo-test-link-site.html";
 

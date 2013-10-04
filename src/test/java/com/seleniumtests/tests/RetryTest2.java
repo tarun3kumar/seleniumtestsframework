@@ -1,9 +1,9 @@
 package com.seleniumtests.tests;
 
-import com.seleniumtests.controller.TestPlan;
+import com.seleniumtests.controller.SeleniumTestPlan;
 import org.testng.annotations.Test;
 
-public class RetryTest2 extends TestPlan {
+public class RetryTest2 extends SeleniumTestPlan {
 
     /**
      * Will not retry as test would never fail

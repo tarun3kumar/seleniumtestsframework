@@ -3,7 +3,7 @@ package com.seleniumtests.webpage;
 import com.seleniumtests.driver.web.element.Button;
 import com.seleniumtests.driver.web.element.SelectList;
 import com.seleniumtests.driver.web.element.TextField;
-import com.seleniumtests.driver.web.element.WebPage;
+import com.seleniumtests.driver.web.element.PageObject;
 import org.openqa.selenium.By;
 
 /**
@@ -12,7 +12,7 @@ import org.openqa.selenium.By;
  * Date: 10/4/13
  * Time: 9:03 AM
  */
-public class TestProjectManagementPage extends WebPage{
+public class TestProjectManagementPage extends PageObject {
 
     public TestProjectManagementPage() throws Exception {
         super();
