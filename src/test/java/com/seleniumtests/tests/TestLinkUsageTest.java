@@ -1,12 +1,12 @@
 package com.seleniumtests.tests;
 
 import com.seleniumtests.controller.ContextManager;
-import com.seleniumtests.controller.EasyFilter;
+import com.seleniumtests.controller.Filter;
 import com.seleniumtests.controller.SeleniumTestPlan;
 import com.seleniumtests.dataobject.TestLinkProject;
 import com.seleniumtests.dataobject.User;
 import com.seleniumtests.util.SpreadSheetUtil;
-import com.seleniumtests.util.internal.entity.TestObject;
+import com.seleniumtests.util.internal.entity.TestEntity;
 import com.seleniumtests.webpage.TestLinkLoginPage;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
@@ -28,14 +28,14 @@ public class TestLinkUsageTest extends SeleniumTestPlan {
     @DataProvider(name = "testlinkproject", parallel = true)
     public static Iterator<Object[]> getUserInfo(Method m,
                                                  ITestContext testContext) throws Exception {
-        EasyFilter filter = EasyFilter.equalsIgnoreCase(TestObject.TEST_METHOD,
+        Filter filter = Filter.equalsIgnoreCase(TestEntity.TEST_METHOD,
                 m.getName());
-        filter = EasyFilter.and(filter, EasyFilter.equalsIgnoreCase(
-                TestObject.TEST_SITE,
+        filter = Filter.and(filter, Filter.equalsIgnoreCase(
+                TestEntity.TEST_SITE,
                 ContextManager.getTestLevelContext(testContext).getSite()));
 
         LinkedHashMap<String, Class<?>> classMap = new LinkedHashMap<String, Class<?>>();
-        classMap.put("TestObject", TestObject.class);
+        classMap.put("TestEntity", TestEntity.class);
         classMap.put("User", User.class);
         classMap.put("TestLinkProject", TestLinkProject.class);
 
@@ -47,13 +47,13 @@ public class TestLinkUsageTest extends SeleniumTestPlan {
     /**
      * Creates new test project in TestLink
      *
-     * @param testObject
+     * @param testEntity
      * @param user
      * @throws Exception
      */
     @Test(groups = {"createTestProject"}, dataProvider = "testlinkproject",
             description = "Creates new test project in TestLink")
-    public void createTestProject(TestObject testObject, final User user, final TestLinkProject testLinkProject)
+    public void createTestProject(TestEntity testEntity, final User user, final TestLinkProject testLinkProject)
             throws Exception {
 
         new TestLinkLoginPage(true)
