@@ -4,11 +4,11 @@
 
 	<groupId>tests.selenium</groupId>
 	<artifactId>seleniumtestsframework</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<name>seleniumtestsframework</name>
-	<url>http://seleniumtests.com</url>
+	<url>http://www.seleniumtests.com</url>
 
 	<properties> 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
