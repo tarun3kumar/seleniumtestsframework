@@ -23,32 +23,53 @@ public class AdminHomePage extends WebPage {
     private Link testProjectManagementLink = new Link("Test Project Management Link", By.linkText("Test Project Management"));
     private SelectList testProjectDropdown = new SelectList("Test Project Dropdown", By.name("testproject"));
 
+    public AdminHomePage switchToTestLinkFrame() {
+        getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));
+        return this;
+    }
+
+    public AdminHomePage switchToTitleBarFrame() {
+        getDriver().switchTo().frame(getDriver().findElement(By.name("titlebar")));
+        return this;
+    }
+
+    public AdminHomePage switchToMainFrame() {
+        getDriver().switchTo().frame(getDriver().findElement(By.name("mainframe")));
+        return this;
+    }
+
     public AdminHomePage selectGivenTestProject(int index) {
-        getDriver().switchTo().frame(getDriver().findElement(By.id("testlink"))); // switch to test link frame
-        getDriver().switchTo().frame(getDriver().findElement(By.name("titlebar"))); // switch to title bar frame
+        switchToTestLinkFrame();
+        switchToTitleBarFrame();
         testProjectDropdown.selectByIndex(index);
         getDriver().switchTo().defaultContent();
         return this;
     }
 
     public AdminHomePage verifyDocumentationDropDown() {
-        getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));
-        getDriver().switchTo().frame(getDriver().findElement(By.name("mainframe")));
+        switchToTestLinkFrame();
+        switchToMainFrame();
         Assertion.assertTrue(documentationDropDown.isDisplayed(), "Documentation drop down is missing");
         getDriver().switchTo().defaultContent();
         return this;
     }
 
-    /**
-     * this is a false test and would always fail
-     */
     public AdminHomePage verifyDocumentationDropDownFail() {
-        getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));
-        getDriver().switchTo().frame(getDriver().findElement(By.name("mainframe")));
+        switchToTestLinkFrame();
+        switchToMainFrame();
         Assertion.assertTrue(!documentationDropDown.isDisplayed(), "Documentation drop down is missing");
         getDriver().switchTo().defaultContent();
         return this;
     }
+
+    public TestProjectManagementPage clickTestProjectManagementLink() throws Exception {
+        switchToTestLinkFrame();
+        switchToMainFrame();
+        testProjectManagementLink.click();
+        return new TestProjectManagementPage();
+    }
+
+
 
 
 

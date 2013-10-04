@@ -31,6 +31,7 @@ public class TestLinkLoginPage extends WebPage {
 
     /**
      * Opens log in page
+     *
      * @param openPageUrl
      * @throws Exception
      */

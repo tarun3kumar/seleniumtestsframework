@@ -48,9 +48,9 @@ public class TestLinkLoginTest extends TestPlan {
      * @param user
      * @throws Exception
      */
-    @Test(groups = {"loginTestSuccess"}, dataProvider = "loginData",
+    @Test(groups = {"loginAsValidUser"}, dataProvider = "loginData",
             description = "Logs in to TestLink as admin")
-    public void loginTestSuccess(TestObject testObject, final User user)
+    public void loginAsValidUser(TestObject testObject, final User user)
             throws Exception {
 
         new TestLinkLoginPage(true)
@@ -65,14 +65,31 @@ public class TestLinkLoginTest extends TestPlan {
      * @param user
      * @throws Exception
      */
-    @Test(groups = {"loginTestFailure"}, dataProvider = "loginData",
+    @Test(groups = {"loginAsInvalidUser"}, dataProvider = "loginData",
             description = "Logs in to TestLink as invalid user")
-    public void loginTestFailure(TestObject testObject, final User user)
+    public void loginAsInvalidUser(TestObject testObject, final User user)
             throws Exception {
 
         new TestLinkLoginPage(true)
                 .loginAsInvalidUser(user)
                 .verifyLoginBoxPresence();
+    }
+
+    /**
+     * A failed test
+     *
+     * @param testObject
+     * @param user
+     * @throws Exception
+     */
+    @Test(groups = {"testForFailure"}, dataProvider = "loginData",
+            description = "This test is bound to fail")
+    public void testForFailure(TestObject testObject, final User user)
+            throws Exception {
+
+        new TestLinkLoginPage(true)
+                .loginAsValidUser(user)
+                .verifyDocumentationDropDownFail();
     }
 
 

@@ -1,3 +1,4 @@
 TestObject.TestMethod,TestObject.TestTitle,TestObject.TestSite,User.UserID,User.Password
-loginTestFailure,loginTestFailure,IN,wronguserid,wrongpassword
-loginTestSuccess,loginTestSuccess,IN,admin,admin
+loginAsValidUser,loginAsValidUser,IN,wronguserid,wrongpassword
+loginAsInvalidUser,loginAsInvalidUser,IN,admin,admin
+testForFailure,testForFailure,IN,admin,admin
