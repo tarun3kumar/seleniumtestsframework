@@ -23,15 +23,15 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.seleniumtests.controller.Filter;
 import jxl.Sheet;
 import jxl.Workbook;
 
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.controller.ContextManager;
-import com.seleniumtests.controller.EasyFilter;
 import com.seleniumtests.exception.SeleniumTestsException;
-import com.seleniumtests.util.internal.entity.TestObject;
+import com.seleniumtests.util.internal.entity.TestEntity;
 
 public class SpreadSheetUtil {
 
@@ -104,8 +104,8 @@ public class SpreadSheetUtil {
     }
 
     protected static void formatDPTags(Map<String, Object> rowDataMap) {
-        if (rowDataMap.get(TestObject.TEST_DP_TAGS) != null) {
-            String dpTags = rowDataMap.get(TestObject.TEST_DP_TAGS).toString();
+        if (rowDataMap.get(TestEntity.TEST_DP_TAGS) != null) {
+            String dpTags = rowDataMap.get(TestEntity.TEST_DP_TAGS).toString();
             if (dpTags.trim().length() > 0) {
                 String[] dpTagArray = dpTags.split(",");
                 String tempDPTags = "";
@@ -117,7 +117,7 @@ public class SpreadSheetUtil {
                         tempDPTags = tempDPTags.concat(",");
                     }
                 }
-                rowDataMap.put(TestObject.TEST_DP_TAGS, tempDPTags);
+                rowDataMap.put(TestEntity.TEST_DP_TAGS, tempDPTags);
             }
         }
     }
@@ -158,7 +158,7 @@ public class SpreadSheetUtil {
      * @return
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(Class<?> clazz, String filename, int sheetNumber,
-                                                                         String[] columnNames, EasyFilter filter){
+                                                                         String[] columnNames, Filter filter){
         return SpreadSheetUtil.getDataFromSpreadsheet(clazz, filename, null, sheetNumber, columnNames, filter, false);
     }
 
@@ -170,7 +170,7 @@ public class SpreadSheetUtil {
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(
             Class<?> clazz, String filename, String sheetName, int sheetNumber,
-            String[] fields, EasyFilter filter, boolean readHeaders) {
+            String[] fields, Filter filter, boolean readHeaders) {
         return getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber,
                 fields, filter, readHeaders, true);
     }
@@ -194,7 +194,7 @@ public class SpreadSheetUtil {
 
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(
             Class<?> clazz, String filename, String sheetName, int sheetNumber,
-            String[] fields, EasyFilter filter, boolean readHeaders,
+            String[] fields, Filter filter, boolean readHeaders,
             boolean supportDPFilter) {
 
         System.gc(); // KEEPME
@@ -267,11 +267,11 @@ public class SpreadSheetUtil {
             // Search for Title & Site column
             for (int i = 0; i < columnCount; i++) {
                 if (testTitleColumnIndex == -1
-                        && TestObject.TEST_TITLE.equalsIgnoreCase(sheet
+                        && TestEntity.TEST_TITLE.equalsIgnoreCase(sheet
                         .getCell(i, 0).getContents())) {
                     testTitleColumnIndex = i;
                 } else if (testSiteColumnIndex == -1
-                        && TestObject.TEST_SITE.equalsIgnoreCase(sheet.getCell(
+                        && TestEntity.TEST_SITE.equalsIgnoreCase(sheet.getCell(
                         i, 0).getContents())) {
                     testSiteColumnIndex = i;
                 }
@@ -311,13 +311,13 @@ public class SpreadSheetUtil {
              * Modified by Gary to support include tags and exclude tags
              */
             if (supportDPFilter) {
-                EasyFilter dpFilter = getDPFilter();
+                Filter dpFilter = getDPFilter();
 
                 if (dpFilter != null) {
                     if (filter == null) {
                         filter = dpFilter;
                     } else {
-                        filter = EasyFilter.and(filter, dpFilter);
+                        filter = Filter.and(filter, dpFilter);
                     }
                 }
             }
@@ -404,7 +404,7 @@ public class SpreadSheetUtil {
     }
 
     public static List<Object[]> getDataList(List<Object[]> table,
-                                             EasyFilter filter) {
+                                             Filter filter) {
 
         List<Object[]> sheetData = new ArrayList<Object[]>();
 
@@ -428,24 +428,24 @@ public class SpreadSheetUtil {
         return sheetData;
     }
 
-    protected static EasyFilter getDPFilter() {
+    protected static Filter getDPFilter() {
         String includedTags = ContextManager.getGlobalContext()
                 .getDPTagsInclude();
         String excludedTags = ContextManager.getGlobalContext()
                 .getDPTagsExclude();
 
-        EasyFilter dpFilter = null;
+        Filter dpFilter = null;
         if (includedTags != null && includedTags.trim().length() > 0) {
             String[] includeTagsArray = includedTags.split(",");
             for (int idx = 0; includeTagsArray.length > 0
                     && idx < includeTagsArray.length; idx++) {
                 if (dpFilter == null) {
-                    dpFilter = EasyFilter.containsIgnoreCase(
-                            TestObject.TEST_DP_TAGS,
+                    dpFilter = Filter.containsIgnoreCase(
+                            TestEntity.TEST_DP_TAGS,
                             "[" + includeTagsArray[0].trim() + "]");
                 } else {
-                    dpFilter = EasyFilter.or(dpFilter, EasyFilter
-                            .containsIgnoreCase(TestObject.TEST_DP_TAGS, "["
+                    dpFilter = Filter.or(dpFilter, Filter
+                            .containsIgnoreCase(TestEntity.TEST_DP_TAGS, "["
                                     + includeTagsArray[idx].trim() + "]"));
                 }
             }
@@ -455,13 +455,13 @@ public class SpreadSheetUtil {
             for (int idx = 0; excludeTagsArray.length > 0
                     && idx < excludeTagsArray.length; idx++) {
                 if (dpFilter == null) {
-                    dpFilter = EasyFilter.not(EasyFilter.containsIgnoreCase(
-                            TestObject.TEST_DP_TAGS, "["
+                    dpFilter = Filter.not(Filter.containsIgnoreCase(
+                            TestEntity.TEST_DP_TAGS, "["
                             + excludeTagsArray[idx].trim() + "]"));
                 } else {
-                    dpFilter = EasyFilter.and(dpFilter, EasyFilter
-                            .not(EasyFilter.containsIgnoreCase(
-                                    TestObject.TEST_DP_TAGS, "["
+                    dpFilter = Filter.and(dpFilter, Filter
+                            .not(Filter.containsIgnoreCase(
+                                    TestEntity.TEST_DP_TAGS, "["
                                     + excludeTagsArray[idx].trim()
                                     + "]")));
                 }
@@ -479,7 +479,7 @@ public class SpreadSheetUtil {
      */
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(Class<?> clazz,
                                                                 LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
-                                                                int sheetNumber, String[] fields, EasyFilter filter)
+                                                                int sheetNumber, String[] fields, Filter filter)
             throws Exception {
         return SpreadSheetUtil.getEntitiesFromSpreadsheet(clazz,
                 entityClazzMap, filename, null, sheetNumber, fields, filter);
@@ -507,7 +507,7 @@ public class SpreadSheetUtil {
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(Class<?> clazz,
                                                                 LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
                                                                 String sheetName, int sheetNumber, String[] fields,
-                                                                EasyFilter filter, boolean readHeaders, boolean supportDPFilter) throws Exception {
+                                                                Filter filter, boolean readHeaders, boolean supportDPFilter) throws Exception {
 
         Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz,
                 filename, sheetName, sheetNumber, fields, filter, readHeaders, supportDPFilter);
@@ -537,7 +537,7 @@ public class SpreadSheetUtil {
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(Class<?> clazz,
                                                                 LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
                                                                 String sheetName, int sheetNumber, String[] fields,
-                                                                EasyFilter filter) throws Exception {
+                                                                Filter filter) throws Exception {
 
         Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz,
                 filename, sheetName, sheetNumber, fields, filter, true);
@@ -557,7 +557,7 @@ public class SpreadSheetUtil {
      */
     public static List<Object[]> getEntitiesListFromSpreadsheet(Class<?> clazz,
                                                                 LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
-                                                                int sheetNumber, String[] fields, EasyFilter filter)
+                                                                int sheetNumber, String[] fields, Filter filter)
             throws Exception {
         return SpreadSheetUtil.getEntitiesListFromSpreadsheet(clazz,
                 entityClazzMap, filename, null, sheetNumber, fields, filter);
@@ -583,7 +583,7 @@ public class SpreadSheetUtil {
     public static List<Object[]> getEntitiesListFromSpreadsheet(Class<?> clazz,
                                                                 LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
                                                                 String sheetName, int sheetNumber, String[] fields,
-                                                                EasyFilter filter) throws Exception {
+                                                                Filter filter) throws Exception {
 
         Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz,
                 filename, sheetName, sheetNumber, fields, filter, true);

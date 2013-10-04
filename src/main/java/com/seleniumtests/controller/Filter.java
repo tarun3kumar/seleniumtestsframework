@@ -10,84 +10,84 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * EasyFilter provides a convenient way of retrieving records from spreadsheets
+ * Filter provides a convenient way of retrieving records from spreadsheets
  * as well as emails based on conditions.
  *
  *
  */
 
-public class EasyFilter {
+public class Filter {
 
     // //////////////// Operator Enumeration /////////////
     static enum Operator {
         Equals, EqualsIgnoreCase, Lt, Gt, Between, In, IsNull, Not, Contains, ContainsIgnoreCase, StartsWith, StartsWithIgnoreCase, EndsWith, EndsWithIgnoreCase, Or, And;
     }
 
-    public static EasyFilter and(EasyFilter left, EasyFilter right) {
-        return new EasyFilter(left, right, Operator.And);
+    public static Filter and(Filter left, Filter right) {
+        return new Filter(left, right, Operator.And);
     }
 
-    public static EasyFilter between(String name, Date value1, Date value2) {
-        return new EasyFilter(name, new Object[] { value1, value2 },
+    public static Filter between(String name, Date value1, Date value2) {
+        return new Filter(name, new Object[] { value1, value2 },
                 Operator.Between);
     }
 
-    public static EasyFilter between(String name, Number value1, Number value2) {
-        return new EasyFilter(name, new Object[] { value1, value2 },
+    public static Filter between(String name, Number value1, Number value2) {
+        return new Filter(name, new Object[] { value1, value2 },
                 Operator.Between);
     }
 
-    public static EasyFilter contains(String name, String value) {
-        return new EasyFilter(name, value, Operator.Contains);
+    public static Filter contains(String name, String value) {
+        return new Filter(name, value, Operator.Contains);
     }
 
-    public static EasyFilter containsIgnoreCase(String name, String value) {
-        return new EasyFilter(name, value, Operator.ContainsIgnoreCase);
+    public static Filter containsIgnoreCase(String name, String value) {
+        return new Filter(name, value, Operator.ContainsIgnoreCase);
     }
 
-    public static EasyFilter endsWith(String name, String value) {
-        return new EasyFilter(name, value, Operator.EndsWith);
+    public static Filter endsWith(String name, String value) {
+        return new Filter(name, value, Operator.EndsWith);
     }
 
-    public static EasyFilter endsWithIgnoreCase(String name, String value) {
-        return new EasyFilter(name, value, Operator.EndsWithIgnoreCase);
+    public static Filter endsWithIgnoreCase(String name, String value) {
+        return new Filter(name, value, Operator.EndsWithIgnoreCase);
     }
 
-    public static EasyFilter equals(String name, Object value) {
-        return new EasyFilter(name, value, Operator.Equals);
+    public static Filter equals(String name, Object value) {
+        return new Filter(name, value, Operator.Equals);
     }
 
-    public static EasyFilter equalsIgnoreCase(String name, String value) {
-        return new EasyFilter(name, value, Operator.EqualsIgnoreCase);
+    public static Filter equalsIgnoreCase(String name, String value) {
+        return new Filter(name, value, Operator.EqualsIgnoreCase);
     }
 
-    public static EasyFilter gt(String name, Date value) {
-        return new EasyFilter(name, value, Operator.Gt);
+    public static Filter gt(String name, Date value) {
+        return new Filter(name, value, Operator.Gt);
     }
 
-    public static EasyFilter gt(String name, Number value) {
-        return new EasyFilter(name, value, Operator.Gt);
+    public static Filter gt(String name, Number value) {
+        return new Filter(name, value, Operator.Gt);
     }
 
-    public static EasyFilter in(String name, Object[] values) {
-        return new EasyFilter(name, values, Operator.In);
+    public static Filter in(String name, Object[] values) {
+        return new Filter(name, values, Operator.In);
     }
 
-    public static EasyFilter isNull(String name) {
-        return new EasyFilter(name, (String[]) null, Operator.IsNull);
+    public static Filter isNull(String name) {
+        return new Filter(name, (String[]) null, Operator.IsNull);
     }
 
-    public static EasyFilter lt(String name, Date value) {
-        return new EasyFilter(name, value, Operator.Lt);
+    public static Filter lt(String name, Date value) {
+        return new Filter(name, value, Operator.Lt);
     }
 
-    public static EasyFilter lt(String name, Number value) {
-        return new EasyFilter(name, value, Operator.Lt);
+    public static Filter lt(String name, Number value) {
+        return new Filter(name, value, Operator.Lt);
     }
 
     @SuppressWarnings("deprecation")
     public static void main(String[] st) {
-        EasyFilter f = EasyFilter.between("mydate", new Date("01-JAN-2008"),
+        Filter f = Filter.between("mydate", new Date("01-JAN-2008"),
                 new Date("01-JAN-2011"));
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -105,13 +105,13 @@ public class EasyFilter {
     }
 
     @SuppressWarnings("incomplete-switch")
-    private static boolean match(EasyFilter filter,
+    private static boolean match(Filter filter,
                                  Map<String, Object> parameters) {
         String name = (filter.name != null ? filter.name.toUpperCase() : null);
         Object values[] = filter.values;
         Operator operator = filter.operator;
-        EasyFilter left = filter.left;
-        EasyFilter right = filter.right;
+        Filter left = filter.left;
+        Filter right = filter.right;
 
         if (Operator.And.equals(operator)) {
             return left.match(parameters) && right.match(parameters);
@@ -225,20 +225,20 @@ public class EasyFilter {
 
     // //////////////// Static Methods //////////////////////
 
-    public static EasyFilter not(EasyFilter exp) {
-        return new EasyFilter((EasyFilter) null, exp, Operator.Not);
+    public static Filter not(Filter exp) {
+        return new Filter((Filter) null, exp, Operator.Not);
     }
 
-    public static EasyFilter or(EasyFilter left, EasyFilter right) {
-        return new EasyFilter(left, right, Operator.Or);
+    public static Filter or(Filter left, Filter right) {
+        return new Filter(left, right, Operator.Or);
     }
 
-    public static EasyFilter startsWith(String name, String value) {
-        return new EasyFilter(name, value, Operator.StartsWith);
+    public static Filter startsWith(String name, String value) {
+        return new Filter(name, value, Operator.StartsWith);
     }
 
-    public static EasyFilter startsWithIgnoreCase(String name, String value) {
-        return new EasyFilter(name, value, Operator.StartsWithIgnoreCase);
+    public static Filter startsWithIgnoreCase(String name, String value) {
+        return new Filter(name, value, Operator.StartsWithIgnoreCase);
     }
 
     private String name;
@@ -247,28 +247,28 @@ public class EasyFilter {
 
     private Operator operator;
 
-    private EasyFilter left;
+    private Filter left;
 
-    private EasyFilter right;
+    private Filter right;
 
-    private EasyFilter(EasyFilter left, EasyFilter right, Operator condition) {
+    private Filter(Filter left, Filter right, Operator condition) {
         this.left = left;
         this.right = right;
         this.operator = condition;
     }
 
-    public EasyFilter(String name, Object value, Operator condition) {
+    public Filter(String name, Object value, Operator condition) {
         this(name, new Object[] { value }, condition);
     }
 
-    public EasyFilter(String name, Object[] values, Operator condition) {
+    public Filter(String name, Object[] values, Operator condition) {
         super();
         this.name = name;
         this.values = values;
         this.operator = condition;
     }
 
-    public EasyFilter getLeft() {
+    public Filter getLeft() {
         return left;
     }
 
@@ -280,7 +280,7 @@ public class EasyFilter {
         return operator;
     }
 
-    public EasyFilter getRight() {
+    public Filter getRight() {
         return right;
     }
 
@@ -296,7 +296,7 @@ public class EasyFilter {
         return match(this, parameters2);
     }
 
-    public void setLeft(EasyFilter left) {
+    public void setLeft(Filter left) {
         this.left = left;
     }
 
@@ -308,7 +308,7 @@ public class EasyFilter {
         this.operator = condition;
     }
 
-    public void setRight(EasyFilter right) {
+    public void setRight(Filter right) {
         this.right = right;
     }
 

@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.seleniumtests.controller.Filter;
+import com.seleniumtests.util.internal.entity.TestEntity;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.EasyFilter;
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.exception.SeleniumTestsException;
-import com.seleniumtests.util.internal.entity.TestObject;
 
 public class CSVUtil {
     private static Logger logger = Logging.getLogger(CSVUtil.class);
@@ -41,11 +41,11 @@ public class CSVUtil {
      * @return
      * @throws Exception
      */
-    public static Iterator<Object[]> getDataFromCSVFile(Class<?> clazz, String filename, String[] fields, EasyFilter filter, boolean readHeaders, boolean supportDPFilter) {
+    public static Iterator<Object[]> getDataFromCSVFile(Class<?> clazz, String filename, String[] fields, Filter filter, boolean readHeaders, boolean supportDPFilter) {
         return getDataFromCSVFile(clazz, filename, fields, filter, readHeaders, null, supportDPFilter);
     }
 
-    public static Iterator<Object[]> getDataFromCSVFile(Class<?> clazz, String filename, String[] fields, EasyFilter filter, boolean readHeaders, String delimiter, boolean supportDPFilter) {
+    public static Iterator<Object[]> getDataFromCSVFile(Class<?> clazz, String filename, String[] fields, Filter filter, boolean readHeaders, String delimiter, boolean supportDPFilter) {
 
         InputStream is = null;
         try {
@@ -79,9 +79,9 @@ public class CSVUtil {
             int testSiteColumnIndex = -1;
             // Search for Title & Site column
             for (int i = 0; i < csvData[0].length; i++) {
-                if (testTitleColumnIndex == -1 && TestObject.TEST_TITLE.equalsIgnoreCase(csvData[0][i])) {
+                if (testTitleColumnIndex == -1 && TestEntity.TEST_TITLE.equalsIgnoreCase(csvData[0][i])) {
                     testTitleColumnIndex = i;
-                } else if (testSiteColumnIndex == -1 && TestObject.TEST_SITE.equalsIgnoreCase(csvData[0][i])) {
+                } else if (testSiteColumnIndex == -1 && TestEntity.TEST_SITE.equalsIgnoreCase(csvData[0][i])) {
                     testSiteColumnIndex = i;
                 }
 
@@ -109,13 +109,13 @@ public class CSVUtil {
              * Modified by Gary to support include tags and exclude tags
              */
             if (supportDPFilter) {
-                EasyFilter dpFilter = SpreadSheetUtil.getDPFilter();
+                Filter dpFilter = SpreadSheetUtil.getDPFilter();
 
                 if (dpFilter != null) {
                     if (filter == null) {
                         filter = dpFilter;
                     } else {
-                        filter = EasyFilter.and(filter, dpFilter);
+                        filter = Filter.and(filter, dpFilter);
                     }
                 }
             }

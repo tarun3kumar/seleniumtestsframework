@@ -59,7 +59,7 @@ public class Context {
 	public static final String API_PROXY_PORT = "apiProxyPort";
 
 	public static final String API_CONTEXT = "apiContext";
-	public static final String TEST_OBJECT = "testObject";
+	public static final String TEST_Entity = "testEntity";
 
 	public static final String OPEN_REPORT_IN_BROWSER = "openReportInBrowser";
 	public static final String CAPTURE_SNAPSHOT = "captureSnapshot";
@@ -475,8 +475,8 @@ public class Context {
 		return testNGContext;
 	}
 
-	public Object getTestObject() {
-		return getAttribute(TEST_OBJECT);
+	public Object getTestEntity() {
+		return getAttribute(TEST_Entity);
 	}
 
 	@SuppressWarnings("unchecked")

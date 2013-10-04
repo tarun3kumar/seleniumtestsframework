@@ -2,13 +2,13 @@ package com.seleniumtests.util.internal.entity;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class TestObject {
-    public static final String TEST_CASE_ID = "TestObject.TestCaseId";
-    public static final String TEST_METHOD = "TestObject.TestMethod";
-    public static final String TEST_TITLE = "TestObject.TestTitle";
-    public static final String TEST_SITE = "TestObject.TestSite";
-    public static final String TEST_DP_TAGS = "TestObject.TestTags";
-    public static final String TEST_IS_ACTIVE = "TestObject.IsActive";
+public class TestEntity {
+    public static final String TEST_CASE_ID = "TestEntity.TestCaseId";
+    public static final String TEST_METHOD = "TestEntity.TestMethod";
+    public static final String TEST_TITLE = "TestEntity.TestTitle";
+    public static final String TEST_SITE = "TestEntity.TestSite";
+    public static final String TEST_DP_TAGS = "TestEntity.TestTags";
+    public static final String TEST_IS_ACTIVE = "TestEntity.IsActive";
 
     private String testCaseId = "";
     private String testMethod = "";
