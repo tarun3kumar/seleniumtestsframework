@@ -7,20 +7,20 @@ import org.testng.Assert;
 import org.testng.Reporter;
 
 /**
- * A enhanced Assertion supports soft assert. It uses soft assert if context
+ * A enhanced CustomAssertion supports soft assert. It uses soft assert if context
  * softAssertEnabled is true.
  * 
  * soft assert - test case continues when validation fails.
  * 
  */
-public class Assertion {
+public class CustomAssertion {
 
 	private static void _addVerificationFailure(Throwable e) {
 		ContextManager.getThreadContext().addVerificationFailures(Reporter.getCurrentTestResult(), e);
 		Logging.log(null, "ASSERTION FAILED: " + e.getMessage(), true, true);
 	}
 
-	// /////////////// Assertion Methods ////////////////////////////
+	// /////////////// CustomAssertion Methods ////////////////////////////
 
 	public static void assertEquals(boolean actual, boolean expected, String message) {
 		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
@@ -183,7 +183,7 @@ public class Assertion {
 		return ContextManager.getThreadContext().getVerificationFailures(Reporter.getCurrentTestResult());
 	}
 
-	// /////////////// Soft Assertion Methods ////////////////////////////
+	// /////////////// Soft CustomAssertion Methods ////////////////////////////
 
 	public static void softAssertEquals(boolean actual, boolean expected, String message) {
 

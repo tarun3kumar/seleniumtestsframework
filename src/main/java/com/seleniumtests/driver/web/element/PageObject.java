@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.seleniumtests.controller.*;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.apache.log4j.Logger;
@@ -23,11 +24,7 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.testng.Assert;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.seleniumtests.controller.AbstractPageListener;
-import com.seleniumtests.controller.Assertion;
-import com.seleniumtests.controller.ContextManager;
-import com.seleniumtests.controller.HTTPStatusCode;
-import com.seleniumtests.controller.Logging;
+import com.seleniumtests.controller.CustomAssertion;
 import com.seleniumtests.driver.web.BaseWebUtil;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;
@@ -629,7 +626,7 @@ public class PageObject extends BasePage implements IPage {
 
 	// add for avoid compile error for migration
 	public String getEval(String expression) {
-		Assertion.assertTrue(false, "focus not implemented yet");
+		CustomAssertion.assertTrue(false, "focus not implemented yet");
 		return null;
 	}
 

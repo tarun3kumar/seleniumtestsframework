@@ -1,5 +1,6 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.CustomAssertion;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidSelectorException;
@@ -13,7 +14,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import com.seleniumtests.controller.Assertion;
 import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.Keyword;
 import com.seleniumtests.controller.Logging;
@@ -144,13 +144,13 @@ public abstract class BasePage {
 	void assertHTML(boolean condiition, String message) {
 		if (!condiition) {
 			capturePageSnapshot();
-			Assertion.assertTrue(condiition, message);
+			CustomAssertion.assertTrue(condiition, message);
 		}
 	}
 	
 	void assertAlertHTML(boolean condiition, String message) {
 		if (!condiition) {
-			Assertion.assertTrue(condiition, message);
+			CustomAssertion.assertTrue(condiition, message);
 		}
 	}
 
@@ -318,7 +318,7 @@ public abstract class BasePage {
 	}
 
 	public boolean isTextPresent(String text) {
-		Assertion
+		CustomAssertion
 				.assertNotNull(text, "isTextPresent: text should not be null!");
 		driver = WebUXDriver.getWebDriver();
 		WebElement body = driver.findElement(By.tagName("body"));

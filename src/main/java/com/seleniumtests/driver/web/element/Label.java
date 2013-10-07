@@ -2,7 +2,7 @@ package com.seleniumtests.driver.web.element;
 
 import org.openqa.selenium.By;
 
-import com.seleniumtests.controller.Assertion;
+import com.seleniumtests.controller.CustomAssertion;
 import com.seleniumtests.controller.Logging;
 
 public class Label extends HtmlElement {
@@ -28,7 +28,7 @@ public class Label extends HtmlElement {
 	@Deprecated
 	public String getExpectedText()
 	{
-		Assertion.assertTrue(false,"Not supported!");
+		CustomAssertion.assertTrue(false, "Not supported!");
 		return null;
 	}
 }

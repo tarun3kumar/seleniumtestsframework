@@ -52,7 +52,7 @@ import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
 import com.seleniumtests.controller.AbstractPageListener;
-import com.seleniumtests.controller.Assertion;
+import com.seleniumtests.controller.CustomAssertion;
 import com.seleniumtests.controller.Context;
 import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.Logging;
@@ -180,12 +180,12 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 			Logging.log("<div><table><tr bgcolor=\"yellow\"><td><b>-- Screenshot of current web page with webdriver exception --</b><td></tr></table></div>");
 			Logging.logWebOutput(screenShot.getTitle(), Logging.buildScreenshotLog(screenShot), true);
 		}
-		//Handle Soft Assertion
+		//Handle Soft CustomAssertion
 		if (method.isTestMethod()) {
-			List<Throwable> verificationFailures = Assertion.getVerificationFailures();
+			List<Throwable> verificationFailures = CustomAssertion.getVerificationFailures();
 			
 			int size = verificationFailures.size();
-				//Assertion.fail("Test case faield with "+Assertion.getVerificationFailures().size()+" errors!");
+				//CustomAssertion.fail("Test case faield with "+CustomAssertion.getVerificationFailures().size()+" errors!");
 			if(size==0)return;
 			else
 				if(result.getStatus()==TestResult.FAILURE) return;
