@@ -1,6 +1,6 @@
 package com.seleniumtests.tests;
 
-import static com.seleniumtests.controller.Assertion.*;
+import static com.seleniumtests.controller.CustomAssertion.*;
 
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.controller.SeleniumTestPlan;

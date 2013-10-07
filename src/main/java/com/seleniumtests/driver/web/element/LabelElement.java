@@ -5,12 +5,12 @@ import org.openqa.selenium.By;
 import com.seleniumtests.controller.CustomAssertion;
 import com.seleniumtests.controller.Logging;
 
-public class Label extends HtmlElement {
-	public Label(String label, By by) {
+public class LabelElement extends HtmlElement {
+	public LabelElement(String label, By by) {
 		super(label, by);
 	}
 
-	public Label(String label, String locator) {
+	public LabelElement(String label, String locator) {
 		super(label, locator);
 	}
 

@@ -2,13 +2,13 @@ package com.seleniumtests.driver.web.element;
 
 import org.openqa.selenium.By;
 
-public class Image extends HtmlElement {
+public class ImageElement extends HtmlElement {
 
-	public Image(String label, By by) {
+	public ImageElement(String label, By by) {
 		super(label, by);
 	}
 
-	public Image(String label, String locator) {
+	public ImageElement(String label, String locator) {
 		super(label, locator);
 	}
 

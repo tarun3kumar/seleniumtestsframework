@@ -1,10 +1,10 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.controller.Assertion;
+import com.seleniumtests.controller.CustomAssertion;
 import com.seleniumtests.dataobject.User;
-import com.seleniumtests.driver.web.element.Button;
-import com.seleniumtests.driver.web.element.Link;
-import com.seleniumtests.driver.web.element.TextField;
+import com.seleniumtests.driver.web.element.ButtonElement;
+import com.seleniumtests.driver.web.element.LinkElement;
+import com.seleniumtests.driver.web.element.TextFieldElement;
 import com.seleniumtests.driver.web.element.PageObject;
 import org.openqa.selenium.By;
 
@@ -19,8 +19,8 @@ public class TestLinkLoginPage extends PageObject {
     private static final String PAGE_URL = "http://www.seleniumtests.com/2013/08/demo-test-link-site.html";
 
     // Page identifier field is set to seleniumtests.com as TestLink appears in iframe
-    private static Link seleniumTrainingLink = new Link("Selenium Training Link", By.linkText("Free Selenium Training"));
-    private static TextField loginTextBox = new TextField("Login Text Box", By.id("login"));
+    private static LinkElement seleniumTrainingLink = new LinkElement("Selenium Training LinkElement", By.linkText("Free Selenium Training"));
+    private static TextFieldElement loginTextBox = new TextFieldElement("Login Text Box", By.id("login"));
 
 
     public TestLinkLoginPage() throws Exception {
@@ -39,8 +39,8 @@ public class TestLinkLoginPage extends PageObject {
         getDriver().switchTo().frame(getDriver().findElement(By.id("testlink"))); // Switch to test link frame
     }
 
-    private TextField passwordTextBox = new TextField("Password Te  xt Box", By.name("tl_password"));
-    private Button loginButton = new Button("Login Button", By.name("login_submit"));
+    private TextFieldElement passwordTextBox = new TextFieldElement("Password Te  xt Box", By.name("tl_password"));
+    private ButtonElement loginButton = new ButtonElement("Login ButtonElement", By.name("login_submit"));
 
     /**
      * Logging in with valid credentials direct user to home page
@@ -77,7 +77,7 @@ public class TestLinkLoginPage extends PageObject {
 
     public TestLinkLoginPage verifyLoginBoxPresence() {
         getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));
-        Assertion.assertTrue(isElementPresent(loginTextBox.getBy()), "Invalid credentials don't block user from logging in");
+        CustomAssertion.assertTrue(isElementPresent(loginTextBox.getBy()), "Invalid credentials don't block user from logging in");
         return this;
     }
 }

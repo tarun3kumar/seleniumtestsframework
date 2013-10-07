@@ -4,13 +4,13 @@ import org.openqa.selenium.By;
 
 import com.seleniumtests.controller.Logging;
 
-public class CheckBox extends HtmlElement {
+public class CheckBoxElement extends HtmlElement {
 
-	public CheckBox(String label, By by) {
+	public CheckBoxElement(String label, By by) {
 		super(label, by);
 	}
 
-	public CheckBox(String label, String locator) {
+	public CheckBoxElement(String label, String locator) {
 		super(label, locator);
 	}
 

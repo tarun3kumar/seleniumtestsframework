@@ -1,8 +1,8 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.driver.web.element.Button;
+import com.seleniumtests.driver.web.element.ButtonElement;
 import com.seleniumtests.driver.web.element.SelectList;
-import com.seleniumtests.driver.web.element.TextField;
+import com.seleniumtests.driver.web.element.TextFieldElement;
 import com.seleniumtests.driver.web.element.PageObject;
 import org.openqa.selenium.By;
 
@@ -18,11 +18,11 @@ public class TestProjectManagementPage extends PageObject {
         super();
     }
 
-    private static Button createTestProjectButton = new Button("Create Test Project", By.id("create"));
+    private static ButtonElement createTestProjectButton = new ButtonElement("Create Test Project", By.id("create"));
     private static SelectList createFromExistingTestProject = new SelectList("Create from Existing", By.name("copy_from_tproject_id"));
-    private static TextField name = new TextField("Name ", By.name("tprojectName"));
-    private static TextField testCaseIdPrefix = new TextField("Text Case Prefix", By.name("tcasePrefix"));
-    private static Button createButton = new Button("Create", By.name("doActionButton"));
+    private static TextFieldElement name = new TextFieldElement("Name ", By.name("tprojectName"));
+    private static TextFieldElement testCaseIdPrefix = new TextFieldElement("Text Case Prefix", By.name("tcasePrefix"));
+    private static ButtonElement createButton = new ButtonElement("Create", By.name("doActionButton"));
 
     public TestProjectManagementPage switchToTestLinkFrame() {
         getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));

@@ -8,13 +8,13 @@ import com.seleniumtests.driver.web.BrowserType;
 import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.helper.ThreadHelper;
 
-public class Button extends HtmlElement {
+public class ButtonElement extends HtmlElement {
 
-	public Button(String label, By by) {
+	public ButtonElement(String label, By by) {
 		super(label, by);
 	}
 
-	public Button(String label, String locator) {
+	public ButtonElement(String label, String locator) {
 		super(label, locator);
 	}
 

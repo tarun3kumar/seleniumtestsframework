@@ -357,7 +357,7 @@ public class FileHelper {
 	}
 
 	/**
-	 * Creates Image from bytes and stores it
+	 * Creates ImageElement from bytes and stores it
 	 * 
 	 * @param path
 	 * @param screenShot

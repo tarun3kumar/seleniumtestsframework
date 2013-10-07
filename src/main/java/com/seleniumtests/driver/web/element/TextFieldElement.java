@@ -5,12 +5,12 @@ import org.openqa.selenium.WebDriverException;
 
 import com.seleniumtests.controller.Logging;
 
-public class TextField extends HtmlElement {
-	public TextField(String label, By by) {
+public class TextFieldElement extends HtmlElement {
+	public TextFieldElement(String label, By by) {
 		super(label, by);
 	}
 
-	public TextField(String label, String locator) {
+	public TextFieldElement(String label, String locator) {
 		super(label, locator);
 	}
 

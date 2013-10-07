@@ -5,13 +5,13 @@ import org.openqa.selenium.By;
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.helper.URLHelper;
 
-public class Link extends HtmlElement {
+public class LinkElement extends HtmlElement {
 
-	public Link(String label, By by) {
+	public LinkElement(String label, By by) {
 		super(label, by);
 	}
 
-	public Link(String label, String locator) {
+	public LinkElement(String label, String locator) {
 		super(label, locator);
 	}
 

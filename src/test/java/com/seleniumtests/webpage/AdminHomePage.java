@@ -1,7 +1,7 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.controller.Assertion;
-import com.seleniumtests.driver.web.element.Link;
+import com.seleniumtests.controller.CustomAssertion;
+import com.seleniumtests.driver.web.element.LinkElement;
 import com.seleniumtests.driver.web.element.SelectList;
 import com.seleniumtests.driver.web.element.PageObject;
 import org.openqa.selenium.By;
@@ -20,7 +20,7 @@ public class AdminHomePage extends PageObject {
         super(); // No check on page identification
     }
 
-    private Link testProjectManagementLink = new Link("Test Project Management Link", By.linkText("Test Project Management"));
+    private LinkElement testProjectManagementLink = new LinkElement("Test Project Management LinkElement", By.linkText("Test Project Management"));
     private SelectList testProjectDropdown = new SelectList("Test Project Dropdown", By.name("testproject"));
 
     public AdminHomePage switchToTestLinkFrame() {
@@ -49,7 +49,7 @@ public class AdminHomePage extends PageObject {
     public AdminHomePage verifyDocumentationDropDown() {
         switchToTestLinkFrame();
         switchToMainFrame();
-        Assertion.assertTrue(documentationDropDown.isDisplayed(), "Documentation drop down is missing");
+        CustomAssertion.assertTrue(documentationDropDown.isDisplayed(), "Documentation drop down is missing");
         getDriver().switchTo().defaultContent();
         return this;
     }
@@ -57,7 +57,7 @@ public class AdminHomePage extends PageObject {
     public AdminHomePage verifyDocumentationDropDownFail() {
         switchToTestLinkFrame();
         switchToMainFrame();
-        Assertion.assertTrue(!documentationDropDown.isDisplayed(), "Documentation drop down is missing");
+        CustomAssertion.assertTrue(!documentationDropDown.isDisplayed(), "Documentation drop down is missing");
         getDriver().switchTo().defaultContent();
         return this;
     }

@@ -35,7 +35,7 @@ import com.seleniumtests.helper.ThreadHelper;
 
 /**
  * This is base HTML element class which provides general methods to interact
- * with a web page. All specific HTML element (Button, Link, TextField, etc.)
+ * with a web page. All specific HTML element (ButtonElement, LinkElement, TextFieldElement, etc.)
  * extends from this class.
  * 
  */
@@ -622,7 +622,7 @@ public class HtmlElement {
 	}
 
 	/**
-	 * Converts the Type, Locator and Label attributes of the HtmlElement into a
+	 * Converts the Type, Locator and LabelElement attributes of the HtmlElement into a
 	 * readable and report-friendly string
 	 * 
 	 * @return
@@ -634,7 +634,7 @@ public class HtmlElement {
 	}
 
 	/**
-	 * Returns a friendly string, representing the HtmlElement's Type, Label and
+	 * Returns a friendly string, representing the HtmlElement's Type, LabelElement and
 	 * Locator
 	 */
 	public String toString() {

@@ -155,19 +155,19 @@ public abstract class BasePage {
 	}
 
 	@Deprecated
-	public void assertLabelNotPresent(Label label) {
-		Logging.logWebStep(null, "assert " + label.toHTML()
+	public void assertLabelNotPresent(LabelElement labelElement) {
+		Logging.logWebStep(null, "assert " + labelElement.toHTML()
 				+ " is not present.", false);
-		assertHTML(!isTextPresent(getKeywordValue(label.getLabel())),
-				"Label: {" + label.getExpectedText() + "} found.");
+		assertHTML(!isTextPresent(getKeywordValue(labelElement.getLabel())),
+				"LabelElement: {" + labelElement.getExpectedText() + "} found.");
 	}
 
 	@Deprecated
-	public void assertLabelPresent(Label label) {
-		Logging.logWebStep(null, "assert " + label.toHTML() + " is present.",
+	public void assertLabelPresent(LabelElement labelElement) {
+		Logging.logWebStep(null, "assert " + labelElement.toHTML() + " is present.",
 				false);
-		assertHTML(isTextPresent(getKeywordValue(label.getLabel())), "Label: {"
-				+ label.getExpectedText() + "} not found.");
+		assertHTML(isTextPresent(getKeywordValue(labelElement.getLabel())), "LabelElement: {"
+				+ labelElement.getExpectedText() + "} not found.");
 	}
 
 	public void assertPromptText(String text) {
