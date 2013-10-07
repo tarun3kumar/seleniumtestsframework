@@ -3,7 +3,7 @@
 	verbose="1" thread-count="5">
 	<listeners>
 		<listener class-name="com.seleniumtests.reporter.HTMLReporter" />
-		<!--<listener class-name="com.seleniumtests.controller.TestRetryListener" />-->
+		<listener class-name="com.seleniumtests.controller.TestRetryListener" />
 
 	</listeners>
 
@@ -30,7 +30,7 @@
 			<class name="com.seleniumtests.tests.RetryTest1" />
 		</classes>
 	</test>
-	<test name="Retry Test 2" parallel="methods">
+	<test name="Never Retry Test" parallel="methods">
 		<groups>
 			<run>
 				<include name="retryTest2" />
@@ -41,7 +41,7 @@
 		</classes>
 	</test>
 
-    <test name="Soft Assertion Test" parallel="methods">
+    <test name="Soft CustomAssertion Test" parallel="methods">
         <groups>
             <run>
                 <include name="softAssertionTest" />
@@ -52,7 +52,7 @@
         </classes>
     </test>
 
-    <test name="Test Link Login Test" parallel="methods">
+    <test name="Test LinkElement Login Test" parallel="methods">
         <groups>
             <run>
                 <include name="loginAsValidUser" />
@@ -65,7 +65,7 @@
         </classes>
     </test>
 
-    <test name="Test Link Navigation Test" parallel="methods">
+    <test name="Test LinkElement Navigation Test" parallel="methods">
         <groups>
             <run>
                 <include name="createTestProject" />
@@ -75,7 +75,5 @@
             <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
     </test>
-
-
 
 </suite> 
