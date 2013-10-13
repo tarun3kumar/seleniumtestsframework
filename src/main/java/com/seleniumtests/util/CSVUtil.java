@@ -77,14 +77,11 @@ public class CSVUtil {
 
             int testTitleColumnIndex = -1;
             int testSiteColumnIndex = -1;
-            // Search for Title & Site column
+            // Search for Title
             for (int i = 0; i < csvData[0].length; i++) {
                 if (testTitleColumnIndex == -1 && TestEntity.TEST_TITLE.equalsIgnoreCase(csvData[0][i])) {
                     testTitleColumnIndex = i;
-                } else if (testSiteColumnIndex == -1 && TestEntity.TEST_SITE.equalsIgnoreCase(csvData[0][i])) {
-                    testSiteColumnIndex = i;
                 }
-
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1)
                     break;
             }
@@ -99,7 +96,7 @@ public class CSVUtil {
             }
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new SeleniumTestsException("Blank TestTitle and/or Site value(s) found on Row(s) " + sbBlank.toString() + ".");
+                throw new SeleniumTestsException("Blank TestTitle found on Row(s) " + sbBlank.toString() + ".");
             }
 
             Set<String> uniqueDataSet = new TreeSet<String>();
@@ -123,11 +120,11 @@ public class CSVUtil {
             // The first row is the header
             for (int i = 1; i < csvData.length; i++) {
 
-                // Check for duplicate Title & Site
+                // Check for duplicate Title
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
                     String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$" + csvData[i][testSiteColumnIndex];
                     if (uniqueDataSet.contains(uniqueString))
-                        throw new SeleniumTestsException("Duplicate TestTitle and Site combination found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
+                        throw new SeleniumTestsException("Duplicate TestTitle found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
 
                     uniqueDataSet.add(uniqueString);
                 }

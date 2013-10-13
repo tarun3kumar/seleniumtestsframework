@@ -24,8 +24,6 @@ public class HtmlUnitDriverFactory extends AbstractWebDriverFactory implements I
 		if(cfg.getPageLoadTimeout()>=0)
 		{
 			Logging.log("htmlunit doesn't support pageLoadTimeout, ignoring...");
-			//java.lang.RuntimeException: java.lang.UnsupportedOperationException: pageLoadTimeout
-			//driver.manage().timeouts().pageLoadTimeout(cfg.getPageLoadTimeout(), TimeUnit.SECONDS);
 		}
 		
 		this.setWebDriver(driver);

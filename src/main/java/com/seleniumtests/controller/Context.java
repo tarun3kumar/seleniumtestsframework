@@ -22,8 +22,7 @@ import com.seleniumtests.reporter.PluginsUtil;
 public class Context {
 	/* The config defined in testng.xml */
 	public static final String TEST_CONFIG = "testConfig";
-	public static final String SITE = "site";
-	public static final String APP_URL = "appURL";	
+	public static final String APP_URL = "appURL";
     public static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
 	public static final String IMPLICIT_WAIT_TIME_OUT = "implicitWaitTimeOut";
 	public static final String EXPLICIT_WAIT_TIME_OUT = "explicitWaitTimeOut";
@@ -76,9 +75,6 @@ public class Context {
 
 	/* running time context */
 	public static final String TEST_METHOD_SIGNATURE = "testMethodSignature";
-	public static final String TEST_METHOD_PC_MAP = "TestMethodPCMap";
-
-	public static final String TEST_PC_MAP = "TestPCMap";
 	public static final String PLUGIN_CONFIG_PATH = "pluginConfigPath";
 
 	/* test data file */
@@ -128,7 +124,7 @@ public class Context {
 
 		setContextAttribute(context, TEST_DATA_FILE,
 				System.getProperty(TEST_DATA_FILE), "testCase");
-		setContextAttribute(context, SITE, System.getProperty(SITE), "US");
+//		setContextAttribute(context, SITE, System.getProperty(SITE), "US");
 		setContextAttribute(context, WEB_SESSION_TIME_OUT,
 				System.getProperty(WEB_SESSION_TIME_OUT), "90000");
 		setContextAttribute(context, IMPLICIT_WAIT_TIME_OUT,
@@ -400,34 +396,8 @@ public class Context {
 		}
 	}
 
-	public String getPCSettings() {
-		Context ctx = ContextManager.getThreadContext();
-		@SuppressWarnings("unchecked")
-		Map<String, Boolean> map = (Map<String, Boolean>) ctx
-				.getAttribute(Context.TEST_PC_MAP);
-
-		if (map != null) {
-			StringBuffer sb = new StringBuffer();
-			// Site site = Site.valueOf(ctx.getSite());
-			for (Entry<String, Boolean> entry : map.entrySet()) {
-				sb.append(entry.getKey() + "=" + (entry.getValue() ? "t" : "f")
-						+ ",");
-			}
-			if (sb.length() > 0)
-				sb.deleteCharAt(sb.length() - 1);
-
-			return "PC<<" + sb.toString() + ">>";
-		}
-
-		return null;
-	}
-
 	public String getPlatform() {
 		return (String) getAttribute(WEB_RUN_PLATFORM);
-	}
-
-	public String getSite() {
-		return (String) getAttribute(SITE);
 	}
 	
 	public String getAppURL() {
@@ -477,11 +447,6 @@ public class Context {
 
 	public Object getTestEntity() {
 		return getAttribute(TEST_Entity);
-	}
-
-	@SuppressWarnings("unchecked")
-	public Map<Integer, Boolean> getTestPCMap() {
-		return (Map<Integer, Boolean>) getAttribute(TEST_PC_MAP);
 	}
 
 	public String getWebDriverListener() {
@@ -626,10 +591,6 @@ public class Context {
 
 	public void setPageLoadTimeout(int timeout) {
 		setAttribute(PAGE_LOAD_TIME_OUT, timeout);
-	}
-
-	public void setSite(String site) {
-		setAttribute(SITE, site);
 	}
 
 	public void setTestDataFile(String testDataFile) {

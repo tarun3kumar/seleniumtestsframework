@@ -365,21 +365,11 @@ public class WebUXDriver {
 					.parseBoolean(ContextManager.getThreadContext()
 							.getAddJSErrorCollectorExtension()));
 		String ua = null;
-		if (ContextManager.getThreadContext().getPCSettings() != null) {
-			if (ContextManager.getThreadContext().getUserAgent() != null) {
-				ua = ContextManager.getThreadContext().getPCSettings() + " "
-						+ ContextManager.getThreadContext().getUserAgent();
-			} else {
-				ua = ContextManager.getThreadContext().getPCSettings()
-						+ " Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0";
-			}
-		} else {
 			if (ContextManager.getThreadContext().getUserAgent() != null) {
 				ua = ContextManager.getThreadContext().getUserAgent();
 			} else {
 				ua = null;
 			}
-		}
 		config.setUserAgentOverride(ua);
 		String listeners = ContextManager.getThreadContext()
 				.getWebDriverListener();

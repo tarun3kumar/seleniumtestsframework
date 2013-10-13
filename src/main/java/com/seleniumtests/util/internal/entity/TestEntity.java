@@ -6,7 +6,6 @@ public class TestEntity {
     public static final String TEST_CASE_ID = "TestEntity.TestCaseId";
     public static final String TEST_METHOD = "TestEntity.TestMethod";
     public static final String TEST_TITLE = "TestEntity.TestTitle";
-    public static final String TEST_SITE = "TestEntity.TestSite";
     public static final String TEST_DP_TAGS = "TestEntity.TestTags";
     public static final String TEST_IS_ACTIVE = "TestEntity.IsActive";
 
@@ -73,9 +72,6 @@ public class TestEntity {
         }
         if (StringUtils.isNotEmpty(testTitle)) {
             ret.append("|TestTitle=" + testTitle);
-        }
-        if (StringUtils.isNotEmpty(testSite)) {
-            ret.append("|Site=" + testSite);
         }
         if (StringUtils.isNotEmpty(testTags)) {
             ret.append("|DPTag=" + testTags);

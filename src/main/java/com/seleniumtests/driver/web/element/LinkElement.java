@@ -1,9 +1,9 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.helper.URLAssistant;
 import org.openqa.selenium.By;
 
 import com.seleniumtests.controller.Logging;
-import com.seleniumtests.helper.URLHelper;
 
 public class LinkElement extends HtmlElement {
 
@@ -27,7 +27,7 @@ public class LinkElement extends HtmlElement {
 	 */
 	public boolean isValid() {
 		try {
-			URLHelper.open(getAttribute("href"));
+			URLAssistant.open(getAttribute("href"));
 			return true;
 		} catch (Exception e) {
 		}

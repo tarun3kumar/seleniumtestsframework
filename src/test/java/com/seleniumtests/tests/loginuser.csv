@@ -1,4 +1,4 @@
-TestEntity.TestMethod,TestEntity.TestTitle,TestEntity.TestSite,User.UserID,User.Password
-loginAsInvalidUser,loginAsValidUser,IN,wronguserid,wrongpassword
-loginAsValidUser,loginAsInvalidUser,IN,admin,admin
-testForFailure,testForFailure,IN,admin,admin
+TestEntity.TestCaseId,TestEntity.TestMethod,TestEntity.TestTitle,User.UserID,User.Password
+testcaseid1,loginAsInvalidUser,loginAsInvalidUser,wronguserid,wrongpassword
+testcaseid2,loginAsValidUser,loginAsValidUser,admin,admin
+testcaseid3,testForFailure,testForFailure,admin,admin

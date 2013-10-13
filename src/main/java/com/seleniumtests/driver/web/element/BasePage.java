@@ -14,8 +14,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import com.seleniumtests.controller.ContextManager;
-import com.seleniumtests.controller.Keyword;
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.BrowserType;
 import com.seleniumtests.driver.web.WebUXDriver;
@@ -153,23 +151,6 @@ public abstract class BasePage {
 			CustomAssertion.assertTrue(condiition, message);
 		}
 	}
-
-	@Deprecated
-	public void assertLabelNotPresent(LabelElement labelElement) {
-		Logging.logWebStep(null, "assert " + labelElement.toHTML()
-				+ " is not present.", false);
-		assertHTML(!isTextPresent(getKeywordValue(labelElement.getLabel())),
-				"LabelElement: {" + labelElement.getExpectedText() + "} found.");
-	}
-
-	@Deprecated
-	public void assertLabelPresent(LabelElement labelElement) {
-		Logging.logWebStep(null, "assert " + labelElement.toHTML() + " is present.",
-				false);
-		assertHTML(isTextPresent(getKeywordValue(labelElement.getLabel())), "LabelElement: {"
-				+ labelElement.getExpectedText() + "} not found.");
-	}
-
 	public void assertPromptText(String text) {
 		Logging.logWebStep(null, "assert prompt text.", false);
 		Alert alert = driver.switchTo().alert();
@@ -274,12 +255,6 @@ public abstract class BasePage {
 		driver = WebUXDriver.getWebDriver();
 		return driver;
 
-	}
-
-	public String getKeywordValue(String key) {
-		String site = null;
-			site = ContextManager.getThreadContext().getSite();
-		return Keyword.get(this.getClass(), key, site);
 	}
 
 	// ////////////////////// Wait Methods ////////////////////////////

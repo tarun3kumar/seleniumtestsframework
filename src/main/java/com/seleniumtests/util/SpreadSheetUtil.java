@@ -264,16 +264,12 @@ public class SpreadSheetUtil {
 
             int testTitleColumnIndex = -1;
             int testSiteColumnIndex = -1;
-            // Search for Title & Site column
+            // Search for Title
             for (int i = 0; i < columnCount; i++) {
                 if (testTitleColumnIndex == -1
                         && TestEntity.TEST_TITLE.equalsIgnoreCase(sheet
                         .getCell(i, 0).getContents())) {
                     testTitleColumnIndex = i;
-                } else if (testSiteColumnIndex == -1
-                        && TestEntity.TEST_SITE.equalsIgnoreCase(sheet.getCell(
-                        i, 0).getContents())) {
-                    testSiteColumnIndex = i;
                 }
 
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
@@ -300,7 +296,7 @@ public class SpreadSheetUtil {
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
                 throw new SeleniumTestsException(
-                        "Blank TestTitle and/or Site value(s) found on Row(s) "
+                        "Blank TestTitle found on Row(s) "
                                 + sbBlank.toString() + ".");
             }
 
@@ -324,7 +320,7 @@ public class SpreadSheetUtil {
             // End
             // The first row is the header
             for (int i = 1; i < sheet.getRows(); i++) {
-                // Check for duplicate Title & Site
+                // Check for duplicate Title
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
                     String uniqueString = sheet
                             .getCell(testTitleColumnIndex, i).getContents()
@@ -333,14 +329,11 @@ public class SpreadSheetUtil {
                             .getContents();
                     if (uniqueDataSet.contains(uniqueString))
                         throw new SeleniumTestsException(
-                                "Duplicate TestTitle and Site combination found in the spreadsheet "
+                                "Duplicate TestTitle found in the spreadsheet "
                                         + "with TestTitle = {"
                                         + sheet.getCell(testTitleColumnIndex, i)
                                         .getContents()
-                                        + "} "
-                                        + "and Site = {"
-                                        + sheet.getCell(testSiteColumnIndex, i)
-                                        .getContents() + "}");
+                                        + "} ");
 
                     uniqueDataSet.add(uniqueString);
                 }

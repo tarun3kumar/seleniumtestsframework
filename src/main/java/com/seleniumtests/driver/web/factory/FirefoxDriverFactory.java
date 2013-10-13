@@ -91,11 +91,6 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 		return timeout;
 	}
 
-	// protected void setImplicitWaitTimeOut(long timeout)
-	// {
-	// driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-	// }
-
 	protected void setPageLoadTimeout(long timeout) {
 		driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
 	}

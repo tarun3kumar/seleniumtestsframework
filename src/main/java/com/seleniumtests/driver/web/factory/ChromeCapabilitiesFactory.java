@@ -26,10 +26,6 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 		ChromeOptions options = new ChromeOptions();
 		if (cfg.getUserAgentOverride() != null) {
 			options.addArguments("--user-agent=" + cfg.getUserAgentOverride());
-			/*
-			 * capability .setCapability( "chrome.switches",
-			 * Arrays.asList("--user-agent=" + cfg.getUserAgentOverride()));
-			 */
 		}
 
 		capability.setCapability(ChromeOptions.CAPABILITY, options);

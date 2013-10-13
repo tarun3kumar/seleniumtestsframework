@@ -1,6 +1,6 @@
 package com.seleniumtests.reporter;
 
-public class MiniTestResult {
+public class ShortTestResult {
 
 	private String name;
 	private String id;
@@ -13,7 +13,7 @@ public class MiniTestResult {
 
 	private int instancesSkipped;
 
-	public MiniTestResult(String name) {
+	public ShortTestResult(String name) {
 		this.name = name;
 		this.id = name.toLowerCase().replaceAll(" ", "_");
 	}

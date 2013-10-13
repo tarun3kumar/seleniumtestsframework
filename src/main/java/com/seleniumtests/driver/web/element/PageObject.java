@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.seleniumtests.controller.*;
+import com.seleniumtests.helper.URLAssistant;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.apache.log4j.Logger;
@@ -34,7 +35,6 @@ import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.exception.WebResponseException;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.helper.ThreadHelper;
-import com.seleniumtests.helper.URLHelper;
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
@@ -485,10 +485,10 @@ public class PageObject extends BasePage implements IPage {
 			return saveDownloadedFile(byteArray, fileName);*/
 			InputStream inputStream;
 			StringBuffer sbMessage = new StringBuffer("");
-			String fileName = URLHelper.getRandomHashCode("download") + "-"
+			String fileName = URLAssistant.getRandomHashCode("download") + "-"
 					+ fileNamePostFix;
 			try {
-				inputStream = URLHelper.openAsStream(locatorOrDownloadUrl);
+				inputStream = URLAssistant.openAsStream(locatorOrDownloadUrl);
 			
 			String fileType = url.substring(url.lastIndexOf(".") + 1);
 			
@@ -537,12 +537,12 @@ public class PageObject extends BasePage implements IPage {
 	}
 	
 	public static String saveFile(String url) throws Exception {
-		// url = URLHelper.encode(url);
+		// url = URLAssistant.encode(url);
 		String fileNamePostFix = "save";
-		InputStream inputStream = URLHelper.openAsStream(url);
+		InputStream inputStream = URLAssistant.openAsStream(url);
 		String fileType = url.substring(url.lastIndexOf(".") + 1);
 		StringBuffer sbMessage = new StringBuffer("");
-		String fileName = URLHelper.getRandomHashCode("download") + "-"
+		String fileName = URLAssistant.getRandomHashCode("download") + "-"
 				+ fileNamePostFix;
 		if (fileType != null && fileType.length() < 5)
 			fileName = fileName + "." + fileType;

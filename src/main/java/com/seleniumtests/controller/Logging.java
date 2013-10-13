@@ -1,7 +1,6 @@
 package com.seleniumtests.controller;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +9,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Set;
 
 import org.apache.log4j.Appender;
@@ -18,8 +16,6 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
@@ -29,7 +25,6 @@ import com.seleniumtests.driver.web.IScreenshotListener;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.StringHelper;
-import com.seleniumtests.helper.URLHelper;
 import com.seleniumtests.reporter.PluginsUtil;
 import com.seleniumtests.xmldog.Config;
 import com.seleniumtests.xmldog.Differences;
@@ -302,9 +297,6 @@ public class Logging {
 			XMLDog dog = null;
 			try {
 				if (xmlCompareConfig != null) {
-//					xmlCompareConfig.setCustomDifference(false);
-//					xmlCompareConfig.setApplyEListToSiblings(true);
-//					xmlCompareConfig.setIgnoringOrder(false);
 					dog = new XMLDog(xmlCompareConfig);
 				} else {
 					dog = new XMLDog();

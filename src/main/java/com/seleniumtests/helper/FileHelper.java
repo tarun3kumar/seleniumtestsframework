@@ -360,7 +360,6 @@ public class FileHelper {
 	 * Creates ImageElement from bytes and stores it
 	 * 
 	 * @param path
-	 * @param screenShot
 	 */
 	public static synchronized void writeImage(String path, byte[] byteArray) {
 		if(byteArray.length==0)return;
@@ -485,7 +484,6 @@ public class FileHelper {
 	 * Saves HTML Source
 	 * 
 	 * @param path
-	 * @param selenium
 	 * @throws Exception
 	 */
 

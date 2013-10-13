@@ -661,8 +661,6 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 					}
 					Context testLevelContext = ContextManager.getTestLevelContext(testName);
 					if (testLevelContext !=  null ) {
-						/*String pool = testLevelContext.getPool();*/
-						String site = testLevelContext.getSite();
 						String appURL = testLevelContext.getAppURL();
 						String browser = (String)testLevelContext.getAttribute("browser");
 						if (browser != null)
@@ -670,7 +668,6 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						String browserVersion = (String)testLevelContext.getAttribute("browserVersion");
 						if (browserVersion != null)
 							browser = browser + browserVersion;
-//						contentBuffer.append("<div><i>Pool: "+ pool + ", Site: " + site + ", Browser: " + browser + "</i></div>");
 						contentBuffer.append("<div><i>App URL:  "+appURL+ ", Browser: " + browser + "</i></div>");
 					}
 					Object[] parameters = ans.getParameters();
@@ -686,7 +683,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						contentBuffer.append("<div class='testlog' " + (style.equals("passed") ? "style='display:none'" : "") + ">");
 						contentBuffer.append("<ol>");
 						for (String line : msgs) {
-							DetailedLog logLine = new DetailedLog(line, outputDirectory);
+							ElaborateLog logLine = new ElaborateLog(line, outputDirectory);
 							String htmllog;
 							if (logLine.getHref() != null) {
 								htmllog = "<a href='" + logLine.getHref() + "' title='" + logLine.getLocation() + "' >" + logLine.getMsg() + "</a>";
@@ -910,14 +907,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		long time_start = Long.MAX_VALUE;
 		long time_end = Long.MIN_VALUE;
 
-		List<MiniTestResult> tests2 = new ArrayList<MiniTestResult>();
+		List<ShortTestResult> tests2 = new ArrayList<ShortTestResult>();
 		for (ISuite suite : suites) {
 			Map<String, ISuiteResult> tests = suite.getResults();
 			for (ISuiteResult r : tests.values()) {
 
 				// qty_tests += 1;
 				ITestContext overview = r.getTestContext();
-				MiniTestResult mini = new MiniTestResult(overview.getName().replace(' ', '_').replace('(', '_').replace(')', '_'));
+				ShortTestResult mini = new ShortTestResult(overview.getName().replace(' ', '_').replace('(', '_').replace(')', '_'));
 				int q = getMethodSet(overview.getPassedTests()).size();
 				//qty_pass_m += q;
 				q = overview.getAllTestMethods().length;
@@ -941,7 +938,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			}
 		}
 
-		MiniTestResult total = new MiniTestResult("total");
+		ShortTestResult total = new ShortTestResult("total");
 		total.setTotalMethod(qty_method);
 		total.setInstancesPassed(qty_pass_s);
 		total.setInstancesFailed(qty_fail);

@@ -28,9 +28,6 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
                                                  ITestContext testContext) throws Exception {
         Filter filter = Filter.equalsIgnoreCase(TestEntity.TEST_METHOD,
                 m.getName());
-        filter = Filter.and(filter, Filter.equalsIgnoreCase(
-                TestEntity.TEST_SITE,
-                ContextManager.getTestLevelContext(testContext).getSite()));
 
         LinkedHashMap<String, Class<?>> classMap = new LinkedHashMap<String, Class<?>>();
         classMap.put("TestEntity", TestEntity.class);

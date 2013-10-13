@@ -1,9 +1,8 @@
 package com.seleniumtests.driver.web;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
+import com.seleniumtests.helper.URLAssistant;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -14,7 +13,6 @@ import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.exception.WebSessionTerminatedException;
 import com.seleniumtests.helper.FileHelper;
-import com.seleniumtests.helper.URLHelper;
 
 public class ScreenshotUtil {
 	private static final Logger logger = Logger.getLogger(ScreenshotUtil.class);
@@ -187,7 +185,7 @@ public class ScreenshotUtil {
 			String title = driver.getTitle();
 			String pageSource = driver.getPageSource();
 
-			String filename = URLHelper.getRandomHashCode("web");
+			String filename = URLAssistant.getRandomHashCode("web");
 			this.filename = filename;
 			screenShot.setLocation(url);
 
@@ -234,7 +232,7 @@ public class ScreenshotUtil {
 		if (ContextManager.getThreadContext() != null
 				&& ContextManager.getThreadContext().getCaptureSnapshot()
 				&& getOutputDirectory() != null) {
-			String filename = URLHelper.getRandomHashCode("HtmlElement");
+			String filename = URLAssistant.getRandomHashCode("HtmlElement");
 			StringBuffer sbMessage = new StringBuffer();
 			try {
 				String img = ScreenshotUtil

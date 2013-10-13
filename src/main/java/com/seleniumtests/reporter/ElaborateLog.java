@@ -1,6 +1,6 @@
 package com.seleniumtests.reporter;
 
-public class DetailedLog {
+public class ElaborateLog {
 
 	private String type;
 	private String msg;
@@ -11,10 +11,10 @@ public class DetailedLog {
 
 	private String root;
 
-	public DetailedLog() {
+	public ElaborateLog() {
 	}
 
-	public DetailedLog(String s, String root) {
+	public ElaborateLog(String s, String root) {
 		this.root = root;
 		if (s == null) {
 			return;

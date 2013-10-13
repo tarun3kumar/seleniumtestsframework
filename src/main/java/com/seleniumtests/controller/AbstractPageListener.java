@@ -3,7 +3,7 @@ package com.seleniumtests.controller;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.driver.web.element.IPage;
-import com.seleniumtests.helper.URLHelper;
+import com.seleniumtests.helper.URLAssistant;
 import com.seleniumtests.reporter.PluginsUtil;
 
 /**
@@ -66,7 +66,7 @@ public abstract class AbstractPageListener {
 	// //////////////// Static Helpers ///////////////////////
 
 	protected String openURL(String url) throws Exception {
-		return URLHelper.open(url);
+		return URLAssistant.open(url);
 	}
 
 	public void setTestResultEffected(boolean testResultEffected) {
