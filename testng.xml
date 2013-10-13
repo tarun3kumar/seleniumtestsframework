@@ -2,15 +2,15 @@
 <suite name="Selenium Framework Test Suite" parallel="methods"
 	verbose="1" thread-count="5">
 	<listeners>
-		<listener class-name="com.seleniumtests.reporter.HTMLReporter" />
-		<listener class-name="com.seleniumtests.controller.TestRetryListener" />
+		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
+		<!--<listener class-name="com.seleniumtests.controller.TestRetryListener" />-->
 
 	</listeners>
 
 	<parameter name="site" value="IN" />
 	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
 
-	<parameter name="browser" value="*chrome" /> <!-- "*firefox, *chrome, *iexplore" -->
+	<parameter name="browser" value="*firefox" /> <!-- "*firefox, *chrome, *iexplore" -->
 	<parameter name="webRunMode" value="LocallyOnRC" />
 	<!--<parameter name="webDriverGrid" value="http://www.seleniumtests.com/wd/hub" />-->
 	<parameter name="webSessionTimeOut" value="120000" />
