@@ -65,7 +65,7 @@ import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.Type;
 
 @SuppressWarnings("deprecation")
-public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodListener {
+public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedMethodListener {
 
 	// ~ Inner Classes --------------------------------------------------------
 	/** Arranges methods by classname and method name */
@@ -95,7 +95,7 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 			return sig1.compareTo(sig2);
 		}
 	}
-	private static Logger logger = Logging.getLogger(HTMLReporter.class);
+	private static Logger logger = Logging.getLogger(SeleniumTestsReporter.class);
 
 	protected static String escape(String string) {
 		if (null == string)
@@ -266,7 +266,7 @@ public class HTMLReporter implements IReporter, ITestListener,IInvokedMethodList
 			File f = new File(outputDirectory, resourceName.replace("reporter", "resources"));
 			resourceName = resourceName.replaceAll("\\\\", "/");
 			logger.debug("about to write resource " + resourceName + " to the file " + f.getAbsolutePath());
-			writeResourceToFile(f, resourceName, HTMLReporter.class);
+			writeResourceToFile(f, resourceName, SeleniumTestsReporter.class);
 		}
 	}
 
