@@ -1,7 +1,5 @@
 package com.seleniumtests.controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -49,13 +47,13 @@ public abstract class SeleniumTestPlan {
      * @param service
      */
     public static void addTearDownService(TearDownService service) {
-        ContextManager.getThreadContext().addTearDownService(service);
+        SeleniumTestsContextManager.getThreadContext().addTearDownService(service);
     }
 
     @AfterMethod(alwaysRun = true)
     public void afterTestMethod(Object[] parameters, Method method, ITestContext testContex, XmlTest xmlTest) {
         // Clean ups for test level services
-        List<TearDownService> serviceList = ContextManager.getThreadContext().getTearDownServices();
+        List<TearDownService> serviceList = SeleniumTestsContextManager.getThreadContext().getTearDownServices();
         if (serviceList != null && !serviceList.isEmpty()) {
             for (TearDownService service : serviceList) {
                 service.tearDown();
@@ -78,16 +76,16 @@ public abstract class SeleniumTestPlan {
      */
     @BeforeTest(alwaysRun = true)
     public void beforeTest(ITestContext testContex, XmlTest xmlTest) {
-        ContextManager.initTestLevelContext(testContex, xmlTest);
+        SeleniumTestsContextManager.initTestLevelContext(testContex, xmlTest);
     }
 
     @BeforeMethod(alwaysRun = true)
     public void beforeTestMethod(Object[] parameters, Method method, ITestContext testContex, XmlTest xmlTest) {
         logger.info(Thread.currentThread() + " Start method " + method.getName());
-        ContextManager.initThreadContext(testContex, xmlTest);
+        SeleniumTestsContextManager.initThreadContext(testContex, xmlTest);
 
         if (method != null) {
-            ContextManager.getThreadContext().setAttribute(Context.TEST_METHOD_SIGNATURE, constructMethodSignature(method, parameters));
+            SeleniumTestsContextManager.getThreadContext().setAttribute(SeleniumTestsContext.TEST_METHOD_SIGNATURE, constructMethodSignature(method, parameters));
         }
     }
 
@@ -103,8 +101,8 @@ public abstract class SeleniumTestPlan {
         System.out.println("####################################################");
         System.out.println("####################################################");
         start = new Date();
-        ContextManager.initGlobalContext(testContex);
-        ContextManager.initThreadContext(testContex, null);//Add this to support users want to call some functions in @beforeSuite
+        SeleniumTestsContextManager.initGlobalContext(testContex);
+        SeleniumTestsContextManager.initThreadContext(testContex, null);//Add this to support users want to call some functions in @beforeSuite
     }
 
     private String constructMethodSignature(Method method, Object[] parameters) {
