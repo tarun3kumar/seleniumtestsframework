@@ -27,19 +27,19 @@ public class ContextManager {
     private static List<IContexAttributeListener> contexAttributeListenerList = Collections.synchronizedList(new ArrayList<IContexAttributeListener>());
 
     // define the global level context
-    private static Context globalContext;
+    private static SeleniumTestsContext globalContext;
 
     // define the test level context
-    private static Map<String, Context> testLevelContext = Collections.synchronizedMap(new HashMap<String, Context>());
+    private static Map<String, SeleniumTestsContext> testLevelContext = Collections.synchronizedMap(new HashMap<String, SeleniumTestsContext>());
 
-    // define the thread level Context
-    private static ThreadLocal<Context> threadLocalContext = new ThreadLocal<Context>();
+    // define the thread level SeleniumTestsContext
+    private static ThreadLocal<SeleniumTestsContext> threadLocalContext = new ThreadLocal<SeleniumTestsContext>();
 
     public static void addContexAttributeListener(IContexAttributeListener listener) {
         contexAttributeListenerList.add(listener);
     }
 
-    public static Context getGlobalContext() {
+    public static SeleniumTestsContext getGlobalContext() {
         if (globalContext == null) {
             System.out.println("Initialize default GlobalContext");
             initGlobalContext(new DefaultTestNGContext());
@@ -47,7 +47,7 @@ public class ContextManager {
         return globalContext;
     }
 
-    public static Context getTestLevelContext(ITestContext testContext) {
+    public static SeleniumTestsContext getTestLevelContext(ITestContext testContext) {
         if (testContext != null && testContext.getCurrentXmlTest() != null) {
             if (testLevelContext.get(testContext.getCurrentXmlTest().getName()) == null) {
                 // sometimes getTestLevelContext is called before @BeforeTest in
@@ -60,11 +60,11 @@ public class ContextManager {
         }
     }
 
-    public static Context getTestLevelContext(String testName) {
+    public static SeleniumTestsContext getTestLevelContext(String testName) {
         return testLevelContext.get(testName);
     }
 
-    public static Context getThreadContext() {
+    public static SeleniumTestsContext getThreadContext() {
         if (threadLocalContext.get() == null) {
             System.out.println("Initialize default ThreadContext");
             initThreadContext(null, null);
@@ -74,13 +74,13 @@ public class ContextManager {
 
     public static void initGlobalContext(ITestContext testNGCtx) {
         testNGCtx = getContextFromConfigFile(testNGCtx);
-        globalContext = new Context(testNGCtx);
+        globalContext = new SeleniumTestsContext(testNGCtx);
         loadCustomizedContextAttribute(testNGCtx, globalContext);
     }
 
     private static ITestContext getContextFromConfigFile(ITestContext testContex) {
         if (testContex != null) {
-            if (testContex.getSuite().getParameter(Context.TEST_CONFIG) != null) {
+            if (testContex.getSuite().getParameter(SeleniumTestsContext.TEST_CONFIG) != null) {
                 File suiteFile = new File(testContex.getSuite().getXmlSuite().getFileName());
                 String configFile = suiteFile.getPath().replace(suiteFile.getName(), "") + testContex.getSuite().getParameter("testConfig");
                 NodeList nList = XMLHelper.getXMLNodes(configFile, "parameter");
@@ -96,7 +96,7 @@ public class ContextManager {
     }
 
     public static void initTestLevelContext(ITestContext testNGCtx, XmlTest xmlTest) {
-        Context seleniumTestsCtx = new Context(testNGCtx);
+        SeleniumTestsContext seleniumTestsCtx = new SeleniumTestsContext(testNGCtx);
         if (xmlTest != null) {
             Map<String, String> testParameters = xmlTest.getTestParameters();
             // parse the test level parameters
@@ -121,7 +121,7 @@ public class ContextManager {
     }
 
     public static void initThreadContext(ITestContext testNGCtx, XmlTest xmlTest) {
-        Context seleniumTestsCtx = new Context(testNGCtx);
+        SeleniumTestsContext seleniumTestsCtx = new SeleniumTestsContext(testNGCtx);
 
         loadCustomizedContextAttribute(testNGCtx, seleniumTestsCtx);
 
@@ -144,17 +144,17 @@ public class ContextManager {
         initThreadContext(globalContext.getTestNGContext(), xmlTest);
     }
 
-    private static void loadCustomizedContextAttribute(ITestContext testNGCtx, Context seleniumTestsCtx) {
+    private static void loadCustomizedContextAttribute(ITestContext testNGCtx, SeleniumTestsContext seleniumTestsCtx) {
         for (int i = 0; i < contexAttributeListenerList.size(); i++) {
             contexAttributeListenerList.get(i).load(testNGCtx, seleniumTestsCtx);
         }
     }
 
-    public static void setGlobalContext(Context ctx) {
+    public static void setGlobalContext(SeleniumTestsContext ctx) {
         globalContext = (ctx);
     }
 
-    public static void setThreadContext(Context ctx) {
+    public static void setThreadContext(SeleniumTestsContext ctx) {
         threadLocalContext.set(ctx);
     }
 }
