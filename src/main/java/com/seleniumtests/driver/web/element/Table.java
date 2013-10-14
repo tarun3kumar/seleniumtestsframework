@@ -85,7 +85,7 @@ public class Table extends HtmlElement {
 		return null;
 	}
 
-	// TODO MM: In this method we're looking for /tbody/tr OR /tr -- this differs from how the rows property is being set
+	// TODO MM: IN this method we're looking for /tbody/tr OR /tr -- this differs from how the rows property is being set
 	// in the constructor and in the findElement() method. Why do we call findElements() immediately after the
 	// findElement() call, which basically does the same thing? If we expect the answer to be different when we call /tbody/tr,
 	// that means we don't trust this.findElement(), which means the getRowCount might be different from rows.size(). That could

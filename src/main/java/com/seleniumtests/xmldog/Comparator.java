@@ -321,7 +321,7 @@ public class Comparator
 
 	{
 
-		log("In comparator compare method");
+		log("IN comparator compare method");
 
 		return compare(getControlNode(), getTestNode());
 
@@ -349,7 +349,7 @@ public class Comparator
 
 		Differences differences = new Differences();		
 
-		log("In the compare(node, node) method");
+		log("IN the compare(node, node) method");
 
 		Node parent = null;
 

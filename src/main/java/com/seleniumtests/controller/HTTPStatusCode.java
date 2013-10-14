@@ -12,7 +12,7 @@ public enum HTTPStatusCode {
 	// which prevented the server from being able to process it.
 	BAD_REQUEST(400, "Bad request",
 			"The server didn't understand the syntax of the request."),
-	// NOT_AUTHORIZED(401,"Not authorized",
+	// NOT_AUTHORIZED(401,"NOT authorized",
 	// "The request requires authentication. The server might return this response for a page behind a login."),
 	// FORBIDDEN(403,
 	// "Directory listing denied","The server is refusing the request."),
@@ -23,7 +23,7 @@ public enum HTTPStatusCode {
 			404, "HTTP ERROR 404", "HTTP ERROR 404"),
 	// METHOD_NOT_ALLOWED(405,"Method not allowed",
 	// "The method specified in the request is not allowed."),
-	// NOT_ACCEPTABLE(406, "Not acceptable",
+	// NOT_ACCEPTABLE(406, "NOT acceptable",
 	// "The requested page can't respond with the content characteristics requested."),
 	// PROXY_AUTHENTICATION_REQUIRED(407, "Proxy authentication required",
 	// "Tthe requestor has to authenticate using a proxy."),
@@ -32,7 +32,7 @@ public enum HTTPStatusCode {
 	// CONFLICT(409, "Conflict",
 	// "The server encountered a conflict fulfilling the request."),
 	// GONE(410, "Gone",
-	// "The server returns this response when the requested resource has been permanently removed. It is similar to a 404 Not found."),
+	// "The server returns this response when the requested resource has been permanently removed. It is similar to a 404 NOT found."),
 	// LENGTH_REQUIRED(411, "Length required",
 	// "The server won't accept the request without a valid Content-Length header field."),
 	// PRECONDITION_FAILED(412, "Precondition failed",
@@ -55,7 +55,7 @@ public enum HTTPStatusCode {
 	// These errors tend to be with the server itself, not with the request.
 	INTERNAL_SERVER_ERROR(500, "Internal server error",
 			"The server encountered an error and can't fulfill the request."),
-	// NOT_IMPLEMENTED(501, "Not implemented",
+	// NOT_IMPLEMENTED(501, "NOT implemented",
 	// "The server doesn't have the functionality to fulfill the request. For instance, the server might return this code when it doesn't recognize the request method."),
 	BAD_GATEWAY(
 			502,

@@ -829,7 +829,7 @@ public class XMLUtil
 
         int type = node.getNodeType();
 
-        //System.out.println("In the print function Node type " + type);
+        //System.out.println("IN the print function Node type " + type);
 
         
 

@@ -147,7 +147,7 @@ public class PageObject extends BasePage implements IPage {
 		} while (waitForRedirection && pageNotCurrent
 				&& count < MAX_WAIT_TIME_FOR_REDIRECTION);
 
-		AbstractPageListener.notifyPageLoad(this);
+		SeleniumTestsPageListener.informPageLoad(this);
 		Calendar end = Calendar.getInstance();
 		start.setTime(new Date());
 		long startTime = start.getTimeInMillis();
@@ -395,7 +395,7 @@ public class PageObject extends BasePage implements IPage {
 		if (WebUXDriver.getWebDriver() == null) {
 			return;
 		}
-		AbstractPageListener.notifyPageUnload(this);
+		SeleniumTestsPageListener.informPageUnload(this);
 		Logging.log("close web page");
 		boolean isMultipleWindow = false;
 		if (driver.getWindowHandles().size() > 1)

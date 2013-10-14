@@ -368,7 +368,7 @@ public interface DifferenceConstants
 
 	public static final Difference NODE_NOT_FOUND =
 
-		new Difference(NODE_NOT_FOUND_ID, "Node Not Found", false);
+		new Difference(NODE_NOT_FOUND_ID, "Node NOT Found", false);
 
 		
 
@@ -380,7 +380,7 @@ public interface DifferenceConstants
 
 	public static final Difference MULTIPLE_MATCHES_ADDED_NODE =
 
-		new Difference(MULTIPLE_MATCHES_ADDED_NODE_ID, "Node Not Found", false);
+		new Difference(MULTIPLE_MATCHES_ADDED_NODE_ID, "Node NOT Found", false);
 
 	
 

@@ -28,7 +28,7 @@ public class LabelElement extends HtmlElement {
 	@Deprecated
 	public String getExpectedText()
 	{
-		CustomAssertion.assertTrue(false, "Not supported!");
+		CustomAssertion.assertTrue(false, "NOT supported!");
 		return null;
 	}
 }

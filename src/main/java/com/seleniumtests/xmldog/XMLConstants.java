@@ -31,7 +31,7 @@ public interface XMLConstants
 
     /**
 
-     * &lt;?xml&gt; declaration
+     * &lt;?xml&greaterThan; declaration
 
      */
 
@@ -73,7 +73,7 @@ public interface XMLConstants
 
     /**
 
-     * "&gt;"
+     * "&greaterThan;"
 
      */
 

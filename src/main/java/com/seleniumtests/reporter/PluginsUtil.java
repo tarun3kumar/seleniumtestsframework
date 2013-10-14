@@ -13,17 +13,18 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
+import com.seleniumtests.controller.SeleniumTestsPageListener;
 import com.seleniumtests.reporter.pluginmodel.*;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.AbstractPageListener;
+import com.seleniumtests.controller.SeleniumTestsPageListener;
 import com.seleniumtests.driver.web.element.IPage;
 import com.seleniumtests.reporter.pluginmodel.SeleniumTestsPlugins;
 
 public class PluginsUtil {
 	private static final Logger logger = Logger.getLogger(PluginsUtil.class);
-	private static Map<String, AbstractPageListener> pageListenerMap = Collections
-			.synchronizedMap(new HashMap<String, AbstractPageListener>());
+	private static Map<String, SeleniumTestsPageListener> pageListenerMap = Collections
+			.synchronizedMap(new HashMap<String, SeleniumTestsPageListener>());
 
 	private static final PluginsUtil _instance = new PluginsUtil();
 
@@ -37,9 +38,9 @@ public class PluginsUtil {
 		return _seleniumTestsPlugins;
 	}
 
-	public List<AbstractPageListener> getPageListeners() {
-		List<AbstractPageListener> tempPageListenerList = Collections
-				.synchronizedList(new ArrayList<AbstractPageListener>());
+	public List<SeleniumTestsPageListener> getPageListeners() {
+		List<SeleniumTestsPageListener> tempPageListenerList = Collections
+				.synchronizedList(new ArrayList<SeleniumTestsPageListener>());
 		tempPageListenerList.addAll(pageListenerMap.values());
 
 		return tempPageListenerList;
@@ -51,7 +52,7 @@ public class PluginsUtil {
 		if (_seleniumTestsPlugins == null)
 			return;
 
-		List<AbstractPageListener> pageListenerList = new ArrayList<AbstractPageListener>();
+		List<SeleniumTestsPageListener> pageListenerList = new ArrayList<SeleniumTestsPageListener>();
 
 		for (Plugin plugin : _seleniumTestsPlugins.getPlugin()) {
 			if (isPageListenerApplicable(plugin, testMethodSignature, page
@@ -60,7 +61,7 @@ public class PluginsUtil {
 						.trim()));
 		}
 
-		for (AbstractPageListener listener : pageListenerList) {
+		for (SeleniumTestsPageListener listener : pageListenerList) {
 			try {
 				if (isPageLoad)
 					listener.onPageLoad(page);
@@ -109,7 +110,7 @@ public class PluginsUtil {
 	}
 
 	public boolean isTestResultEffected(String pageListenerClassName) {
-		AbstractPageListener listener = pageListenerMap
+		SeleniumTestsPageListener listener = pageListenerMap
 				.get(pageListenerClassName);
 		if (listener != null)
 			return listener.isTestResultEffected();
@@ -131,7 +132,7 @@ public class PluginsUtil {
 				try {
 					pageListenerMap
 							.put(plugin.getClassName().trim(),
-									(AbstractPageListener) Class.forName(
+									(SeleniumTestsPageListener) Class.forName(
 											plugin.getClassName().trim())
 											.newInstance());
 				} catch (Exception e) {

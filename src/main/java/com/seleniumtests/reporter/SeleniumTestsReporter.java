@@ -96,7 +96,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	protected static String escape(String string) {
 		if (null == string)
 			return string;
-		//return string.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>");
+		//return string.replaceAll("<", "&lt;").replaceAll(">", "&greaterThan;").replaceAll("\n", "<br/>");
 		return string.replaceAll("\n", "<br/>");
 	}
 
@@ -492,11 +492,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			ve.setProperty("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 			ve.init();
 
-			List<AbstractPageListener> pageListenersList = PluginsUtil.getInstance().getPageListeners();
-			for (AbstractPageListener abstractPageListener : pageListenersList) {
-				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.controller.AbstractPageListener, added by ziwu, 09/16/2011 ========== */
+			List<SeleniumTestsPageListener> pageListenersList = PluginsUtil.getInstance().getPageListeners();
+			for (SeleniumTestsPageListener abstractPageListener : pageListenersList) {
+				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.controller.SeleniumTestsPageListener, added by ziwu, 09/16/2011 ========== */
 				if (!abstractPageListener.isTestResultEffected()) continue;
-				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.controller.AbstractPageListener, added by ziwu, 09/16/2011 ========== */
+				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.controller.SeleniumTestsPageListener, added by ziwu, 09/16/2011 ========== */
 
 				errorCountTabs.append("<li class='tab' id='" + abstractPageListener.getClass().getSimpleName() + "'><a href='#'><span>")
 						.append(abstractPageListener.getTitle() != null ? abstractPageListener.getTitle() : abstractPageListener.getClass().getSimpleName())
@@ -511,7 +511,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		}
 	}
 
-	private void generateGlobalErrorsPanel(AbstractPageListener abstractPageListener, VelocityEngine ve, StringBuffer res, String style, ITestContext tc,
+	private void generateGlobalErrorsPanel(SeleniumTestsPageListener abstractPageListener, VelocityEngine ve, StringBuffer res, String style, ITestContext tc,
 			StringBuffer sbCalcount) {
 
 		int pageCount = 0;
@@ -687,7 +687,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 								htmllog = logLine.getMsg();
 							}
 							
-							htmllog = htmllog.replaceAll("@@lt@@", "<").replace("^^gt^^", ">");//fix for testng 6.7
+							htmllog = htmllog.replaceAll("@@lt@@", "<").replace("^^greaterThan^^", ">");//fix for testng 6.7
 							contentBuffer.append(htmllog);
 							if(!htmllog.contains("<br>"))contentBuffer.append("<br/>");//handle different in testng6.7
 						}
@@ -696,7 +696,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						// Jerry
 						String lastLine = "";
 						for (int lastIdx = msgs.size() - 1; lastIdx >= 0; lastIdx--) {
-							lastLine = msgs.get(lastIdx).replaceAll("@@lt@@", "<").replace("^^gt^^", ">"); //fix for testng 6.7
+							lastLine = msgs.get(lastIdx).replaceAll("@@lt@@", "<").replace("^^greaterThan^^", ">"); //fix for testng 6.7
 							if (lastLine.indexOf(">screenshot</a>") != -1) {
 								break;
 							}
@@ -1453,9 +1453,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 
 			StringBuffer sbGroups = new StringBuffer();
 			sbGroups.append("envt,test,cal");
-			List<AbstractPageListener> pageListenerList = PluginsUtil.getInstance().getPageListeners();
+			List<SeleniumTestsPageListener> pageListenerList = PluginsUtil.getInstance().getPageListeners();
 			if (pageListenerList != null && !pageListenerList.isEmpty()) {
-				for (AbstractPageListener abstractPageListener : pageListenerList) {
+				for (SeleniumTestsPageListener abstractPageListener : pageListenerList) {
 					sbGroups.append(",").append(abstractPageListener.getClass().getSimpleName());
 				}
 			}

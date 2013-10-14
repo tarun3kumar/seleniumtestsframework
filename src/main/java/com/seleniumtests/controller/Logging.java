@@ -176,7 +176,7 @@ public class Logging {
 	
 	public static String escape(String message){
 		return message.replaceAll("\\n", "<br/>").replaceAll("<", "@@lt@@")
-		.replaceAll(">", "^^gt^^");
+		.replaceAll(">", "^^greaterThan^^");
 	}
 	
 	public static String unEscape(String message){
