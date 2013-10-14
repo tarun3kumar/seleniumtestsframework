@@ -3,6 +3,7 @@ package com.seleniumtests.driver.web.element;
 import java.util.List;
 
 import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.driver.web.WebUIDriver;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -29,7 +30,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.seleniumtests.driver.web.BrowserType;
 import com.seleniumtests.driver.web.ScreenshotUtil;
-import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.helper.ClassContextHelper;
 import com.seleniumtests.helper.ThreadHelper;
 
@@ -45,11 +45,11 @@ public class HtmlElement {
 		ID, NAME, CLASS_NAME, LINK_TEXT, PARTIAL_LINK_TEXT, CSS_SELECTOR, TAG_NAME, XPATH,
 	}
 
-	private static final int EXPLICIT_WAIT_TIME_OUT = WebUXDriver
+	private static final int EXPLICIT_WAIT_TIME_OUT = WebUIDriver
 			.getWebUXDriver().getExplicitWait();
 	protected static final Logger logger = TestLogging.getLogger(HtmlElement.class);
-	protected WebDriver driver = WebUXDriver.getWebDriver();
-	protected WebUXDriver webUXDriver = WebUXDriver.getWebUXDriver();
+	protected WebDriver driver = WebUIDriver.getWebDriver();
+	protected WebUIDriver webUXDriver = WebUIDriver.getWebUXDriver();
 	protected WebElement element = null;
 	private String label = null;
 	private String locator = null;
@@ -132,7 +132,7 @@ public class HtmlElement {
 	 */
 	public void click() {
 		findElement();
-		BrowserType browser = WebUXDriver.getWebUXDriver().getConfig()
+		BrowserType browser = WebUIDriver.getWebUXDriver().getConfig()
 				.getBrowser();
 		if (browser != BrowserType.Opera) {
 			try {
@@ -167,7 +167,7 @@ public class HtmlElement {
 	}
 
 	protected void handleLeaveAlert() {
-		BrowserType browser = WebUXDriver.getWebUXDriver().getConfig()
+		BrowserType browser = WebUIDriver.getWebUXDriver().getConfig()
 				.getBrowser();
 		// Handle Confirm Navigation pop up for Chrome and IE
 		if (browser == BrowserType.Chrome
@@ -210,7 +210,7 @@ public class HtmlElement {
 			element.click();
 		}
 		try {
-			BrowserType type = WebUXDriver.getWebUXDriver().getConfig()
+			BrowserType type = WebUIDriver.getWebUXDriver().getConfig()
 					.getBrowser();
 			if ((type == BrowserType.Chrome || type == BrowserType.InternetExplore)
 					&& this.getDriver().switchTo().alert().getText()
@@ -245,14 +245,14 @@ public class HtmlElement {
 
 	/**
 	 * Finds the element using By type. Implicit Waits is built in
-	 * createWebDriver() in WebUXDriver to handle dynamic element problem. This
+	 * createWebDriver() in WebUIDriver to handle dynamic element problem. This
 	 * method is invoked before all the basic operations like click, sendKeys,
 	 * getText, etc. Use waitForPresent to use Explicit Waits to deal with
 	 * special element which needs long time to present.
 	 */
 	protected void findElement() {
-		driver = WebUXDriver.getWebDriver();
-		if (WebUXDriver.getWebUXDriver().getConfig().getBrowser() == BrowserType.InternetExplore) {
+		driver = WebUIDriver.getWebDriver();
+		if (WebUIDriver.getWebUXDriver().getConfig().getBrowser() == BrowserType.InternetExplore) {
 			try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
@@ -328,7 +328,7 @@ public class HtmlElement {
 	 * Get and refresh underlying WebDriver
 	 */
 	protected WebDriver getDriver() {
-		return WebUXDriver.getWebDriver();
+		return WebUIDriver.getWebDriver();
 	}
 
 	/**
@@ -464,12 +464,12 @@ public class HtmlElement {
 	}
 
 	/**
-	 * Refreshes the WebUXDriver before locating the element, to ensure we have
+	 * Refreshes the WebUIDriver before locating the element, to ensure we have
 	 * the current version (useful for when the state of an element has changed
 	 * via an AJAX or non-page-turn action)
 	 */
 	public void init() {
-		driver = WebUXDriver.getWebDriver();
+		driver = WebUIDriver.getWebDriver();
 		element = driver.findElement(by);
 	}
 
@@ -496,7 +496,7 @@ public class HtmlElement {
 	 * @return
 	 */
 	public boolean isElementPresent() {
-		if (WebUXDriver.getWebDriver() == null) {
+		if (WebUIDriver.getWebDriver() == null) {
 			TestLogging.log("Web Driver is terminated! Exception might caught in last action.");
 			throw new RuntimeException(
 					"Web Driver is terminated! Exception might caught in last action.");
@@ -504,19 +504,19 @@ public class HtmlElement {
 
 		int count = 0;
 		try {
-			count = WebUXDriver.getWebDriver().findElements(by).size();
+			count = WebUIDriver.getWebDriver().findElements(by).size();
 		} catch (RuntimeException e) {
 			if (e instanceof InvalidSelectorException) {
 				TestLogging.log("Got InvalidSelectorException, retry");
 				ThreadHelper.waitForSeconds(2);
-				count = WebUXDriver.getWebDriver().findElements(by).size();
+				count = WebUIDriver.getWebDriver().findElements(by).size();
 			} else if (e.getMessage() != null
 					&& e.getMessage()
 							.contains(
 									"TransformedEntriesMap cannot be cast to java.util.List")) {
 				TestLogging.log("Got CastException, retry");
 				ThreadHelper.waitForSeconds(2);
-				count = WebUXDriver.getWebDriver().findElements(by).size();
+				count = WebUIDriver.getWebDriver().findElements(by).size();
 			} else {
 				throw e;
 			}

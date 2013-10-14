@@ -23,12 +23,12 @@ public class ScreenshotUtil {
 			return "";
 		try {
 			// Don't capture snapshot for htmlunit
-			if (WebUXDriver.getWebUXDriver().getBrowser()
+			if (WebUIDriver.getWebUXDriver().getBrowser()
 					.equalsIgnoreCase(BrowserType.HtmlUnit.getType()))
 				return null;
 			// Opera has bug after upgrade selenium
 			// 2.33.0,https://code.google.com/p/selenium/issues/detail?id=847
-			if (WebUXDriver.getWebUXDriver().getBrowser()
+			if (WebUIDriver.getWebUXDriver().getBrowser()
 					.equalsIgnoreCase(BrowserType.Opera.getType()))
 				return null;
 
@@ -49,7 +49,7 @@ public class ScreenshotUtil {
 	public ScreenshotUtil() {
 		suiteName = getSuiteName();
 		outputDirectory = getOutputDirectory();
-		this.driver = WebUXDriver.getWebDriver();
+		this.driver = WebUIDriver.getWebDriver();
 	}
 
 	public ScreenshotUtil(WebDriver driver) {
@@ -137,7 +137,7 @@ public class ScreenshotUtil {
 	private void handleImage(ScreenShot screenShot) {
 		try {
 			String screenshotString = captureEntirePageScreenshotToString(
-					WebUXDriver.getWebDriver(), "");
+					WebUIDriver.getWebDriver(), "");
 
 			if (screenshotString != null
 					&& !screenshotString.equalsIgnoreCase("")) {
@@ -237,7 +237,7 @@ public class ScreenshotUtil {
 			try {
 				String img = ScreenshotUtil
 						.captureEntirePageScreenshotToString(
-								WebUXDriver.getWebDriver(), "");
+								WebUIDriver.getWebDriver(), "");
 				if (img == null)
 					return;
 				byte[] byteArray = img.getBytes();// KEEPME

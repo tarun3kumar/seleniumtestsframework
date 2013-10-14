@@ -92,8 +92,8 @@ public class WebDriverExceptionListener implements WebDriverEventListener {
 				.contains(
 						"Error communicating with the remote browser. It may have died.")) {
 			// Session has lost connection, remove it then ignore quit() method.
-			if (WebUXDriver.getWebUXDriver().getConfig().getMode() == WebDriverMode.ExistingGrid) {
-				WebUXDriver.setWebDriver(null);
+			if (WebUIDriver.getWebUXDriver().getConfig().getMode() == WebDriverMode.ExistingGrid) {
+				WebUIDriver.setWebDriver(null);
 				throw new WebSessionTerminatedException(ex);
 			}
 			return;
@@ -107,7 +107,7 @@ public class WebDriverExceptionListener implements WebDriverEventListener {
 			if (message.matches("Session (/S*) was terminated due to(.|\\n)*")
 					|| message
 							.matches("cannot forward the request Connection to(.|\\n)*")) {
-				WebUXDriver.setWebDriver(null);// can't quit anymore, save time.
+				WebUIDriver.setWebDriver(null);// can't quit anymore, save time.
 												// since the session was
 												// terminated.
 				throw new WebSessionTerminatedException(ex);

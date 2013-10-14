@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.seleniumtests.driver.web.BrowserType;
-import com.seleniumtests.driver.web.WebUXDriver;
+import com.seleniumtests.driver.web.WebUIDriver;
 import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.helper.ThreadHelper;
 import com.thoughtworks.selenium.SeleniumException;
@@ -29,11 +29,11 @@ import com.thoughtworks.selenium.Wait;
  */
 public abstract class BasePage {
 
-	protected WebDriver driver = WebUXDriver.getWebDriver();
-	protected final WebUXDriver webUXDriver = WebUXDriver.getWebUXDriver();
-	private int explictWaitTimeout = WebUXDriver.getWebUXDriver()
+	protected WebDriver driver = WebUIDriver.getWebDriver();
+	protected final WebUIDriver webUXDriver = WebUIDriver.getWebUXDriver();
+	private int explictWaitTimeout = WebUIDriver.getWebUXDriver()
 			.getExplicitWait();
-	private int sessionTimeout = WebUXDriver.getWebUXDriver()
+	private int sessionTimeout = WebUIDriver.getWebUXDriver()
 			.getWebSessionTimeout();
 
 	public BasePage() {
@@ -252,7 +252,7 @@ public abstract class BasePage {
 	}
 
 	public WebDriver getDriver() {
-		driver = WebUXDriver.getWebDriver();
+		driver = WebUIDriver.getWebDriver();
 		return driver;
 
 	}
@@ -269,7 +269,7 @@ public abstract class BasePage {
 	public boolean isElementPresent(By by) {
 		int count = 0;
 		try {
-			count = WebUXDriver.getWebDriver().findElements(by).size();
+			count = WebUIDriver.getWebDriver().findElements(by).size();
 		} catch (RuntimeException e) {
 			if ((e instanceof InvalidSelectorException)
 					|| (e.getMessage() != null && e
@@ -278,7 +278,7 @@ public abstract class BasePage {
 									"TransformedEntriesMap cannot be cast to java.util.List"))) {
 				TestLogging.log("InvalidSelectorException or CastException got, retry");
 				ThreadHelper.waitForSeconds(2);
-				count = WebUXDriver.getWebDriver().findElements(by).size();
+				count = WebUIDriver.getWebDriver().findElements(by).size();
 			} else
 				throw e;
 		}
@@ -295,10 +295,10 @@ public abstract class BasePage {
 	public boolean isTextPresent(String text) {
 		CustomAssertion
 				.assertNotNull(text, "isTextPresent: text should not be null!");
-		driver = WebUXDriver.getWebDriver();
+		driver = WebUIDriver.getWebDriver();
 		WebElement body = driver.findElement(By.tagName("body"));
 
-		if (WebUXDriver.getWebUXDriver().getBrowser()
+		if (WebUIDriver.getWebUXDriver().getBrowser()
 				.equalsIgnoreCase(BrowserType.HtmlUnit.getType())) {
 			return body.getText().contains(text);
 		}

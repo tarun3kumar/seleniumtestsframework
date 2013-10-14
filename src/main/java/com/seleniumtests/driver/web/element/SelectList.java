@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.driver.web.WebUIDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.UnexpectedTagNameException;
-
-import com.seleniumtests.driver.web.WebUXDriver;
 
 /**
  * Support both standard select tag and fake select consists of tag ul and li
@@ -82,7 +81,7 @@ public class SelectList extends HtmlElement {
 	}
 
 	protected void findElement() {
-		driver = WebUXDriver.getWebDriver();
+		driver = WebUIDriver.getWebDriver();
 		element = driver.findElement(this.getBy());
 		try {
 			select = getNewSelectElement(element);

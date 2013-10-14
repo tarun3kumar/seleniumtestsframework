@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
 import com.seleniumtests.driver.web.WebDriverConfig;
-import com.seleniumtests.driver.web.WebUXDriver;
+import com.seleniumtests.driver.web.WebUIDriver;
 
 public abstract class AbstractWebDriverFactory {
 
@@ -25,9 +25,9 @@ public abstract class AbstractWebDriverFactory {
 					System.out.println("quiting webdriver...."+Thread.currentThread().getId());
 					driver.quit();
 				} catch (WebDriverException ex) {
-//					if (WebUXDriver.getWebUXDriver().getConfig().getBrowser() != BrowserType.InternetExplore)
+//					if (WebUIDriver.getWebUXDriver().getConfig().getBrowser() != BrowserType.InternetExplore)
 						System.out.println("Quit exception--"
-								+ WebUXDriver.getWebUXDriver().getConfig()
+								+ WebUIDriver.getWebUXDriver().getConfig()
 										.getBrowser().name() + ":"
 								+ ex.getMessage());
 				}

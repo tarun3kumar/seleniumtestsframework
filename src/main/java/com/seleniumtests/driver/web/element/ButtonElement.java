@@ -1,11 +1,11 @@
 package com.seleniumtests.driver.web.element;
 
 import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.driver.web.WebUIDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 import com.seleniumtests.driver.web.BrowserType;
-import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.helper.ThreadHelper;
 
 public class ButtonElement extends HtmlElement {
@@ -22,7 +22,7 @@ public class ButtonElement extends HtmlElement {
 	public void click() {
 		captureSnapshot("before clicking");
 		TestLogging.logWebStep(null, "click on " + toHTML(), false);
-		BrowserType browser = WebUXDriver.getWebUXDriver().getConfig()
+		BrowserType browser = WebUIDriver.getWebUXDriver().getConfig()
 				.getBrowser();
 		if (browser == BrowserType.InternetExplore) {
 			super.sendKeys(Keys.ENTER);// not stable on IE9

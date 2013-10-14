@@ -16,10 +16,10 @@ import java.util.Date;
  * This class provides factory to create webDriver session
  * 
 */
-public class WebUXDriver {
+public class WebUIDriver {
 
 	private static ThreadLocal<WebDriver> driverSession = new ThreadLocal<WebDriver>();
-	private static ThreadLocal<WebUXDriver> uxDriverSession = new ThreadLocal<WebUXDriver>();
+	private static ThreadLocal<WebUIDriver> uxDriverSession = new ThreadLocal<WebUIDriver>();
 	private String node;
 	
 
@@ -82,9 +82,9 @@ public class WebUXDriver {
 		return driverSession.get();
 	}
 
-	public static WebUXDriver getWebUXDriver() {
+	public static WebUIDriver getWebUXDriver() {
 		if (uxDriverSession.get() == null) {
-			uxDriverSession.set(new WebUXDriver());
+			uxDriverSession.set(new WebUIDriver());
 		}
 		return uxDriverSession.get();
 	}
@@ -94,7 +94,7 @@ public class WebUXDriver {
 			driverSession.remove();
 		else {
 			if (getWebUXDriver() == null)
-				new WebUXDriver();
+				new WebUIDriver();
 			driverSession.set(driver);
 		}
 	}
@@ -103,12 +103,12 @@ public class WebUXDriver {
 	private WebDriver driver;
 	private IWebDriverFactory webDriverBuilder;
 
-	public WebUXDriver() {
+	public WebUIDriver() {
 		init();
 		uxDriverSession.set(this);
 	}
 
-	public WebUXDriver(String browser, String mode) {
+	public WebUIDriver(String browser, String mode) {
 		init();
 		this.setBrowser(browser);
 		this.setMode(mode);

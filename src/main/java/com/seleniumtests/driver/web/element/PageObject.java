@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.seleniumtests.controller.*;
+import com.seleniumtests.driver.web.WebUIDriver;
 import com.seleniumtests.helper.URLAssistant;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
@@ -29,7 +30,6 @@ import com.seleniumtests.controller.CustomAssertion;
 import com.seleniumtests.driver.web.BaseWebUtil;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;
-import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.helper.OSHelper;
@@ -98,7 +98,7 @@ public class PageObject extends BasePage implements IPage {
 		this.popupFlag = isPopup;
 		this.popupWindowName = popupWindowName;
 
-		driver = WebUXDriver.getWebDriver();
+		driver = WebUIDriver.getWebDriver();
 
 		if (!popupFlag) {
 
@@ -349,7 +349,7 @@ public class PageObject extends BasePage implements IPage {
 	}
 
 	public final void close() throws PageNotCurrentException {
-		if (WebUXDriver.getWebDriver() == null) {
+		if (WebUIDriver.getWebDriver() == null) {
 			return;
 		}
 		SeleniumTestsPageListener.informPageUnload(this);
@@ -361,7 +361,7 @@ public class PageObject extends BasePage implements IPage {
 			driver.close();
 		}catch(WebDriverException ignore){
 		}
-		if (WebUXDriver.getWebUXDriver().getMode()
+		if (WebUIDriver.getWebUXDriver().getMode()
 				.equalsIgnoreCase("LocallyOnRC")) {
 			try {
 				Thread.sleep(1000 * 2);
@@ -373,9 +373,9 @@ public class PageObject extends BasePage implements IPage {
 			if (isMultipleWindow)
 				this.selectWindow();
 			else
-				WebUXDriver.setWebDriver(null);
+				WebUIDriver.setWebDriver(null);
 		} catch (UnreachableBrowserException ex) {
-			WebUXDriver.setWebDriver(null);
+			WebUIDriver.setWebDriver(null);
 
 		}
 	}
@@ -611,7 +611,7 @@ public class PageObject extends BasePage implements IPage {
 	public String getJSErrors() {
 		// return (String) ((JavascriptExecutor)
 		// driver).executeScript("window.ecaf_js_error");
-		if (WebUXDriver.getWebUXDriver().isAddJSErrorCollectorExtension()) {
+		if (WebUIDriver.getWebUXDriver().isAddJSErrorCollectorExtension()) {
 			List<JavaScriptError> jsErrorList = JavaScriptError
 					.readErrors(driver);
 			if (!jsErrorList.isEmpty()) {
@@ -676,7 +676,7 @@ public class PageObject extends BasePage implements IPage {
 		// steps
 		/*
 		 * try{ PageFactory.initElements(driver, this); }catch(Exception e) {
-		 * //ignore exception } driver = WebUXDriver.getWebDriver(); Field[]
+		 * //ignore exception } driver = WebUIDriver.getWebDriver(); Field[]
 		 * fields = this.getClass().getDeclaredFields(); for (Field field :
 		 * fields) { //System.out.println(field.getName());
 		 * 
@@ -877,7 +877,7 @@ public class PageObject extends BasePage implements IPage {
 					return false;
 				}
 			}.wait(String.format("Timed out waiting for page to load"),
-					WebUXDriver.getWebUXDriver().getWebSessionTimeout());
+					WebUIDriver.getWebUXDriver().getWebSessionTimeout());
 		} catch (WaitTimedOutException ex) {
 
 		}

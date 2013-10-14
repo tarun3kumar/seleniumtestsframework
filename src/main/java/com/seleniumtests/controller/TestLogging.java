@@ -36,7 +36,7 @@ import com.seleniumtests.xmldog.XMLDog;
  */
 public class TestLogging {
 
-	private static Map<String, Map<String, Map<String, List<String>>>> pageListenerLogMap = Collections
+	private static Map<String, Map<String, Map<String, List<String>>>> logMap = Collections
 			.synchronizedMap(new HashMap<String, Map<String, Map<String, List<String>>>>());
 
 	private static final Set<IScreenshotListener> SCREENSHOT_LISTENERS = new LinkedHashSet<IScreenshotListener>();
@@ -88,13 +88,13 @@ public class TestLogging {
 
 	public static Map<String, Map<String, List<String>>> getPageListenerLog(
 			String pageListenerClassName) {
-		return pageListenerLogMap.get(pageListenerClassName);
+		return logMap.get(pageListenerClassName);
 	}
 
 	public static List<String> getPageListenerLogByMethodInstance(
 			ITestResult testResult) {
 
-		for (Entry<String, Map<String, Map<String, List<String>>>> listenerEntry : pageListenerLogMap
+		for (Entry<String, Map<String, Map<String, List<String>>>> listenerEntry : logMap
 				.entrySet()) {
 			if (!PluginsUtil.getInstance().isTestResultEffected(
 					listenerEntry.getKey()))

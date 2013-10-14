@@ -79,7 +79,7 @@ public class SeleniumTestsContext {
 
 	/* test data file */
 	public static final String TEST_DATA_FILE = "testDataFile";
-	private LinkedList<TearDownService> teardowns = new LinkedList<TearDownService>();
+	private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
 	private Map<ITestResult, List<Throwable>> verificationFailuresMap = new HashMap<ITestResult, List<Throwable>>();
 
 	/* Data object to store all context data */
@@ -241,7 +241,7 @@ public class SeleniumTestsContext {
 	 * Adds the given tear down.
 	 */
 	public void addTearDownService(TearDownService tearDown) {
-		teardowns.add(tearDown);
+		tearDownServices.add(tearDown);
 	}
 
 	public void addVerificationFailures(ITestResult result,
@@ -430,7 +430,7 @@ public class SeleniumTestsContext {
 	 * Returns the tear down list.
 	 */
 	public LinkedList<TearDownService> getTearDownServices() {
-		return teardowns;
+		return tearDownServices;
 	}
 
 	public String getTestDataFile() {
