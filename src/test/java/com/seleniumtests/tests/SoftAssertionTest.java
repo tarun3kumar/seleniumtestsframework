@@ -2,7 +2,7 @@ package com.seleniumtests.tests;
 
 import static com.seleniumtests.controller.CustomAssertion.*;
 
-import com.seleniumtests.controller.Logging;
+import com.seleniumtests.controller.TestLogging;
 import com.seleniumtests.controller.SeleniumTestPlan;
 import org.testng.annotations.Test;
 
@@ -23,6 +23,6 @@ public class SoftAssertionTest extends SeleniumTestPlan {
         assertTrue(false, "another boolean test failure");
         assertEquals("selenium", "qtp", "universal test failure :)");
         assertTrue(1==1, "never fails");
-        Logging.log("This message is logged after initial assertion failures. Hence test execution continues even in the wake of test failures");
+        TestLogging.log("This message is logged after initial assertion failures. Hence test execution continues even in the wake of test failures");
     }
 }

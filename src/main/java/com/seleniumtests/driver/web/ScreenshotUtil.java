@@ -10,7 +10,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 import com.seleniumtests.controller.SeleniumTestsContext;
-import com.seleniumtests.controller.Logging;
+import com.seleniumtests.controller.TestLogging;
 import com.seleniumtests.exception.WebSessionTerminatedException;
 import com.seleniumtests.helper.FileHelper;
 
@@ -251,7 +251,7 @@ public class ScreenshotUtil {
 					SeleniumTestsContextManager.getThreadContext().addScreenShot(screenShot);
 					sbMessage.append(messagePrefix + ": <a href='" + imagePath
 							+ "' class='lightbox'>screenshot</a>");
-					Logging.logWebOutput(null, sbMessage.toString(), false);
+					TestLogging.logWebOutput(null, sbMessage.toString(), false);
 					sbMessage = null;
 				}
 			}catch(WebSessionTerminatedException ex){

@@ -1,8 +1,7 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import org.openqa.selenium.By;
-
-import com.seleniumtests.controller.Logging;
 
 public class RadioButtonElement extends HtmlElement {
 
@@ -15,13 +14,13 @@ public class RadioButtonElement extends HtmlElement {
 	}
 
 	public void check() {
-		Logging.logWebStep(null, "check " + toHTML(), false);
+		TestLogging.logWebStep(null, "check " + toHTML(), false);
 		super.click();
 	}
 
 	@Override
 	public void click() {
-		Logging.logWebStep(null, "click on " + toHTML(), false);
+		TestLogging.logWebStep(null, "click on " + toHTML(), false);
 		super.click();
 	}
 

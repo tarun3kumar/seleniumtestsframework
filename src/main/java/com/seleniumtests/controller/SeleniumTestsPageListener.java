@@ -3,14 +3,13 @@ package com.seleniumtests.controller;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.driver.web.element.IPage;
-import com.seleniumtests.helper.URLAssistant;
 import com.seleniumtests.reporter.PluginsUtil;
 
 /**
  * Plugin architecture for SEO, Java Script, Accessibility etc tests.
  */
 public abstract class SeleniumTestsPageListener {
-    protected static final Logger logger = Logging.getLogger(SeleniumTestsPageListener.class);
+    protected static final Logger logger = TestLogging.getLogger(SeleniumTestsPageListener.class);
 
     /**
      * Informs all the page listeners on page Load

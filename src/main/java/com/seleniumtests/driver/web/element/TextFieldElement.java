@@ -1,9 +1,8 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
-
-import com.seleniumtests.controller.Logging;
 
 public class TextFieldElement extends HtmlElement {
 	public TextFieldElement(String label, By by) {
@@ -15,7 +14,7 @@ public class TextFieldElement extends HtmlElement {
 	}
 
 	public void clear() {
-		Logging.logWebStep(null, "remove data on " + toHTML(), false);
+		TestLogging.logWebStep(null, "remove data on " + toHTML(), false);
 		findElement();
 		// clear for file input, will get Exception:Element must be
 		// user-editable in order to clear it.
@@ -24,8 +23,8 @@ public class TextFieldElement extends HtmlElement {
 	}
 
 	public void sendKeys(String keysToSend) {
-		Logging.logWebStep(null, "enter data: \"" + keysToSend + "\" on "
-				+ toHTML(), false);
+		TestLogging.logWebStep(null, "enter data: \"" + keysToSend + "\" on "
+                + toHTML(), false);
 		findElement();
 		element.sendKeys(keysToSend);
 	}
@@ -34,8 +33,8 @@ public class TextFieldElement extends HtmlElement {
 		try {
 			clear();
 		} catch (WebDriverException e) {
-			Logging.logWebStep(null, "Exception:clear value on " + toHTML(),
-					false);
+			TestLogging.logWebStep(null, "Exception:clear value on " + toHTML(),
+                    false);
 		}
 		sendKeys(keysToSend);
 	}

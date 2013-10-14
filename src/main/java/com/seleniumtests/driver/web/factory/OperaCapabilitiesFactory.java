@@ -10,7 +10,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.opera.core.systems.OperaProfile;
-import com.seleniumtests.controller.Logging;
+import com.seleniumtests.controller.TestLogging;
 import com.seleniumtests.driver.web.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
@@ -72,8 +72,8 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 	protected String getOperaProfilePath(String path) {
 		String realPath = null;
 		if (path != null && !new File(path).exists()) {
-			Logging.log("Opera profile path:" + path
-					+ " can't be found, use default");
+			TestLogging.log("Opera profile path:" + path
+                    + " can't be found, use default");
 			path = null;
 		}
 		if (path != null) {

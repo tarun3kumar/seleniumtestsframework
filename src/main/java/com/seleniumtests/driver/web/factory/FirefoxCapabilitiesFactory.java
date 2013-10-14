@@ -3,6 +3,7 @@ package com.seleniumtests.driver.web.factory;
 import java.io.File;
 import java.io.IOException;
 
+import com.seleniumtests.controller.TestLogging;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -10,7 +11,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.controller.Logging;
 import com.seleniumtests.customProfileDirCUSTFF.FFProfileMarker;
 import com.seleniumtests.driver.web.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
@@ -155,8 +155,8 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 	protected String getFirefoxProfilePath(String path) {
 		String realPath = null;
 		if (path != null && !new File(path).exists()) {
-			Logging.log("Firefox profile path:" + path
-					+ " can't be found, use default");
+			TestLogging.log("Firefox profile path:" + path
+                    + " can't be found, use default");
 			path = null;
 		}
 		if (path != null) {

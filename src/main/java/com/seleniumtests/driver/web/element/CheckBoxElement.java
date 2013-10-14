@@ -1,8 +1,7 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import org.openqa.selenium.By;
-
-import com.seleniumtests.controller.Logging;
 
 public class CheckBoxElement extends HtmlElement {
 
@@ -15,7 +14,7 @@ public class CheckBoxElement extends HtmlElement {
 	}
 
 	public void check() {
-		Logging.logWebStep(null, "check " + toHTML(), false);
+		TestLogging.logWebStep(null, "check " + toHTML(), false);
 		if (!isSelected()) {
 			super.click();
 		}
@@ -23,7 +22,7 @@ public class CheckBoxElement extends HtmlElement {
 
 	@Override
 	public void click() {
-		Logging.logWebStep(null, "click on " + toHTML(), false);
+		TestLogging.logWebStep(null, "click on " + toHTML(), false);
 		super.click();
 	}
 
@@ -35,7 +34,7 @@ public class CheckBoxElement extends HtmlElement {
 	}
 
 	public void uncheck() {
-		Logging.logWebStep(null, "uncheck " + toHTML(), false);
+		TestLogging.logWebStep(null, "uncheck " + toHTML(), false);
 		if (isSelected()) {
 			super.click();
 		}

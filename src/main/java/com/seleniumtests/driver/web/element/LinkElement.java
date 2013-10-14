@@ -1,9 +1,8 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import com.seleniumtests.helper.URLAssistant;
 import org.openqa.selenium.By;
-
-import com.seleniumtests.controller.Logging;
 
 public class LinkElement extends HtmlElement {
 
@@ -18,7 +17,7 @@ public class LinkElement extends HtmlElement {
 	@Override
 	public void click() {
 		captureSnapshot("before clicking");
-		Logging.logWebStep(null, "click on " + toHTML(), false);
+		TestLogging.logWebStep(null, "click on " + toHTML(), false);
 		super.click();
 	}
 

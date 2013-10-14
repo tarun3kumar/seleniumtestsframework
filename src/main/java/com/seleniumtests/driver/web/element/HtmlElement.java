@@ -2,6 +2,7 @@ package com.seleniumtests.driver.web.element;
 
 import java.util.List;
 
+import com.seleniumtests.controller.TestLogging;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -26,7 +27,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.BrowserType;
 import com.seleniumtests.driver.web.ScreenshotUtil;
 import com.seleniumtests.driver.web.WebUXDriver;
@@ -47,7 +47,7 @@ public class HtmlElement {
 
 	private static final int EXPLICIT_WAIT_TIME_OUT = WebUXDriver
 			.getWebUXDriver().getExplicitWait();
-	protected static final Logger logger = Logging.getLogger(HtmlElement.class);
+	protected static final Logger logger = TestLogging.getLogger(HtmlElement.class);
 	protected WebDriver driver = WebUXDriver.getWebDriver();
 	protected WebUXDriver webUXDriver = WebUXDriver.getWebUXDriver();
 	protected WebElement element = null;
@@ -138,7 +138,7 @@ public class HtmlElement {
 			try {
 				element.click();
 			} catch (org.openqa.selenium.TimeoutException ex) {
-				Logging.log("Get timeout exception, ignore");
+				TestLogging.log("Get timeout exception, ignore");
 			}
 		} else {
 			// Ignore no response on ECMAScript evaluation command for Opera
@@ -197,7 +197,7 @@ public class HtmlElement {
 	 */
 	public void clickAt(String value) {
 		captureSnapshot("before clicking");
-		Logging.logWebStep(null, "click on " + toHTML(), false);
+		TestLogging.logWebStep(null, "click on " + toHTML(), false);
 		findElement();
 		String[] parts = value.split(",");
 		int xOffset = Integer.parseInt(parts[0]);
@@ -237,7 +237,7 @@ public class HtmlElement {
 		findElement();
 		((JavascriptExecutor) driver)
 				.executeScript(
-						"function simulate(f,c,d,e){var b,a=null;for(b in eventMatchers)if(eventMatchers[b].test(c)){a=b;break}if(!a)return!1;document.createEvent?(b=document.createEvent(a),a==\"HTMLEvents\"?b.initEvent(c,!0,!0):b.initMouseEvent(c,!0,!0,document.defaultView,0,d,e,d,e,!1,!1,!1,!1,0,null),f.dispatchEvent(b)):(a=document.createEventObject(),a.detail=0,a.screenX=d,a.screenY=e,a.clientX=d,a.clientY=e,a.ctrlKey=!1,a.altKey=!1,a.shiftKey=!1,a.metaKey=!1,a.button=1,f.fireEvent(\"on\"+c,a));return!0} var eventMatchers={HTMLEvents:/^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,MouseEvents:/^(?:click|dblclick|mouse(?:down|up|over|move|out))$/}; "
+						"function simulate(f,c,d,e){var b,a=null;for(b in eventMatchers)if(eventMatchers[b].test(c)){a=b;break}if(!a)return!1;document.createEvent?(b=document.createEvent(a),a==\"HTMLEvents\"?b.initEvent(c,!0,!0):b.initMouseEvent(c,!0,!0,document.defaultView,0,d,e,d,e,!1,!1,!1,!1,0,null),f.dispatchEvent(b)):(a=document.createEventObject(),a.detail=0,a.screenX=d,a.screenY=e,a.clientX=d,a.clientY=e,a.ctrlKey=!1,a.altKey=!1,a.shiftKey=!1,a.metaKey=!1,a.button=1,f.fireEvent(\"on\"+c,a));return!0} var eventMatchers={HTMLEvents:/^(?:load|unload|abort|errorLogger|select|change|submit|reset|focus|blur|resize|scroll)$/,MouseEvents:/^(?:click|dblclick|mouse(?:down|up|over|move|out))$/}; "
 								+ "simulate(arguments[0],\"mousemove\",arguments[1],arguments[2]);",
 						element, x, y);
 
@@ -497,7 +497,7 @@ public class HtmlElement {
 	 */
 	public boolean isElementPresent() {
 		if (WebUXDriver.getWebDriver() == null) {
-			Logging.log("Web Driver is terminated! Exception might caught in last action.");
+			TestLogging.log("Web Driver is terminated! Exception might caught in last action.");
 			throw new RuntimeException(
 					"Web Driver is terminated! Exception might caught in last action.");
 		}
@@ -507,14 +507,14 @@ public class HtmlElement {
 			count = WebUXDriver.getWebDriver().findElements(by).size();
 		} catch (RuntimeException e) {
 			if (e instanceof InvalidSelectorException) {
-				Logging.log("Got InvalidSelectorException, retry");
+				TestLogging.log("Got InvalidSelectorException, retry");
 				ThreadHelper.waitForSeconds(2);
 				count = WebUXDriver.getWebDriver().findElements(by).size();
 			} else if (e.getMessage() != null
 					&& e.getMessage()
 							.contains(
 									"TransformedEntriesMap cannot be cast to java.util.List")) {
-				Logging.log("Got CastException, retry");
+				TestLogging.log("Got CastException, retry");
 				ThreadHelper.waitForSeconds(2);
 				count = WebUXDriver.getWebDriver().findElements(by).size();
 			} else {
@@ -562,7 +562,7 @@ public class HtmlElement {
 	 * Forces a mouseDown event on the WebElement
 	 */
 	public void mouseDown() {
-		Logging.log("MouseDown " + this.toString());
+		TestLogging.log("MouseDown " + this.toString());
 		findElement();
 		Mouse mouse = ((HasInputDevices) driver).getMouse();
 		mouse.mouseDown(null);
@@ -572,7 +572,7 @@ public class HtmlElement {
 	 * Forces a mouseOver event on the WebElement
 	 */
 	public void mouseOver() {
-		Logging.log("MouseOver " + this.toString());
+		TestLogging.log("MouseOver " + this.toString());
 		findElement();
 		// build and perform the mouseOver with Advanced User Interactions API
 		// Actions builder = new Actions(driver);
@@ -598,7 +598,7 @@ public class HtmlElement {
 	 * Forces a mouseUp event on the WebElement
 	 */
 	public void mouseUp() {
-		Logging.log("MouseUp " + this.toString());
+		TestLogging.log("MouseUp " + this.toString());
 		findElement();
 		Mouse mouse = ((HasInputDevices) driver).getMouse();
 		mouse.mouseUp(null);
@@ -657,8 +657,8 @@ public class HtmlElement {
 	 * 
 	 */
 	public void waitForPresent(int timeout) {
-		Logging.logWebStep(null,
-				"wait for " + this.toString() + " to present.", false);
+		TestLogging.logWebStep(null,
+                "wait for " + this.toString() + " to present.", false);
 		Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
 		wait.until(new ExpectedCondition<WebElement>() {
 			public WebElement apply(WebDriver driver) {

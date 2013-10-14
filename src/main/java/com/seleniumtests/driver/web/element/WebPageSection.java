@@ -1,10 +1,10 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import com.seleniumtests.exception.SeleniumTestsException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;
 
@@ -47,7 +47,7 @@ public abstract class WebPageSection extends BasePage {
 		String title = screenShot.getTitle();
 		String url = screenShot.getLocation();
 		
-		Logging.logWebOutput(url, title + " (" + Logging.buildScreenshotLog(screenShot) + ")", false);
+		TestLogging.logWebOutput(url, title + " (" + TestLogging.buildScreenshotLog(screenShot) + ")", false);
 	}
 
 	public String getLocator() {

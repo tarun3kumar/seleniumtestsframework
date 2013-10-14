@@ -1,11 +1,10 @@
 package com.seleniumtests.driver.web;
 
+import com.seleniumtests.controller.TestLogging;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
-
-import com.seleniumtests.controller.Logging;
 
 public class BaseWebUtil {
 	private WebDriver driver;
@@ -16,8 +15,8 @@ public class BaseWebUtil {
 	
 	public void resizeWindow(int width, int height) {
 		try {
-			Logging.logWebStep(null, "Resize browser window to width " + width
-					+ " height " + height, false);
+			TestLogging.logWebStep(null, "Resize browser window to width " + width
+                    + " height " + height, false);
 			Dimension size = new Dimension(width, height);
 			driver.manage().window().setPosition(new Point(0, 0));
 			driver.manage().window().setSize(size);
@@ -42,8 +41,8 @@ public class BaseWebUtil {
 				((JavascriptExecutor) driver)
 						.executeScript("if (window.screen){window.moveTo(0, 0);window.resizeTo(window.screen.availWidth,window.screen.availHeight);}");
 			} catch (Exception ignore) {
-				Logging.log("Exception when maximizing browser window"
-						+ ignore.getMessage());
+				TestLogging.log("Exception when maximizing browser window"
+                        + ignore.getMessage());
 			}
 		}
 	}

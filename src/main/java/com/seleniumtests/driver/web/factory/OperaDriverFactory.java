@@ -26,7 +26,7 @@ public class OperaDriverFactory extends AbstractWebDriverFactory implements IWeb
 		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
 		if(cfg.getPageLoadTimeout()>=0)
 		{
-			//Logging.log("Opera doesn't support pageLoadTimeout, ignoring...");
+			//TestLogging.log("Opera doesn't support pageLoadTimeout, ignoring...");
 			//driver.manage().timeouts().pageLoadTimeout(cfg.getPageLoadTimeout(), TimeUnit.SECONDS);
 		}
 

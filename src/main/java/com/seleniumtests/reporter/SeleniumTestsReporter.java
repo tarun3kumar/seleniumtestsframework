@@ -91,7 +91,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			return sig1.compareTo(sig2);
 		}
 	}
-	private static Logger logger = Logging.getLogger(SeleniumTestsReporter.class);
+	private static Logger logger = TestLogging.getLogger(SeleniumTestsReporter.class);
 
 	protected static String escape(String string) {
 		if (null == string)
@@ -173,8 +173,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		//Handle Last Exception only for failed test cases
 		if(!result.isSuccess() && SeleniumTestsContextManager.getThreadContext() != null && screenShot!=null)
 		{
-			Logging.log("<div><table><tr bgcolor=\"yellow\"><td><b>-- Screenshot of current web page with webdriver exception --</b><td></tr></table></div>");
-			Logging.logWebOutput(screenShot.getTitle(), Logging.buildScreenshotLog(screenShot), true);
+			TestLogging.log("<div><table><tr bgcolor=\"yellow\"><td><b>-- Screenshot of current web page with webdriver exception --</b><td></tr></table></div>");
+			TestLogging.logWebOutput(screenShot.getTitle(), TestLogging.buildScreenshotLog(screenShot), true);
 		}
 		//Handle Soft CustomAssertion
 		if (method.isTestMethod()) {
@@ -331,7 +331,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	 * ve.setProperty("class.resource.loader.class",
 	 * "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 	 * ve.init(); generateCALErrorPanel(ve, res, "failed", suite, tc, calcount);
-	 * } catch (Exception e) { logger.error(e.getMessage()); }
+	 * } catch (Exception e) { logger.errorLogger(e.getMessage()); }
 	 * 
 	 * return res.toString(); }
 	 */
@@ -458,7 +458,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	 * t.merge(context, writer); res.append(writer.toString()); }
 	 * 
 	 * } catch (Exception e) { e.printStackTrace();
-	 * logger.error("error creating a cal log report for null test case id." +
+	 * logger.errorLogger("errorLogger creating a cal log report for null test case id." +
 	 * e.getMessage()); } } sbCalcount.append(cal); }
 	 */
 
@@ -522,7 +522,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		addAllTestResults(testResults, failedTests.get(tc.getName()));
 		addAllTestResults(testResults, tc.getFailedButWithinSuccessPercentageTests());
 
-		Map<String, Map<String, List<String>>> pageListenerLogMap = Logging.getPageListenerLog(abstractPageListener.getClass().getCanonicalName());
+		Map<String, Map<String, List<String>>> pageListenerLogMap = TestLogging.getPageListenerLog(abstractPageListener.getClass().getCanonicalName());
 		if (pageListenerLogMap == null || pageListenerLogMap.isEmpty()) {
 			res.append("<div class='method passed'><div class='yuk_goldgrad_tl'><div class='yuk_goldgrad_tr'>"
 					+ "<div class='yuk_goldgrad_m'></div></div></div>" + "<h3 class='yuk_grad_ltitle_passed'>No Errors found.</h3>"
@@ -562,7 +562,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						t.merge(context, writer);
 						res.append(writer.toString());
 					} catch (Exception e) {
-						logger.error("error creating a singlePageError." + e.getMessage());
+						logger.error("errorLogger creating a singlePageError." + e.getMessage());
 					}
 					pageCount++;
 				}
@@ -745,7 +745,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						t.merge(context, writer);
 						res.append(writer.toString());
 					} catch (Exception e) {
-						logger.error("error creating a singleTest." + e.getMessage());
+						logger.error("errorLogger creating a singleTest." + e.getMessage());
 						e.printStackTrace();
 					}
 				}
@@ -1086,7 +1086,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			JavaMethod jm = jc.getMethodBySignature(javaMethod, qdoxTypes);
 			return jm.getComment();
 		} catch (Throwable e) {
-			logger.error("error loading the javadoc comments for : " + method.getMethodName() + e);
+			logger.error("errorLogger loading the javadoc comments for : " + method.getMethodName() + e);
 			return null;
 		}
 
@@ -1203,7 +1203,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		// // soaThread.start();
 		//
 		// if (SeleniumTestsContext.isCalCollectionEnabled()) {
-		// logger.info("Collecting CAL Events...");
+		// logger.logInfo("Collecting CAL Events...");
 		//
 		// Calendar counter = Calendar.getInstance();
 		// counter.setTime(runBegin);
@@ -1236,7 +1236,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		// }
 		// }
 		// }
-		// logger.info("Completed Collecting CAL Events.");
+		// logger.logInfo("Completed Collecting CAL Events.");
 		// }
 		// // if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// // try {
@@ -1337,14 +1337,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	    {
 	        if(result.getMethod().equals(resultToCheck.getMethod()) && result.getEndMillis()==resultToCheck.getEndMillis())
 	        {
-	        	//logger.info("Keep failed cases:"+result.getMethod().getMethodName());
+	        	//logger.logInfo("Keep failed cases:"+result.getMethod().getMethodName());
 	        	isFailed = true;
 	            break;
 	        }
 	    }
 	    if(!isFailed)
 	    {
-	    	//logger.info("Removed failed cases:"+result.getMethod().getMethodName());
+	    	//logger.logInfo("Removed failed cases:"+result.getMethod().getMethodName());
 	    	System.out.println("Removed failed cases:"+result.getMethod().getMethodName());
 	    	//test.getFailedTests().getAllResults().remove(result);
 	    	removeMap.addResult(result, result.getMethod());

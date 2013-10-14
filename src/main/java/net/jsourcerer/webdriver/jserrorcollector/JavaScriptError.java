@@ -11,7 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
 /**
- * Holds information about a JavaScript error that has occurred in the browser.
+ * Holds information about a JavaScript errorLogger that has occurred in the browser.
  * This can be currently only used with the {@link FirefoxDriver} (see {@link #addExtension(FirefoxProfile)}.
  * @author Marc Guillemot
  * @version $Revision:  $
@@ -50,7 +50,7 @@ public class JavaScriptError {
 	
 	/**
 	 * If Firebug is installed and active, this will contain the content of the Firebug Console since
-	 * the previous JavaScript error. 
+	 * the previous JavaScript errorLogger.
 	 * @return
 	 */
 	public String getConsole() {

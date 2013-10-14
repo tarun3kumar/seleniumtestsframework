@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import com.seleniumtests.controller.TestLogging;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
@@ -15,7 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.BrowserType;
 import com.seleniumtests.driver.web.ScreenShotRemoteWebDriver;
 import com.seleniumtests.driver.web.WebDriverConfig;
@@ -103,7 +103,7 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 				if (ex.getMessage()
 						.contains(
 								"Unable to connect to host 127.0.0.1 on port 7062 after 45000 ms. Firefox console output")) {
-					Logging.log("Firefox Driver creation got port 7062 exception, retry after 5 seconds");
+					TestLogging.log("Firefox Driver creation got port 7062 exception, retry after 5 seconds");
 					ThreadHelper.waitForSeconds(5);
 					driver = new ScreenShotRemoteWebDriver(url, capability);
 				} else
@@ -145,9 +145,9 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 				System.out.println("WebDriver is running on node " + node
 						+ ", " + browserName + version + ", session "
 						+ ((RemoteWebDriver) driver).getSessionId());
-				Logging.log("WebDriver is running on node " + node + ", "
-						+ browserName + version + ", session "
-						+ ((RemoteWebDriver) driver).getSessionId());
+				TestLogging.log("WebDriver is running on node " + node + ", "
+                        + browserName + version + ", session "
+                        + ((RemoteWebDriver) driver).getSessionId());
 			} catch (org.json.JSONException e) {
 			}
 		} catch (Exception ex) {

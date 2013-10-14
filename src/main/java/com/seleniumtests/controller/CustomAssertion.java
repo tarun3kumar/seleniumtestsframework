@@ -14,7 +14,7 @@ public class CustomAssertion {
 
     private static void addVerificationFailure(Throwable e) {
         SeleniumTestsContextManager.getThreadContext().addVerificationFailures(Reporter.getCurrentTestResult(), e);
-        Logging.log(null, "Assertion Failure: " + e.getMessage(), true, true);
+        TestLogging.log("!!!FAILURE ALERT!!! - Assertion Failure: " + e.getMessage(), true, true);
     }
 
     // CustomAssertion Methods

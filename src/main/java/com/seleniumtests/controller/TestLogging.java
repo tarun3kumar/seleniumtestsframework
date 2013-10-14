@@ -31,25 +31,18 @@ import com.seleniumtests.xmldog.Differences;
 import com.seleniumtests.xmldog.XMLDog;
 
 /**
- * Provides log methods for Web, API, DB, Email and SSH testing
+ * Log methods for test operations
  * 
  */
-public class Logging {
+public class TestLogging {
 
 	private static Map<String, Map<String, Map<String, List<String>>>> pageListenerLogMap = Collections
 			.synchronizedMap(new HashMap<String, Map<String, Map<String, List<String>>>>());
 
-	private static final Set<IScreenshotListener> screenshotListeners = new LinkedHashSet<IScreenshotListener>();
-
-	/**
-	 * Ability to register IScreenshotListeners.
-	 */
-	public static void registerScreenshotListener(IScreenshotListener screenshotListener) {
-		screenshotListeners.add(screenshotListener);
-	}
+	private static final Set<IScreenshotListener> SCREENSHOT_LISTENERS = new LinkedHashSet<IScreenshotListener>();
 
 	public static void logScreenshot(final ScreenShot screenshot) {
-		for (final IScreenshotListener screenshotListener : screenshotListeners) {
+		for (final IScreenshotListener screenshotListener : SCREENSHOT_LISTENERS) {
 			new Thread() {
 				public void run() {
 					try {
@@ -57,15 +50,11 @@ public class Logging {
 								screenshot.getTitle(), "png",
 								screenshot.getFullImagePath());
 					} catch (Exception e) {
-						// catching all listener impl exceptions to keep
-						// continue with tests execution.
-						// who ever implementing listener they must handle the
-						// excetpions properly.
+						// catch the exception and continue with tests execution.
 						System.err
 								.println("Error in ScreenshotListener implementation "
 										+ screenshotListener.getClass().getName()
 										+ ". " + e.getMessage());
-						// stacktrace will help to pin point issue.
 						e.printStackTrace();
 					}
 				}
@@ -74,17 +63,17 @@ public class Logging {
 	}
 	
 	/**
-	 * Log method
+	 * error Logger
 	 * 
 	 * @param message
 	 */
-	public static void error(String message) {
-		message = "<li><b><font color='#FF0000'>" + message
+	public static void errorLogger(String message) {
+		message = "<li><b><font color='#6600CC'>" + message
 				+ "</font></b></li>";
-		log(null, message, false, false);
+		log(message, false, false);
 	}
 
-	public static Logger getLogger(Class<?> clz) {
+	public static Logger getLogger(Class<?> cls) {
 		boolean rootIsConfigured = Logger.getRootLogger().getAllAppenders()
 				.hasMoreElements();
 		if (!rootIsConfigured) {
@@ -94,7 +83,7 @@ public class Logging {
 					.getAllAppenders().nextElement();
 			appender.setLayout(new PatternLayout(" %-5p %d [%t] %C{1}: %m%n"));
 		}
-		return Logger.getLogger(clz);
+		return Logger.getLogger(cls);
 	}
 
 	public static Map<String, Map<String, List<String>>> getPageListenerLog(
@@ -127,13 +116,13 @@ public class Logging {
 	}
 
 	/**
-	 * Log method
+	 * Log info
 	 * 
 	 * @param message
 	 */
-	public static void info(String message) {
-		message = "<li><font color='#008000'>" + message + "</font></li>";
-		log(null, message, false, false);
+	public static void logInfo(String message) {
+		message = "<li><font color='#00cd00'>" + message + "</font></li>";
+		log(message, false, false);
 	}
 
 	/**
@@ -142,7 +131,7 @@ public class Logging {
 	 * @param message
 	 */
 	public static void log(String message) {
-		log(null, message, false, false);
+		log(message, false, false);
 	}
 
 	/**
@@ -152,10 +141,10 @@ public class Logging {
 	 * @param logToStandardOutput
 	 */
 	public static void log(String message, boolean logToStandardOutput) {
-		log(null, message, false, logToStandardOutput);
+		log(message, false, logToStandardOutput);
 	}
 
-	public static void log(String url, String message, boolean failed,
+	public static void log(String message, boolean failed,
 			boolean logToStandardOutput) {
 
 		if (message == null)
@@ -163,15 +152,10 @@ public class Logging {
 		message = message.replaceAll("\\n", "<br/>");
 
 		if (failed) {
-			message = "<span style=\"font-weight:bold;color:#FF0066;\">"
+			message = "<span style=\"font-weight:bold;color:#cc0052;\">"
 					+ message + "</span>";
 		}
-		// Added for debugging
-		// System.out.println(Thread.currentThread()+":"+message);
-
-		Reporter.log(escape(message), logToStandardOutput);// fix
-																			// for
-																			// testng6.7
+		Reporter.log(escape(message), logToStandardOutput);
 	}
 	
 	public static String escape(String message){
@@ -187,33 +171,12 @@ public class Logging {
 		return message;
 	}
 
-	public static void logAPICall(String url, String message, boolean failed) {
-		log(url, "<li>" + (failed ? "<b>FailedAPICall</b>: " : "APICall: ")
-				+ message + "</li>", failed, false);
-	}
-
-	public static void logDBCall(String message, boolean failed) {
-		log(null, "<li>" + (failed ? "<b>FailedDBCall</b>: " : "DBCall: ")
-				+ message + "</li>", failed, false);
-	}
-
-	public static void logEmailStep(String message, boolean failed) {
-		log(null, "<li>"
-				+ (failed ? "<b>FailedEmailStep</b>: " : "EmailStep: ")
-				+ message + "</li>", failed, false);
-	}
-
-	public static void logSSHCall(String message, boolean failed) {
-		log(null, "<li>" + (failed ? "<b>FailedSSHStep</b>: " : "SSHStep: ")
-				+ message + "</li>", failed, false);
-	}
-
 	public static void logWebOutput(String url, String message, boolean failed) {
-		log(url, "Output: " + message + "<br/>", failed, false);
+		log("Output: " + message + "<br/>", failed, false);
 	}
 
 	public static void logWebStep(String url, String message, boolean failed) {
-		log(url, "<li>" + (failed ? "<b>FailedStep</b>: " : " ") + message
+		log("<li>" + (failed ? "<b>FailedStep</b>: " : " ") + message
 				+ "</li>", failed, false);
 	}
 	
@@ -235,7 +198,7 @@ public class Logging {
 	 */
 	public static void warning(String message) {
 		message = "<li><font color='#FFFF00'>" + message + "</font></li>";
-		log(null, message, false, false);
+		log(message, false, false);
 	}
 	
 	public static ArrayList<String> getRawLog(ITestResult result){

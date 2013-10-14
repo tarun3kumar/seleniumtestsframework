@@ -22,7 +22,7 @@ import com.seleniumtests.driver.web.WebUXDriver;
  *
  */
 public abstract class SeleniumTestPlan {
-    private static final Logger logger = Logging.getLogger(SeleniumTestPlan.class);
+    private static final Logger logger = TestLogging.getLogger(SeleniumTestPlan.class);
     private Date start;
 
     static {

@@ -1,9 +1,9 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import org.openqa.selenium.By;
 
 import com.seleniumtests.controller.CustomAssertion;
-import com.seleniumtests.controller.Logging;
 
 public class LabelElement extends HtmlElement {
 	public LabelElement(String label, By by) {
@@ -16,7 +16,7 @@ public class LabelElement extends HtmlElement {
 
 	@Override
 	public String getText() {
-		Logging.logWebStep(null, "get text from " + toHTML(), false);
+		TestLogging.logWebStep(null, "get text from " + toHTML(), false);
 		return super.getText();
 	}
 	

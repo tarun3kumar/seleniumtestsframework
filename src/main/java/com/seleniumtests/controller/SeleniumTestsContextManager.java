@@ -24,7 +24,7 @@ import com.seleniumtests.helper.XMLHelper;
 public class SeleniumTestsContextManager {
 
     // Customized Contex Attribute
-    private static List<IContexAttributeListener> contexAttributeListenerList = Collections.synchronizedList(new ArrayList<IContexAttributeListener>());
+    private static List<IContextAttributeListener> contexAttributeListenerList = Collections.synchronizedList(new ArrayList<IContextAttributeListener>());
 
     // define the global level context
     private static SeleniumTestsContext globalContext;
@@ -35,7 +35,7 @@ public class SeleniumTestsContextManager {
     // define the thread level SeleniumTestsContext
     private static ThreadLocal<SeleniumTestsContext> threadLocalContext = new ThreadLocal<SeleniumTestsContext>();
 
-    public static void addContexAttributeListener(IContexAttributeListener listener) {
+    public static void addContexAttributeListener(IContextAttributeListener listener) {
         contexAttributeListenerList.add(listener);
     }
 

@@ -20,11 +20,11 @@ import com.seleniumtests.controller.Filter;
 import com.seleniumtests.util.internal.entity.TestEntity;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.Logging;
+import com.seleniumtests.controller.TestLogging;
 import com.seleniumtests.exception.SeleniumTestsException;
 
 public class CSVUtil {
-    private static Logger logger = Logging.getLogger(CSVUtil.class);
+    private static Logger logger = TestLogging.getLogger(CSVUtil.class);
 
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DELIM_CHAR = ",";

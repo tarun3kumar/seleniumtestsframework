@@ -1,9 +1,9 @@
 package com.seleniumtests.driver.web.element;
 
+import com.seleniumtests.controller.TestLogging;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import com.seleniumtests.controller.Logging;
 import com.seleniumtests.driver.web.BrowserType;
 import com.seleniumtests.driver.web.WebUXDriver;
 import com.seleniumtests.helper.ThreadHelper;
@@ -21,7 +21,7 @@ public class ButtonElement extends HtmlElement {
 	@Override
 	public void click() {
 		captureSnapshot("before clicking");
-		Logging.logWebStep(null, "click on " + toHTML(), false);
+		TestLogging.logWebStep(null, "click on " + toHTML(), false);
 		BrowserType browser = WebUXDriver.getWebUXDriver().getConfig()
 				.getBrowser();
 		if (browser == BrowserType.InternetExplore) {
@@ -35,8 +35,8 @@ public class ButtonElement extends HtmlElement {
 
 	public void submit() {
 		captureSnapshot("before form submission");
-		Logging.logWebStep(null, "submit form by clicking on " + toHTML(),
-				false);
+		TestLogging.logWebStep(null, "submit form by clicking on " + toHTML(),
+                false);
 		findElement();
 		element.submit();
 	}
