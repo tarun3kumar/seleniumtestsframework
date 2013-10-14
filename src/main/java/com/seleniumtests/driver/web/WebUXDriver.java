@@ -1,7 +1,7 @@
 package com.seleniumtests.driver.web;
 
-import com.seleniumtests.controller.Context;
-import com.seleniumtests.controller.ContextManager;
+import com.seleniumtests.controller.SeleniumTestsContext;
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 import com.seleniumtests.driver.web.factory.*;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -288,92 +288,92 @@ public class WebUXDriver {
 	}
 
 	private void init() {
-		if (ContextManager.getThreadContext() == null)
+		if (SeleniumTestsContextManager.getThreadContext() == null)
 			return;
 
-		String browser = ContextManager.getThreadContext().getWebRunBrowser();
+		String browser = SeleniumTestsContextManager.getThreadContext().getWebRunBrowser();
 		config.setBrowser(BrowserType.getBrowserType(browser));
-		String mode = ContextManager.getThreadContext().getWebRunMode();
+		String mode = SeleniumTestsContextManager.getThreadContext().getWebRunMode();
 		config.setMode(WebDriverMode.valueOf(mode));
-		String hubUrl = ContextManager.getThreadContext().getWebDriverGrid();
+		String hubUrl = SeleniumTestsContextManager.getThreadContext().getWebDriverGrid();
 		config.setHubUrl(hubUrl);
-		String ffProfilePath = ContextManager.getThreadContext()
+		String ffProfilePath = SeleniumTestsContextManager.getThreadContext()
 				.getFirefoxUserProfilePath();
 		config.setFfProfilePath(ffProfilePath);
-		String operaProfilePath = ContextManager.getThreadContext()
+		String operaProfilePath = SeleniumTestsContextManager.getThreadContext()
 				.getOperaUserProfilePath();
 		config.setOperaProfilePath(operaProfilePath);
-		String ffBinPath = ContextManager.getThreadContext()
+		String ffBinPath = SeleniumTestsContextManager.getThreadContext()
 				.getFirefoxBinPath();
 		config.setFfBinPath(ffBinPath);
-		String chromeBinPath = ContextManager.getThreadContext()
+		String chromeBinPath = SeleniumTestsContextManager.getThreadContext()
 				.getChromeBinPath();
 		config.setChromeBinPath(chromeBinPath);
-		String chromeDriverPath = ContextManager.getThreadContext()
+		String chromeDriverPath = SeleniumTestsContextManager.getThreadContext()
 				.getChromeDriverPath();
 		config.setChromeDriverPath(chromeDriverPath);
-		String ieDriverPath = ContextManager.getThreadContext()
+		String ieDriverPath = SeleniumTestsContextManager.getThreadContext()
 				.getIEDriverPath();
 		config.setIeDriverPath(ieDriverPath);
-		int webSessionTimeout = ContextManager.getThreadContext()
+		int webSessionTimeout = SeleniumTestsContextManager.getThreadContext()
 				.getWebSessionTimeout();
 		config.setWebSessionTimeout(webSessionTimeout);
-		double implicitWaitTimeout = ContextManager.getThreadContext()
+		double implicitWaitTimeout = SeleniumTestsContextManager.getThreadContext()
 				.getImplicitWaitTimeout();
 		config.setImplicitWaitTimeout(implicitWaitTimeout);
-		int explicitWaitTimeout = ContextManager.getThreadContext()
+		int explicitWaitTimeout = SeleniumTestsContextManager.getThreadContext()
 				.getExplicitWaitTimeout();
 		config.setExplicitWaitTimeout(explicitWaitTimeout);
-		config.setPageLoadTimeout(ContextManager.getThreadContext()
+		config.setPageLoadTimeout(SeleniumTestsContextManager.getThreadContext()
 				.getPageLoadTimeout());
 
-		String outputDirectory = ContextManager.getGlobalContext()
+		String outputDirectory = SeleniumTestsContextManager.getGlobalContext()
 				.getOutputDirectory();
 		config.setOutputDirectory(outputDirectory);
 
-		if (ContextManager.getThreadContext().isWebProxyEnabled()) {
-			String proxyHost = ContextManager.getThreadContext()
+		if (SeleniumTestsContextManager.getThreadContext().isWebProxyEnabled()) {
+			String proxyHost = SeleniumTestsContextManager.getThreadContext()
 					.getWebProxyAddress();
 			config.setProxyHost(proxyHost);
 		}
-		String browserVersion = ContextManager.getThreadContext()
+		String browserVersion = SeleniumTestsContextManager.getThreadContext()
 				.getWebBrowserVersion();
 		config.setBrowserVersion(browserVersion);
-		String platform = ContextManager.getThreadContext().getPlatform();
+		String platform = SeleniumTestsContextManager.getThreadContext().getPlatform();
 		if (platform != null)
 			config.setPlatform(Platform.valueOf(platform));
-		if ("false".equalsIgnoreCase((String) ContextManager.getThreadContext()
-				.getAttribute(Context.Set_Assume_Untrusted_Certificate_Issuer))) {
+		if ("false".equalsIgnoreCase((String) SeleniumTestsContextManager.getThreadContext()
+				.getAttribute(SeleniumTestsContext.Set_Assume_Untrusted_Certificate_Issuer))) {
 			config.setSetAssumeUntrustedCertificateIssuer(false);
 		}
-		if ("false".equalsIgnoreCase((String) ContextManager.getThreadContext()
-				.getAttribute(Context.Set_Accept_Untrusted_Certificates))) {
+		if ("false".equalsIgnoreCase((String) SeleniumTestsContextManager.getThreadContext()
+				.getAttribute(SeleniumTestsContext.Set_Accept_Untrusted_Certificates))) {
 			config.setSetAcceptUntrustedCertificates(false);
 		}
-		if ("false".equalsIgnoreCase((String) ContextManager.getThreadContext()
-				.getAttribute(Context.ENABLE_JAVASCRIPT))) {
+		if ("false".equalsIgnoreCase((String) SeleniumTestsContextManager.getThreadContext()
+				.getAttribute(SeleniumTestsContext.ENABLE_JAVASCRIPT))) {
 			config.setEnableJavascript(false);
 		}
-		if (ContextManager.getThreadContext().getNtlmAuthTrustedUris() != null)
-			config.setNtlmAuthTrustedUris(ContextManager.getThreadContext()
+		if (SeleniumTestsContextManager.getThreadContext().getNtlmAuthTrustedUris() != null)
+			config.setNtlmAuthTrustedUris(SeleniumTestsContextManager.getThreadContext()
 					.getNtlmAuthTrustedUris());
-		if (ContextManager.getThreadContext().getBrowserDownloadDir() != null)
-			config.setBrowserDownloadDir(ContextManager.getThreadContext()
+		if (SeleniumTestsContextManager.getThreadContext().getBrowserDownloadDir() != null)
+			config.setBrowserDownloadDir(SeleniumTestsContextManager.getThreadContext()
 					.getBrowserDownloadDir());
-		if (ContextManager.getThreadContext().getAddJSErrorCollectorExtension() != null)
+		if (SeleniumTestsContextManager.getThreadContext().getAddJSErrorCollectorExtension() != null)
 			config.setAddJSErrorCollectorExtension(Boolean
-					.parseBoolean(ContextManager.getThreadContext()
+					.parseBoolean(SeleniumTestsContextManager.getThreadContext()
 							.getAddJSErrorCollectorExtension()));
 		String ua = null;
-			if (ContextManager.getThreadContext().getUserAgent() != null) {
-				ua = ContextManager.getThreadContext().getUserAgent();
+			if (SeleniumTestsContextManager.getThreadContext().getUserAgent() != null) {
+				ua = SeleniumTestsContextManager.getThreadContext().getUserAgent();
 			} else {
 				ua = null;
 			}
 		config.setUserAgentOverride(ua);
-		String listeners = ContextManager.getThreadContext()
+		String listeners = SeleniumTestsContextManager.getThreadContext()
 				.getWebDriverListener();
-		if (ContextManager.getThreadContext().getEnableExceptionListener()) {
+		if (SeleniumTestsContextManager.getThreadContext().getEnableExceptionListener()) {
 			if (listeners != null) {
 				listeners = listeners + ",";
 			} else
@@ -384,11 +384,11 @@ public class WebUXDriver {
 			config.setWebDriverListeners(listeners);
 		else
 			config.setWebDriverListeners("");
-		config.setUseFirefoxDefaultProfile(ContextManager.getThreadContext()
+		config.setUseFirefoxDefaultProfile(SeleniumTestsContextManager.getThreadContext()
 				.isUseFirefoxDefaultProfile());
-		config.setAppName(ContextManager.getThreadContext().getAppName());
-		config.setAppVersion(ContextManager.getThreadContext().getAppVersion());
-		String size = ContextManager.getThreadContext().getBrowserWindowSize();
+		config.setAppName(SeleniumTestsContextManager.getThreadContext().getAppName());
+		config.setAppVersion(SeleniumTestsContextManager.getThreadContext().getAppVersion());
+		String size = SeleniumTestsContextManager.getThreadContext().getBrowserWindowSize();
 		if (size != null) {
 			int width = -1;
 			int height = -1;

@@ -31,6 +31,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.seleniumtests.controller.*;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -51,12 +52,7 @@ import org.testng.internal.TestResult;
 import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
-import com.seleniumtests.controller.AbstractPageListener;
-import com.seleniumtests.controller.CustomAssertion;
-import com.seleniumtests.controller.Context;
-import com.seleniumtests.controller.ContextManager;
-import com.seleniumtests.controller.Logging;
-import com.seleniumtests.controller.TestRetryAnalyzer;
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.helper.StringHelper;
 import com.thoughtworks.qdox.JavaDocBuilder;
@@ -173,9 +169,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 
 	public void afterInvocation(IInvokedMethod method, ITestResult result) {
 		Reporter.setCurrentTestResult(result);
-		ScreenShot screenShot  = ContextManager.getThreadContext().getExceptionScreenShot(); 
+		ScreenShot screenShot  = SeleniumTestsContextManager.getThreadContext().getExceptionScreenShot();
 		//Handle Last Exception only for failed test cases
-		if(!result.isSuccess() && ContextManager.getThreadContext() != null && screenShot!=null)
+		if(!result.isSuccess() && SeleniumTestsContextManager.getThreadContext() != null && screenShot!=null)
 		{
 			Logging.log("<div><table><tr bgcolor=\"yellow\"><td><b>-- Screenshot of current web page with webdriver exception --</b><td></tr></table></div>");
 			Logging.logWebOutput(screenShot.getTitle(), Logging.buildScreenshotLog(screenShot), true);
@@ -401,7 +397,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	 * 
 	 * if (event.getTestCaseId() != null &&
 	 * !"null".equalsIgnoreCase(event.getTestCaseId())) {
-	 * contentBuffer.append(Context
+	 * contentBuffer.append(SeleniumTestsContext
 	 * .getSignatureFromTestCaseId(event.getTestCaseId()));
 	 * contentBuffer.append(" - "); contentBuffer.append(event.getTestCaseId());
 	 * contentBuffer.append("</td></tr>"); } else
@@ -445,7 +441,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	 * 
 	 * if (event.getTestCaseId() != null &&
 	 * !"null".equalsIgnoreCase(event.getTestCaseId())) {
-	 * contentBuffer.append(Context
+	 * contentBuffer.append(SeleniumTestsContext
 	 * .getSignatureFromTestCaseId(event.getTestCaseId()));
 	 * contentBuffer.append(" - "); contentBuffer.append(event.getTestCaseId());
 	 * contentBuffer.append("</td></tr>"); } else
@@ -659,7 +655,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 							continue;
 						}
 					}
-					Context testLevelContext = ContextManager.getTestLevelContext(testName);
+					SeleniumTestsContext testLevelContext = SeleniumTestsContextManager.getTestLevelContext(testName);
 					if (testLevelContext !=  null ) {
 						String appURL = testLevelContext.getAppURL();
 						String browser = (String)testLevelContext.getAttribute("browser");
@@ -759,12 +755,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	}
 
 	public void generateReport(List<XmlSuite> xml, List<ISuite> suites, String outdir) {
-		ITestContext testCtx = ContextManager.getGlobalContext().getTestNGContext();
+		ITestContext testCtx = SeleniumTestsContextManager.getGlobalContext().getTestNGContext();
 		if(testCtx == null) {
 		   logger.error("Please check if your class extends from SeleniumTestPlan!");
 		   return;
 		}
-		File f = new File(ContextManager.getGlobalContext().getOutputDirectory());
+		File f = new File(SeleniumTestsContextManager.getGlobalContext().getOutputDirectory());
 		setOutputDirectory(f.getParentFile().getAbsolutePath());
 		setResources(getOutputDirectory() + "\\resources");
 		try {
@@ -778,8 +774,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			m_out.close();
 			copyResources();
 			logger.info("report generated.");
-			//String browserPath = (String) testCtx.getSuite().getParameter(Context.OPEN_REPORT_IN_BROWSER);
-			String browserPath = (String)ContextManager.getGlobalContext().getAttribute(Context.OPEN_REPORT_IN_BROWSER);
+			//String browserPath = (String) testCtx.getSuite().getParameter(SeleniumTestsContext.OPEN_REPORT_IN_BROWSER);
+			String browserPath = (String) SeleniumTestsContextManager.getGlobalContext().getAttribute(SeleniumTestsContext.OPEN_REPORT_IN_BROWSER);
 			if (browserPath != null && browserPath.trim().length() > 0) {
 				executeCmd(browserPath , getReportLocation().getAbsolutePath());
 			}
@@ -1200,18 +1196,18 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		//
 		// // Thread soaThread = new Thread(){@Override
 		// // public void run() {
-		// // if(Context.isCalCollectionEnabled()){
+		// // if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// // soaReporter.onFinish(arg0);
 		// // }
 		// // }};
 		// // soaThread.start();
 		//
-		// if (Context.isCalCollectionEnabled()) {
+		// if (SeleniumTestsContext.isCalCollectionEnabled()) {
 		// logger.info("Collecting CAL Events...");
 		//
 		// Calendar counter = Calendar.getInstance();
 		// counter.setTime(runBegin);
-		// CalEventCollector cal = new CalEventCollector(Context.getRunId());
+		// CalEventCollector cal = new CalEventCollector(SeleniumTestsContext.getRunId());
 		// ArrayList<CALEvent> events = new ArrayList<CALEvent>();
 		//
 		// try {
@@ -1222,11 +1218,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		//
 		// while (counter.before(runEnd)) {
 		//
-		// events.addAll(cal.collect(Context.getPool().toLowerCase(), counter));
+		// events.addAll(cal.collect(SeleniumTestsContext.getPool().toLowerCase(), counter));
 		// counter.add(Calendar.HOUR, 1);
 		// }
 		//
-		// events.addAll(cal.collect(Context.getPool().toLowerCase(), counter));
+		// events.addAll(cal.collect(SeleniumTestsContext.getPool().toLowerCase(), counter));
 		//
 		// // Sort events into HashMap using cmd id as key
 		// if (!events.isEmpty()) {
@@ -1242,7 +1238,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		// }
 		// logger.info("Completed Collecting CAL Events.");
 		// }
-		// // if(Context.isCalCollectionEnabled()){
+		// // if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// // try {
 		// // soaThread.join();
 		// // } catch (InterruptedException e) {
@@ -1262,7 +1258,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 
 	public void onStart(ITestContext arg0) {
 		// runBegin = Calendar.getInstance().getTime();
-		// if(Context.isCalCollectionEnabled()){
+		// if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// soaReporter.onStart(arg0);
 		// }
 		isRetryHandleNeeded.put(arg0.getName(), false);
@@ -1271,7 +1267,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	}
 
 	public void onTestFailedButWithinSuccessPercentage(ITestResult arg0) {
-		// if(Context.isCalCollectionEnabled()){
+		// if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// soaReporter.onTestFailedButWithinSuccessPercentage(arg0);
 		// }
 	}
@@ -1292,26 +1288,26 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			System.out.println(arg0.getMethod()+" Failed in "+testRetryAnalyzer.getCount()+" times");
 			isRetryHandleNeeded.put(arg0.getTestContext().getName(), true);
 		}
-		// if(Context.isCalCollectionEnabled()){
+		// if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// soaReporter.onTestFailure(arg0);
 		// }
 	}
 
 	public void onTestSkipped(ITestResult arg0) {
-		// if(Context.isCalCollectionEnabled()){
+		// if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// soaReporter.onTestSkipped(arg0);
 		// }
 
 	}
 
 	public void onTestStart(ITestResult arg0) {
-		// if(Context.isCalCollectionEnabled()){
+		// if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// soaReporter.onTestStart(arg0);
 		// }
 	}
 
 	public void onTestSuccess(ITestResult arg0) {
-		// if(Context.isCalCollectionEnabled()){
+		// if(SeleniumTestsContext.isCalCollectionEnabled()){
 		// soaReporter.onTestSuccess(arg0);
 		// }
 /*		if (arg0.getMethod().getRetryAnalyzer() != null) {
@@ -1442,14 +1438,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			context.put("userName", userName);
 			context.put("currentDate", new Date().toString());
 			// context.put("runId", (String)
-			// ContextManager.getGlobalContext().getAttribute(Context.RUN_ID));
+			// SeleniumTestsContextManager.getGlobalContext().getAttribute(SeleniumTestsContext.RUN_ID));
 			// context.put("pool", poolInfo);
-//			context.put("pool", (String) ContextManager.getGlobalContext().getPool());
+//			context.put("pool", (String) SeleniumTestsContextManager.getGlobalContext().getPool());
 			// context.put("apipool", (String)
-			// ContextManager.getGlobalContext().getAttribute(Context.API_POOL));
+			// SeleniumTestsContextManager.getGlobalContext().getAttribute(SeleniumTestsContext.API_POOL));
 			// context.put("buildTag", build);
-			String mode = ContextManager.getGlobalContext().getWebRunMode();
-			String hubUrl = ContextManager.getGlobalContext().getWebDriverGrid();
+			String mode = SeleniumTestsContextManager.getGlobalContext().getWebRunMode();
+			String hubUrl = SeleniumTestsContextManager.getGlobalContext().getWebDriverGrid();
 			//context.put("gridHub", "<a href='" + hubUrl + "' target=hub>" + (null == hubUrl? null : new URL(hubUrl).getHost()) + "</a>");
 			context.put("gridHub", "<a href='" + hubUrl + "' target=hub>" + hubUrl + "</a>");
 			

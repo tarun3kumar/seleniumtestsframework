@@ -16,14 +16,14 @@ import org.testng.Reporter;
 public class CustomAssertion {
 
 	private static void _addVerificationFailure(Throwable e) {
-		ContextManager.getThreadContext().addVerificationFailures(Reporter.getCurrentTestResult(), e);
+		SeleniumTestsContextManager.getThreadContext().addVerificationFailures(Reporter.getCurrentTestResult(), e);
 		Logging.log(null, "ASSERTION FAILED: " + e.getMessage(), true, true);
 	}
 
 	// /////////////// CustomAssertion Methods ////////////////////////////
 
 	public static void assertEquals(boolean actual, boolean expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -31,7 +31,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(byte actual, byte expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -39,7 +39,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(byte[] actual, byte[] expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -47,7 +47,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(char actual, char expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -56,7 +56,7 @@ public class CustomAssertion {
 
 	@SuppressWarnings("rawtypes")
 	public static void assertEquals(Collection actual, Collection expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -64,7 +64,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(double actual, double expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -72,7 +72,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(float actual, float expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -80,7 +80,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(int actual, int expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -88,7 +88,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(long actual, long expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -96,7 +96,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(Object actual, Object expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -104,7 +104,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(Object[] actual, Object[] expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -112,7 +112,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(short actual, short expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -120,7 +120,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertEquals(String actual, String expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertEquals(actual, expected, message);
 		} else {
 			Assert.assertEquals(actual, expected, message);
@@ -128,7 +128,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertFalse(boolean condition, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertFalse(condition, message);
 		} else {
 			Assert.assertFalse(condition, message);
@@ -136,7 +136,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertNotNull(Object object, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertNotNull(object, message);
 		} else {
 			Assert.assertNotNull(object, message);
@@ -144,7 +144,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertNotSame(Object actual, Object expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertNotSame(actual, expected, message);
 		} else {
 			Assert.assertNotSame(actual, expected, message);
@@ -152,7 +152,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertNull(Object object, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertNull(object, message);
 		} else {
 			Assert.assertNull(object, message);
@@ -160,7 +160,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertSame(Object actual, Object expected, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertSame(actual, expected, message);
 		} else {
 			Assert.assertSame(actual, expected, message);
@@ -168,7 +168,7 @@ public class CustomAssertion {
 	}
 
 	public static void assertTrue(boolean condition, String message) {
-		if (ContextManager.getThreadContext().isSoftAssertEnabled()) {
+		if (SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
 			softAssertTrue(condition, message);
 		} else {
 			Assert.assertTrue(condition, message);
@@ -180,7 +180,7 @@ public class CustomAssertion {
 	}
 
 	public static List<Throwable> getVerificationFailures() {
-		return ContextManager.getThreadContext().getVerificationFailures(Reporter.getCurrentTestResult());
+		return SeleniumTestsContextManager.getThreadContext().getVerificationFailures(Reporter.getCurrentTestResult());
 	}
 
 	// /////////////// Soft CustomAssertion Methods ////////////////////////////

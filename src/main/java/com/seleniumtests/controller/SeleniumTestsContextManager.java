@@ -17,11 +17,11 @@ import com.seleniumtests.helper.XMLHelper;
 
 
 /**
- * ContextManager provides ways to manage global context, thread context and
+ * SeleniumTestsContextManager provides ways to manage global context, thread context and
  * test level context
  *
  */
-public class ContextManager {
+public class SeleniumTestsContextManager {
 
     // Customized Contex Attribute
     private static List<IContexAttributeListener> contexAttributeListenerList = Collections.synchronizedList(new ArrayList<IContexAttributeListener>());

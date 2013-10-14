@@ -87,11 +87,11 @@ public class PageObject extends BasePage implements IPage {
 		Calendar start = Calendar.getInstance();
 		start.setTime(new Date());
 		
-		if (ContextManager.getGlobalContext() != null
-				&& ContextManager.getGlobalContext().getTestNGContext() != null) {
-			suiteName = ContextManager.getGlobalContext().getTestNGContext()
+		if (SeleniumTestsContextManager.getGlobalContext() != null
+				&& SeleniumTestsContextManager.getGlobalContext().getTestNGContext() != null) {
+			suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
 					.getSuite().getName();
-			outputDirectory = ContextManager.getGlobalContext()
+			outputDirectory = SeleniumTestsContextManager.getGlobalContext()
 					.getTestNGContext().getOutputDirectory();
 		}
 
@@ -284,7 +284,7 @@ public class PageObject extends BasePage implements IPage {
 
 		} else {
 			try {
-				if (!ContextManager.getThreadContext().getCaptureSnapshot())
+				if (!SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot())
 					new ScreenshotUtil(driver).capturePageSnapshotOnException();
 			} catch (Exception e) {
 				// Ignore all exceptions
@@ -424,8 +424,8 @@ public class PageObject extends BasePage implements IPage {
 	}
 
 	/*public String convert(String url) {
-		if (ContextManager.getThreadContext() != null) {
-			String urlConvertClass = ContextManager.getThreadContext()
+		if (SeleniumTestsContextManager.getThreadContext() != null) {
+			String urlConvertClass = SeleniumTestsContextManager.getThreadContext()
 					.getUrlConvertClass();
 			if (urlConvertClass != null) {
 				try {
@@ -494,9 +494,9 @@ public class PageObject extends BasePage implements IPage {
 			
 			if (fileType != null && fileType.length() < 5)
 				fileName = fileName + "." + fileType;
-			String outputDirectory = ContextManager.getGlobalContext()
+			String outputDirectory = SeleniumTestsContextManager.getGlobalContext()
 					.getTestNGContext().getOutputDirectory();
-			String suiteName = ContextManager.getGlobalContext().getTestNGContext()
+			String suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
 					.getSuite().getName();
 			
 
@@ -546,9 +546,9 @@ public class PageObject extends BasePage implements IPage {
 				+ fileNamePostFix;
 		if (fileType != null && fileType.length() < 5)
 			fileName = fileName + "." + fileType;
-		String outputDirectory = ContextManager.getGlobalContext()
+		String outputDirectory = SeleniumTestsContextManager.getGlobalContext()
 				.getTestNGContext().getOutputDirectory();
-		String suiteName = ContextManager.getGlobalContext().getTestNGContext()
+		String suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
 				.getSuite().getName();
 		try {
 
@@ -687,7 +687,7 @@ public class PageObject extends BasePage implements IPage {
 	}
 
 	public int getTimeout() {
-		return ContextManager.getThreadContext().getWebSessionTimeout();
+		return SeleniumTestsContextManager.getThreadContext().getWebSessionTimeout();
 	}
 
 	public String getTitle() {

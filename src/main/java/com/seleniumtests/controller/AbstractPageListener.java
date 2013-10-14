@@ -22,7 +22,7 @@ public abstract class AbstractPageListener {
 	 * @param page
 	 */
 	public static void notifyPageLoad(IPage page) {
-		PluginsUtil.getInstance().invokePageListeners(ContextManager.getThreadContext().getTestMethodSignature(),
+		PluginsUtil.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
 		 page, true);
 		
 	}
@@ -34,7 +34,7 @@ public abstract class AbstractPageListener {
 	 */
 	public static void notifyPageUnload(IPage page) {
 		 
-			 PluginsUtil.getInstance().invokePageListeners(ContextManager.getThreadContext().getTestMethodSignature(),
+			 PluginsUtil.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
 					 page, false);
 	}
 

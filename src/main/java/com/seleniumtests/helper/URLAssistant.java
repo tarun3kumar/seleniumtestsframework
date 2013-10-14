@@ -11,10 +11,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.UUID;
+
+import com.seleniumtests.controller.SeleniumTestsContext;
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.Context;
-import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.exception.SeleniumTestsException;
 
 public class URLAssistant {
@@ -24,8 +25,8 @@ public class URLAssistant {
 
 	public static String getRandomHashCode(String seed) {
 		String signature;
-		if (ContextManager.getThreadContext() != null)
-			signature = ContextManager.getThreadContext()
+		if (SeleniumTestsContextManager.getThreadContext() != null)
+			signature = SeleniumTestsContextManager.getThreadContext()
 					.getTestMethodSignature();
 		else
 			signature = "";
@@ -62,7 +63,7 @@ public class URLAssistant {
 	 * 
 	 * @param url
 	 * @param validate : default: false
-	 * @param useProxy : true - will use webProxyAddress in Context, default:true
+	 * @param useProxy : true - will use webProxyAddress in SeleniumTestsContext, default:true
 	 * @return
 	 * @throws Exception
 	 */
@@ -141,7 +142,7 @@ public class URLAssistant {
 		InputStream is = null;
 		URLConnection connection = null;
 		try {
-			Context context = ContextManager.getThreadContext();
+			SeleniumTestsContext context = SeleniumTestsContextManager.getThreadContext();
 			if (useProxy && context.getWebProxyAddress()!= null) {
 				String host = context.getWebProxyAddress().split(":")[0];
 				int port = Integer.parseInt(context.getWebProxyAddress().split(":")[1]);

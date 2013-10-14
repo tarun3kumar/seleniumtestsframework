@@ -1,6 +1,5 @@
 package com.seleniumtests.tests;
 
-import com.seleniumtests.controller.ContextManager;
 import com.seleniumtests.controller.Filter;
 import com.seleniumtests.controller.SeleniumTestPlan;
 import com.seleniumtests.dataobject.User;

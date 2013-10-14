@@ -1,6 +1,6 @@
 package com.seleniumtests.driver.web;
 
-import com.seleniumtests.controller.ContextManager;
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 
 public class ScreenShot {
 
@@ -14,10 +14,10 @@ public class ScreenShot {
 	private String outputDirectory;
 
 	public ScreenShot() {
-		if (ContextManager.getGlobalContext().getTestNGContext() != null) { 
-			suiteName = ContextManager.getGlobalContext().getTestNGContext()
+		if (SeleniumTestsContextManager.getGlobalContext().getTestNGContext() != null) {
+			suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
 					.getSuite().getName();
-			outputDirectory = ContextManager.getGlobalContext()
+			outputDirectory = SeleniumTestsContextManager.getGlobalContext()
 					.getTestNGContext().getOutputDirectory();
 		}
 	}

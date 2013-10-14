@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.UUID;
 
-import com.seleniumtests.controller.ContextManager;
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 
 public class StringHelper {
 
@@ -35,7 +35,7 @@ public class StringHelper {
 	}
 
 	public static String getRandomHashCode(String seed) {
-		byte[] data = (ContextManager.getThreadContext().getTestMethodSignature() + UUID.randomUUID().getLeastSignificantBits() + seed).getBytes();
+		byte[] data = (SeleniumTestsContextManager.getThreadContext().getTestMethodSignature() + UUID.randomUUID().getLeastSignificantBits() + seed).getBytes();
 		try {
 			MessageDigest digest = MessageDigest.getInstance("MD5");
 			return new BigInteger(1, digest.digest(data)).toString(16);

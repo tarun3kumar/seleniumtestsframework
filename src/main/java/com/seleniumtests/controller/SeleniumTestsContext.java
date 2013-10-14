@@ -19,7 +19,7 @@ import com.seleniumtests.reporter.PluginsUtil;
  * This class defines TestNG context used in framework
  * 
  */
-public class Context {
+public class SeleniumTestsContext {
 	/* The config defined in testng.xml */
 	public static final String TEST_CONFIG = "testConfig";
 	public static final String APP_URL = "appURL";
@@ -119,7 +119,7 @@ public class Context {
 			return null;
 	}
 	
-	public Context(ITestContext context) {
+	public SeleniumTestsContext(ITestContext context) {
 		this.testNGContext = context;
 
 		setContextAttribute(context, TEST_DATA_FILE,
@@ -552,7 +552,7 @@ public class Context {
 	}
 
 	/**
-	 * Set Suite Context Attributes. This is eCAF Platform internal. Should not
+	 * Set Suite SeleniumTestsContext Attributes. This is eCAF Platform internal. Should not
 	 * be accessed from outside.
 	 * 
 	 * @param context

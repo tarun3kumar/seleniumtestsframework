@@ -29,7 +29,7 @@ import jxl.Workbook;
 
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.ContextManager;
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.util.internal.entity.TestEntity;
 
@@ -422,9 +422,9 @@ public class SpreadSheetUtil {
     }
 
     protected static Filter getDPFilter() {
-        String includedTags = ContextManager.getGlobalContext()
+        String includedTags = SeleniumTestsContextManager.getGlobalContext()
                 .getDPTagsInclude();
-        String excludedTags = ContextManager.getGlobalContext()
+        String excludedTags = SeleniumTestsContextManager.getGlobalContext()
                 .getDPTagsExclude();
 
         Filter dpFilter = null;
