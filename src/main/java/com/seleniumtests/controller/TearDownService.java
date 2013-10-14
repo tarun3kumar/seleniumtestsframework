@@ -1,8 +1,7 @@
 package com.seleniumtests.controller;
 
 /**
- * This interface provides a way for test author to cleanup resources 
- * after a test method is completed executing.
+ * Use this interface to clean up resources after a test method is completed executing.
  * 
  */
 public interface TearDownService {
