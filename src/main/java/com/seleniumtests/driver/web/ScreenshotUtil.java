@@ -2,14 +2,14 @@ package com.seleniumtests.driver.web;
 
 import java.io.IOException;
 
+import com.seleniumtests.controller.SeleniumTestsContextManager;
 import com.seleniumtests.helper.URLAssistant;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import com.seleniumtests.controller.Context;
-import com.seleniumtests.controller.ContextManager;
+import com.seleniumtests.controller.SeleniumTestsContext;
 import com.seleniumtests.controller.Logging;
 import com.seleniumtests.exception.WebSessionTerminatedException;
 import com.seleniumtests.helper.FileHelper;
@@ -61,7 +61,7 @@ public class ScreenshotUtil {
 	private static String getSuiteName() {
 		String suiteName = null;
 
-		suiteName = ContextManager.getGlobalContext().getTestNGContext()
+		suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
 				.getSuite().getName();
 
 		return suiteName;
@@ -69,7 +69,7 @@ public class ScreenshotUtil {
 
 	private static String getOutputDirectory() {
 		String outputDirectory = null;
-		outputDirectory = ContextManager.getGlobalContext().getTestNGContext()
+		outputDirectory = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
 				.getOutputDirectory();
 
 		return outputDirectory;
@@ -168,7 +168,7 @@ public class ScreenshotUtil {
 
 		ScreenShot screenShot = new ScreenShot();
 
-		if (ContextManager.getThreadContext() == null
+		if (SeleniumTestsContextManager.getThreadContext() == null
 				|| outputDirectory == null)
 			return screenShot;
 		screenShot.setSuiteName(this.suiteName);
@@ -191,7 +191,7 @@ public class ScreenshotUtil {
 
 			handleTitle(title, screenShot);
 			handleSource(pageSource, screenShot);
-			if (ContextManager.getThreadContext().getCaptureSnapshot()) {
+			if (SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot()) {
 				handleImage(screenShot);
 			}
 		}catch(WebSessionTerminatedException e){
@@ -200,8 +200,8 @@ public class ScreenshotUtil {
 		catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		if (ContextManager.getThreadContext().getCaptureSnapshot())
-			ContextManager.getThreadContext().addScreenShot(screenShot);
+		if (SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot())
+			SeleniumTestsContextManager.getThreadContext().addScreenShot(screenShot);
 		return screenShot;
 	}
 
@@ -211,26 +211,26 @@ public class ScreenshotUtil {
 	 * 
 	 */
 	public void capturePageSnapshotOnException() {
-		Boolean capture = ContextManager.getThreadContext()
+		Boolean capture = SeleniumTestsContextManager.getThreadContext()
 				.getCaptureSnapshot();
-		ContextManager.getThreadContext().setAttribute(
-				Context.CAPTURE_SNAPSHOT, "true");
+		SeleniumTestsContextManager.getThreadContext().setAttribute(
+				SeleniumTestsContext.CAPTURE_SNAPSHOT, "true");
 		captureWebPageSnapshot();
-		ContextManager.getThreadContext().setAttribute(
-				Context.CAPTURE_SNAPSHOT, Boolean.toString(capture));
-		// ContextManager.getThreadContext().setScreenshotName(filename);
-		// ContextManager.getThreadContext().setWebExceptionURL(location);
-		// ContextManager.getThreadContext().setWebExceptionMessage(title + " ("
+		SeleniumTestsContextManager.getThreadContext().setAttribute(
+				SeleniumTestsContext.CAPTURE_SNAPSHOT, Boolean.toString(capture));
+		// SeleniumTestsContextManager.getThreadContext().setScreenshotName(filename);
+		// SeleniumTestsContextManager.getThreadContext().setWebExceptionURL(location);
+		// SeleniumTestsContextManager.getThreadContext().setWebExceptionMessage(title + " ("
 		// + sbMessage.toString() + ")");
 		// screenShot.setException(true);
-		if (ContextManager.getThreadContext().getScreenshots().size() > 0)
-			ContextManager.getThreadContext().getScreenshots().getLast()
+		if (SeleniumTestsContextManager.getThreadContext().getScreenshots().size() > 0)
+			SeleniumTestsContextManager.getThreadContext().getScreenshots().getLast()
 					.setException(true);
 	}
 
 	public static void captureSnapshot(String messagePrefix) {
-		if (ContextManager.getThreadContext() != null
-				&& ContextManager.getThreadContext().getCaptureSnapshot()
+		if (SeleniumTestsContextManager.getThreadContext() != null
+				&& SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot()
 				&& getOutputDirectory() != null) {
 			String filename = URLAssistant.getRandomHashCode("HtmlElement");
 			StringBuffer sbMessage = new StringBuffer();
@@ -248,7 +248,7 @@ public class ScreenshotUtil {
 					ScreenShot screenShot = new ScreenShot();
 					String imagePath = getSuiteName() + imgFile;
 					screenShot.setImagePath(imagePath);
-					ContextManager.getThreadContext().addScreenShot(screenShot);
+					SeleniumTestsContextManager.getThreadContext().addScreenShot(screenShot);
 					sbMessage.append(messagePrefix + ": <a href='" + imagePath
 							+ "' class='lightbox'>screenshot</a>");
 					Logging.logWebOutput(null, sbMessage.toString(), false);
