@@ -80,7 +80,7 @@ public class SeleniumTestsContextManager {
 
     private static ITestContext getContextFromConfigFile(ITestContext testContex) {
         if (testContex != null) {
-            if (testContex.getSuite().getParameter(SeleniumTestsContext.TEST_CONFIG) != null) {
+            if (testContex.getSuite().getParameter(SeleniumTestsContext.TEST_CONFIGURATION) != null) {
                 File suiteFile = new File(testContex.getSuite().getXmlSuite().getFileName());
                 String configFile = suiteFile.getPath().replace(suiteFile.getName(), "") + testContex.getSuite().getParameter("testConfig");
                 NodeList nList = XMLHelper.getXMLNodes(configFile, "parameter");
