@@ -16,32 +16,31 @@ import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.reporter.PluginsUtil;
 
 /**
- * This class defines TestNG context used in framework
+ * Defines TestNG context used in STF
  * 
  */
 public class SeleniumTestsContext {
-	/* The config defined in testng.xml */
-	public static final String TEST_CONFIG = "testConfig";
+
+	/* configuration defined in testng.xml */
+	public static final String TEST_CONFIGURATION = "testConfig";
 	public static final String APP_URL = "appURL";
     public static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
 	public static final String IMPLICIT_WAIT_TIME_OUT = "implicitWaitTimeOut";
 	public static final String EXPLICIT_WAIT_TIME_OUT = "explicitWaitTimeOut";
 	public static final String PAGE_LOAD_TIME_OUT = "pageLoadTimeout";
 	public static final String WEB_DRIVER_GRID = "webDriverGrid";
-	public static final String WEB_RUN_MODE = "webRunMode";
-	public static final String WEB_RUN_BROWSER = "browser";
-	public static final String WEB_RUN_BROWSER_VERSION = "browserVersion";
-	public static final String WEB_RUN_PLATFORM = "platform";
+	public static final String RUN_MODE = "runMode";
+	public static final String BROWSER = "browser";
+	public static final String BROWSER_VERSION = "browserVersion";
+	public static final String PLATFORM = "platform";
 	public static final String FIREFOX_USER_PROFILE_PATH = "firefoxUserProfilePath";
-	public static final String USE_FIREFOX_DEFAULT_PROFILE = "useFirefoxDefaultProfile";
+	public static final String USE_DEFAULT_FIREFOX_PROFILE = "useFirefoxDefaultProfile";
 	public static final String OPERA_USER_PROFILE_PATH = "operaUserProfilePath";
 	public static final String FIREFOX_BINARY_PATH = "firefoxBinaryPath";
 	public static final String CHROME_DRIVER_PATH = "chromeDriverPath";
 	public static final String CHROME_BINARY_PATH = "chromeBinaryPath";
 	public static final String IE_DRIVER_PATH = "ieDriverPath";
 	public static final String USER_AGENT = "userAgent";
-	public static final String APP_NAME = "appName";
-	public static final String APP_VERSION = "appVersion";
 
 	public static final String Set_Assume_Untrusted_Certificate_Issuer = "setAssumeUntrustedCertificateIssuer";
 	public static final String Set_Accept_Untrusted_Certificates = "setAcceptUntrustedCertificates";
@@ -49,16 +48,13 @@ public class SeleniumTestsContext {
 	public static final String NTLM_AUTH_TRUSTED_URIS = "ntlmAuthTrustedUris";
 	public static final String BROWSER_DOWNLOAD_DIR = "browserDownloadDir";
 	public static final String BROWSER_WINDOW_SIZE = "browserWindowSize";
-	public static final String ADD_JSERROR_COLLECTOR_EXTENSION = "addJSErrorCollectorExtension";
+	public static final String ADD_JS_ERROR_COLLECTOR_EXTENSION = "addJSErrorCollectorExtension";
 
 	public static final String WEB_PROXY_ENABLED = "webProxyEnabled";
 	public static final String WEB_PROXY_TYPE = "webProxyType";
 	public static final String WEB_PROXY_ADDRESS = "webProxyAddress";
-	public static final String API_PROXY_HOST = "apiProxyHost";
-	public static final String API_PROXY_PORT = "apiProxyPort";
 
-	public static final String API_CONTEXT = "apiContext";
-	public static final String TEST_Entity = "testEntity";
+	public static final String TEST_ENTITY = "testEntity";
 
 	public static final String OPEN_REPORT_IN_BROWSER = "openReportInBrowser";
 	public static final String CAPTURE_SNAPSHOT = "captureSnapshot";
@@ -73,11 +69,9 @@ public class SeleniumTestsContext {
 	public static final String OUTPUT_DIRECTORY = "outputDirectory";
 	public static final String WEB_DRIVER_LISTENER = "webDriverListener";
 
-	/* running time context */
 	public static final String TEST_METHOD_SIGNATURE = "testMethodSignature";
 	public static final String PLUGIN_CONFIG_PATH = "pluginConfigPath";
 
-	/* test data file */
 	public static final String TEST_DATA_FILE = "testDataFile";
 	private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
 	private Map<ITestResult, List<Throwable>> verificationFailuresMap = new HashMap<ITestResult, List<Throwable>>();
@@ -136,19 +130,19 @@ public class SeleniumTestsContext {
 
 		setContextAttribute(context, WEB_DRIVER_GRID,
 				System.getProperty(WEB_DRIVER_GRID), null);
-		setContextAttribute(context, WEB_RUN_MODE,
-				System.getProperty(WEB_RUN_MODE), "LocallyOnRC");
-		setContextAttribute(context, WEB_RUN_BROWSER,
-				System.getProperty(WEB_RUN_BROWSER), "*firefox");
-		setContextAttribute(context, WEB_RUN_BROWSER_VERSION,
-				System.getProperty(WEB_RUN_BROWSER_VERSION), null);
-		setContextAttribute(context, WEB_RUN_PLATFORM,
-				System.getProperty(WEB_RUN_PLATFORM), null);
+		setContextAttribute(context, RUN_MODE,
+				System.getProperty(RUN_MODE), "local");
+		setContextAttribute(context, BROWSER,
+				System.getProperty(BROWSER), "*firefox");
+		setContextAttribute(context, BROWSER_VERSION,
+				System.getProperty(BROWSER_VERSION), null);
+		setContextAttribute(context, PLATFORM,
+				System.getProperty(PLATFORM), null);
 
 		setContextAttribute(context, FIREFOX_USER_PROFILE_PATH,
 				System.getProperty(FIREFOX_USER_PROFILE_PATH), null);
-		setContextAttribute(context, USE_FIREFOX_DEFAULT_PROFILE,
-				System.getProperty(USE_FIREFOX_DEFAULT_PROFILE), "true");
+		setContextAttribute(context, USE_DEFAULT_FIREFOX_PROFILE,
+				System.getProperty(USE_DEFAULT_FIREFOX_PROFILE), "true");
 
 		setContextAttribute(context, OPERA_USER_PROFILE_PATH,
 				System.getProperty(OPERA_USER_PROFILE_PATH), null);
@@ -160,11 +154,6 @@ public class SeleniumTestsContext {
 				System.getProperty(IE_DRIVER_PATH), null);
 		setContextAttribute(context, USER_AGENT,
 				System.getProperty(USER_AGENT), null);
-		setContextAttribute(context, APP_NAME, System.getProperty(APP_NAME),
-				"Safari");
-		setContextAttribute(context, APP_VERSION, System.getProperty(APP_VERSION),
-				null);
-
 		setContextAttribute(context, Set_Assume_Untrusted_Certificate_Issuer,
 				System.getProperty(Set_Assume_Untrusted_Certificate_Issuer),
 				null);
@@ -178,8 +167,8 @@ public class SeleniumTestsContext {
 				System.getProperty(BROWSER_DOWNLOAD_DIR), null);
 		setContextAttribute(context, BROWSER_WINDOW_SIZE,
 				System.getProperty(BROWSER_WINDOW_SIZE), null);
-		setContextAttribute(context, ADD_JSERROR_COLLECTOR_EXTENSION,
-				System.getProperty(ADD_JSERROR_COLLECTOR_EXTENSION), "false");
+		setContextAttribute(context, ADD_JS_ERROR_COLLECTOR_EXTENSION,
+				System.getProperty(ADD_JS_ERROR_COLLECTOR_EXTENSION), "false");
 
 		setContextAttribute(context, WEB_PROXY_ENABLED,
 				System.getProperty(WEB_PROXY_ENABLED), "false");
@@ -187,11 +176,6 @@ public class SeleniumTestsContext {
 				System.getProperty(WEB_PROXY_TYPE), null);
 		setContextAttribute(context, WEB_PROXY_ADDRESS,
 				System.getProperty(WEB_PROXY_ADDRESS), null);
-
-		setContextAttribute(context, API_PROXY_HOST,
-				System.getProperty(API_PROXY_HOST), null);
-		setContextAttribute(context, API_PROXY_PORT,
-				System.getProperty(API_PROXY_PORT), null);
 
 		setContextAttribute(context, OPEN_REPORT_IN_BROWSER,
 				System.getProperty(OPEN_REPORT_IN_BROWSER), null);
@@ -262,27 +246,7 @@ public class SeleniumTestsContext {
 	}
 
 	public String getAddJSErrorCollectorExtension() {
-		return (String) getAttribute(ADD_JSERROR_COLLECTOR_EXTENSION);
-	}
-
-	public Object getApiContext() {
-		return getAttribute(API_CONTEXT);
-	}
-
-	public String getApiProxyHost() {
-		return (String) getAttribute(API_PROXY_HOST);
-	}
-
-	public String getApiProxyPort() {
-		return (String) getAttribute(API_PROXY_PORT);
-	}
-
-	public String getAppName() {
-		return (String) getAttribute(APP_NAME);
-	}
-	
-	public String getAppVersion() {
-		return (String) getAttribute(APP_VERSION);
+		return (String) getAttribute(ADD_JS_ERROR_COLLECTOR_EXTENSION);
 	}
 
 	public Object getAttribute(String name) {
@@ -397,7 +361,7 @@ public class SeleniumTestsContext {
 	}
 
 	public String getPlatform() {
-		return (String) getAttribute(WEB_RUN_PLATFORM);
+		return (String) getAttribute(PLATFORM);
 	}
 	
 	public String getAppURL() {
@@ -446,7 +410,7 @@ public class SeleniumTestsContext {
 	}
 
 	public Object getTestEntity() {
-		return getAttribute(TEST_Entity);
+		return getAttribute(TEST_ENTITY);
 	}
 
 	public String getWebDriverListener() {
@@ -466,7 +430,7 @@ public class SeleniumTestsContext {
 	}
 
 	public String getWebBrowserVersion() {
-		return (String) getAttribute(WEB_RUN_BROWSER_VERSION);
+		return (String) getAttribute(BROWSER_VERSION);
 	}
 
 	public String getWebDriverGrid() {
@@ -482,11 +446,11 @@ public class SeleniumTestsContext {
 	}
 
 	public String getWebRunBrowser() {
-		return (String) getAttribute(WEB_RUN_BROWSER);
+		return (String) getAttribute(BROWSER);
 	}
 
 	public String getWebRunMode() {
-		return (String) getAttribute(WEB_RUN_MODE);
+		return (String) getAttribute(RUN_MODE);
 	}
 
 	public int getWebSessionTimeout() {
@@ -501,7 +465,7 @@ public class SeleniumTestsContext {
 	public boolean isUseFirefoxDefaultProfile() {
 		try {
 			return Boolean
-					.parseBoolean((String) getAttribute(USE_FIREFOX_DEFAULT_PROFILE));
+					.parseBoolean((String) getAttribute(USE_DEFAULT_FIREFOX_PROFILE));
 		} catch (Exception e) {
 			return true; // Default
 		}

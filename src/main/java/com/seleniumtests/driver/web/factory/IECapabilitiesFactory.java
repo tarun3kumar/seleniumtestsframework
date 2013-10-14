@@ -36,7 +36,7 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
 
 	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
 		// Set IEDriver for Local Mode
-		if (cfg.getMode() == WebDriverMode.LocallyOnRC) {
+		if (cfg.getMode() == WebDriverMode.LOCAL) {
 			if (cfg.getIeDriverPath() != null)
 				System.setProperty("webdriver.ie.driver", cfg.getIeDriverPath());
 			else {

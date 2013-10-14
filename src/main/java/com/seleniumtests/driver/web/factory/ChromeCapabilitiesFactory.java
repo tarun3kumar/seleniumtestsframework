@@ -55,7 +55,7 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 		}
 
 		// Set ChromeDriver for local mode
-		if (cfg.getMode() == WebDriverMode.LocallyOnRC) {
+		if (cfg.getMode() == WebDriverMode.LOCAL) {
 			String chromeDriverPath = cfg.getChromeDriverPath();
 			if (chromeDriverPath == null) {
 				try {

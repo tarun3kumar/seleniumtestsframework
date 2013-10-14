@@ -362,11 +362,10 @@ public class PageObject extends BasePage implements IPage {
 		}catch(WebDriverException ignore){
 		}
 		if (WebUIDriver.getWebUXDriver().getMode()
-				.equalsIgnoreCase("LocallyOnRC")) {
+				.equalsIgnoreCase("local")) {
 			try {
 				Thread.sleep(1000 * 2);
 			} catch (InterruptedException e) {
-				// Ignore
 			}
 		}
 		try {

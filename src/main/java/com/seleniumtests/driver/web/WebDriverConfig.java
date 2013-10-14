@@ -17,7 +17,7 @@ public class WebDriverConfig {
 
 	private WebDriver driver;
 	private BrowserType browser = BrowserType.FireFox;
-	private WebDriverMode mode = WebDriverMode.LocallyOnRC;
+	private WebDriverMode mode = WebDriverMode.LOCAL;
 	private String hubUrl;
 	private String ffProfilePath;
 	private String operaProfilePath;
