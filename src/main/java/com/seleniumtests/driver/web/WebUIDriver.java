@@ -386,8 +386,6 @@ public class WebUIDriver {
 			config.setWebDriverListeners("");
 		config.setUseFirefoxDefaultProfile(SeleniumTestsContextManager.getThreadContext()
 				.isUseFirefoxDefaultProfile());
-		config.setAppName(SeleniumTestsContextManager.getThreadContext().getAppName());
-		config.setAppVersion(SeleniumTestsContextManager.getThreadContext().getAppVersion());
 		String size = SeleniumTestsContextManager.getThreadContext().getBrowserWindowSize();
 		if (size != null) {
 			int width = -1;
