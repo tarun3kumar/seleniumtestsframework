@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.OSHelper;
 
 public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{

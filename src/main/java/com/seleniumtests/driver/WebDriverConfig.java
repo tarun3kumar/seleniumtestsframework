@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web;
+package com.seleniumtests.driver;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;

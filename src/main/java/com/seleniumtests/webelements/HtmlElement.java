@@ -3,7 +3,7 @@ package com.seleniumtests.webelements;
 import java.util.List;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.WebUIDriver;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -28,8 +28,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.seleniumtests.driver.web.BrowserType;
-import com.seleniumtests.driver.web.ScreenshotUtil;
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.helper.ClassContextHelper;
 import com.seleniumtests.helper.ThreadHelper;
 

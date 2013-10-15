@@ -4,7 +4,7 @@ import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 
 public class HtmlUnitDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 

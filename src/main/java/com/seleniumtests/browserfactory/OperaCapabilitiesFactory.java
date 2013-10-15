@@ -11,7 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.opera.core.systems.OperaProfile;
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.operaprofile.OperaProfileMarker;

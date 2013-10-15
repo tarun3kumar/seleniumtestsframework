@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.android.AndroidDriver;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 
 public class AndroidDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 

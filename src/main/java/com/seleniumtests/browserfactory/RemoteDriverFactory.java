@@ -16,9 +16,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import com.seleniumtests.driver.web.BrowserType;
-import com.seleniumtests.driver.web.ScreenShotRemoteWebDriver;
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.ScreenShotRemoteWebDriver;
+import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.ThreadHelper;
 
 public class RemoteDriverFactory extends AbstractWebDriverFactory implements

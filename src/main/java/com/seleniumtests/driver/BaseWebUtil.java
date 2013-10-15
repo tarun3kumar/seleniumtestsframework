@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web;
+package com.seleniumtests.driver;
 
 import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.Dimension;

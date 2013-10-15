@@ -15,8 +15,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import com.seleniumtests.driver.web.BrowserType;
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.helper.ThreadHelper;
 import com.thoughtworks.selenium.SeleniumException;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.WebUIDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;

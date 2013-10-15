@@ -7,7 +7,7 @@ import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 
 public class ChromeDriverFactory extends AbstractWebDriverFactory implements
 		IWebDriverFactory {

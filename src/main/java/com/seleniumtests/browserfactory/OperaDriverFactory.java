@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 import com.opera.core.systems.OperaDriver;
 
 public class OperaDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{

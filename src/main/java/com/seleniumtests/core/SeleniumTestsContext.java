@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 
-import com.seleniumtests.driver.web.ScreenShot;
+import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.reporter.PluginsUtil;
 
 /**

@@ -6,8 +6,8 @@ import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.WebDriverConfig;
+import com.seleniumtests.driver.WebUIDriver;
 
 public abstract class AbstractWebDriverFactory {
 

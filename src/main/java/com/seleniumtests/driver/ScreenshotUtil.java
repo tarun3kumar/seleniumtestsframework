@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web;
+package com.seleniumtests.driver;
 
 import java.io.IOException;
 

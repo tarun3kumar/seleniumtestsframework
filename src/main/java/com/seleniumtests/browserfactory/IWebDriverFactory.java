@@ -2,7 +2,7 @@ package com.seleniumtests.browserfactory;
 
 import org.openqa.selenium.WebDriver;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 
 public interface IWebDriverFactory {
 	

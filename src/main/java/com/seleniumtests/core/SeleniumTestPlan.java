@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.WebUIDriver;
 import org.apache.log4j.Logger;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;

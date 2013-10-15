@@ -53,7 +53,7 @@ import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
-import com.seleniumtests.driver.web.ScreenShot;
+import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.helper.StringHelper;
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaClass;

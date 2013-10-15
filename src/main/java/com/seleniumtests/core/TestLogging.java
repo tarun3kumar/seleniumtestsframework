@@ -21,8 +21,8 @@ import org.testng.Reporter;
 
 import com.google.common.collect.Lists;
 import com.google.gdata.util.common.html.HtmlToText;
-import com.seleniumtests.driver.web.IScreenshotListener;
-import com.seleniumtests.driver.web.ScreenShot;
+import com.seleniumtests.driver.IScreenshotListener;
+import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.StringHelper;
 import com.seleniumtests.reporter.PluginsUtil;

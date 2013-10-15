@@ -4,7 +4,7 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 
 public class HtmlUnitCapabilitiesFactory implements ICapabilitiesFactory{
 

@@ -1,11 +1,11 @@
 package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.WebUIDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
-import com.seleniumtests.driver.web.BrowserType;
+import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.helper.ThreadHelper;
 
 public class ButtonElement extends HtmlElement {

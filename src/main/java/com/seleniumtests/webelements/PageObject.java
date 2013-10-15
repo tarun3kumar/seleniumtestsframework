@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.seleniumtests.core.*;
-import com.seleniumtests.driver.web.WebUIDriver;
+import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.helper.URLAssistant;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
@@ -27,9 +27,9 @@ import org.testng.Assert;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.seleniumtests.core.CustomAssertion;
-import com.seleniumtests.driver.web.BaseWebUtil;
-import com.seleniumtests.driver.web.ScreenShot;
-import com.seleniumtests.driver.web.ScreenshotUtil;
+import com.seleniumtests.driver.BaseWebUtil;
+import com.seleniumtests.driver.ScreenShot;
+import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.helper.OSHelper;

@@ -5,8 +5,8 @@ import com.seleniumtests.exception.SeleniumTestsException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import com.seleniumtests.driver.web.ScreenShot;
-import com.seleniumtests.driver.web.ScreenshotUtil;
+import com.seleniumtests.driver.ScreenShot;
+import com.seleniumtests.driver.ScreenshotUtil;
 
 public abstract class WebPageSection extends BasePage {
 

@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web;
+package com.seleniumtests.driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;

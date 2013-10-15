@@ -5,7 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 
 public class SafariDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 

@@ -8,8 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
-import com.seleniumtests.driver.web.WebDriverMode;
+import com.seleniumtests.driver.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverMode;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.resources.WebDriverExternalResources;

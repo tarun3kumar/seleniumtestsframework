@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.web.WebDriverConfig;
+import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 
