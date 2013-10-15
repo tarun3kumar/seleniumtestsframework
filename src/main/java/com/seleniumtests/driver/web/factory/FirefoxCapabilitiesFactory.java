@@ -11,7 +11,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.customProfileDirCUSTFF.FFProfileMarker;
+import com.seleniumtests.customFFprofile.FFProfileMarker;
 import com.seleniumtests.driver.web.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
@@ -134,6 +134,7 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 					FileHelper.extractJar(profilePath, FFProfileMarker.class);
 				}
 			} catch (Exception ex) {
+                ex.printStackTrace();
 			}
 		}
 
