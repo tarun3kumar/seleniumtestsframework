@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.customFFprofile.FireFoxProfileMarker;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -11,7 +12,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.customFFprofile.FFProfileMarker;
 import com.seleniumtests.driver.web.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
@@ -131,7 +131,7 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 				if (!isProfileCreated) {
 					System.out.println("start create profile");
 					FileHelper.deleteDirectory(profilePath);
-					FileHelper.extractJar(profilePath, FFProfileMarker.class);
+					FileHelper.extractJar(profilePath, FireFoxProfileMarker.class);
 				}
 			} catch (Exception ex) {
                 ex.printStackTrace();
