@@ -1,7 +1,7 @@
 package com.seleniumtests.driver.web;
 
-import com.seleniumtests.controller.SeleniumTestsContext;
-import com.seleniumtests.controller.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsContext;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.driver.web.factory.*;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -385,7 +385,7 @@ public class WebUIDriver {
 		else
 			config.setWebDriverListeners("");
 		config.setUseFirefoxDefaultProfile(SeleniumTestsContextManager.getThreadContext()
-				.isUseFirefoxDefaultProfile());
+                .isUseFirefoxDefaultProfile());
 		String size = SeleniumTestsContextManager.getThreadContext().getBrowserWindowSize();
 		if (size != null) {
 			int width = -1;

@@ -3,7 +3,7 @@ package com.seleniumtests.driver.web.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.driver.web.WebUIDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

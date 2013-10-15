@@ -1,4 +1,4 @@
-package com.seleniumtests.controller;
+package com.seleniumtests.core;
 
 import java.util.Collection;
 import java.util.Date;

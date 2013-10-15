@@ -1,9 +1,9 @@
 package com.seleniumtests.driver.web.element;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.By;
 
-import com.seleniumtests.controller.CustomAssertion;
+import com.seleniumtests.core.CustomAssertion;
 
 public class LabelElement extends HtmlElement {
 	public LabelElement(String label, By by) {

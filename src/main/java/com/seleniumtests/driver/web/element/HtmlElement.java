@@ -2,7 +2,7 @@ package com.seleniumtests.driver.web.element;
 
 import java.util.List;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.driver.web.WebUIDriver;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;

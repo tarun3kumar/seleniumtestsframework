@@ -2,15 +2,15 @@ package com.seleniumtests.driver.web;
 
 import java.io.IOException;
 
-import com.seleniumtests.controller.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.helper.URLAssistant;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import com.seleniumtests.controller.SeleniumTestsContext;
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.SeleniumTestsContext;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.exception.WebSessionTerminatedException;
 import com.seleniumtests.helper.FileHelper;
 

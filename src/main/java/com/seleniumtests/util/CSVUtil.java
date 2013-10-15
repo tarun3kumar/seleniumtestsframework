@@ -16,11 +16,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.seleniumtests.controller.Filter;
+import com.seleniumtests.core.Filter;
 import com.seleniumtests.util.internal.entity.TestEntity;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.exception.SeleniumTestsException;
 
 public class CSVUtil {

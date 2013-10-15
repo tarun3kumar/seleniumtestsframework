@@ -12,8 +12,8 @@ import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.UUID;
 
-import com.seleniumtests.controller.SeleniumTestsContext;
-import com.seleniumtests.controller.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsContext;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.exception.SeleniumTestsException;

@@ -1,6 +1,6 @@
 package com.seleniumtests.driver.web;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;

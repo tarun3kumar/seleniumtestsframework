@@ -1,6 +1,6 @@
 package com.seleniumtests.driver.web.element;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.driver.web.WebUIDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;

@@ -31,7 +31,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.seleniumtests.controller.*;
+import com.seleniumtests.core.*;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -52,7 +52,7 @@ import org.testng.internal.TestResult;
 import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
-import com.seleniumtests.controller.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.helper.StringHelper;
 import com.thoughtworks.qdox.JavaDocBuilder;
@@ -494,9 +494,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 
 			List<SeleniumTestsPageListener> pageListenersList = PluginsUtil.getInstance().getPageListeners();
 			for (SeleniumTestsPageListener abstractPageListener : pageListenersList) {
-				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.controller.SeleniumTestsPageListener, added by ziwu, 09/16/2011 ========== */
+				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.core.SeleniumTestsPageListener, added by ziwu, 09/16/2011 ========== */
 				if (!abstractPageListener.isTestResultEffected()) continue;
-				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.controller.SeleniumTestsPageListener, added by ziwu, 09/16/2011 ========== */
+				/* ========== to skip creating a tab according to "testResultEffected" property of an instance of com.seleniumtests.core.SeleniumTestsPageListener, added by ziwu, 09/16/2011 ========== */
 
 				errorCountTabs.append("<li class='tab' id='" + abstractPageListener.getClass().getSimpleName() + "'><a href='#'><span>")
 						.append(abstractPageListener.getTitle() != null ? abstractPageListener.getTitle() : abstractPageListener.getClass().getSimpleName())

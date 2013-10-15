@@ -1,6 +1,6 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.controller.CustomAssertion;
+import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.driver.web.element.LinkElement;
 import com.seleniumtests.driver.web.element.SelectList;
 import com.seleniumtests.driver.web.element.PageObject;

@@ -1,4 +1,4 @@
-package com.seleniumtests.controller;
+package com.seleniumtests.core;
 
 import org.apache.log4j.Logger;
 

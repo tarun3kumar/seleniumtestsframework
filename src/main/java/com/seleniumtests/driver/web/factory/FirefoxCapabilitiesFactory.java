@@ -3,7 +3,7 @@ package com.seleniumtests.driver.web.factory;
 import java.io.File;
 import java.io.IOException;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customFFprofile.FireFoxProfileMarker;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 

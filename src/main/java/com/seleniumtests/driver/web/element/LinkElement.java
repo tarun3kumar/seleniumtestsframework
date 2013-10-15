@@ -1,6 +1,6 @@
 package com.seleniumtests.driver.web.element;
 
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.helper.URLAssistant;
 import org.openqa.selenium.By;
 

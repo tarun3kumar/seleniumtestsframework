@@ -1,6 +1,6 @@
 package com.seleniumtests.tests;
 
-import com.seleniumtests.controller.SeleniumTestPlan;
+import com.seleniumtests.core.SeleniumTestPlan;
 import org.testng.annotations.Test;
 
 public class RetryTest1 extends SeleniumTestPlan {

@@ -23,13 +23,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.seleniumtests.controller.Filter;
+import com.seleniumtests.core.Filter;
 import jxl.Sheet;
 import jxl.Workbook;
 
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.util.internal.entity.TestEntity;
 

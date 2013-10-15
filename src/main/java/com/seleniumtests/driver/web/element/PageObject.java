@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.seleniumtests.controller.*;
+import com.seleniumtests.core.*;
 import com.seleniumtests.driver.web.WebUIDriver;
 import com.seleniumtests.helper.URLAssistant;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
@@ -26,7 +26,7 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.testng.Assert;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.seleniumtests.controller.CustomAssertion;
+import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.driver.web.BaseWebUtil;
 import com.seleniumtests.driver.web.ScreenShot;
 import com.seleniumtests.driver.web.ScreenshotUtil;

@@ -1,7 +1,7 @@
 package com.seleniumtests.tests;
 
-import com.seleniumtests.controller.Filter;
-import com.seleniumtests.controller.SeleniumTestPlan;
+import com.seleniumtests.core.Filter;
+import com.seleniumtests.core.SeleniumTestPlan;
 import com.seleniumtests.dataobject.TestLinkProject;
 import com.seleniumtests.dataobject.User;
 import com.seleniumtests.util.SpreadSheetUtil;

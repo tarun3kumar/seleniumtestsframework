@@ -13,11 +13,10 @@ import java.util.Map;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
-import com.seleniumtests.controller.SeleniumTestsPageListener;
+import com.seleniumtests.core.SeleniumTestsPageListener;
 import com.seleniumtests.reporter.pluginmodel.*;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.controller.SeleniumTestsPageListener;
 import com.seleniumtests.driver.web.element.IPage;
 import com.seleniumtests.reporter.pluginmodel.SeleniumTestsPlugins;
 

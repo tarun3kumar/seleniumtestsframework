@@ -1,9 +1,9 @@
 package com.seleniumtests.tests;
 
-import static com.seleniumtests.controller.CustomAssertion.*;
+import static com.seleniumtests.core.CustomAssertion.*;
 
-import com.seleniumtests.controller.TestLogging;
-import com.seleniumtests.controller.SeleniumTestPlan;
+import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.core.SeleniumTestPlan;
 import org.testng.annotations.Test;
 
 /**

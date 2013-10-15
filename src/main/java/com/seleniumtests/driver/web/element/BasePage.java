@@ -1,7 +1,7 @@
 package com.seleniumtests.driver.web.element;
 
-import com.seleniumtests.controller.CustomAssertion;
-import com.seleniumtests.controller.TestLogging;
+import com.seleniumtests.core.CustomAssertion;
+import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidSelectorException;

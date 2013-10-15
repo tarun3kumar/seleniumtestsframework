@@ -1,6 +1,6 @@
 package com.seleniumtests.driver.web;
 
-import com.seleniumtests.controller.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 
 public class ScreenShot {
 

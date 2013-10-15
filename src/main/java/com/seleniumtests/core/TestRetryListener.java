@@ -1,4 +1,4 @@
-package com.seleniumtests.controller;
+package com.seleniumtests.core;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
