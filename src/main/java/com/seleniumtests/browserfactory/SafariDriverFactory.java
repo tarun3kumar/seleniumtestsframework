@@ -17,29 +17,22 @@ public class SafariDriverFactory extends AbstractWebDriverFactory implements IWe
 	
 	@Override
 	public WebDriver createWebDriver() {
-		//WebDriverConfig cfg = this.getWebDriverConfig();
-		
-		DesiredCapabilities cap = new SafariCapabilitiesFactory().createCapabilities(cfg);
-		
-		System.out.println("start safari...");
-//		if(this.getClass().getResource("/SafariDriver.safariextz")!=null)
-//			System.setProperty("webdriver.safari.driver", this.getClass().getResource("/SafariDriver.safariextz").getFile());
+		DesiredCapabilities cap = new SafariCapabilitiesFactory().createCapabilities(webDriverConfig);
+		System.out.println("Begin Safari");
 		synchronized(this.getClass())
 		{
 			driver = new SafariDriver(cap);
 		}
-		System.out.println("start safari finished...");
+		System.out.println("safari started");
 		
 		this.setWebDriver(driver);
 		
-		//Implicit Waits to handle dynamic element. The default value is 5 seconds.
-		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
-		if(cfg.getPageLoadTimeout()>=0)
+		//Implicit Waits handles dynamic element.
+		setImplicitWaitTimeout(webDriverConfig.getImplicitWaitTimeout());
+		if(webDriverConfig.getPageLoadTimeout()>=0)
 		{
-			TestLogging.log("Safari doesn't support pageLoadTimeout, ignoring...");
-			//driver.manage().timeouts().pageLoadTimeout(cfg.getPageLoadTimeout(), TimeUnit.SECONDS);
+			TestLogging.log("Safari doesn't support pageLoadTimeout");
 		}
-		
 		return driver;
 	}
 

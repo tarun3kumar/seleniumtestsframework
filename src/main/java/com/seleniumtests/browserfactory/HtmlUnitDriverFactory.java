@@ -19,11 +19,11 @@ public class HtmlUnitDriverFactory extends AbstractWebDriverFactory implements I
 		WebDriverConfig cfg = this.getWebDriverConfig();
 		
 		driver = new HtmlUnitDriver(new HtmlUnitCapabilitiesFactory().createCapabilities(cfg));
-		//Implicit Waits to handle dynamic element. The default value is 5 seconds.
+		//Implicit Waits. The default value is 5 seconds.
 		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
 		if(cfg.getPageLoadTimeout()>=0)
 		{
-			TestLogging.log("htmlunit doesn't support pageLoadTimeout, ignoring...");
+			TestLogging.log("htmlunit doesn't support pageLoadTimeout");
 		}
 		
 		this.setWebDriver(driver);

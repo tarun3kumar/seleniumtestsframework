@@ -2,6 +2,7 @@ package com.seleniumtests.browserfactory;
 
 import java.util.concurrent.TimeUnit;
 
+import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
@@ -10,31 +11,30 @@ import com.seleniumtests.driver.web.WebUIDriver;
 
 public abstract class AbstractWebDriverFactory {
 
-	protected WebDriverConfig cfg;
+	protected WebDriverConfig webDriverConfig;
 
 	protected WebDriver driver;
 
 	public AbstractWebDriverFactory(WebDriverConfig cfg) {
-		this.cfg = cfg;
+		this.webDriverConfig = cfg;
 	}
 
 	public void cleanUp() {
 		try {
 			if (driver != null) {
 				try {
-					System.out.println("quiting webdriver...."+Thread.currentThread().getId());
+					TestLogging.log("quiting webdriver" + Thread.currentThread().getId());
 					driver.quit();
 				} catch (WebDriverException ex) {
-//					if (WebUIDriver.getWebUXDriver().getConfig().getBrowser() != BrowserType.InternetExplore)
-						System.out.println("Quit exception--"
+                    TestLogging.log("Exception encountered when quiting driver: "
 								+ WebUIDriver.getWebUXDriver().getConfig()
 										.getBrowser().name() + ":"
 								+ ex.getMessage());
 				}
 				driver = null;
 			}
-		} catch (Exception ex) {
-			// Ignore all exceptions
+		} catch (Exception e) {
+            e.printStackTrace();
 		}
 	}
 
@@ -42,12 +42,17 @@ public abstract class AbstractWebDriverFactory {
 		return null;
 	}
 
+    /**
+     * Accessed by sub classes so that they don't have be declared abstract
+     *
+     * @return driver instance
+     */
 	public WebDriver getWebDriver() {
 		return driver;
 	}
 
 	public WebDriverConfig getWebDriverConfig() {
-		return cfg;
+		return webDriverConfig;
 	}
 
 	public void setImplicitWaitTimeout(double timeout) {
@@ -73,6 +78,6 @@ public abstract class AbstractWebDriverFactory {
 	}
 
 	public void setWebDriverConfig(WebDriverConfig cfg) {
-		this.cfg = cfg;
+		this.webDriverConfig = cfg;
 	}
 }

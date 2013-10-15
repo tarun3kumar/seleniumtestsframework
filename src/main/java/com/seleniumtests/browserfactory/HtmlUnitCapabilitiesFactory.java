@@ -8,35 +8,30 @@ import com.seleniumtests.driver.web.WebDriverConfig;
 
 public class HtmlUnitCapabilitiesFactory implements ICapabilitiesFactory{
 
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
+	public DesiredCapabilities createCapabilities(WebDriverConfig webDriverConfig) {
 		DesiredCapabilities capability = null;
 		capability = DesiredCapabilities.htmlUnit();
 		
-		if(cfg.isEnableJavascript())
+		if(webDriverConfig.isEnableJavascript())
 			capability.setJavascriptEnabled(true);
 		else
 			capability.setJavascriptEnabled(false);
 		capability.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
 		capability.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-		if (cfg.getBrowserVersion()!= null) {
-			capability.setVersion(cfg.getBrowserVersion());
+		if (webDriverConfig.getBrowserVersion()!= null) {
+			capability.setVersion(webDriverConfig.getBrowserVersion());
 		}
 
-		if (cfg.getPlatform() != null) {
-			capability.setPlatform(cfg.getPlatform());
+		if (webDriverConfig.getPlatform() != null) {
+			capability.setPlatform(webDriverConfig.getPlatform());
 		}
 		
 		
-		if (cfg.getProxyHost() != null) {
-			Proxy proxy = cfg.getProxy();
+		if (webDriverConfig.getProxyHost() != null) {
+			Proxy proxy = webDriverConfig.getProxy();
 			capability.setCapability(CapabilityType.PROXY, proxy);
 		}
-		
-		
 		return capability;
 	}
-	
-	
-
 }

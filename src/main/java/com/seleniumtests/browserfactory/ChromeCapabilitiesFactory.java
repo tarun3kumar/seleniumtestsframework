@@ -16,7 +16,7 @@ import com.seleniumtests.resources.WebDriverExternalResources;
 
 public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
+	public DesiredCapabilities createCapabilities(WebDriverConfig webDriverConfig) {
 
 		DesiredCapabilities capability = null;
 		capability = DesiredCapabilities.chrome();
@@ -24,43 +24,43 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 				.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
 
 		ChromeOptions options = new ChromeOptions();
-		if (cfg.getUserAgentOverride() != null) {
-			options.addArguments("--user-agent=" + cfg.getUserAgentOverride());
+		if (webDriverConfig.getUserAgentOverride() != null) {
+			options.addArguments("--user-agent=" + webDriverConfig.getUserAgentOverride());
 		}
 
 		capability.setCapability(ChromeOptions.CAPABILITY, options);
 
-		if (cfg.isEnableJavascript())
+		if (webDriverConfig.isEnableJavascript())
 			capability.setJavascriptEnabled(true);
 		else
 			capability.setJavascriptEnabled(false);
 		capability.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
 		capability.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-		if (cfg.getBrowserVersion() != null) {
-			capability.setVersion(cfg.getBrowserVersion());
+		if (webDriverConfig.getBrowserVersion() != null) {
+			capability.setVersion(webDriverConfig.getBrowserVersion());
 		}
 
-		if (cfg.getPlatform() != null) {
-			capability.setPlatform(cfg.getPlatform());
+		if (webDriverConfig.getPlatform() != null) {
+			capability.setPlatform(webDriverConfig.getPlatform());
 		}
 
-		if (cfg.getProxyHost() != null) {
-			Proxy proxy = cfg.getProxy();
+		if (webDriverConfig.getProxyHost() != null) {
+			Proxy proxy = webDriverConfig.getProxy();
 			capability.setCapability(CapabilityType.PROXY, proxy);
 		}
 
-		if (cfg.getChromeBinPath() != null) {
-			capability.setCapability("chrome.binary", cfg.getChromeBinPath());
+		if (webDriverConfig.getChromeBinPath() != null) {
+			capability.setCapability("chrome.binary", webDriverConfig.getChromeBinPath());
 		}
 
 		// Set ChromeDriver for local mode
-		if (cfg.getMode() == WebDriverMode.LOCAL) {
-			String chromeDriverPath = cfg.getChromeDriverPath();
+		if (webDriverConfig.getMode() == WebDriverMode.LOCAL) {
+			String chromeDriverPath = webDriverConfig.getChromeDriverPath();
 			if (chromeDriverPath == null) {
 				try {
 					if (System.getenv("webdriver.chrome.driver") != null) {
-						System.out.println("Chrome driver get from property:"
+						System.out.println("get Chrome driver from property:"
 								+ System.getenv("webdriver.chrome.driver"));
 						System.setProperty("webdriver.chrome.driver",
 								System.getenv("webdriver.chrome.driver"));
@@ -80,7 +80,7 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 		dir = FileHelper.decodePath(dir);
 
 		if (!new File(dir).exists()) {
-			System.out.println("handling chrome resources in " + dir);
+			System.out.println("extracting chrome resources in " + dir);
 			FileHelper.extractJar(dir, WebDriverExternalResources.class);
 		}
 		if (!new File(dir + OSHelper.getSlash() + "chromedriver.exe").exists()) {

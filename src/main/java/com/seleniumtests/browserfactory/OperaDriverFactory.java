@@ -22,14 +22,8 @@ public class OperaDriverFactory extends AbstractWebDriverFactory implements IWeb
 		{
 			driver = new OperaDriver(new OperaCapabilitiesFactory().createCapabilities(cfg));
 		}
-		//Implicit Waits to handle dynamic element. The default value is 5 seconds.
+		//Implicit Wait handles dynamic element. The default value is 5 seconds.
 		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
-		if(cfg.getPageLoadTimeout()>=0)
-		{
-			//TestLogging.log("Opera doesn't support pageLoadTimeout, ignoring...");
-			//driver.manage().timeouts().pageLoadTimeout(cfg.getPageLoadTimeout(), TimeUnit.SECONDS);
-		}
-
 		this.setWebDriver(driver);
 		return driver;
 	}

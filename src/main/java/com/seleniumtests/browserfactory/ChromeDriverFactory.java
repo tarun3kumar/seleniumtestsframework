@@ -23,7 +23,7 @@ public class ChromeDriverFactory extends AbstractWebDriverFactory implements
 	 */
 	protected WebDriver createNativeDriver() {
 		return new ChromeDriver(
-				new ChromeCapabilitiesFactory().createCapabilities(cfg));
+				new ChromeCapabilitiesFactory().createCapabilities(webDriverConfig));
 	}
 
 	@Override

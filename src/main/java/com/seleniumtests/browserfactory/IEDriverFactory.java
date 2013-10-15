@@ -9,12 +9,11 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import com.seleniumtests.driver.web.WebDriverConfig;
 import com.seleniumtests.helper.OSHelper;
-import com.seleniumtests.helper.ThreadHelper;
 
 public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
-	public IEDriverFactory(WebDriverConfig cfg) {
-		super(cfg);
+	public IEDriverFactory(WebDriverConfig webDriverConfig1) {
+		super(webDriverConfig1);
 	}
 	
 	@Override
@@ -29,19 +28,18 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
 			}
 			driver = null;
 		}
-		}catch(Exception ex)
+		}catch(Exception e)
 		{
-			//Ignore all exceptions
+            e.printStackTrace();
 		}
 	}
 	
 	@Override
 	public WebDriver createWebDriver() throws IOException {
-		killprocess();
-		ThreadHelper.waitForSeconds(2);
+		killProcess();
 		if(!OSHelper.isWindows())
 		{
-			throw new RuntimeException("IE can only run in windows!");
+			throw new RuntimeException("IE browser is only supported on windows!");
 		}
 		WebDriverConfig cfg = this.getWebDriverConfig();
 
@@ -58,14 +56,14 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
 		return driver;
 	}
 	
-	private void killprocess(){
-		//So please make sure only one test case run at a time
+	private void killProcess(){
 		if(OSHelper.isWindows())
 		{
 			try {
 				Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe");
 				Runtime.getRuntime().exec("taskkill /F /IM Iexplore.exe");
 			} catch (IOException e) {
+                e.printStackTrace();
 			}
 		}
 	}

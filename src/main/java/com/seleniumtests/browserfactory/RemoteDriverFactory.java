@@ -34,60 +34,60 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException,
 			ClassNotFoundException {
-		WebDriverConfig cfg = this.getWebDriverConfig();
+		WebDriverConfig webDriverConfig = this.getWebDriverConfig();
 		DesiredCapabilities capability = null;
 		URL url;
 
-		url = new URL(cfg.getHubUrl());
+		url = new URL(webDriverConfig.getHubUrl());
 
-		switch (cfg.getBrowser()) {
+		switch (webDriverConfig.getBrowser()) {
 		case FireFox:
 			capability = new FirefoxCapabilitiesFactory()
-					.createCapabilities(cfg);
+					.createCapabilities(webDriverConfig);
 			break;
 		case InternetExplore:
-			capability = new IECapabilitiesFactory().createCapabilities(cfg);
+			capability = new IECapabilitiesFactory().createCapabilities(webDriverConfig);
 			break;
 		case Chrome:
 			capability = new ChromeCapabilitiesFactory()
-					.createCapabilities(cfg);
+					.createCapabilities(webDriverConfig);
 			break;
 		case HtmlUnit:
 			capability = new HtmlUnitCapabilitiesFactory()
-					.createCapabilities(cfg);
+					.createCapabilities(webDriverConfig);
 			break;
 		case Safari:
 			capability = new SafariCapabilitiesFactory()
-					.createCapabilities(cfg);
+					.createCapabilities(webDriverConfig);
 			break;
 		case Android:
 			capability = new AndroidCapabilitiesFactory()
-					.createCapabilities(cfg);
+					.createCapabilities(webDriverConfig);
 			break;
 		case IPhone:
 			capability = ((ICapabilitiesFactory) Class
 					.forName(
 							"com.seleniumtests.browserfactory.IPhoneCapabilitiesFactory")
-					.getConstructor().newInstance()).createCapabilities(cfg);
+					.getConstructor().newInstance()).createCapabilities(webDriverConfig);
 			break;
 		case IPad:
 			capability = ((ICapabilitiesFactory) Class
 					.forName(
 							"com.seleniumtests.browserfactory.IPadCapabilitiesFactory")
-					.getConstructor().newInstance()).createCapabilities(cfg);
+					.getConstructor().newInstance()).createCapabilities(webDriverConfig);
 			break;
 		case Opera:
-			capability = new OperaCapabilitiesFactory().createCapabilities(cfg);
+			capability = new OperaCapabilitiesFactory().createCapabilities(webDriverConfig);
 			break;
 		case PhantomJS:
 			capability = new PhantomJSCapabilitiesFactory()
-					.createCapabilities(cfg);
+					.createCapabilities(webDriverConfig);
 			break;
 		default:
 			break;
 		}
 
-		switch (cfg.getBrowser()) {
+		switch (webDriverConfig.getBrowser()) {
 		case IPhone:
 		case IPad:
 			driver = (WebDriver) Class
@@ -99,24 +99,24 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 		case FireFox:
 			try {
 				driver = new ScreenShotRemoteWebDriver(url, capability);
-			} catch (RuntimeException ex) {
-				if (ex.getMessage()
+			} catch (RuntimeException e) {
+				if (e.getMessage()
 						.contains(
 								"Unable to connect to host 127.0.0.1 on port 7062 after 45000 ms. Firefox console output")) {
-					TestLogging.log("Firefox Driver creation got port 7062 exception, retry after 5 seconds");
+					TestLogging.log("Firefox Driver creation got port exception, retry after 5 seconds");
 					ThreadHelper.waitForSeconds(5);
 					driver = new ScreenShotRemoteWebDriver(url, capability);
 				} else
-					throw ex;
+					throw e;
 			}
 			break;
 		default:
 			driver = new ScreenShotRemoteWebDriver(url, capability);
 		}
 
-		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
-		if (cfg.getPageLoadTimeout() >= 0) {
-			setPageLoadTimeout(cfg.getPageLoadTimeout(), cfg.getBrowser());
+		setImplicitWaitTimeout(webDriverConfig.getImplicitWaitTimeout());
+		if (webDriverConfig.getPageLoadTimeout() >= 0) {
+			setPageLoadTimeout(webDriverConfig.getPageLoadTimeout(), webDriverConfig.getBrowser());
 		}
 		this.setWebDriver(driver);
 		String hub = url.getHost();
@@ -162,7 +162,7 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 				driver.manage().timeouts()
 						.pageLoadTimeout(timeout, TimeUnit.SECONDS);
 			} catch (UnsupportedCommandException e) {
-				// chromedriver1 does not support pageLoadTimeout
+				e.printStackTrace();
 			}
 			break;
 		case FireFox:
@@ -171,10 +171,6 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 					.pageLoadTimeout(timeout, TimeUnit.SECONDS);
 			break;
 		default:
-			// Safari: java.lang.RuntimeException:
-			// org.openqa.selenium.WebDriverException: Unknown command:
-			// setTimeout (WARNING: The server did not provide any stacktrace
-			// information)
 		}
 	}
 }

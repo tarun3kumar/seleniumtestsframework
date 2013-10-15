@@ -9,8 +9,8 @@ import com.seleniumtests.driver.web.WebDriverConfig;
 
 public class AndroidDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
-	public AndroidDriverFactory(WebDriverConfig cfg) {
-		super(cfg);
+	public AndroidDriverFactory(WebDriverConfig webDriverConfig) {
+		super(webDriverConfig);
 	}
 
 	@Override

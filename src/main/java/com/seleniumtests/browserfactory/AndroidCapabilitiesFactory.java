@@ -26,18 +26,13 @@ public class AndroidCapabilitiesFactory implements ICapabilitiesFactory{
 		if (cfg.getPlatform() != null) {
 			capability.setPlatform(cfg.getPlatform());
 		}
-		
-		
+
 		if (cfg.getProxyHost() != null) {
 			Proxy proxy = cfg.getProxy();
 			capability.setCapability(CapabilityType.PROXY, proxy);
 		}
-		
-		
+
 		return capability;
 	}
-	
-	
-
 }
 

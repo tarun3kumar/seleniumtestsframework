@@ -53,10 +53,6 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 	}
 	
 	protected synchronized OperaProfile getOperaProfile(WebDriverConfig cfg) {
-		// For example Opera profile path is "/Users/junjshi/Library/Opera/" in
-		// Mac machine.
-		// This doesn't work in Windows so far.
-		// in about:config to find Opera Directory
 		OperaProfile profile = null;
 		synchronized(OperaCapabilitiesFactory.class){
 			String path = cfg.getOperaProfilePath();
@@ -64,7 +60,7 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 			if (path != null) {
 				profile = new OperaProfile(path);
 			} else
-				profile = new OperaProfile(); // fresh, random profile
+				profile = new OperaProfile();
 		}
 		return profile;
 	}
@@ -72,8 +68,8 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 	protected String getOperaProfilePath(String path) {
 		String realPath = null;
 		if (path != null && !new File(path).exists()) {
-			TestLogging.log("Opera profile path:" + path
-                    + " can't be found, use default");
+			TestLogging.log("Profile path of Opera Browser:" + path
+                    + " not found, use default");
 			path = null;
 		}
 		if (path != null) {
@@ -87,7 +83,6 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 				if (!OSHelper.isWindows()) {
 					slash = "/";
 				}
-				//2.23.0, opera doesn't create Temporary profile folder, so we create it, a mvn clean command will clear these folders
 				profilePath = this.getClass().getResource("/").getFile()+slash+"defaultOperaProfile";
 				extractDefaultProfile(profilePath);
 				String tempProfilePath = this.getClass().getResource("/").getFile()+slash+new Date().hashCode()+Thread.currentThread().getId();
@@ -120,7 +115,6 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 			} catch (Exception ex) {
 			}
 		}
-
 		isProfileCreated = true;
 	}
 }

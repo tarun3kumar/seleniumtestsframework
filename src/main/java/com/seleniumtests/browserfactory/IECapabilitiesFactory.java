@@ -28,7 +28,7 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
 						+ "\\IEDriverServer.exe");
 			} else
 				FileHelper.copyFile(dir + "\\IEDriverServer_Win32.exe", dir
-						+ "\\IEDriverServer.exe");// Win32
+						+ "\\IEDriverServer.exe"); // Win32
 		}
 		System.setProperty("webdriver.ie.driver", dir + "\\IEDriverServer.exe");
 		System.out.println(dir + "\\IEDriverServer.exe");
@@ -42,13 +42,14 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
 			else {
 				if (System.getenv("webdriver.ie.driver")!=null)
 				{
-					System.out.println("ie driver get from property:"+System.getenv("webdriver.ie.driver"));
+					System.out.println("Get IE Driver from property:"+System.getenv("webdriver.ie.driver"));
 					System.setProperty("webdriver.ie.driver",System.getenv("webdriver.ie.driver"));
 				}
 				else{
 					try {
 						handleExtractResources();
-					} catch (IOException ex) {
+					} catch (IOException e) {
+                        e.printStackTrace();
 					}
 				}
 			}
@@ -79,13 +80,6 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
 			Proxy proxy = cfg.getProxy();
 			capability.setCapability(CapabilityType.PROXY, proxy);
 		}
-		// To ignore Protected Mode exception, but users should set the browser
-		// and reduce the strange behavior -
-		// If a Protected Mode boundary is crossed, very unexpected behavior
-		// including hangs, element location not working, and clicks not being
-		// propagated
-		// It should not be a big problem in our testing since almost we should
-		// test in the same zone. added in 6/18/2013
 		capability
 				.setCapability(
 						InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,

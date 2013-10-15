@@ -20,46 +20,46 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 	private static boolean isProfileCreated = false;
 	private static Object lockProfile = new Object();
 
-	protected void configProfile(FirefoxProfile profile, WebDriverConfig cfg) {
-		profile.setAcceptUntrustedCertificates(cfg
+	protected void configProfile(FirefoxProfile profile, WebDriverConfig webDriverConfig) {
+		profile.setAcceptUntrustedCertificates(webDriverConfig
 				.isSetAcceptUntrustedCertificates());
-		profile.setAssumeUntrustedCertificateIssuer(cfg
+		profile.setAssumeUntrustedCertificateIssuer(webDriverConfig
 				.isSetAssumeUntrustedCertificateIssuer());
 
-		if (cfg.getFfBinPath() != null)
-			System.setProperty("webdriver.firefox.bin", cfg.getFfBinPath());
+		if (webDriverConfig.getFfBinPath() != null)
+			System.setProperty("webdriver.firefox.bin", webDriverConfig.getFfBinPath());
 
-		if (cfg.getUserAgentOverride() != null) {
+		if (webDriverConfig.getUserAgentOverride() != null) {
 			profile.setPreference("general.useragent.override",
-					cfg.getUserAgentOverride());
+					webDriverConfig.getUserAgentOverride());
 		}
-		if (cfg.getNtlmAuthTrustedUris() != null)
+		if (webDriverConfig.getNtlmAuthTrustedUris() != null)
 			profile.setPreference("network.automatic-ntlm-auth.trusted-uris",
-					cfg.getNtlmAuthTrustedUris());
-		if (cfg.getBrowserDownloadDir() != null) {
+					webDriverConfig.getNtlmAuthTrustedUris());
+		if (webDriverConfig.getBrowserDownloadDir() != null) {
 			profile.setPreference("browser.download.dir",
-					cfg.getBrowserDownloadDir());
+					webDriverConfig.getBrowserDownloadDir());
 			profile.setPreference("browser.download.folderList", 2);
 			profile.setPreference("browser.download.manager.showWhenStarting",
 					false);
 			profile.setPreference(
 					"browser.helperApps.neverAsk.saveToDisk",
 					"application/octet-stream,text/plain,application/pdf,application/zip,text/csv,text/html");
-
 		}
 
-		if (!cfg.isEnableJavascript())
+		if (!webDriverConfig.isEnableJavascript())
 			profile.setPreference("javascript.enabled", false);
 		else {
 			// Add Firefox extension to collect JS Error
-			if (cfg.isAddJSErrorCollectorExtension()) {
+			if (webDriverConfig.isAddJSErrorCollectorExtension()) {
 				try {
 					JavaScriptError.addExtension(profile);
 				} catch (IOException e) {
+                    e.printStackTrace();
 				}
 			}
 		}
-		// fix permission denied problem
+		// fix permission denied issues
 		profile.setPreference(
 				"capability.policy.default.Window.QueryInterface", "allAccess");
 		profile.setPreference(
@@ -79,34 +79,33 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 	/**
 	 * Create firefox capabilities
 	 */
-
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
-		DesiredCapabilities capability = null;
+	public DesiredCapabilities createCapabilities(WebDriverConfig webDriverConfig) {
+		DesiredCapabilities capability;
 		capability = new DesiredCapabilities();
 		capability.setBrowserName(DesiredCapabilities.firefox()
 				.getBrowserName());
 
-		FirefoxProfile profile = getFirefoxProfile(cfg);
-		configProfile(profile, cfg);
+		FirefoxProfile profile = getFirefoxProfile(webDriverConfig);
+		configProfile(profile, webDriverConfig);
 		capability.setCapability(FirefoxDriver.PROFILE, profile);
 
-		if (cfg.isEnableJavascript())
+		if (webDriverConfig.isEnableJavascript())
 			capability.setJavascriptEnabled(true);
 		else
 			capability.setJavascriptEnabled(false);
 		capability.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
 		capability.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 
-		if (cfg.getBrowserVersion() != null) {
-			capability.setVersion(cfg.getBrowserVersion());
+		if (webDriverConfig.getBrowserVersion() != null) {
+			capability.setVersion(webDriverConfig.getBrowserVersion());
 		}
 
-		if (cfg.getPlatform() != null) {
-			capability.setPlatform(cfg.getPlatform());
+		if (webDriverConfig.getPlatform() != null) {
+			capability.setPlatform(webDriverConfig.getPlatform());
 		}
 
-		if (cfg.getProxyHost() != null)
-			capability.setCapability(CapabilityType.PROXY, cfg.getProxy());
+		if (webDriverConfig.getProxyHost() != null)
+			capability.setCapability(CapabilityType.PROXY, webDriverConfig.getProxy());
 
 		return capability;
 	}
@@ -141,11 +140,11 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 		isProfileCreated = true;
 	}
 
-	protected synchronized FirefoxProfile getFirefoxProfile(WebDriverConfig cfg) {
-		String path = cfg.getFfProfilePath();
-		FirefoxProfile profile = null;
-		String realPath = null;
-		if (cfg.isUseFirefoxDefaultProfile())
+	protected synchronized FirefoxProfile getFirefoxProfile(WebDriverConfig webDriverConfig) {
+		String path = webDriverConfig.getFfProfilePath();
+		FirefoxProfile profile;
+		String realPath;
+		if (webDriverConfig.isUseFirefoxDefaultProfile())
 			realPath = getFirefoxProfilePath(path);
 		else
 			realPath = null;
@@ -157,7 +156,7 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 		String realPath = null;
 		if (path != null && !new File(path).exists()) {
 			TestLogging.log("Firefox profile path:" + path
-                    + " can't be found, use default");
+                    + " not found, use default");
 			path = null;
 		}
 		if (path != null) {
@@ -165,21 +164,18 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 			realPath = path;
 		} else {
 			try {
-
-				//String slash = "\\";
-				//String profilePath = "C:\\grid\\profile";
 				String profilePath = this.getClass().getResource("/").getPath() + "ffprofile";
 				profilePath = FileHelper.decodePath(profilePath);
 
 				extractDefaultProfile(profilePath);
-				realPath = profilePath + OSHelper.getSlash() + "customProfileDirCUSTFF";
+				realPath = profilePath + OSHelper.getSlash() + "customFFprofile";
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				realPath = null;
 			}
 		}
-		System.out.println("FirefoxProfile: " + realPath);
+		System.out.println("Firefox Profile: " + realPath);
 		return realPath;
 	}
 }

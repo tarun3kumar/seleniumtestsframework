@@ -28,7 +28,7 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 	 */
 	protected WebDriver createNativeDriver() {
 		return new FirefoxDriver( 
-				new FirefoxCapabilitiesFactory().createCapabilities(cfg));
+				new FirefoxCapabilitiesFactory().createCapabilities(webDriverConfig));
 	}
 
 	@Override
