@@ -14,40 +14,40 @@ public enum BrowserType {
 	PhantomJS("*phantomjs");
 	
 	
-	public static BrowserType getBrowserType(String type)
+	public static BrowserType getBrowserType(String browserType)
 	{
-		if(type.equalsIgnoreCase("*firefox") || type.equalsIgnoreCase("firefox"))
+		if(browserType.equalsIgnoreCase("*firefox") || browserType.equalsIgnoreCase("firefox"))
 			return BrowserType.FireFox;
-		else if(type.equalsIgnoreCase("*iexplore") || type.equalsIgnoreCase("iexplore"))
+		else if(browserType.equalsIgnoreCase("*iexplore") || browserType.equalsIgnoreCase("iexplore"))
 			return BrowserType.InternetExplore;
-		else if(type.equalsIgnoreCase("*chrome") || type.equalsIgnoreCase("chrome"))
+		else if(browserType.equalsIgnoreCase("*chrome") || browserType.equalsIgnoreCase("chrome"))
 			return BrowserType.Chrome;
-		else if(type.equalsIgnoreCase("*htmlunit") || type.equalsIgnoreCase("htmlunit"))
+		else if(browserType.equalsIgnoreCase("*htmlunit") || browserType.equalsIgnoreCase("htmlunit"))
 			return BrowserType.HtmlUnit;
-		else if(type.equalsIgnoreCase("*safari") || type.equalsIgnoreCase("safari"))
+		else if(browserType.equalsIgnoreCase("*safari") || browserType.equalsIgnoreCase("safari"))
 			return BrowserType.Safari;
-		else if(type.equalsIgnoreCase("*android") || type.equalsIgnoreCase("android"))
+		else if(browserType.equalsIgnoreCase("*android") || browserType.equalsIgnoreCase("android"))
 			return BrowserType.Android;
-		else if(type.equalsIgnoreCase("*iphone")  || type.equalsIgnoreCase("iphone"))
+		else if(browserType.equalsIgnoreCase("*iphone")  || browserType.equalsIgnoreCase("iphone"))
 			return BrowserType.IPhone;
-		else if(type.equalsIgnoreCase("*ipad") ||type.equalsIgnoreCase("ipad"))
+		else if(browserType.equalsIgnoreCase("*ipad") ||browserType.equalsIgnoreCase("ipad"))
 			return BrowserType.IPad;
-		else if(type.equalsIgnoreCase("*opera") || type.equalsIgnoreCase("opera"))
+		else if(browserType.equalsIgnoreCase("*opera") || browserType.equalsIgnoreCase("opera"))
 			return BrowserType.Opera;
-		else if(type.equalsIgnoreCase("*phantomjs") || type.equalsIgnoreCase("phantomjs"))
+		else if(browserType.equalsIgnoreCase("*phantomjs") || browserType.equalsIgnoreCase("phantomjs"))
 			return BrowserType.PhantomJS;
 		else
 			return BrowserType.FireFox;
 	}
 	
-	private String type;
+	private String browserType;
 	
 	BrowserType(String type) {
-		this.type = type;
+		this.browserType = type;
 	}
 	
-	public String getType(){
-		return this.type;
+	public String getBrowserType(){
+		return this.browserType;
 	}
 
 }

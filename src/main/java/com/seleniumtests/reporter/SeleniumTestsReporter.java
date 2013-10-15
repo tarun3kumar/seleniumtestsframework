@@ -173,7 +173,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		//Handle Last Exception only for failed test cases
 		if(!result.isSuccess() && SeleniumTestsContextManager.getThreadContext() != null && screenShot!=null)
 		{
-			TestLogging.log("<div><table><tr bgcolor=\"yellow\"><td><b>-- Screenshot of current web page with webdriver exception --</b><td></tr></table></div>");
+			TestLogging.log("<div><table><tr bgcolor=\"yellow\"><td><b>-- Screenshot of current web page with webdriver customexception --</b><td></tr></table></div>");
 			TestLogging.logWebOutput(screenShot.getTitle(), TestLogging.buildScreenshotLog(screenShot), true);
 		}
 		//Handle Soft CustomAssertion
@@ -317,7 +317,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	protected void generateCalErrorReport(String exception, StringBuffer contentBuffer) {
 
 		contentBuffer.append(" <div class='stContainer' ><a  href='javascript:void(0);'  class='exceptionlnk'>Detail</a>");
-		contentBuffer.append("<div class='exception' style='display:none'>");
+		contentBuffer.append("<div class='customexception' style='display:none'>");
 		contentBuffer.append(exception);
 		contentBuffer.append("</div></div>");
 	}
@@ -384,7 +384,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	 * contentBuffer.append(
 	 * "<tr><td style='border-spacing:0px;border-style:none;border-width:1px' valign='top'><a href='"
 	 * + event.getCALLinkURL() + "' target=cal>");
-	 * contentBuffer.append(event.getType()); contentBuffer.append("</a>");
+	 * contentBuffer.append(event.getBrowserType()); contentBuffer.append("</a>");
 	 * contentBuffer.append(
 	 * "</td><td style='border-spacing:0px;border-style:none;border-width:1px' valign='top'>"
 	 * ); contentBuffer.append(event.getName());
@@ -428,7 +428,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	 * contentBuffer.append(
 	 * "<tr><td style='border-spacing:0px;border-style:solid;border-width:1px' valign='top'><a href='"
 	 * + event.getCALLinkURL() + "' target=cal>");
-	 * contentBuffer.append(event.getType()); contentBuffer.append("</a>");
+	 * contentBuffer.append(event.getBrowserType()); contentBuffer.append("</a>");
 	 * contentBuffer.append(
 	 * "</td><td style='border-spacing:0px;border-style:solid;border-width:1px' valign='top'>"
 	 * ); contentBuffer.append(event.getName());
@@ -471,8 +471,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	protected void generateExceptionReport(Throwable exception, ITestNGMethod method, StringBuffer contentBuffer, String lastline) {
 		Throwable fortile = exception;
 		/*
-		 * if (exception instanceof VerificationException) { fortile =
-		 * ((VerificationException)exception).getMaster(); }
+		 * if (customexception instanceof VerificationException) { fortile =
+		 * ((VerificationException)customexception).getMaster(); }
 		 */
 		String title = fortile.getMessage();
 		if (title == null) {
@@ -971,7 +971,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		contentBuffer.append(" <div class='stContainer' >" + exception.getClass() + ":" + escape(title)
 				+ "(<a  href='javascript:void(0);'  class='exceptionlnk'>stacktrace</a>)");
 
-		contentBuffer.append("<div class='exception' style='display:none'>");
+		contentBuffer.append("<div class='customexception' style='display:none'>");
 
 		StackTraceElement[] s1 = exception.getStackTrace();
 		Throwable t2 = exception.getCause();

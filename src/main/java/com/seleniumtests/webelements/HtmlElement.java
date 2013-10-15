@@ -138,7 +138,7 @@ public class HtmlElement {
 			try {
 				element.click();
 			} catch (org.openqa.selenium.TimeoutException ex) {
-				TestLogging.log("Get timeout exception, ignore");
+				TestLogging.log("Get timeout customexception, ignore");
 			}
 		} else {
 			// Ignore no response on ECMAScript evaluation command for Opera
@@ -615,7 +615,7 @@ public class HtmlElement {
 	}
 
 	/**
-	 * For unit testing--need to be able to throw this exception
+	 * For unit testing--need to be able to throw this customexception
 	 */
 	protected void sleep(int waitTime) throws InterruptedException {
 		Thread.sleep(waitTime);

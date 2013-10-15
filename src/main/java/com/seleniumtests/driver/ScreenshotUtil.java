@@ -3,6 +3,7 @@ package com.seleniumtests.driver;
 import java.io.IOException;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
+import com.seleniumtests.customexception.WebSessionEndedException;
 import com.seleniumtests.helper.URLAssistant;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
@@ -11,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 
 import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.exception.WebSessionTerminatedException;
 import com.seleniumtests.helper.FileHelper;
 
 public class ScreenshotUtil {
@@ -24,12 +24,12 @@ public class ScreenshotUtil {
 		try {
 			// Don't capture snapshot for htmlunit
 			if (WebUIDriver.getWebUXDriver().getBrowser()
-					.equalsIgnoreCase(BrowserType.HtmlUnit.getType()))
+					.equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType()))
 				return null;
 			// Opera has bug after upgrade selenium
 			// 2.33.0,https://code.google.com/p/selenium/issues/detail?id=847
 			if (WebUIDriver.getWebUXDriver().getBrowser()
-					.equalsIgnoreCase(BrowserType.Opera.getType()))
+					.equalsIgnoreCase(BrowserType.Opera.getBrowserType()))
 				return null;
 
 			TakesScreenshot screenShot = (TakesScreenshot) driver;
@@ -138,7 +138,7 @@ public class ScreenshotUtil {
 			try {
 				url = driver.getCurrentUrl();
 			} catch (org.openqa.selenium.UnhandledAlertException ex) {
-				// ignore alert exception
+				// ignore alert customexception
 				ex.printStackTrace();
 				url = driver.getCurrentUrl();
 			}
@@ -154,7 +154,7 @@ public class ScreenshotUtil {
 			if (SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot()) {
 				handleImage(screenShot);
 			}
-		}catch(WebSessionTerminatedException e){
+		}catch(WebSessionEndedException e){
 			throw e;
 		}
 		catch (Exception ex) {
@@ -166,7 +166,7 @@ public class ScreenshotUtil {
 	}
 
 	/**
-	 * Used by DriverExceptionListener, don't log the exception but put it
+	 * Used by DriverExceptionListener, don't log the customexception but put it
 	 * into context
 	 * 
 	 */
@@ -214,7 +214,7 @@ public class ScreenshotUtil {
 					TestLogging.logWebOutput(null, sbMessage.toString(), false);
 					sbMessage = null;
 				}
-			}catch(WebSessionTerminatedException ex){
+			}catch(WebSessionEndedException ex){
 				throw ex;
 			}
 			catch (Throwable e) {

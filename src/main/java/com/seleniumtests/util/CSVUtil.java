@@ -17,11 +17,11 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.seleniumtests.core.Filter;
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import com.seleniumtests.util.internal.entity.TestEntity;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.exception.SeleniumTestsException;
 
 public class CSVUtil {
     private static Logger logger = TestLogging.getLogger(CSVUtil.class);
@@ -96,7 +96,7 @@ public class CSVUtil {
             }
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new SeleniumTestsException("Blank TestTitle found on Row(s) " + sbBlank.toString() + ".");
+                throw new CustomSeleniumTestsException("Blank TestTitle found on Row(s) " + sbBlank.toString() + ".");
             }
 
             Set<String> uniqueDataSet = new TreeSet<String>();
@@ -124,7 +124,7 @@ public class CSVUtil {
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
                     String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$" + csvData[i][testSiteColumnIndex];
                     if (uniqueDataSet.contains(uniqueString))
-                        throw new SeleniumTestsException("Duplicate TestTitle found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
+                        throw new CustomSeleniumTestsException("Duplicate TestTitle found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
 
                     uniqueDataSet.add(uniqueString);
                 }

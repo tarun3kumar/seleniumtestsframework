@@ -24,13 +24,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.seleniumtests.core.Filter;
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import jxl.Sheet;
 import jxl.Workbook;
 
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
-import com.seleniumtests.exception.SeleniumTestsException;
 import com.seleniumtests.util.internal.entity.TestEntity;
 
 public class SpreadSheetUtil {
@@ -221,7 +221,7 @@ public class SpreadSheetUtil {
             w = Workbook.getWorkbook(is);
 
             if (w.getSheetNames().length <= sheetNumber) {
-                throw new SeleniumTestsException("Sheet # " + sheetNumber + " for "
+                throw new CustomSeleniumTestsException("Sheet # " + sheetNumber + " for "
                         + filename + " not found.");
             }
 
@@ -295,7 +295,7 @@ public class SpreadSheetUtil {
             }
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new SeleniumTestsException(
+                throw new CustomSeleniumTestsException(
                         "Blank TestTitle found on Row(s) "
                                 + sbBlank.toString() + ".");
             }
@@ -328,7 +328,7 @@ public class SpreadSheetUtil {
                             + sheet.getCell(testSiteColumnIndex, i)
                             .getContents();
                     if (uniqueDataSet.contains(uniqueString))
-                        throw new SeleniumTestsException(
+                        throw new CustomSeleniumTestsException(
                                 "Duplicate TestTitle found in the spreadsheet "
                                         + "with TestTitle = {"
                                         + sheet.getCell(testTitleColumnIndex, i)

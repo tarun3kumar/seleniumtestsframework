@@ -1,6 +1,5 @@
 package com.seleniumtests.helper;
 
-@SuppressWarnings("rawtypes")
 public class ClassContextHelper {
 
 	private static class Helper extends SecurityManager {

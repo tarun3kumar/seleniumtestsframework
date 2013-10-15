@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.seleniumtests.core.*;
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
+import com.seleniumtests.customexception.NotCurrentPageException;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.driver.WebUtility;
 import com.seleniumtests.helper.URLAssistant;
@@ -30,8 +32,6 @@ import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
-import com.seleniumtests.exception.SeleniumTestsException;
-import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.helper.ThreadHelper;
 import com.thoughtworks.selenium.Wait;
@@ -254,7 +254,7 @@ public class PageObject extends BasePage implements IPage {
 
 	@Override
 	protected void assertCurrentPage(boolean log)
-			throws PageNotCurrentException {
+			throws NotCurrentPageException {
 
 		if (pageIdentifierElement == null) {
 
@@ -268,7 +268,7 @@ public class PageObject extends BasePage implements IPage {
 				// Ignore all exceptions
 				e.printStackTrace();
 			}
-			throw new PageNotCurrentException(getClass().getCanonicalName()
+			throw new NotCurrentPageException(getClass().getCanonicalName()
 					+ " is not the current page.\nPageIdentifierElement "
 					+ pageIdentifierElement.toString() + " is not found.");
 		}
@@ -345,7 +345,7 @@ public class PageObject extends BasePage implements IPage {
 
 	}
 
-	public final void close() throws PageNotCurrentException {
+	public final void close() throws NotCurrentPageException {
 		if (WebUIDriver.getWebDriver() == null) {
 			return;
 		}
@@ -402,10 +402,10 @@ public class PageObject extends BasePage implements IPage {
 	 * 
 	 * @param fileName
 	 * @return full path of download file
-	 * @throws SeleniumTestsException
+	 * @throws com.seleniumtests.customexception.CustomSeleniumTestsException
 	 */
 	public final String downloadFile(By by, String fileName)
-			throws SeleniumTestsException {
+			throws CustomSeleniumTestsException {
 		return downloadFile(driver.findElement(by).getAttribute("href"),
 				fileName);
 	}
@@ -415,10 +415,10 @@ public class PageObject extends BasePage implements IPage {
 	 * of local or GRID
 	 * 
 	 * @return full path of download file
-	 * @throws SeleniumTestsException
+	 * @throws com.seleniumtests.customexception.CustomSeleniumTestsException
 	 */
 	public final String downloadFile(String locatorOrDownloadUrl,
-			String fileNamePostFix) throws SeleniumTestsException {
+			String fileNamePostFix) throws CustomSeleniumTestsException {
 		if (locatorOrDownloadUrl.startsWith("http://")
 				|| locatorOrDownloadUrl.startsWith("https://")) {
 			// direct download
@@ -484,7 +484,7 @@ public class PageObject extends BasePage implements IPage {
 			return fileName;
 			
 		} else {
-			throw new SeleniumTestsException("url not starts with http:// or https://");
+			throw new CustomSeleniumTestsException("url not starts with http:// or https://");
 		}
 
 	}
@@ -573,7 +573,7 @@ public class PageObject extends BasePage implements IPage {
 		return driver.manage().getCookieNamed(name).getValue();
 	}
 
-	public final int getElementCount(HtmlElement element) throws SeleniumTestsException {
+	public final int getElementCount(HtmlElement element) throws CustomSeleniumTestsException {
 		return driver.findElements(element.getBy()).size();
 	}
 
@@ -664,7 +664,7 @@ public class PageObject extends BasePage implements IPage {
 		// steps
 		/*
 		 * try{ PageFactory.initElements(driver, this); }catch(Exception e) {
-		 * //ignore exception } driver = WebUIDriver.getWebDriver(); Field[]
+		 * //ignore customexception } driver = WebUIDriver.getWebDriver(); Field[]
 		 * fields = this.getClass().getDeclaredFields(); for (Field field :
 		 * fields) { //System.out.println(field.getName());
 		 * 
@@ -732,7 +732,7 @@ public class PageObject extends BasePage implements IPage {
 			driver.navigate().to(url);
 		} catch (Throwable e) {
 			e.printStackTrace();
-			throw new SeleniumTestsException(e);
+			throw new CustomSeleniumTestsException(e);
 		}
 		switchToDefaultContent();
 	}
@@ -778,12 +778,12 @@ public class PageObject extends BasePage implements IPage {
 		capturePageSnapshot();
 	}
 
-	public final void refresh() throws PageNotCurrentException {
+	public final void refresh() throws NotCurrentPageException {
 		TestLogging.logWebStep(null, "refresh", false);
 		try {
 			driver.navigate().refresh();
 		} catch (org.openqa.selenium.TimeoutException ex) {
-			TestLogging.log("got time out exception, ignore");
+			TestLogging.log("got time out customexception, ignore");
 		}
 	}
 
@@ -805,7 +805,7 @@ public class PageObject extends BasePage implements IPage {
 		frameFlag = true;
 	}
 
-	public final void selectWindow() throws PageNotCurrentException {
+	public final void selectWindow() throws NotCurrentPageException {
 		TestLogging.logWebStep(null, "select window, locator={\""
                 + getPopupWindowName() + "\"}", false);
 		// selectWindow(getPopupWindowName());
@@ -817,14 +817,14 @@ public class PageObject extends BasePage implements IPage {
 		assertCurrentPage(true);
 	}
 
-	public final void selectWindow(int index) throws PageNotCurrentException {
+	public final void selectWindow(int index) throws NotCurrentPageException {
 		TestLogging.logWebStep(null, "select window, locator={\"" + index + "\"}",
                 false);
 		driver.switchTo().window(
 				(String) driver.getWindowHandles().toArray()[index]);
 	}
 
-	public final void selectNewWindow() throws PageNotCurrentException {
+	public final void selectNewWindow() throws NotCurrentPageException {
 		TestLogging.logWebStep(null, "select new window", false);
 		driver.switchTo().window(
 				(String) driver.getWindowHandles().toArray()[1]);

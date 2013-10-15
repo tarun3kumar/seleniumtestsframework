@@ -103,7 +103,7 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 				if (e.getMessage()
 						.contains(
 								"Unable to connect to host 127.0.0.1 on port 7062 after 45000 ms. Firefox console output")) {
-					TestLogging.log("Firefox Driver creation got port exception, retry after 5 seconds");
+					TestLogging.log("Firefox Driver creation got port customexception, retry after 5 seconds");
 					ThreadHelper.waitForSeconds(5);
 					driver = new ScreenShotRemoteWebDriver(url, capability);
 				} else

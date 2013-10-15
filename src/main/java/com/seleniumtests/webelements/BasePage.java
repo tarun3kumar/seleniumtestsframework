@@ -2,6 +2,7 @@ package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.customexception.NotCurrentPageException;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidSelectorException;
@@ -17,7 +18,6 @@ import org.testng.Assert;
 
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.WebUIDriver;
-import com.seleniumtests.exception.PageNotCurrentException;
 import com.seleniumtests.helper.ThreadHelper;
 import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
@@ -39,7 +39,7 @@ public abstract class BasePage {
 	public BasePage() {
 	}
 
-	public void acceptAlert() throws PageNotCurrentException {
+	public void acceptAlert() throws NotCurrentPageException {
 		Alert alert = driver.switchTo().alert();
 		alert.accept();
 		driver.switchTo().defaultContent();
@@ -122,7 +122,7 @@ public abstract class BasePage {
 	}
 
 	protected void assertCurrentPage(boolean log)
-			throws PageNotCurrentException {
+			throws NotCurrentPageException {
 		// do nothing
 	}
 
@@ -216,7 +216,7 @@ public abstract class BasePage {
 				"Text= {" + text + "} not found.");
 	}
 
-	public String cancelConfirmation() throws PageNotCurrentException {
+	public String cancelConfirmation() throws NotCurrentPageException {
 		Alert alert = driver.switchTo().alert();
 		String seenText = alert.getText();
 		alert.dismiss();
@@ -299,7 +299,7 @@ public abstract class BasePage {
 		WebElement body = driver.findElement(By.tagName("body"));
 
 		if (WebUIDriver.getWebUXDriver().getBrowser()
-				.equalsIgnoreCase(BrowserType.HtmlUnit.getType())) {
+				.equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType())) {
 			return body.getText().contains(text);
 		}
 		Boolean result = false;
@@ -330,10 +330,10 @@ public abstract class BasePage {
 	 * statement.
 	 * 
 	 * @param windowName
-	 * @throws PageNotCurrentException
+	 * @throws com.seleniumtests.customexception.NotCurrentPageException
 	 */
 	public final void selectWindow(String windowName)
-			throws PageNotCurrentException {
+			throws NotCurrentPageException {
 		if (windowName == null) {
 			Windows windows = new Windows(driver);
 			try {

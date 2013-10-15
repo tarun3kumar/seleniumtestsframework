@@ -14,9 +14,8 @@ import java.util.UUID;
 
 import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.SeleniumTestsContextManager;
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import org.apache.log4j.Logger;
-
-import com.seleniumtests.exception.SeleniumTestsException;
 
 public class URLAssistant {
 
@@ -98,7 +97,7 @@ public class URLAssistant {
 
 			return sb.toString();
 		} catch (Throwable e) {
-			throw new SeleniumTestsException(e.getMessage(), e);
+			throw new CustomSeleniumTestsException(e.getMessage(), e);
 		} finally {
 
 			if (br != null) {
@@ -158,7 +157,7 @@ public class URLAssistant {
 			return is;
 		} catch (Throwable e) {
 			e.printStackTrace();
-			throw new SeleniumTestsException(e.getMessage(), e);
+			throw new CustomSeleniumTestsException(e.getMessage(), e);
 		}
 	}
 }

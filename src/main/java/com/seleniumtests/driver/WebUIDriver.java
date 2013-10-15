@@ -74,7 +74,7 @@ public class WebUIDriver {
 			try {
 				getWebUXDriver().createWebDriver();
 			} catch (Exception e) {
-				System.out.println("Capture exception when create web driver");
+				System.out.println("Capture customexception when create web driver");
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
@@ -181,7 +181,7 @@ public class WebUIDriver {
 	public WebDriver createWebDriver() throws Exception {
         System.out.println(Thread.currentThread() + ":" + new Date()
 				+ "Start creating web driver instance: " +this.getBrowser());
-		driver = createRemoteWebDriver(config.getBrowser().getType(), config
+		driver = createRemoteWebDriver(config.getBrowser().getBrowserType(), config
 				.getMode().name());
 
 		System.out.println(Thread.currentThread() + ":" + new Date()
@@ -192,7 +192,7 @@ public class WebUIDriver {
 	}
 
 	public String getBrowser() {
-		return config.getBrowser().getType();
+		return config.getBrowser().getBrowserType();
 	}
 
 	public String getPlatform() {

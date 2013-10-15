@@ -1,7 +1,7 @@
 package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.exception.SeleniumTestsException;
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -26,7 +26,7 @@ public abstract class WebPageSection extends BasePage {
 		this.by = by;
 	}
 
-	public WebPageSection(String name, String locator) throws SeleniumTestsException {
+	public WebPageSection(String name, String locator) throws CustomSeleniumTestsException {
 		super();
 		if (locator.startsWith("xpath=")) {
 			locator = locator.substring(6);

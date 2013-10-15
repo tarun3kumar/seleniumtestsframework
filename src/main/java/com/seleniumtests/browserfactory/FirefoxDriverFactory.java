@@ -51,7 +51,7 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 	}
 
 	/**
-	 * Create webDriver, capture socket exception and retry with timeout
+	 * Create webDriver, capture socket customexception and retry with timeout
 	 * 
 	 * @return WebDriver
 	 */
@@ -78,7 +78,7 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 			}
 		}
 		throw new RuntimeException(
-				"Got exception when creating webDriver with socket timeout 1 minute");
+				"Got customexception when creating webDriver with socket timeout 1 minute");
 	}
 
 	/**
