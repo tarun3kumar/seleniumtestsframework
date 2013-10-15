@@ -92,46 +92,6 @@ public class ScreenshotUtil {
 			}
 
 		}
-		String rlogId = null;
-		try {
-			int startIndex = htmlSource.indexOf("RlogId ");
-			if (startIndex != -1) {
-				int endIndex1 = htmlSource.substring(startIndex).indexOf("-->");
-				int endIndex2 = htmlSource.substring(startIndex).indexOf('"');
-				int endIndex = 0;
-				if (endIndex1 != -1)
-					endIndex = endIndex1;
-				if (endIndex2 != -1 && endIndex2 < endIndex)
-					endIndex = endIndex2;
-
-				if (endIndex != -1) {
-					rlogId = htmlSource.substring(startIndex + 7, startIndex
-							+ endIndex);
-					screenShot.setRlogId(rlogId);
-				}
-			}
-		} catch (Throwable e) {
-		}// KEEPME
-
-		// get pageid value on the page source
-		try {
-			int startIndex = htmlSource.indexOf("GlobalTags:p=");
-			if (startIndex != -1) {
-				int endIndex1 = htmlSource.substring(startIndex).indexOf(
-						"\nGlobalTags:");
-				// int endIndex2 =
-				// htmlSource.substring(startIndex).indexOf("\nGlobalTags:");
-				int endIndex = 0;
-				if (endIndex1 != -1)
-					endIndex = endIndex1;
-
-				if (endIndex != -1) {
-				}
-			}
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}// KEEPME
-
 	}
 
 	private void handleImage(ScreenShot screenShot) {
@@ -206,7 +166,7 @@ public class ScreenshotUtil {
 	}
 
 	/**
-	 * Used by WebDriverExceptionListener, don't log the exception but put it
+	 * Used by DriverExceptionListener, don't log the exception but put it
 	 * into context
 	 * 
 	 */

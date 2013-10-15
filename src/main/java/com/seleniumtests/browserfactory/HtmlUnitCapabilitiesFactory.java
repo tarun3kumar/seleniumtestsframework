@@ -1,14 +1,13 @@
 package com.seleniumtests.browserfactory;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.WebDriverConfig;
-
 public class HtmlUnitCapabilitiesFactory implements ICapabilitiesFactory{
 
-	public DesiredCapabilities createCapabilities(WebDriverConfig webDriverConfig) {
+	public DesiredCapabilities createCapabilities(DriverConfig webDriverConfig) {
 		DesiredCapabilities capability = null;
 		capability = DesiredCapabilities.htmlUnit();
 		

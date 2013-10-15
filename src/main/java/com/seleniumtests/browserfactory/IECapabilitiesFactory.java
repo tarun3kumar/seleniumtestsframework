@@ -3,13 +3,13 @@ package com.seleniumtests.browserfactory;
 import java.io.File;
 import java.io.IOException;
 
+import com.seleniumtests.driver.DriverConfig;
+import com.seleniumtests.driver.DriverMode;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.WebDriverConfig;
-import com.seleniumtests.driver.WebDriverMode;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.resources.WebDriverExternalResources;
@@ -34,9 +34,9 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
 		System.out.println(dir + "\\IEDriverServer.exe");
 	}
 
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
+	public DesiredCapabilities createCapabilities(DriverConfig cfg) {
 		// Set IEDriver for Local Mode
-		if (cfg.getMode() == WebDriverMode.LOCAL) {
+		if (cfg.getMode() == DriverMode.LOCAL) {
 			if (cfg.getIeDriverPath() != null)
 				System.setProperty("webdriver.ie.driver", cfg.getIeDriverPath());
 			else {

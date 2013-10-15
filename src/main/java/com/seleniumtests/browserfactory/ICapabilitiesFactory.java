@@ -1,12 +1,11 @@
 package com.seleniumtests.browserfactory;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
-import com.seleniumtests.driver.WebDriverConfig;
 
 
 public interface ICapabilitiesFactory {
 	
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg);
+	public DesiredCapabilities createCapabilities(DriverConfig cfg);
 
 }

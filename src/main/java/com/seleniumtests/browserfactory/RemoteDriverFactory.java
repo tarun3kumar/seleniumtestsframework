@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.driver.DriverConfig;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
@@ -18,13 +19,12 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.ScreenShotRemoteWebDriver;
-import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.ThreadHelper;
 
 public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 		IWebDriverFactory {
 
-	public RemoteDriverFactory(WebDriverConfig cfg) {
+	public RemoteDriverFactory(DriverConfig cfg) {
 		super(cfg);
 	}
 
@@ -34,7 +34,7 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 			InstantiationException, IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException,
 			ClassNotFoundException {
-		WebDriverConfig webDriverConfig = this.getWebDriverConfig();
+		DriverConfig webDriverConfig = this.getWebDriverConfig();
 		DesiredCapabilities capability = null;
 		URL url;
 

@@ -2,20 +2,20 @@ package com.seleniumtests.browserfactory;
 
 import java.io.IOException;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 
-import com.seleniumtests.driver.WebDriverConfig;
 import com.opera.core.systems.OperaDriver;
 
 public class OperaDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 	
-	public OperaDriverFactory(WebDriverConfig cfg) {
+	public OperaDriverFactory(DriverConfig cfg) {
 		super(cfg);
 	}
 
 	@Override
 	public WebDriver createWebDriver() throws IOException {
-		WebDriverConfig cfg = this.getWebDriverConfig();
+		DriverConfig cfg = this.getWebDriverConfig();
 			
 		
 		synchronized(this.getClass())

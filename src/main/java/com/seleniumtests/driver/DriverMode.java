@@ -1,6 +1,6 @@
 package com.seleniumtests.driver;
 
-public enum WebDriverMode {
+public enum DriverMode {
     LOCAL,
 	ExistingGrid,
 }

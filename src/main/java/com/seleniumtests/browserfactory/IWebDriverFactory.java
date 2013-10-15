@@ -1,8 +1,7 @@
 package com.seleniumtests.browserfactory;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
-
-import com.seleniumtests.driver.WebDriverConfig;
 
 public interface IWebDriverFactory {
 	
@@ -12,5 +11,5 @@ public interface IWebDriverFactory {
 	
 	public WebDriver getWebDriver();
 
-	public WebDriverConfig getWebDriverConfig();
+	public DriverConfig getWebDriverConfig();
 }

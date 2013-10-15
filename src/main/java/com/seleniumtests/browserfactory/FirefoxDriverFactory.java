@@ -2,11 +2,10 @@ package com.seleniumtests.browserfactory;
 
 import java.util.concurrent.TimeUnit;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import com.seleniumtests.driver.WebDriverConfig;
 
 public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 		IWebDriverFactory {
@@ -17,7 +16,7 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 	 * @param cfg
 	 *            the configuration of the firefoxDriver
 	 */
-	public FirefoxDriverFactory(WebDriverConfig cfg) {
+	public FirefoxDriverFactory(DriverConfig cfg) {
 		super(cfg);
 	}
 
@@ -33,7 +32,7 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
 
 	@Override
 	public WebDriver createWebDriver() {
-		WebDriverConfig cfg = this.getWebDriverConfig();
+		DriverConfig cfg = this.getWebDriverConfig();
 
 		System.out.println("start create firefox");
 		driver = createWebDriverWithTimeout();

@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.seleniumtests.core.*;
 import com.seleniumtests.driver.WebUIDriver;
+import com.seleniumtests.driver.WebUtility;
 import com.seleniumtests.helper.URLAssistant;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
@@ -27,7 +28,6 @@ import org.testng.Assert;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.seleniumtests.core.CustomAssertion;
-import com.seleniumtests.driver.BaseWebUtil;
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.exception.SeleniumTestsException;
@@ -52,8 +52,6 @@ public class PageObject extends BasePage implements IPage {
 	private String bodyText = null;
 	private String htmlSource = null;
 	private String htmlSavedToPath = null;
-	private String rlogId = null;
-	private String pageId = null;
 	private String suiteName = null;
 	private String outputDirectory = null;
 	// private String testMethodSignature = null;
@@ -331,7 +329,6 @@ public class PageObject extends BasePage implements IPage {
 		ScreenShot screenShot = new ScreenshotUtil(driver)
 				.captureWebPageSnapshot();
 		this.title = screenShot.getTitle();
-		this.rlogId = screenShot.getRlogId();
 
 		if (screenShot.getHtmlSourcePath() != null) {
 			htmlFilePath = screenShot.getHtmlSourcePath().replace(suiteName,
@@ -630,16 +627,8 @@ public class PageObject extends BasePage implements IPage {
 		return driver.getCurrentUrl();
 	}
 
-	public String getPageId() {
-		return pageId;
-	}
-
 	public String getPopupWindowName() {
 		return popupWindowName;
-	}
-
-	public String getRlogId() {
-		return rlogId;
 	}
 
 	public int getTimeout() {
@@ -700,7 +689,7 @@ public class PageObject extends BasePage implements IPage {
 	}
 
 	public final void maximizeWindow() {
-		new BaseWebUtil(driver).maximizeWindow();
+		new WebUtility(driver).maximizeWindow();
 	}
 
 	public void open(String url) throws Exception {
@@ -799,7 +788,7 @@ public class PageObject extends BasePage implements IPage {
 	}
 
 	public final void resizeTo(int width, int height) {
-		new BaseWebUtil(driver).resizeWindow(width, height);
+		new WebUtility(driver).resizeWindow(width, height);
 	}
 
 	public final void selectFrame(By by) {

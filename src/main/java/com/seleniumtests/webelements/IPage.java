@@ -12,8 +12,6 @@ public interface IPage {
 
 	String getLocation();
 
-	String getRlogId();
-
 	String getTitle();
 
 }

@@ -1,15 +1,15 @@
 package com.seleniumtests.browserfactory;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.WebDriverConfig;
 
 public class SafariDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
-	public SafariDriverFactory(WebDriverConfig cfg) {
+	public SafariDriverFactory(DriverConfig cfg) {
 		super(cfg);
 	}
 

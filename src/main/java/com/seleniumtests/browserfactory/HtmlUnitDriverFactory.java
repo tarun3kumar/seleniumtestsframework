@@ -1,14 +1,13 @@
 package com.seleniumtests.browserfactory;
 
 import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import com.seleniumtests.driver.WebDriverConfig;
-
 public class HtmlUnitDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
-	public HtmlUnitDriverFactory(WebDriverConfig cfg) {
+	public HtmlUnitDriverFactory(DriverConfig cfg) {
 		super(cfg);
 	}
 
@@ -16,7 +15,7 @@ public class HtmlUnitDriverFactory extends AbstractWebDriverFactory implements I
 	
 	@Override
 	public WebDriver createWebDriver() {
-		WebDriverConfig cfg = this.getWebDriverConfig();
+		DriverConfig cfg = this.getWebDriverConfig();
 		
 		driver = new HtmlUnitDriver(new HtmlUnitCapabilitiesFactory().createCapabilities(cfg));
 		//Implicit Waits. The default value is 5 seconds.

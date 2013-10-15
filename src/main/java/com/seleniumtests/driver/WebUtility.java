@@ -6,13 +6,19 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 
-public class BaseWebUtil {
+public class WebUtility {
 	private WebDriver driver;
 	
-	public BaseWebUtil(WebDriver driver){
+	public WebUtility(WebDriver driver){
 		this.driver = driver;
 	}
-	
+
+    /**
+     * Resize window to given dimensions
+     *
+     * @param width
+     * @param height
+     */
 	public void resizeWindow(int width, int height) {
 		try {
 			TestLogging.logWebStep(null, "Resize browser window to width " + width
@@ -31,17 +37,14 @@ public class BaseWebUtil {
 			if (browser == BrowserType.Android || browser == BrowserType.IPad
 					|| browser == BrowserType.IPhone)
 				return;
-
-			Dimension oldDimension = driver.manage().window().getSize();
 			driver.manage().window().maximize();
-			Dimension dimension = driver.manage().window().getSize();
 		} catch (Exception ex) {
 
 			try {
 				((JavascriptExecutor) driver)
 						.executeScript("if (window.screen){window.moveTo(0, 0);window.resizeTo(window.screen.availWidth,window.screen.availHeight);}");
 			} catch (Exception ignore) {
-				TestLogging.log("Exception when maximizing browser window"
+				TestLogging.log("Unable to maximize browser window. Exception occured: "
                         + ignore.getMessage());
 			}
 		}

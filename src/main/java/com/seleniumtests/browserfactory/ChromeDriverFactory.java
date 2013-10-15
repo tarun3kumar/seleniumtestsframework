@@ -3,16 +3,15 @@ package com.seleniumtests.browserfactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.seleniumtests.driver.WebDriverConfig;
-
 public class ChromeDriverFactory extends AbstractWebDriverFactory implements
 		IWebDriverFactory {
 
-	public ChromeDriverFactory(WebDriverConfig cfg) {
+	public ChromeDriverFactory(DriverConfig cfg) {
 		super(cfg);
 	}
 
@@ -28,7 +27,7 @@ public class ChromeDriverFactory extends AbstractWebDriverFactory implements
 
 	@Override
 	public WebDriver createWebDriver() throws IOException {
-		WebDriverConfig cfg = this.getWebDriverConfig();
+		DriverConfig cfg = this.getWebDriverConfig();
 
 		driver = createNativeDriver();
 

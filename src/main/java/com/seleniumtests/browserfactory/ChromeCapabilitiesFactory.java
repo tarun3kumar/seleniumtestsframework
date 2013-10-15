@@ -3,20 +3,20 @@ package com.seleniumtests.browserfactory;
 import java.io.File;
 import java.io.IOException;
 
+import com.seleniumtests.driver.DriverConfig;
+import com.seleniumtests.driver.DriverMode;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.WebDriverConfig;
-import com.seleniumtests.driver.WebDriverMode;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.resources.WebDriverExternalResources;
 
 public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 
-	public DesiredCapabilities createCapabilities(WebDriverConfig webDriverConfig) {
+	public DesiredCapabilities createCapabilities(DriverConfig webDriverConfig) {
 
 		DesiredCapabilities capability = null;
 		capability = DesiredCapabilities.chrome();
@@ -55,7 +55,7 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 		}
 
 		// Set ChromeDriver for local mode
-		if (webDriverConfig.getMode() == WebDriverMode.LOCAL) {
+		if (webDriverConfig.getMode() == DriverMode.LOCAL) {
 			String chromeDriverPath = webDriverConfig.getChromeDriverPath();
 			if (chromeDriverPath == null) {
 				try {

@@ -8,7 +8,7 @@ import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import com.seleniumtests.exception.WebSessionTerminatedException;
 
-public class WebDriverExceptionListener implements WebDriverEventListener {
+public class DriverExceptionListener implements WebDriverEventListener {
 	public void afterChangeValueOf(WebElement arg0, WebDriver arg1) {
 	}
 
@@ -92,7 +92,7 @@ public class WebDriverExceptionListener implements WebDriverEventListener {
 				.contains(
 						"Error communicating with the remote browser. It may have died.")) {
 			// Session has lost connection, remove it then ignore quit() method.
-			if (WebUIDriver.getWebUXDriver().getConfig().getMode() == WebDriverMode.ExistingGrid) {
+			if (WebUIDriver.getWebUXDriver().getConfig().getMode() == DriverMode.ExistingGrid) {
 				WebUIDriver.setWebDriver(null);
 				throw new WebSessionTerminatedException(ex);
 			}

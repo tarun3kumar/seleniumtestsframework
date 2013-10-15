@@ -9,15 +9,14 @@ import org.openqa.selenium.Proxy.ProxyType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
-public class WebDriverConfig {
+public class DriverConfig {
 
 	private boolean setAssumeUntrustedCertificateIssuer = true;
 	private boolean setAcceptUntrustedCertificates = true;
 	private boolean enableJavascript = true;
-
 	private WebDriver driver;
 	private BrowserType browser = BrowserType.FireFox;
-	private WebDriverMode mode = WebDriverMode.LOCAL;
+	private DriverMode mode = DriverMode.LOCAL;
 	private String hubUrl;
 	private String ffProfilePath;
 	private String operaProfilePath;
@@ -60,25 +59,25 @@ public class WebDriverConfig {
 	public void setWebDriverListeners(String listeners) {
 		ArrayList<WebDriverEventListener> listenerList = new ArrayList<WebDriverEventListener>();
 		String[] list = listeners.split(",");
-		for (int i = 0; i < list.length; i++) {
+        for (String aList : list) {
 
-			WebDriverEventListener listener = null;
-			try {
-				if (list[i] != "") {
-					listener = (WebDriverEventListener) (Class.forName(list[i]))
-							.newInstance();
-					listenerList.add(listener);
-				}
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (ClassCastException e) {
-				e.printStackTrace();
-			}
-		}
+            WebDriverEventListener listener = null;
+            try {
+                if (!aList.equals("")) {
+                    listener = (WebDriverEventListener) (Class.forName(aList))
+                            .newInstance();
+                    listenerList.add(listener);
+                }
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
 		this.webDriverListeners = listenerList;
 	}
 
@@ -113,11 +112,11 @@ public class WebDriverConfig {
 			return explicitWaitTimeout;
 	}
 
-	public String getFfBinPath() {
+	public String getFirefoxBinPath() {
 		return ffBinPath;
 	}
 
-	public String getFfProfilePath() {
+	public String getFirefoxProfilePath() {
 		if (ffProfilePath == null
 				&& getClass().getResource("/profiles/customProfileDirCUSTFF") != null) {
 
@@ -144,7 +143,7 @@ public class WebDriverConfig {
 		return implicitWaitTimeout;
 	}
 
-	public WebDriverMode getMode() {
+	public DriverMode getMode() {
 		return mode;
 	}
 
@@ -186,7 +185,6 @@ public class WebDriverConfig {
 			proxy.setHttpProxy(proxyHost);
 			proxy.setFtpProxy(proxyHost);
 			proxy.setSslProxy(proxyHost);
-
 		}
 		return proxy;
 
@@ -285,7 +283,7 @@ public class WebDriverConfig {
 		this.implicitWaitTimeout = implicitWaitTimeout;
 	}
 
-	public void setMode(WebDriverMode mode) {
+	public void setMode(DriverMode mode) {
 		this.mode = mode;
 	}
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customFFprofile.FireFoxProfileMarker;
+import com.seleniumtests.driver.DriverConfig;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -12,7 +13,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 
@@ -20,14 +20,14 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 	private static boolean isProfileCreated = false;
 	private static Object lockProfile = new Object();
 
-	protected void configProfile(FirefoxProfile profile, WebDriverConfig webDriverConfig) {
+	protected void configProfile(FirefoxProfile profile, DriverConfig webDriverConfig) {
 		profile.setAcceptUntrustedCertificates(webDriverConfig
 				.isSetAcceptUntrustedCertificates());
 		profile.setAssumeUntrustedCertificateIssuer(webDriverConfig
 				.isSetAssumeUntrustedCertificateIssuer());
 
-		if (webDriverConfig.getFfBinPath() != null)
-			System.setProperty("webdriver.firefox.bin", webDriverConfig.getFfBinPath());
+		if (webDriverConfig.getFirefoxBinPath() != null)
+			System.setProperty("webdriver.firefox.bin", webDriverConfig.getFirefoxBinPath());
 
 		if (webDriverConfig.getUserAgentOverride() != null) {
 			profile.setPreference("general.useragent.override",
@@ -79,7 +79,7 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 	/**
 	 * Create firefox capabilities
 	 */
-	public DesiredCapabilities createCapabilities(WebDriverConfig webDriverConfig) {
+	public DesiredCapabilities createCapabilities(DriverConfig webDriverConfig) {
 		DesiredCapabilities capability;
 		capability = new DesiredCapabilities();
 		capability.setBrowserName(DesiredCapabilities.firefox()
@@ -140,8 +140,8 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 		isProfileCreated = true;
 	}
 
-	protected synchronized FirefoxProfile getFirefoxProfile(WebDriverConfig webDriverConfig) {
-		String path = webDriverConfig.getFfProfilePath();
+	protected synchronized FirefoxProfile getFirefoxProfile(DriverConfig webDriverConfig) {
+		String path = webDriverConfig.getFirefoxProfilePath();
 		FirefoxProfile profile;
 		String realPath;
 		if (webDriverConfig.isUseFirefoxDefaultProfile())

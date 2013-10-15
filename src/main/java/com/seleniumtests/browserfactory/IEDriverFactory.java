@@ -3,16 +3,16 @@ package com.seleniumtests.browserfactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
-import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.OSHelper;
 
 public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
-	public IEDriverFactory(WebDriverConfig webDriverConfig1) {
+	public IEDriverFactory(DriverConfig webDriverConfig1) {
 		super(webDriverConfig1);
 	}
 	
@@ -41,7 +41,7 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
 		{
 			throw new RuntimeException("IE browser is only supported on windows!");
 		}
-		WebDriverConfig cfg = this.getWebDriverConfig();
+		DriverConfig cfg = this.getWebDriverConfig();
 
 		driver = new InternetExplorerDriver(new IECapabilitiesFactory().createCapabilities(cfg));
 

@@ -1,14 +1,13 @@
 package com.seleniumtests.browserfactory;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.driver.WebDriverConfig;
-
 public class PhantomJSCapabilitiesFactory implements ICapabilitiesFactory {
 
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
+	public DesiredCapabilities createCapabilities(DriverConfig cfg) {
 		DesiredCapabilities capability = new DesiredCapabilities();
 		capability.setBrowserName(DesiredCapabilities.phantomjs()
 				.getBrowserName());

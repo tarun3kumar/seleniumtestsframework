@@ -99,7 +99,7 @@ public class WebUIDriver {
 		}
 	}
 
-	private WebDriverConfig config = new WebDriverConfig();
+	private DriverConfig config = new DriverConfig();
 	private WebDriver driver;
 	private IWebDriverFactory webDriverBuilder;
 
@@ -119,9 +119,9 @@ public class WebUIDriver {
 			throws Exception {
 		WebDriver driver = null;
 		config.setBrowser(BrowserType.getBrowserType(browser));
-		config.setMode(WebDriverMode.valueOf(mode));
+		config.setMode(DriverMode.valueOf(mode));
 
-		if (config.getMode() == WebDriverMode.ExistingGrid) {
+		if (config.getMode() == DriverMode.ExistingGrid) {
 			webDriverBuilder = new RemoteDriverFactory(this.config);
 		} else {
 			if (config.getBrowser() == BrowserType.FireFox) {
@@ -138,10 +138,10 @@ public class WebUIDriver {
 				webDriverBuilder = new AndroidDriverFactory(this.config);
 			} else if (config.getBrowser() == BrowserType.IPhone) {
 				//webDriverBuilder = new IPhoneDriverFactory(this.config);
-				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.browserfactory.IPhoneDriverFactory").getConstructor(WebDriverConfig.class).newInstance(this.config);
+				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.browserfactory.IPhoneDriverFactory").getConstructor(DriverConfig.class).newInstance(this.config);
 			} else if (config.getBrowser() == BrowserType.IPad) {
 				//webDriverBuilder = new IPadDriverFactory(this.config);
-				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.browserfactory.IPadDriverFactory").getConstructor(WebDriverConfig.class).newInstance(this.config);
+				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.browserfactory.IPadDriverFactory").getConstructor(DriverConfig.class).newInstance(this.config);
 			} else if (config.getBrowser() == BrowserType.Opera)
 				webDriverBuilder = new OperaDriverFactory(this.config);
 			else {
@@ -152,9 +152,9 @@ public class WebUIDriver {
 			driver = webDriverBuilder.createWebDriver();
 		}
 		if (config.getBrowserWindowWidth() > 0 && config.getBrowserWindowHeight() > 0){
-			new BaseWebUtil(driver).resizeWindow(config.getBrowserWindowWidth(), config.getBrowserWindowHeight());
+			new WebUtility(driver).resizeWindow(config.getBrowserWindowWidth(), config.getBrowserWindowHeight());
 		} else {
-			new BaseWebUtil(driver).maximizeWindow();
+			new WebUtility(driver).maximizeWindow();
 		}
 		driver = handleListeners(driver);
 
@@ -165,7 +165,7 @@ public class WebUIDriver {
 
 	protected WebDriver handleListeners(WebDriver driver) {
 		// driver = new EventFiringWebDriver(driver).register(new
-		// WebDriverExceptionListener());
+		// DriverExceptionListener());
 		// Support customized listeners
 		ArrayList<WebDriverEventListener> listeners = config
 				.getWebDriverListeners();
@@ -211,7 +211,7 @@ public class WebUIDriver {
 		return config.getChromeDriverPath();
 	}
 
-	public WebDriverConfig getConfig() {
+	public DriverConfig getConfig() {
 		return config;
 	}
 
@@ -220,11 +220,11 @@ public class WebUIDriver {
 	}
 
 	public String getFfBinPath() {
-		return config.getFfBinPath();
+		return config.getFirefoxBinPath();
 	}
 
 	public String getFfProfilePath() throws URISyntaxException {
-		return config.getFfProfilePath();
+		return config.getFirefoxProfilePath();
 	}
 
 	public String getOperaProfilePath() throws URISyntaxException {
@@ -294,7 +294,7 @@ public class WebUIDriver {
 		String browser = SeleniumTestsContextManager.getThreadContext().getWebRunBrowser();
 		config.setBrowser(BrowserType.getBrowserType(browser));
 		String mode = SeleniumTestsContextManager.getThreadContext().getWebRunMode();
-		config.setMode(WebDriverMode.valueOf(mode));
+		config.setMode(DriverMode.valueOf(mode));
 		String hubUrl = SeleniumTestsContextManager.getThreadContext().getWebDriverGrid();
 		config.setHubUrl(hubUrl);
 		String ffProfilePath = SeleniumTestsContextManager.getThreadContext()
@@ -378,7 +378,7 @@ public class WebUIDriver {
 				listeners = listeners + ",";
 			} else
 				listeners = "";
-			listeners = listeners + WebDriverExceptionListener.class.getName();
+			listeners = listeners + DriverExceptionListener.class.getName();
 		}
 		if (listeners != null && listeners != "")
 			config.setWebDriverListeners(listeners);
@@ -401,7 +401,7 @@ public class WebUIDriver {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(WebDriverExceptionListener.class.getName());
+		System.out.println(DriverExceptionListener.class.getName());
 	}
 
 	public boolean isSetAcceptUntrustedCertificates() {
@@ -458,7 +458,7 @@ public class WebUIDriver {
 		config.setChromeDriverPath(chromeDriverPath);
 	}
 
-	public void setConfig(WebDriverConfig config) {
+	public void setConfig(DriverConfig config) {
 		this.config = config;
 	}
 
@@ -487,7 +487,7 @@ public class WebUIDriver {
 	}
 
 	public void setMode(String mode) {
-		config.setMode(WebDriverMode.valueOf(mode));
+		config.setMode(DriverMode.valueOf(mode));
 	}
 
 	public void setOutputDirectory(String outputDirectory) {

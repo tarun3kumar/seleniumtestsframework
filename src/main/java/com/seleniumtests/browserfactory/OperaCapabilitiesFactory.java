@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
+import com.seleniumtests.driver.DriverConfig;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
@@ -11,7 +12,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.opera.core.systems.OperaProfile;
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.operaprofile.OperaProfileMarker;
@@ -21,7 +21,7 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 	private static Object lockProfile = new Object();
 	private static boolean isProfileCreated = false;
 	
-	public DesiredCapabilities createCapabilities(WebDriverConfig cfg) {
+	public DesiredCapabilities createCapabilities(DriverConfig cfg) {
 		DesiredCapabilities capability = DesiredCapabilities.opera();
 
 		capability.setBrowserName(DesiredCapabilities.opera().getBrowserName());
@@ -52,7 +52,7 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 		return capability;
 	}
 	
-	protected synchronized OperaProfile getOperaProfile(WebDriverConfig cfg) {
+	protected synchronized OperaProfile getOperaProfile(DriverConfig cfg) {
 		OperaProfile profile = null;
 		synchronized(OperaCapabilitiesFactory.class){
 			String path = cfg.getOperaProfilePath();

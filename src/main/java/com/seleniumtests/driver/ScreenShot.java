@@ -7,7 +7,6 @@ public class ScreenShot {
 	private String location;
 	private String htmlSourcePath;
 	private String imagePath;
-	private String rlogId;
 	private String title;
 	private String suiteName;
 	private boolean isException;
@@ -62,14 +61,6 @@ public class ScreenShot {
 		this.imagePath = imagePath;
 	}
 
-	public String getRlogId() {
-		return rlogId;
-	}
-
-	public void setRlogId(String rlogId) {
-		this.rlogId = rlogId;
-	}
-
 	public String getHtmlSourcePath() {
 		return htmlSourcePath;
 	}
@@ -102,8 +93,8 @@ public class ScreenShot {
 
 	@Override
 	public String toString() {
-		return "exception:" + this.isException + "|location:" + this.location
-				+ "|title:" + this.title + "|htmlSource:"
-				+ this.getFullHtmlPath() + "|image:" + this.getFullImagePath();
+		return "!!!EXCEPTION:" + this.isException + "|APPLICATION URL:" + this.location
+				+ "|PAGE TITLE:" + this.title + "|PAGE HTML SOURCE:"
+				+ this.getFullHtmlPath() + "|PAGE IMAGE:" + this.getFullImagePath();
 	}
 }

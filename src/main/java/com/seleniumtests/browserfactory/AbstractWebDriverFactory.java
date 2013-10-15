@@ -3,19 +3,19 @@ package com.seleniumtests.browserfactory;
 import java.util.concurrent.TimeUnit;
 
 import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
-import com.seleniumtests.driver.WebDriverConfig;
 import com.seleniumtests.driver.WebUIDriver;
 
 public abstract class AbstractWebDriverFactory {
 
-	protected WebDriverConfig webDriverConfig;
+	protected DriverConfig webDriverConfig;
 
 	protected WebDriver driver;
 
-	public AbstractWebDriverFactory(WebDriverConfig cfg) {
+	public AbstractWebDriverFactory(DriverConfig cfg) {
 		this.webDriverConfig = cfg;
 	}
 
@@ -51,7 +51,7 @@ public abstract class AbstractWebDriverFactory {
 		return driver;
 	}
 
-	public WebDriverConfig getWebDriverConfig() {
+	public DriverConfig getWebDriverConfig() {
 		return webDriverConfig;
 	}
 
@@ -77,7 +77,7 @@ public abstract class AbstractWebDriverFactory {
 		this.driver = driver;
 	}
 
-	public void setWebDriverConfig(WebDriverConfig cfg) {
+	public void setWebDriverConfig(DriverConfig cfg) {
 		this.webDriverConfig = cfg;
 	}
 }

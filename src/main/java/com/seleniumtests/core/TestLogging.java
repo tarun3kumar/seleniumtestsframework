@@ -21,7 +21,6 @@ import org.testng.Reporter;
 
 import com.google.common.collect.Lists;
 import com.google.gdata.util.common.html.HtmlToText;
-import com.seleniumtests.driver.IScreenshotListener;
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.helper.FileHelper;
 import com.seleniumtests.helper.StringHelper;
@@ -39,29 +38,6 @@ public class TestLogging {
 	private static Map<String, Map<String, Map<String, List<String>>>> logMap = Collections
 			.synchronizedMap(new HashMap<String, Map<String, Map<String, List<String>>>>());
 
-	private static final Set<IScreenshotListener> SCREENSHOT_LISTENERS = new LinkedHashSet<IScreenshotListener>();
-
-	public static void logScreenshot(final ScreenShot screenshot) {
-		for (final IScreenshotListener screenshotListener : SCREENSHOT_LISTENERS) {
-			new Thread() {
-				public void run() {
-					try {
-						screenshotListener.doScreenCapture(screenshot.getRlogId(),
-								screenshot.getTitle(), "png",
-								screenshot.getFullImagePath());
-					} catch (Exception e) {
-						// catch the exception and continue with tests execution.
-						System.err
-								.println("Error in ScreenshotListener implementation "
-										+ screenshotListener.getClass().getName()
-										+ ". " + e.getMessage());
-						e.printStackTrace();
-					}
-				}
-			}.start();
-		}
-	}
-	
 	/**
 	 * error Logger
 	 * 
