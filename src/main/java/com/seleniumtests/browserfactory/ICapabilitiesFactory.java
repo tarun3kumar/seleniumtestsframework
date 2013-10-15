@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web.factory;
+package com.seleniumtests.browserfactory;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 

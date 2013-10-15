@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web.factory;
+package com.seleniumtests.browserfactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -67,13 +67,13 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 		case IPhone:
 			capability = ((ICapabilitiesFactory) Class
 					.forName(
-							"com.seleniumtests.driver.web.factory.IPhoneCapabilitiesFactory")
+							"com.seleniumtests.browserfactory.IPhoneCapabilitiesFactory")
 					.getConstructor().newInstance()).createCapabilities(cfg);
 			break;
 		case IPad:
 			capability = ((ICapabilitiesFactory) Class
 					.forName(
-							"com.seleniumtests.driver.web.factory.IPadCapabilitiesFactory")
+							"com.seleniumtests.browserfactory.IPadCapabilitiesFactory")
 					.getConstructor().newInstance()).createCapabilities(cfg);
 			break;
 		case Opera:
@@ -92,7 +92,7 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 		case IPad:
 			driver = (WebDriver) Class
 					.forName(
-							"com.seleniumtests.driver.web.factory.RemoteIOSBaseDriver")
+							"com.seleniumtests.browserfactory.RemoteIOSBaseDriver")
 					.getConstructor(URL.class, DesiredCapabilities.class)
 					.newInstance(url, capability);
 			break;

@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web.factory;
+package com.seleniumtests.browserfactory;
 
 import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.WebDriver;

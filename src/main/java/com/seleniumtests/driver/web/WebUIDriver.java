@@ -2,7 +2,7 @@ package com.seleniumtests.driver.web;
 
 import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.SeleniumTestsContextManager;
-import com.seleniumtests.driver.web.factory.*;
+import com.seleniumtests.browserfactory.*;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -138,10 +138,10 @@ public class WebUIDriver {
 				webDriverBuilder = new AndroidDriverFactory(this.config);
 			} else if (config.getBrowser() == BrowserType.IPhone) {
 				//webDriverBuilder = new IPhoneDriverFactory(this.config);
-				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.driver.web.factory.IPhoneDriverFactory").getConstructor(WebDriverConfig.class).newInstance(this.config);
+				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.browserfactory.IPhoneDriverFactory").getConstructor(WebDriverConfig.class).newInstance(this.config);
 			} else if (config.getBrowser() == BrowserType.IPad) {
 				//webDriverBuilder = new IPadDriverFactory(this.config);
-				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.driver.web.factory.IPadDriverFactory").getConstructor(WebDriverConfig.class).newInstance(this.config);
+				webDriverBuilder = (IWebDriverFactory) Class.forName("com.seleniumtests.browserfactory.IPadDriverFactory").getConstructor(WebDriverConfig.class).newInstance(this.config);
 			} else if (config.getBrowser() == BrowserType.Opera)
 				webDriverBuilder = new OperaDriverFactory(this.config);
 			else {
