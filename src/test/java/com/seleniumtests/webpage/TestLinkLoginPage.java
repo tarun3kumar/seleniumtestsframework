@@ -2,10 +2,10 @@ package com.seleniumtests.webpage;
 
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.dataobject.User;
-import com.seleniumtests.driver.web.element.ButtonElement;
-import com.seleniumtests.driver.web.element.LinkElement;
-import com.seleniumtests.driver.web.element.TextFieldElement;
-import com.seleniumtests.driver.web.element.PageObject;
+import com.seleniumtests.webelements.ButtonElement;
+import com.seleniumtests.webelements.LinkElement;
+import com.seleniumtests.webelements.TextFieldElement;
+import com.seleniumtests.webelements.PageObject;
 import org.openqa.selenium.By;
 
 /**

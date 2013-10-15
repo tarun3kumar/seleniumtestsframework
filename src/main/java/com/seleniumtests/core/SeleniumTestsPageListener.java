@@ -2,7 +2,7 @@ package com.seleniumtests.core;
 
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.driver.web.element.IPage;
+import com.seleniumtests.webelements.IPage;
 import com.seleniumtests.reporter.PluginsUtil;
 
 /**

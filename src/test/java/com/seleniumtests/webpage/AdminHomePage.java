@@ -1,9 +1,9 @@
 package com.seleniumtests.webpage;
 
 import com.seleniumtests.core.CustomAssertion;
-import com.seleniumtests.driver.web.element.LinkElement;
-import com.seleniumtests.driver.web.element.SelectList;
-import com.seleniumtests.driver.web.element.PageObject;
+import com.seleniumtests.webelements.LinkElement;
+import com.seleniumtests.webelements.SelectList;
+import com.seleniumtests.webelements.PageObject;
 import org.openqa.selenium.By;
 
 /**

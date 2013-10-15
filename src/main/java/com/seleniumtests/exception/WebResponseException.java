@@ -1,6 +1,6 @@
 package com.seleniumtests.exception;
 
-import com.seleniumtests.driver.web.element.IPage;
+import com.seleniumtests.webelements.IPage;
 
 public class WebResponseException extends RuntimeException {
 

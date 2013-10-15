@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web.element;
+package com.seleniumtests.webelements;
 
 import java.util.List;
 

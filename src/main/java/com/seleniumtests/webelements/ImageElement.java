@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web.element;
+package com.seleniumtests.webelements;
 
 import org.openqa.selenium.By;
 

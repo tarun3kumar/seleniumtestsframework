@@ -1,9 +1,9 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.driver.web.element.ButtonElement;
-import com.seleniumtests.driver.web.element.SelectList;
-import com.seleniumtests.driver.web.element.TextFieldElement;
-import com.seleniumtests.driver.web.element.PageObject;
+import com.seleniumtests.webelements.ButtonElement;
+import com.seleniumtests.webelements.SelectList;
+import com.seleniumtests.webelements.TextFieldElement;
+import com.seleniumtests.webelements.PageObject;
 import org.openqa.selenium.By;
 
 /**

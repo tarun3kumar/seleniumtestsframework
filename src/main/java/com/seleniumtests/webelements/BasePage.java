@@ -1,4 +1,4 @@
-package com.seleniumtests.driver.web.element;
+package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.TestLogging;

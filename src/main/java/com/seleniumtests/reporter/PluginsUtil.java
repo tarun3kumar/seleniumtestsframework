@@ -17,7 +17,7 @@ import com.seleniumtests.core.SeleniumTestsPageListener;
 import com.seleniumtests.reporter.pluginmodel.*;
 import org.apache.log4j.Logger;
 
-import com.seleniumtests.driver.web.element.IPage;
+import com.seleniumtests.webelements.IPage;
 import com.seleniumtests.reporter.pluginmodel.SeleniumTestsPlugins;
 
 public class PluginsUtil {
