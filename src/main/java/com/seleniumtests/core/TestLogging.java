@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import com.seleniumtests.helper.FileUtility;
 import com.seleniumtests.helper.StringUtility;
+import com.seleniumtests.reporter.PluginsHelper;
 import org.apache.log4j.Appender;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -22,7 +23,6 @@ import org.testng.Reporter;
 import com.google.common.collect.Lists;
 import com.google.gdata.util.common.html.HtmlToText;
 import com.seleniumtests.driver.ScreenShot;
-import com.seleniumtests.reporter.PluginsUtil;
 import com.seleniumtests.xmldog.Config;
 import com.seleniumtests.xmldog.Differences;
 import com.seleniumtests.xmldog.XMLDog;
@@ -70,7 +70,7 @@ public class TestLogging {
 
 		for (Entry<String, Map<String, Map<String, List<String>>>> listenerEntry : logMap
 				.entrySet()) {
-			if (!PluginsUtil.getInstance().isTestResultEffected(
+			if (!PluginsHelper.getInstance().isTestResultEffected(
 					listenerEntry.getKey()))
 				continue;
 

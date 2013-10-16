@@ -1,9 +1,9 @@
 package com.seleniumtests.core;
 
+import com.seleniumtests.reporter.PluginsHelper;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.webelements.IPage;
-import com.seleniumtests.reporter.PluginsUtil;
 
 /**
  * Plugin architecture for SEO, Java Script, Accessibility etc tests.
@@ -17,7 +17,7 @@ public abstract class SeleniumTestsPageListener {
      * @param page
      */
     public static void informPageLoad(IPage page) {
-        PluginsUtil.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
+        PluginsHelper.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
                 page, true);
     }
 
@@ -27,7 +27,7 @@ public abstract class SeleniumTestsPageListener {
      * @param page
      */
     public static void informPageUnload(IPage page) {
-        PluginsUtil.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
+        PluginsHelper.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
                 page, false);
     }
 

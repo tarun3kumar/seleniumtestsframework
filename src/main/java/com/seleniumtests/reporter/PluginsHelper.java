@@ -20,22 +20,18 @@ import org.apache.log4j.Logger;
 import com.seleniumtests.webelements.IPage;
 import com.seleniumtests.reporter.pluginmodel.SeleniumTestsPlugins;
 
-public class PluginsUtil {
-	private static final Logger logger = Logger.getLogger(PluginsUtil.class);
+public class PluginsHelper {
+	private static final Logger logger = Logger.getLogger(PluginsHelper.class);
 	private static Map<String, SeleniumTestsPageListener> pageListenerMap = Collections
 			.synchronizedMap(new HashMap<String, SeleniumTestsPageListener>());
 
-	private static final PluginsUtil _instance = new PluginsUtil();
+	private static final PluginsHelper instance = new PluginsHelper();
 
-	public static synchronized PluginsUtil getInstance() {
-		return _instance;
+	public static synchronized PluginsHelper getInstance() {
+		return instance;
 	}
 
 	private SeleniumTestsPlugins _seleniumTestsPlugins = null;
-
-	public SeleniumTestsPlugins getSeleniumTestsPlugins() {
-		return _seleniumTestsPlugins;
-	}
 
 	public List<SeleniumTestsPageListener> getPageListeners() {
 		List<SeleniumTestsPageListener> tempPageListenerList = Collections
@@ -75,21 +71,18 @@ public class PluginsUtil {
 	public boolean isPageListenerApplicable(Plugin plugin,
 			String testMethodSignature, String pageClassName) {
 		if (testMethodSignature == null)
-			return true;// for null context sinario
+			return true;
 		boolean testFound = false;
 		for (Test test : plugin.getTest()) {
 			if (testMethodSignature.matches(test.getClassName() + "\\.\\w.*")) {
-				// Take care of test class level pages
 				for (Page page : test.getPage()) {
 					if (pageClassName.matches(page.getClassName())) {
-						// return true;
 						testFound = true;
 						break;
 					}
 				}
 
 				if (testFound) {
-					// Now let's look at the method level pages
 					for (Method method : test.getMethod()) {
 						if (testMethodSignature.matches(test.getClassName()
 								+ "\\." + method.getName() + ".*")) {
@@ -117,8 +110,7 @@ public class PluginsUtil {
 	}
 
 	public void loadPlugins(File path) {
-		logger.info("Loading Selenium Tests Plugins from " + path + " ...");
-
+		logger.info("Loading Selenium Tests Plugins from path: " + path + " ...");
 		InputStream is = null;
 		try {
 			is = new FileInputStream(path);
@@ -146,6 +138,7 @@ public class PluginsUtil {
 				try {
 					is.close();
 				} catch (IOException e) {
+                    e.printStackTrace();
 				}
 			}
 		}

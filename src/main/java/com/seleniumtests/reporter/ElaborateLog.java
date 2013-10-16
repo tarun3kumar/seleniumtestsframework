@@ -11,18 +11,15 @@ public class ElaborateLog {
 
 	private String root;
 
-	public ElaborateLog() {
-	}
-
-	public ElaborateLog(String s, String root) {
+    public ElaborateLog(String s, String root) {
 		this.root = root;
 		if (s == null) {
 			return;
 		}
 		String[] parts = s.split("\\|\\|");
-		for (int i = 0; i < parts.length; i++) {
-			parse(parts[i]);
-		}
+        for (String part : parts) {
+            parse(part);
+        }
 	}
 
 	public String getHref() {
@@ -37,30 +34,7 @@ public class ElaborateLog {
 		return msg;
 	}
 
-	public String getRoot() {
-		return root;
-	}
-
-	public String getScreen() {
-		return screen;
-	}
-
-	public String getScreenURL() {
-		if (screen != null) {
-			return screen.replaceAll("\\\\", "/");
-		}
-		return "no screen";
-	}
-
-	public String getSrc() {
-		return src;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	private void parse(String part) {
+    private void parse(String part) {
 		if (part.startsWith("TYPE=")) {
 			type = part.replace("TYPE=", "");
 		} else if (part.startsWith("MSG=")) {
@@ -79,32 +53,8 @@ public class ElaborateLog {
 
 	}
 
-	public void setHref(String href) {
-		this.href = href;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public void setScreen(String screen) {
-		this.screen = screen;
-	}
-
-	public void setSrc(String src) {
-		this.src = src;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String toString() {
-		StringBuffer buff = new StringBuffer();
+    public String toString() {
+		StringBuilder buff = new StringBuilder();
 		buff.append("TYPE=");
 		if (type != null) {
 			buff.append(type);

@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.seleniumtests.reporter.PluginsHelper;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 
 import com.seleniumtests.driver.ScreenShot;
-import com.seleniumtests.reporter.PluginsUtil;
 
 /**
  * Defines TestNG context used in STF
@@ -216,7 +216,7 @@ public class SeleniumTestsContext {
 			if (path != null && path.trim().length() > 0) {
 				File configFile = new File(path);
 				if (configFile.exists())
-					PluginsUtil.getInstance().loadPlugins(configFile);
+					PluginsHelper.getInstance().loadPlugins(configFile);
 			}
 		}
 	}
