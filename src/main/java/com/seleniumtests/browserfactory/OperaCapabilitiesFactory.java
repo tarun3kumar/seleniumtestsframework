@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.seleniumtests.driver.DriverConfig;
+import com.seleniumtests.helper.FileUtility;
+import com.seleniumtests.helper.OSUtility;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
@@ -12,8 +14,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.opera.core.systems.OperaProfile;
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.helper.FileHelper;
-import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.operaprofile.OperaProfileMarker;
 
 
@@ -80,7 +80,7 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 
 				String slash = "\\";
 				String profilePath = "C:\\grid\\profile";
-				if (!OSHelper.isWindows()) {
+				if (!OSUtility.isWindows()) {
 					slash = "/";
 				}
 				profilePath = this.getClass().getResource("/").getFile()+slash+"defaultOperaProfile";
@@ -110,7 +110,7 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
 			try {
 				if (!isProfileCreated) {
 					System.out.println("start create profile");
-					FileHelper.extractJar(profilePath, OperaProfileMarker.class);
+					FileUtility.extractJar(profilePath, OperaProfileMarker.class);
 				}
 			} catch (Exception ex) {
 			}

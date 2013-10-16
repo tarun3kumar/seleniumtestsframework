@@ -1,6 +1,6 @@
 package com.seleniumtests.helper;
 
-public class ThreadHelper {
+public class WaitHelper {
 	/**
 	 * Wait For seconds
 	 * 
@@ -8,9 +8,8 @@ public class ThreadHelper {
 	 */
 	public static void waitForSeconds(int seconds) {
 		try {
-			Thread.sleep(seconds * 1000);// KEEPME
+			Thread.sleep(seconds * 1000);
 		} catch (InterruptedException ignore) {
-
 		}
 	}
 }

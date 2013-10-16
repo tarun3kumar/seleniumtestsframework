@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.seleniumtests.core.*;
+import com.seleniumtests.helper.StringUtility;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -54,7 +55,6 @@ import org.testng.xml.XmlSuite;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.driver.ScreenShot;
-import com.seleniumtests.helper.StringHelper;
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
@@ -86,8 +86,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 
 		/** Arranges methods by classname and method name */
 		public int compare(T o1, T o2) {
-			String sig1 = StringHelper.constructMethodSignature(o1.getMethod().getMethod(), o1.getParameters());
-			String sig2 = StringHelper.constructMethodSignature(o2.getMethod().getMethod(), o2.getParameters());
+			String sig1 = StringUtility.constructMethodSignature(o1.getMethod().getMethod(), o1.getParameters());
+			String sig2 = StringUtility.constructMethodSignature(o2.getMethod().getMethod(), o2.getParameters());
 			return sig1.compareTo(sig2);
 		}
 	}
@@ -537,7 +537,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 				boolean found = false;
 				for (ITestResult testResult : testResults) {
 					Method method = testResult.getMethod().getMethod();
-					String methodInstance = StringHelper.constructMethodSignature(method, testResult.getParameters());
+					String methodInstance = StringUtility.constructMethodSignature(method, testResult.getParameters());
 					if (errorMap.containsKey(methodInstance)) {
 						found = true;
 						contentBuffer.append("<tr><td>" + methodInstance + "</td><td>");
@@ -733,7 +733,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						} else if (!"".equals(desc) && desc != null) {
 							toDisplay = desc;
 						}
-						String methodSignature = StringHelper.constructMethodSignature(method.getMethod(), parameters);
+						String methodSignature = StringUtility.constructMethodSignature(method.getMethod(), parameters);
 						if(methodSignature.length()>500)
 							context.put("methodName", methodSignature.substring(0, 500)+"...");
 						else

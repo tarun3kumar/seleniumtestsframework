@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.driver.WebUIDriver;
+import com.seleniumtests.helper.ContextHelper;
+import com.seleniumtests.helper.WaitHelper;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -30,8 +32,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.ScreenshotUtil;
-import com.seleniumtests.helper.ClassContextHelper;
-import com.seleniumtests.helper.ThreadHelper;
 
 /**
  * This is base HTML element class which provides general methods to interact
@@ -114,7 +114,7 @@ public class HtmlElement {
 	 * Capture a snapshot of the current browser window
 	 */
 	public void captureSnapshot() {
-		captureSnapshot(ClassContextHelper.getCallerMethod() + " on ");
+		captureSnapshot(ContextHelper.getCallerMethod() + " on ");
 	}
 
 	/**
@@ -144,14 +144,14 @@ public class HtmlElement {
 			// Ignore no response on ECMAScript evaluation command for Opera
 			try {
 				element.sendKeys(Keys.ENTER);
-				ThreadHelper.waitForSeconds(2);
+				WaitHelper.waitForSeconds(2);
 			} catch (WebDriverException e) {
 			}
 		}
 
 		// IE is "too fast"
 		if (browser == BrowserType.InternetExplore) {
-			ThreadHelper.waitForSeconds(2);
+			WaitHelper.waitForSeconds(2);
 		}
 
 		// Handle Confirm Navigation pop up for Chrome and IE
@@ -177,7 +177,7 @@ public class HtmlElement {
 				String text = alert.getText();
 				if (text.contains("leave")) {
 					alert.accept();
-					ThreadHelper.waitForSeconds(2);
+					WaitHelper.waitForSeconds(2);
 				} else
 					System.out.println("Get alert - " + text);
 			} catch (NoAlertPresentException e) {
@@ -227,10 +227,10 @@ public class HtmlElement {
 		String mouseOverScript = "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		js.executeScript(mouseOverScript, element);
-		ThreadHelper.waitForSeconds(2);
+		WaitHelper.waitForSeconds(2);
 		String clickScript = "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('click', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onclick');}";
 		js.executeScript(clickScript, element);
-		ThreadHelper.waitForSeconds(2);
+		WaitHelper.waitForSeconds(2);
 	}
 
 	public void simulateMoveToElement(int x, int y) {
@@ -262,7 +262,7 @@ public class HtmlElement {
 			element = driver.findElement(by);
 		} catch (UnhandledAlertException e) {
 			// Ignore the UnhandleAlertException for IEDriver
-			ThreadHelper.waitForSeconds(1);
+			WaitHelper.waitForSeconds(1);
 		}
 	}
 
@@ -508,14 +508,14 @@ public class HtmlElement {
 		} catch (RuntimeException e) {
 			if (e instanceof InvalidSelectorException) {
 				TestLogging.log("Got InvalidSelectorException, retry");
-				ThreadHelper.waitForSeconds(2);
+				WaitHelper.waitForSeconds(2);
 				count = WebUIDriver.getWebDriver().findElements(by).size();
 			} else if (e.getMessage() != null
 					&& e.getMessage()
 							.contains(
 									"TransformedEntriesMap cannot be cast to java.util.List")) {
 				TestLogging.log("Got CastException, retry");
-				ThreadHelper.waitForSeconds(2);
+				WaitHelper.waitForSeconds(2);
 				count = WebUIDriver.getWebDriver().findElements(by).size();
 			} else {
 				throw e;

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OSHelper {
+public class OSUtility {
 	
 	public static String getOSName(){
 		return System.getProperty("os.name");

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
 
-public class StringHelper {
+public class StringUtility {
 
 	public static String constructMethodSignature(Method method, Object[] parameters) {
 		return method.getDeclaringClass().getCanonicalName() + "." + method.getName() + "(" + constructParameterString(parameters) + ")";
@@ -33,16 +33,4 @@ public class StringHelper {
 
 		return sbParam.toString();
 	}
-
-	public static String getRandomHashCode(String seed) {
-		byte[] data = (SeleniumTestsContextManager.getThreadContext().getTestMethodSignature() + UUID.randomUUID().getLeastSignificantBits() + seed).getBytes();
-		try {
-			MessageDigest digest = MessageDigest.getInstance("MD5");
-			return new BigInteger(1, digest.digest(data)).toString(16);
-		} catch (Exception e2) {
-			// OK, we won't digest
-			return new String(data);
-		}
-	}
-
 }

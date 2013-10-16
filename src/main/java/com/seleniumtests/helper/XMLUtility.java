@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-public class XMLHelper {
+public class XMLUtility {
 
 
 	public static NodeList getXMLNodes(String xmlFileName, String tagName) {

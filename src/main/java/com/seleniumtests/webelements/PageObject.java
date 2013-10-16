@@ -1,9 +1,5 @@
 package com.seleniumtests.webelements;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +9,7 @@ import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import com.seleniumtests.customexception.NotCurrentPageException;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.driver.WebUtility;
-import com.seleniumtests.helper.URLAssistant;
+import com.seleniumtests.helper.WaitHelper;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.apache.log4j.Logger;
@@ -32,8 +28,6 @@ import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
-import com.seleniumtests.helper.OSHelper;
-import com.seleniumtests.helper.ThreadHelper;
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
@@ -396,147 +390,7 @@ public class PageObject extends BasePage implements IPage {
 		return url;
 	}*/
 
-	/**
-	 * Download a file to test-output\**\downloads\ folder regardless
-	 * of local or GRID
-	 * 
-	 * @param fileName
-	 * @return full path of download file
-	 * @throws com.seleniumtests.customexception.CustomSeleniumTestsException
-	 */
-	public final String downloadFile(By by, String fileName)
-			throws CustomSeleniumTestsException {
-		return downloadFile(driver.findElement(by).getAttribute("href"),
-				fileName);
-	}
-
-	/**
-	 * Download a file to test-output\**\downloads\ folder regardless
-	 * of local or GRID
-	 * 
-	 * @return full path of download file
-	 * @throws com.seleniumtests.customexception.CustomSeleniumTestsException
-	 */
-	public final String downloadFile(String locatorOrDownloadUrl,
-			String fileNamePostFix) throws CustomSeleniumTestsException {
-		if (locatorOrDownloadUrl.startsWith("http://")
-				|| locatorOrDownloadUrl.startsWith("https://")) {
-			// direct download
-			try {
-//				locatorOrDownloadUrl = convert(locatorOrDownloadUrl);
-			} catch (Exception e) {
-
-			}
-			/*
-			HtmlUnitDriver htmlUnitdriver = new HtmlUnitDriver();
-			htmlUnitdriver.get(locatorOrDownloadUrl);
-			String fileAsString = htmlUnitdriver.getPageSource();*/
-			// String fileAsString =
-			// session.downloadFileToString(locatorOrDownloadUrl, fileName);
-			/*fileAsString = trimOKPrefix(fileAsString);
-			byte[] byteArray = fileAsString.getBytes();
-			return saveDownloadedFile(byteArray, fileName);*/
-			InputStream inputStream;
-			StringBuffer sbMessage = new StringBuffer("");
-			String fileName = URLAssistant.getRandomHashCode("download") + "-"
-					+ fileNamePostFix;
-			try {
-				inputStream = URLAssistant.openAsStream(locatorOrDownloadUrl);
-			
-			String fileType = url.substring(url.lastIndexOf(".") + 1);
-			
-			if (fileType != null && fileType.length() < 5)
-				fileName = fileName + "." + fileType;
-			String outputDirectory = SeleniumTestsContextManager.getGlobalContext()
-					.getTestNGContext().getOutputDirectory();
-			String suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
-					.getSuite().getName();
-			
-
-				String downloadDir = outputDirectory + "/downloads/";
-				File d = new File(downloadDir);
-				if (!d.exists()) {
-					d.mkdirs();
-				}
-
-				OutputStream out = new FileOutputStream(downloadDir + fileName);
-				int read = 0;
-				byte[] bytes = new byte[1024];
-
-				while ((read = inputStream.read(bytes)) != -1) {
-					out.write(bytes, 0, read);
-				}
-				out.close();
-
-				sbMessage.append("Downloading file <a href='" + suiteName
-						+ "/downloads/" + fileName + " title='" + fileName + "'>"
-						+ fileNamePostFix + "</a>");
-			} catch (Throwable e) {
-				logger.warn("Ex", e);
-			}
-
-			TestLogging.logWebOutput(url, sbMessage.toString(), false);
-			fileName = outputDirectory + "/downloads/" + fileName;
-			// correct file path format
-			if (OSHelper.isWindows())
-				fileName = fileName.replaceAll("/", "\\\\");
-
-			return fileName;
-			
-		} else {
-			throw new CustomSeleniumTestsException("url not starts with http:// or https://");
-		}
-
-	}
-	
-	public static String saveFile(String url) throws Exception {
-		// url = URLAssistant.encode(url);
-		String fileNamePostFix = "save";
-		InputStream inputStream = URLAssistant.openAsStream(url);
-		String fileType = url.substring(url.lastIndexOf(".") + 1);
-		StringBuffer sbMessage = new StringBuffer("");
-		String fileName = URLAssistant.getRandomHashCode("download") + "-"
-				+ fileNamePostFix;
-		if (fileType != null && fileType.length() < 5)
-			fileName = fileName + "." + fileType;
-		String outputDirectory = SeleniumTestsContextManager.getGlobalContext()
-				.getTestNGContext().getOutputDirectory();
-		String suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext()
-				.getSuite().getName();
-		try {
-
-			String downloadDir = outputDirectory + "/downloads/";
-			File d = new File(downloadDir);
-			if (!d.exists()) {
-				d.mkdirs();
-			}
-
-			OutputStream out = new FileOutputStream(downloadDir + fileName);
-			int read = 0;
-			byte[] bytes = new byte[1024];
-
-			while ((read = inputStream.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-			out.close();
-
-			sbMessage.append("Downloading file <a href='" + suiteName
-					+ "/downloads/" + fileName + " title='" + fileName + "'>"
-					+ fileNamePostFix + "</a>");
-		} catch (Throwable e) {
-			logger.warn("Ex", e);
-		}
-
-		TestLogging.logWebOutput(url, sbMessage.toString(), false);
-		fileName = outputDirectory + "/downloads/" + fileName;
-		// correct file path format
-		if (OSHelper.isWindows())
-			fileName = fileName.replaceAll("/", "\\\\");
-
-		return fileName;
-	}
-
-	/**
+    /**
 	 * Drags an element a certain distance and then drops it
 	 * 
 	 * @param element
@@ -859,7 +713,7 @@ public class PageObject extends BasePage implements IPage {
 						driver.switchTo().defaultContent();
 						return true;
 					} catch (UnhandledAlertException ex) {
-						ThreadHelper.waitForSeconds(2);
+						WaitHelper.waitForSeconds(2);
 					} catch (WebDriverException e) {
 					}
 					return false;

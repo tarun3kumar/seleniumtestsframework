@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import com.seleniumtests.driver.DriverConfig;
+import com.seleniumtests.helper.OSUtility;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-
-import com.seleniumtests.helper.OSHelper;
 
 public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
@@ -37,7 +36,7 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
 	@Override
 	public WebDriver createWebDriver() throws IOException {
 		killProcess();
-		if(!OSHelper.isWindows())
+		if(!OSUtility.isWindows())
 		{
 			throw new RuntimeException("IE browser is only supported on windows!");
 		}
@@ -57,7 +56,7 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
 	}
 	
 	private void killProcess(){
-		if(OSHelper.isWindows())
+		if(OSUtility.isWindows())
 		{
 			try {
 				Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe");

@@ -8,12 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.seleniumtests.helper.XMLUtility;
 import org.testng.ITestContext;
 import org.testng.xml.XmlTest;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import com.seleniumtests.helper.XMLHelper;
 
 
 /**
@@ -83,7 +82,7 @@ public class SeleniumTestsContextManager {
             if (testContex.getSuite().getParameter(SeleniumTestsContext.TEST_CONFIGURATION) != null) {
                 File suiteFile = new File(testContex.getSuite().getXmlSuite().getFileName());
                 String configFile = suiteFile.getPath().replace(suiteFile.getName(), "") + testContex.getSuite().getParameter("testConfig");
-                NodeList nList = XMLHelper.getXMLNodes(configFile, "parameter");
+                NodeList nList = XMLUtility.getXMLNodes(configFile, "parameter");
                 Map<String, String> parameters = testContex.getSuite().getXmlSuite().getParameters();
                 for (int i = 0; i < nList.getLength(); i++) {
                     Node nNode = nList.item(i);

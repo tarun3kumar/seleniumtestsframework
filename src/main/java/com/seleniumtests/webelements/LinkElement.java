@@ -1,7 +1,6 @@
 package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.helper.URLAssistant;
 import org.openqa.selenium.By;
 
 public class LinkElement extends HtmlElement {
@@ -21,19 +20,7 @@ public class LinkElement extends HtmlElement {
 		super.click();
 	}
 
-	/**
-	 * Checks if the link is not dead
-	 */
-	public boolean isValid() {
-		try {
-			URLAssistant.open(getAttribute("href"));
-			return true;
-		} catch (Exception e) {
-		}
-		return false;
-	}
-	
-	public String getUrl(){
+    public String getUrl(){
 	    return super.getAttribute("href");
 	}
 }

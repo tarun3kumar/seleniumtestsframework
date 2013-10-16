@@ -3,6 +3,7 @@ package com.seleniumtests.webelements;
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customexception.NotCurrentPageException;
+import com.seleniumtests.helper.WaitHelper;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.InvalidSelectorException;
@@ -18,7 +19,6 @@ import org.testng.Assert;
 
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.WebUIDriver;
-import com.seleniumtests.helper.ThreadHelper;
 import com.thoughtworks.selenium.SeleniumException;
 import com.thoughtworks.selenium.Wait;
 
@@ -277,7 +277,7 @@ public abstract class BasePage {
 							.contains(
 									"TransformedEntriesMap cannot be cast to java.util.List"))) {
 				TestLogging.log("InvalidSelectorException or CastException got, retry");
-				ThreadHelper.waitForSeconds(2);
+				WaitHelper.waitForSeconds(2);
 				count = WebUIDriver.getWebDriver().findElements(by).size();
 			} else
 				throw e;
@@ -450,7 +450,7 @@ public abstract class BasePage {
 	 * @param seconds
 	 */
 	protected void waitForSeconds(int seconds) {
-		ThreadHelper.waitForSeconds(seconds);
+		WaitHelper.waitForSeconds(seconds);
 	}
 
 	public void waitForTextPresent(HtmlElement element, String text) {

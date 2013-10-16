@@ -6,15 +6,14 @@ import java.io.IOException;
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customFFprofile.FireFoxProfileMarker;
 import com.seleniumtests.driver.DriverConfig;
+import com.seleniumtests.helper.FileUtility;
+import com.seleniumtests.helper.OSUtility;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-
-import com.seleniumtests.helper.FileHelper;
-import com.seleniumtests.helper.OSHelper;
 
 public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 	private static boolean isProfileCreated = false;
@@ -129,8 +128,8 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 			try {
 				if (!isProfileCreated) {
 					System.out.println("start create profile");
-					FileHelper.deleteDirectory(profilePath);
-					FileHelper.extractJar(profilePath, FireFoxProfileMarker.class);
+					FileUtility.deleteDirectory(profilePath);
+					FileUtility.extractJar(profilePath, FireFoxProfileMarker.class);
 				}
 			} catch (Exception ex) {
                 ex.printStackTrace();
@@ -165,10 +164,10 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 		} else {
 			try {
 				String profilePath = this.getClass().getResource("/").getPath() + "ffprofile";
-				profilePath = FileHelper.decodePath(profilePath);
+				profilePath = FileUtility.decodePath(profilePath);
 
 				extractDefaultProfile(profilePath);
-				realPath = profilePath + OSHelper.getSlash() + "customFFprofile";
+				realPath = profilePath + OSUtility.getSlash() + "customFFprofile";
 
 			} catch (Exception e) {
 				e.printStackTrace();

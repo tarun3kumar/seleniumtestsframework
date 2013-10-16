@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
+import com.seleniumtests.helper.FileUtility;
+import com.seleniumtests.helper.StringUtility;
 import org.apache.log4j.Appender;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
@@ -22,8 +22,6 @@ import org.testng.Reporter;
 import com.google.common.collect.Lists;
 import com.google.gdata.util.common.html.HtmlToText;
 import com.seleniumtests.driver.ScreenShot;
-import com.seleniumtests.helper.FileHelper;
-import com.seleniumtests.helper.StringHelper;
 import com.seleniumtests.reporter.PluginsUtil;
 import com.seleniumtests.xmldog.Config;
 import com.seleniumtests.xmldog.Differences;
@@ -81,9 +79,9 @@ public class TestLogging {
 			for (Entry<String, Map<String, List<String>>> pageEntry : pageMap
 					.entrySet()) {
 				Map<String, List<String>> errorMap = pageEntry.getValue();
-				String methodInstance = StringHelper.constructMethodSignature(
-						testResult.getMethod().getConstructorOrMethod()
-								.getMethod(), testResult.getParameters());
+				String methodInstance = StringUtility.constructMethodSignature(
+                        testResult.getMethod().getConstructorOrMethod()
+                                .getMethod(), testResult.getParameters());
 				return errorMap.get(methodInstance);
 			}
 		}
@@ -220,7 +218,7 @@ public class TestLogging {
 
 			if (!new File(goldenFile).exists()) {
 				try {
-					FileHelper.writeToFile(goldenFile, responseXML);
+					FileUtility.writeToFile(goldenFile, responseXML);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

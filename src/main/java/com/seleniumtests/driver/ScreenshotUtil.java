@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.customexception.WebSessionEndedException;
-import com.seleniumtests.helper.URLAssistant;
+import com.seleniumtests.helper.FileUtility;
+import com.seleniumtests.helper.HashCodeGenerator;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -12,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 
 import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.helper.FileHelper;
 
 public class ScreenshotUtil {
 	private static final Logger logger = Logger.getLogger(ScreenshotUtil.class);
@@ -83,8 +83,8 @@ public class ScreenshotUtil {
 
 		if (htmlSource != null) {
 			try {
-				FileHelper.writeToFile(outputDirectory + "/htmls/" + filename
-						+ ".html", htmlSource);
+				FileUtility.writeToFile(outputDirectory + "/htmls/" + filename
+                        + ".html", htmlSource);
 				screenShot.setHtmlSourcePath(suiteName + "/htmls/" + filename
 						+ ".html");
 			} catch (IOException e) {
@@ -102,8 +102,8 @@ public class ScreenshotUtil {
 			if (screenshotString != null
 					&& !screenshotString.equalsIgnoreCase("")) {
 				byte[] byteArray = screenshotString.getBytes();
-				FileHelper.writeImage(outputDirectory + "/screenshots/"
-						+ filename + ".png", byteArray);
+				FileUtility.writeImage(outputDirectory + "/screenshots/"
+                        + filename + ".png", byteArray);
 				screenShot.setImagePath(suiteName + "/screenshots/" + filename
 						+ ".png");
 
@@ -145,7 +145,7 @@ public class ScreenshotUtil {
 			String title = driver.getTitle();
 			String pageSource = driver.getPageSource();
 
-			String filename = URLAssistant.getRandomHashCode("web");
+			String filename = HashCodeGenerator.getRandomHashCode("web");
 			this.filename = filename;
 			screenShot.setLocation(url);
 
@@ -192,7 +192,7 @@ public class ScreenshotUtil {
 		if (SeleniumTestsContextManager.getThreadContext() != null
 				&& SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot()
 				&& getOutputDirectory() != null) {
-			String filename = URLAssistant.getRandomHashCode("HtmlElement");
+			String filename = HashCodeGenerator.getRandomHashCode("HtmlElement");
 			StringBuffer sbMessage = new StringBuffer();
 			try {
 				String img = ScreenshotUtil
@@ -203,8 +203,8 @@ public class ScreenshotUtil {
 				byte[] byteArray = img.getBytes();// KEEPME
 				if (byteArray != null && byteArray.length > 0) {
 					String imgFile = "/screenshots/" + filename + ".png";
-					FileHelper.writeImage(getOutputDirectory() + imgFile,
-							byteArray);
+					FileUtility.writeImage(getOutputDirectory() + imgFile,
+                            byteArray);
 					ScreenShot screenShot = new ScreenShot();
 					String imagePath = getSuiteName() + imgFile;
 					screenShot.setImagePath(imagePath);

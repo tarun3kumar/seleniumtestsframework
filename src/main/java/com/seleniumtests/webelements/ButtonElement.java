@@ -2,11 +2,11 @@ package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.driver.WebUIDriver;
+import com.seleniumtests.helper.WaitHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 import com.seleniumtests.driver.BrowserType;
-import com.seleniumtests.helper.ThreadHelper;
 
 public class ButtonElement extends HtmlElement {
 
@@ -26,7 +26,7 @@ public class ButtonElement extends HtmlElement {
 				.getBrowser();
 		if (browser == BrowserType.InternetExplore) {
 			super.sendKeys(Keys.ENTER);// not stable on IE9
-			ThreadHelper.waitForSeconds(2);
+			WaitHelper.waitForSeconds(2);
 			super.handleLeaveAlert();
 		} else {
 			super.click();

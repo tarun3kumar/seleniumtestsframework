@@ -5,13 +5,13 @@ import java.io.IOException;
 
 import com.seleniumtests.driver.DriverConfig;
 import com.seleniumtests.driver.DriverMode;
+import com.seleniumtests.helper.FileUtility;
+import com.seleniumtests.helper.OSUtility;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.seleniumtests.helper.FileHelper;
-import com.seleniumtests.helper.OSHelper;
 import com.seleniumtests.resources.WebDriverExternalResources;
 
 public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
@@ -77,17 +77,17 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 
 	public void handleExtractResources() throws IOException {
 		String dir = this.getClass().getResource("/").getPath();
-		dir = FileHelper.decodePath(dir);
+		dir = FileUtility.decodePath(dir);
 
 		if (!new File(dir).exists()) {
 			System.out.println("extracting chrome resources in " + dir);
-			FileHelper.extractJar(dir, WebDriverExternalResources.class);
+			FileUtility.extractJar(dir, WebDriverExternalResources.class);
 		}
-		if (!new File(dir + OSHelper.getSlash() + "chromedriver.exe").exists()) {
-			FileHelper.extractJar(dir, WebDriverExternalResources.class);
+		if (!new File(dir + OSUtility.getSlash() + "chromedriver.exe").exists()) {
+			FileUtility.extractJar(dir, WebDriverExternalResources.class);
 		}
 
-		if (OSHelper.isWindows())
+		if (OSUtility.isWindows())
 			System.setProperty("webdriver.chrome.driver", dir
 					+ "\\chromedriver.exe");
 		else {

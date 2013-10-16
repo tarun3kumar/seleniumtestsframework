@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.driver.DriverConfig;
+import com.seleniumtests.helper.WaitHelper;
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
@@ -19,7 +20,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.ScreenShotRemoteWebDriver;
-import com.seleniumtests.helper.ThreadHelper;
 
 public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 		IWebDriverFactory {
@@ -104,7 +104,7 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements
 						.contains(
 								"Unable to connect to host 127.0.0.1 on port 7062 after 45000 ms. Firefox console output")) {
 					TestLogging.log("Firefox Driver creation got port customexception, retry after 5 seconds");
-					ThreadHelper.waitForSeconds(5);
+					WaitHelper.waitForSeconds(5);
 					driver = new ScreenShotRemoteWebDriver(url, capability);
 				} else
 					throw e;
