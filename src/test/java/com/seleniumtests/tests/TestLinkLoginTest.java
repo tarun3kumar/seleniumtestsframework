@@ -87,4 +87,21 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
                 .loginAsValidUser(user)
                 .verifyDocumentationDropDownFail();
     }
+
+    /**
+     * A failed test
+     *
+     * @param testEntity
+     * @param user
+     * @throws Exception
+     */
+    @Test(groups = {"testsSkippedMethod"}, dataProvider = "loginData",
+            description = "This test is also bound to fail", dependsOnMethods = "testForFailure")
+    public void testsSkippedMethod(TestEntity testEntity, final User user)
+            throws Exception {
+
+        new TestLinkLoginPage(true)
+                .loginAsValidUser(user)
+                .verifyDocumentationDropDownFail();
+    }
 }
