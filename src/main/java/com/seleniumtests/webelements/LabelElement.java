@@ -10,10 +10,6 @@ public class LabelElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public LabelElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	@Override
 	public String getText() {
 		TestLogging.logWebStep(null, "get text from " + toHTML(), false);

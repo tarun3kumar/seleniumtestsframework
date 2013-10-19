@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -33,14 +32,13 @@ import org.apache.log4j.Logger;
 import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.util.internal.entity.TestEntity;
 
-public class SpreadSheetUtil {
+public class SpreadSheetHelper {
 
-    private static Logger logger = Logger.getLogger(SpreadSheetUtil.class);
-    /** Primitive type name -> class map. */
+    private static Logger logger = Logger.getLogger(SpreadSheetHelper.class);
 
     private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_MAP = new HashMap<Class<?>, Class<?>>();
 
-    /** Setup the primitives map. */
+    // Setup primitives map
     static {
         PRIMITIVE_TYPE_MAP.put(Boolean.TYPE, Boolean.class);
         PRIMITIVE_TYPE_MAP.put(Byte.TYPE, Byte.class);
@@ -52,13 +50,12 @@ public class SpreadSheetUtil {
         PRIMITIVE_TYPE_MAP.put(Double.TYPE, Double.class);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private static Object _readFieldValueObject(Class<?> fieldClz, Type type,
                                                 Map<String, Object> dataMap, String combinedFieldName)
             throws Exception {
         Object fieldValue = null;
 
-        if (fieldClz.isArray()) {// Take care of Arrays
+        if (fieldClz.isArray()) {
             int size = getArraySize(dataMap, combinedFieldName);
             if (size > 0) {
                 fieldValue = Array.newInstance(fieldClz.getComponentType(),
@@ -71,10 +68,7 @@ public class SpreadSheetUtil {
                                     combinedFieldName + "." + j, dataMap));
                 }
             }
-        } else if (fieldClz.isAssignableFrom(java.util.List.class)) {// Take
-            // care
-            // of
-            // Collections
+        } else if (fieldClz.isAssignableFrom(java.util.List.class)) {
             java.util.ArrayList list = java.util.ArrayList.class.newInstance();
             int size = getArraySize(dataMap, combinedFieldName);
             if (size > 0) {
@@ -85,7 +79,7 @@ public class SpreadSheetUtil {
                             + j, dataMap));
                 }
             }
-        } else if (fieldClz.isAssignableFrom(java.util.Set.class)) {// Take care of Set
+        } else if (fieldClz.isAssignableFrom(java.util.Set.class)) {
             java.util.Set list = java.util.LinkedHashSet.class.newInstance();
             int size = getArraySize(dataMap, combinedFieldName);
             if (size > 0) {
@@ -99,7 +93,6 @@ public class SpreadSheetUtil {
         }else {
             fieldValue = readFieldValue(fieldClz, combinedFieldName, dataMap);
         }
-
         return fieldValue;
     }
 
@@ -141,25 +134,12 @@ public class SpreadSheetUtil {
                     int value = Integer.parseInt(ss[0]);
                     count = (value > count ? value : count);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
 
         return (valueFound ? count + 1 : count);
-    }
-
-    /**
-     * add for backward compatability
-     * @param clazz
-     * @param filename
-     * @param sheetNumber
-     * @param columnNames
-     * @param filter
-     * @return
-     */
-    public static synchronized Iterator<Object[]> getDataFromSpreadsheet(Class<?> clazz, String filename, int sheetNumber,
-                                                                         String[] columnNames, Filter filter){
-        return SpreadSheetUtil.getDataFromSpreadsheet(clazz, filename, null, sheetNumber, columnNames, filter, false);
     }
 
     /**
@@ -191,17 +171,16 @@ public class SpreadSheetUtil {
      * @return
      * @throws Exception
      */
-
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(
             Class<?> clazz, String filename, String sheetName, int sheetNumber,
             String[] fields, Filter filter, boolean readHeaders,
             boolean supportDPFilter) {
 
-        System.gc(); // KEEPME
+        System.gc();
 
-        // Let CSVUtil handle CSV Files
+        // CSVHelper handle CSV Files
         if (filename.toLowerCase().endsWith(".csv")) {
-            return CSVUtil.getDataFromCSVFile(clazz, filename, fields, filter,
+            return CSVHelper.getDataFromCSVFile(clazz, filename, fields, filter,
                     readHeaders, supportDPFilter);
         }
 
@@ -242,7 +221,7 @@ public class SpreadSheetUtil {
                 String content = sheet.getCell(j, 0).getContents();
                 if (content == null || content.trim().length() == 0) {
                     //columnCount = j + 1;
-                    columnCount = j;//Change by Jojo, for the 7th column, it's "", so the column count should be 7
+                    columnCount = j;
                     break;
                 }
             }
@@ -296,16 +275,13 @@ public class SpreadSheetUtil {
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
                 throw new CustomSeleniumTestsException(
-                        "Blank TestTitle found on Row(s) "
+                        "Blank Test Title found on Row(s) "
                                 + sbBlank.toString() + ".");
             }
 
             Set<String> uniqueDataSet = new TreeSet<String>();
 
-            // Jerry: Add DataProviderTags filter
-            /**
-             * Modified by Gary to support include tags and exclude tags
-             */
+            // Support include tags and exclude tags
             if (supportDPFilter) {
                 Filter dpFilter = getDPFilter();
 
@@ -317,8 +293,7 @@ public class SpreadSheetUtil {
                     }
                 }
             }
-            // End
-            // The first row is the header
+            // First row is the header
             for (int i = 1; i < sheet.getRows(); i++) {
                 // Check for duplicate Title
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
@@ -357,24 +332,17 @@ public class SpreadSheetUtil {
                     }
                 }
 
-                // Jerry: Add DataProviderTags filter
-                /**
-                 * Modified by Gary to support include tags and exclude tags
-                 */
+                // Support include tags and exclude tags
                 if (supportDPFilter) {
-                    SpreadSheetUtil.formatDPTags(rowDataMap);
+                    SpreadSheetHelper.formatDPTags(rowDataMap);
                 }
-                // End
                 if (filter == null || filter.match(rowDataMap)) {
                     sheetData.add(rowData.toArray(new Object[rowData.size()]));
                 }
             }
-
-            sheet = null;
-
             if ((!readHeaders && sheetData.isEmpty())
                     || (readHeaders && sheetData.size() <= 1))
-                logger.warn("No matching data found on spreadsheet: "
+                logger.warn("No matching data found on sheet: "
                         + filename + " with filter criteria: "
                         + filter.toString());
 
@@ -385,40 +353,15 @@ public class SpreadSheetUtil {
 
             if (w != null) {
                 w.close();
-                w = null;
             }
             if (is != null) {
                 try {
                     is.close();
                 } catch (Exception e) {
-                }// KEEPME
+                    e.printStackTrace();
+                }
             }
         }
-    }
-
-    public static List<Object[]> getDataList(List<Object[]> table,
-                                             Filter filter) {
-
-        List<Object[]> sheetData = new ArrayList<Object[]>();
-
-        // The first row is the header
-        String[] fields = (String[]) table.get(0);
-
-        for (int i = 1; i < table.size(); i++) {
-            Map<String, Object> rowDataMap = new HashMap<String, Object>();
-            Object[] rowData = table.get(i);
-            // Create the mapping between headers and column data
-            for (int j = 0; j < rowData.length; j++) {
-                rowDataMap.put(fields[j], rowData[j]);
-            }
-            if (filter == null || filter.match(rowDataMap)) {
-                sheetData.add(rowData);
-            }
-        }
-
-        sheetData.add(0, fields);
-
-        return sheetData;
     }
 
     protected static Filter getDPFilter() {
@@ -474,40 +417,8 @@ public class SpreadSheetUtil {
                                                                 LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
                                                                 int sheetNumber, String[] fields, Filter filter)
             throws Exception {
-        return SpreadSheetUtil.getEntitiesFromSpreadsheet(clazz,
+        return SpreadSheetHelper.getEntitiesFromSpreadsheet(clazz,
                 entityClazzMap, filename, null, sheetNumber, fields, filter);
-    }
-
-    /**
-     * Create Entity Objects based on data in spreadsheet.
-     *
-     * This method is only for Data Provider. Because it also filer the data
-     * based on the dpTagsInclude/dpTagsExclude which is defined in testng
-     * configuration file
-     *
-     * @param clazz
-     * @param entityClazzMap
-     * @param filename
-     * @param sheetName
-     * @param sheetNumber
-     * @param fields
-     * @param filter
-     * @param readHeaders
-     * @param supportDPFilter
-     * @return
-     * @throws Exception
-     */
-    public static Iterator<Object[]> getEntitiesFromSpreadsheet(Class<?> clazz,
-                                                                LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
-                                                                String sheetName, int sheetNumber, String[] fields,
-                                                                Filter filter, boolean readHeaders, boolean supportDPFilter) throws Exception {
-
-        Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz,
-                filename, sheetName, sheetNumber, fields, filter, readHeaders, supportDPFilter);
-
-        List<Object[]> list = getEntityData(dataIterator,entityClazzMap);
-
-        return list.iterator();
     }
 
     /**
@@ -540,50 +451,6 @@ public class SpreadSheetUtil {
         List<Object[]> list = getEntityData(dataIterator,entityClazzMap);
 
         return list.iterator();
-    }
-    /**
-     * Create Entity Objects based on data in spreadsheet.
-     *
-     * This method is only for Data Provider. Because it also filer the data
-     * based on the dpTagsInclude/dpTagsExclude which is defined in testng
-     * configuration file
-     */
-    public static List<Object[]> getEntitiesListFromSpreadsheet(Class<?> clazz,
-                                                                LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
-                                                                int sheetNumber, String[] fields, Filter filter)
-            throws Exception {
-        return SpreadSheetUtil.getEntitiesListFromSpreadsheet(clazz,
-                entityClazzMap, filename, null, sheetNumber, fields, filter);
-    }
-
-    /**
-     * Create Entity Objects based on data in spreadsheet.
-     *
-     * This method is only for Data Provider. Because it also filer the data
-     * based on the dpTagsInclude/dpTagsExclude which is defined in testng
-     * configuration file
-     *
-     * @param clazz
-     * @param entityClazzMap
-     * @param filename
-     * @param sheetName
-     * @param sheetNumber
-     * @param fields
-     * @param filter
-     * @return List<Object[]>
-     * @throws Exception
-     */
-    public static List<Object[]> getEntitiesListFromSpreadsheet(Class<?> clazz,
-                                                                LinkedHashMap<String, Class<?>> entityClazzMap, String filename,
-                                                                String sheetName, int sheetNumber, String[] fields,
-                                                                Filter filter) throws Exception {
-
-        Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz,
-                filename, sheetName, sheetNumber, fields, filter, true);
-
-        List<Object[]> list = getEntityData(dataIterator,entityClazzMap);
-
-        return list;
     }
 
     private static List<Object[]> getEntityData(Iterator<Object[]> dataIterator,LinkedHashMap<String, Class<?>> entityClazzMap) throws Exception
@@ -699,14 +566,6 @@ public class SpreadSheetUtil {
             return false;
     }
 
-    public static void main(String[] args) throws ParseException
-    {
-        Date d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse("2012-07-13T21:05:39.000Z");
-        System.out.println(d);
-        Date d2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz").parse("2012-05-11T12:01:12.123PDT");
-        System.out.println(d2);
-    }
-
     private static Object readFieldValue(Class<?> fieldClz, String fieldName,
                                          Map<String, Object> dataMap) throws Exception {
         Object fieldValue = null;
@@ -726,10 +585,7 @@ public class SpreadSheetUtil {
             } catch (Exception e) {
                 logger.warn("Ex", e);
             }
-        } else if (fieldClz.getName().equals("java.util.Calendar")) {// Take
-            // care
-            // of
-            // Date
+        } else if (fieldClz.getName().equals("java.util.Calendar")) {
             Calendar calendar = Calendar.getInstance();
             try{
                 calendar.setTime(new SimpleDateFormat("MM/dd/yyyy").parse(tempValue));
@@ -746,12 +602,9 @@ public class SpreadSheetUtil {
 
             }
             fieldValue = calendar;
-        } else if (fieldClz.getName().equals("java.math.BigDecimal")) {// Take
-            // care
-            // of
-            // BigDecimal
+        } else if (fieldClz.getName().equals("java.math.BigDecimal")) {
             fieldValue = new BigDecimal(tempValue);
-        } else if (isPrimitive(fieldClz)) {// Take care of primitives
+        } else if (isPrimitive(fieldClz)) {
             Constructor<?> constructor;
             try {
                 if (fieldClz.getName().equals("java.lang.String")) {
@@ -812,7 +665,6 @@ public class SpreadSheetUtil {
                         Field field = clz.getDeclaredField(realfieldName);
                         fieldValue = _readFieldValueObject(field.getType(), field.getGenericType(), datamap, fieldName);
                     }catch (NoSuchFieldException ex3) {
-                        //Can't find field, get**,is*** method, set it to String.class
                         try{
                             fieldValue = _readFieldValueObject(String.class, String.class, datamap, fieldName);
                             type = String.class;
@@ -866,7 +718,6 @@ public class SpreadSheetUtil {
                 logger.warn("Ex", e);
             }
         }
-
         return object;
     }
 }

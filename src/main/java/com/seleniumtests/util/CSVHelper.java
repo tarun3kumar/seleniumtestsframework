@@ -23,15 +23,16 @@ import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.TestLogging;
 
-public class CSVUtil {
-    private static Logger logger = TestLogging.getLogger(CSVUtil.class);
+public class CSVHelper {
+    private static Logger logger = TestLogging.getLogger(CSVHelper.class);
 
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DELIM_CHAR = ",";
     public static final String TAB_CHAR = "	";
 
     /**
-     * Reads data from csv formatted file. Put the excel sheet in the same folder as the test case and specify clazz as <code>this.getClass()</code>.
+     * Reads data from csv formatted file.
+     * Keep csv file in the same folder as the test case class and specify class as <code>this.getClass()</code>.
      *
      * @param clazz
      * @param filename
@@ -77,7 +78,7 @@ public class CSVUtil {
 
             int testTitleColumnIndex = -1;
             int testSiteColumnIndex = -1;
-            // Search for Title
+            // Search title
             for (int i = 0; i < csvData[0].length; i++) {
                 if (testTitleColumnIndex == -1 && TestEntity.TEST_TITLE.equalsIgnoreCase(csvData[0][i])) {
                     testTitleColumnIndex = i;
@@ -86,9 +87,9 @@ public class CSVUtil {
                     break;
             }
 
-            // Let's check for blank rows first
-            // The first row is the header
-            StringBuffer sbBlank = new StringBuffer();
+            // Check for blank rows first
+            // First row is the header
+            StringBuilder sbBlank = new StringBuilder();
             for (int i = 1; i < csvData.length; i++) {
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1 && (csvData[i][testTitleColumnIndex].trim().length() == 0 || csvData[i][testSiteColumnIndex].trim().length() == 0)) {
                     sbBlank.append(i + 1).append(',');
@@ -101,12 +102,9 @@ public class CSVUtil {
 
             Set<String> uniqueDataSet = new TreeSet<String>();
 
-            // Jerry: Add DataProviderTags filter
-            /**
-             * Modified by Gary to support include tags and exclude tags
-             */
+            // Support include tags and exclude tags
             if (supportDPFilter) {
-                Filter dpFilter = SpreadSheetUtil.getDPFilter();
+                Filter dpFilter = SpreadSheetHelper.getDPFilter();
 
                 if (dpFilter != null) {
                     if (filter == null) {
@@ -116,15 +114,13 @@ public class CSVUtil {
                     }
                 }
             }
-            // End
-            // The first row is the header
+            // The first row is the header data
             for (int i = 1; i < csvData.length; i++) {
-
                 // Check for duplicate Title
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
                     String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$" + csvData[i][testSiteColumnIndex];
                     if (uniqueDataSet.contains(uniqueString))
-                        throw new CustomSeleniumTestsException("Duplicate TestTitle found in the spreadsheet " + "with TestTitle = {" + csvData[i][testTitleColumnIndex] + "} " + "and Site = {" + csvData[i][testSiteColumnIndex] + "}");
+                        throw new CustomSeleniumTestsException("Duplicate TestTitle found in the spreadsheet with TestTitle: = {" + csvData[i][testTitleColumnIndex] + "} ");
 
                     uniqueDataSet.add(uniqueString);
                 }
@@ -147,18 +143,14 @@ public class CSVUtil {
                     }
                 } else {
                     for (int k = 0; k < fields.length; k++) {
-                        rowData.add(SpreadSheetUtil.getValue(rowDataMap, fields[k]));
+                        rowData.add(SpreadSheetHelper.getValue(rowDataMap, fields[k]));
                     }
                 }
 
-                // Jerry: Add DataProviderTags filter
-                /**
-                 * Modified by Gary to support include tags and exclude tags
-                 */
+                //To support include tags and exclude tags
                 if (supportDPFilter) {
-                    SpreadSheetUtil.formatDPTags(rowDataMap);
+                    SpreadSheetHelper.formatDPTags(rowDataMap);
                 }
-                // End
                 if (filter == null || filter.match(rowDataMap)) {
                     sheetData.add(rowData.toArray(new Object[rowData.size()]));
                 }
@@ -175,7 +167,8 @@ public class CSVUtil {
                 try {
                     is.close();
                 } catch (Exception e) {
-                }// KEEPME
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -217,20 +210,15 @@ public class CSVUtil {
                 try {
                     is.close();
                 } catch (Exception e) {
-                }// KEEPME
+                    e.printStackTrace();
+                }
             }
         }
 
     }
 
-    public static void main(String[] s) {
-        String line = "142843,\"testOneTimeCCMultiple,AccountPending\"," + "	Step 8. Verify user can make 1xCC payment for pending and active accounts " + "(for users with multiple \"accounts),US,,ecaf_seller_cc_pmt0_us,password,,,991,,";
-        String[] s2 = parseLine(line, DELIM_CHAR);
-        System.out.print(s2);
-    }
-
     /**
-     * Parse a line
+     * Parses line
      *
      * @param line
      * @param delim
@@ -254,7 +242,7 @@ public class CSVUtil {
             }
 
             if (tokens[count].startsWith(DOUBLE_QUOTE)) {
-                StringBuffer sbToken = new StringBuffer(tokens[count].substring(1));
+                StringBuilder sbToken = new StringBuilder(tokens[count].substring(1));
                 while (count < tokens.length && !tokens[count].endsWith(DOUBLE_QUOTE)) {
                     count++;
                     sbToken.append(DELIM_CHAR).append(tokens[count]);
@@ -276,7 +264,7 @@ public class CSVUtil {
     }
 
     /**
-     * Parses an file and returns a String[][] object
+     * Parses file and returns a String[][] object
      *
      * @param file
      * @return
@@ -302,19 +290,19 @@ public class CSVUtil {
 
         String[][] result = null;
         List<String[]> list = new ArrayList<String[]>();
-        String inputLine; // String that holds current file line
+        String inputLine;
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8")); // KEEPME
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
         while ((inputLine = reader.readLine()) != null) {
             try {
-                String[] item = null;
+                String[] item;
                 if (delim == null)
                     item = parseLine(inputLine, DELIM_CHAR);
                 else
                     item = parseLine(inputLine, delim);
                 if (item != null)
                     list.add(item);
-            } catch (Exception e) {// KEEPME
+            } catch (Exception e) {
             }
         }
         reader.close();
@@ -327,7 +315,7 @@ public class CSVUtil {
     }
 
     /**
-     * Parses an URL and returns a String[][] object
+     * Parses URL and returns a String[][] object
      *
      * @param url
      * @return

@@ -34,8 +34,7 @@ import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.ScreenshotUtil;
 
 /**
- * This is base HTML element class which provides general methods to interact
- * with a web page. All specific HTML element (ButtonElement, LinkElement, TextFieldElement, etc.)
+ * Provides methods to interact with a web page. All HTML element (ButtonElement, LinkElement, TextFieldElement, etc.)
  * extends from this class.
  * 
  */
@@ -71,33 +70,6 @@ public class HtmlElement {
 	}
 
 	/**
-	 * This constructor will attempt to locate the element using the locator
-	 * string. It will accept "xpath=[xpath]", or anything starting with / or (
-	 * as-is, and us it properly. If anything else is passed, it will attempt to
-	 * locate the element using the @id or @name as given
-	 * 
-	 * Make sure to initialize the driver before calling findElement().
-	 * 
-	 * 
-	 * @param label
-	 *            - element name for logging
-	 * @param locator
-	 *            - xpath locator
-	 * @sample {@code new HtmlElement("UserId", "//input[@id='userid']")}
-	 */
-	public HtmlElement(String label, String locator) {
-		this.label = label;
-		// For backward compatibility
-		if (locator.startsWith("xpath=")) {
-			locator = locator.substring(6);
-		} else if (!locator.startsWith("/") && !locator.startsWith("("))
-			locator = "//*[@id='" + locator + "' or @name='" + locator + "']";
-
-		this.locator = locator;
-		this.by = By.xpath(locator);
-	}
-
-	/**
 	 * This constructor locates the element using locator and locator type
 	 * 
 	 * @param label
@@ -111,14 +83,14 @@ public class HtmlElement {
 	}
 
 	/**
-	 * Capture a snapshot of the current browser window
+	 * Captures snapshot of the current browser window
 	 */
 	public void captureSnapshot() {
 		captureSnapshot(ContextHelper.getCallerMethod() + " on ");
 	}
 
 	/**
-	 * Capture a snapshot of the current browser window, and prefix the file
+	 * Captures snapshot of the current browser window, and prefix the file
 	 * name with the assigned string
 	 * 
 	 * @param messagePrefix
@@ -127,9 +99,6 @@ public class HtmlElement {
 		ScreenshotUtil.captureSnapshot(messagePrefix);
 	}
 
-	/**
-	 * Click the element
-	 */
 	public void click() {
 		findElement();
 		BrowserType browser = WebUIDriver.getWebUXDriver().getConfig()
@@ -215,10 +184,10 @@ public class HtmlElement {
 			if ((type == BrowserType.Chrome || type == BrowserType.InternetExplore)
 					&& this.getDriver().switchTo().alert().getText()
 							.contains("leave")) {
-				// handle Confirm Navigation pop up in chrome,IE,5/6/2013,Jojo
 				this.getDriver().switchTo().alert().accept();
 			}
 		} catch (NoAlertPresentException e) {
+            e.printStackTrace();
 		}
 	}
 
@@ -252,18 +221,7 @@ public class HtmlElement {
 	 */
 	protected void findElement() {
 		driver = WebUIDriver.getWebDriver();
-		if (WebUIDriver.getWebUXDriver().getConfig().getBrowser() == BrowserType.InternetExplore) {
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-			}
-		}
-		try {
 			element = driver.findElement(by);
-		} catch (UnhandledAlertException e) {
-			// Ignore the UnhandleAlertException for IEDriver
-			WaitHelper.waitForSeconds(1);
-		}
 	}
 
 	/**

@@ -14,10 +14,6 @@ public class Table extends HtmlElement {
 		super(label, by);
 	}
 
-	public Table(String label, String locator) {
-		super(label, locator);
-	}
-
 	public void findElement() {
 		super.findElement();
 		try {
@@ -85,11 +81,6 @@ public class Table extends HtmlElement {
 		return null;
 	}
 
-	// TODO MM: IN this method we're looking for /tbody/tr OR /tr -- this differs from how the rows property is being set
-	// in the constructor and in the findElement() method. Why do we call findElements() immediately after the
-	// findElement() call, which basically does the same thing? If we expect the answer to be different when we call /tbody/tr,
-	// that means we don't trust this.findElement(), which means the getRowCount might be different from rows.size(). That could
-	// lead to some very tricky debugging
 	public int getRowCount() {
 		if (rows == null)
 			findElement();
@@ -110,16 +101,4 @@ public class Table extends HtmlElement {
 	public boolean isHasBody() {
 		return getRows().size()>0;
 	}
-
-//	public void setColumns(List<WebElement> columns) {
-//		this.columns = columns;
-//	}
-//
-//	public void setHasBody(boolean hasBody) {
-//		this.hasBody = hasBody;
-//	}
-//
-//	public void setRows(List<WebElement> rows) {
-//		this.rows = rows;
-//	}
 }

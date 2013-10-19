@@ -9,10 +9,6 @@ public class LinkElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public LinkElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	@Override
 	public void click() {
 		captureSnapshot("before clicking");

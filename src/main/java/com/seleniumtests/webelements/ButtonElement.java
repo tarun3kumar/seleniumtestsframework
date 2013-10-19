@@ -14,10 +14,6 @@ public class ButtonElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public ButtonElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	@Override
 	public void click() {
 		captureSnapshot("before clicking");
@@ -26,7 +22,6 @@ public class ButtonElement extends HtmlElement {
 				.getBrowser();
 		if (browser == BrowserType.InternetExplore) {
 			super.sendKeys(Keys.ENTER);// not stable on IE9
-			WaitHelper.waitForSeconds(2);
 			super.handleLeaveAlert();
 		} else {
 			super.click();

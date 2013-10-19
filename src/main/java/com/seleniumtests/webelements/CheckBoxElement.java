@@ -9,10 +9,6 @@ public class CheckBoxElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public CheckBoxElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	public void check() {
 		TestLogging.logWebStep(null, "check " + toHTML(), false);
 		if (!isSelected()) {
@@ -26,8 +22,6 @@ public class CheckBoxElement extends HtmlElement {
 		super.click();
 	}
 
-	//TODO this code is repeated in other areas--there should be an AbstractClickable and an IClickable where this gets ratified
-	// and implemented
 	public boolean isSelected() {
 		findElement();
 		return element.isSelected();

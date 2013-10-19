@@ -24,8 +24,7 @@ import com.thoughtworks.selenium.Wait;
 
 /**
  * Base html page abstraction. Used by PageObject and WebPageSection
- * 
- * 
+ *
  */
 public abstract class BasePage {
 
@@ -62,9 +61,7 @@ public abstract class BasePage {
 	}
 
 	/**
-	 * Assert to check attribute value. Just pass in the attribute name and
-	 * expected value.
-	 * 
+	 *
 	 * @param element
 	 * @param attributeName
 	 * @param value
@@ -123,7 +120,6 @@ public abstract class BasePage {
 
 	protected void assertCurrentPage(boolean log)
 			throws NotCurrentPageException {
-		// do nothing
 	}
 
 	public void assertElementNotPresent(HtmlElement element) {
@@ -139,16 +135,16 @@ public abstract class BasePage {
 				+ " not found.");
 	}
 
-	void assertHTML(boolean condiition, String message) {
-		if (!condiition) {
+	void assertHTML(boolean condition, String message) {
+		if (!condition) {
 			capturePageSnapshot();
-			CustomAssertion.assertTrue(condiition, message);
+			CustomAssertion.assertTrue(condition, message);
 		}
 	}
 	
-	void assertAlertHTML(boolean condiition, String message) {
-		if (!condiition) {
-			CustomAssertion.assertTrue(condiition, message);
+	void assertAlertHTML(boolean condition, String message) {
+		if (!condition) {
+			CustomAssertion.assertTrue(condition, message);
 		}
 	}
 	public void assertPromptText(String text) {
@@ -188,7 +184,6 @@ public abstract class BasePage {
 				+ " at cell(row, col) = {" + row + "," + col + "}");
 	}
 
-	// ////////////////// assertion methods //////////////////////////
 
 	public void assertTextNotPresent(String text) {
 		TestLogging.logWebStep(null,
@@ -226,7 +221,6 @@ public abstract class BasePage {
 
 	protected abstract void capturePageSnapshot();
 
-	// ////////////////// get dialog methods //////////////////////////
 	public Alert getAlert() {
 		Alert alert = driver.switchTo().alert();
 		return alert;
@@ -256,8 +250,6 @@ public abstract class BasePage {
 		return driver;
 
 	}
-
-	// ////////////////////// Wait Methods ////////////////////////////
 
 	public String getPrompt() {
 		Alert alert = driver.switchTo().alert();
@@ -324,10 +316,7 @@ public abstract class BasePage {
 	}
 
 	/**
-	 * If current window is closed, you can't use this method to swith to
-	 * another window. Please use driver.switchTo.window(handle) to handle this
-	 * situation. You need to capture the handle you need to switch before this
-	 * statement.
+	 * If current window is closed then use driver.switchTo.window(handle)
 	 * 
 	 * @param windowName
 	 * @throws com.seleniumtests.customexception.NotCurrentPageException
@@ -346,10 +335,6 @@ public abstract class BasePage {
 			Windows windows = new Windows(driver);
 			windows.selectWindow(driver, "name=" + windowName);
 		}
-		waitForSeconds(1);
-
-		// Check whether it's the expected page.
-		// assertCurrentPage(true);
 	}
 
 	public void waitForElementChecked(HtmlElement element) {
@@ -431,7 +416,6 @@ public abstract class BasePage {
 					}
 					return !"about:blank".equals(driver.getCurrentUrl());
 				} catch (SeleniumException e) {
-					// Swallow
 				} catch (NoSuchWindowException e) {
 				}
 				return false;

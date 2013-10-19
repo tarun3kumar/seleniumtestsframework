@@ -4,7 +4,7 @@ import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.SeleniumTestPlan;
 import com.seleniumtests.dataobject.TestLinkProject;
 import com.seleniumtests.dataobject.User;
-import com.seleniumtests.util.SpreadSheetUtil;
+import com.seleniumtests.util.SpreadSheetHelper;
 import com.seleniumtests.util.internal.entity.TestEntity;
 import com.seleniumtests.webpage.TestLinkLoginPage;
 import org.testng.ITestContext;
@@ -35,7 +35,7 @@ public class TestLinkUsageTest extends SeleniumTestPlan {
         classMap.put("User", User.class);
         classMap.put("TestLinkProject", TestLinkProject.class);
 
-        return SpreadSheetUtil.getEntitiesFromSpreadsheet(
+        return SpreadSheetHelper.getEntitiesFromSpreadsheet(
                 TestLinkLoginTest.class, classMap, "testlinkproject.csv", 0,
                 null, filter);
     }

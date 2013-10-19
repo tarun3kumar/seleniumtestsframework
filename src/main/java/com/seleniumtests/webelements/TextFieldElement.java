@@ -9,15 +9,9 @@ public class TextFieldElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public TextFieldElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	public void clear() {
 		TestLogging.logWebStep(null, "remove data on " + toHTML(), false);
 		findElement();
-		// clear for file input, will get Exception:Element must be
-		// user-editable in order to clear it.
 		if (!element.getAttribute("type").equalsIgnoreCase("file"))
 			element.clear();
 	}

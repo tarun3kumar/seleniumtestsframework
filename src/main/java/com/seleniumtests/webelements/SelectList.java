@@ -23,10 +23,6 @@ public class SelectList extends HtmlElement {
 		super(text, by);
 	}
 
-	public SelectList(String text, String locator) {
-		super(text, locator);
-	}
-
 	/**
 	 * De-selects all options in a multi-select list element
 	 */
@@ -249,11 +245,6 @@ public class SelectList extends HtmlElement {
 	private void setSelected(WebElement option) {
 		if (!option.isSelected()) {
 			option.click();
-		}
-		try {//Sleep 1 second to avoid StaleElementReferenceException
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			//e.printStackTrace();//Ignore
 		}
 	}
 }

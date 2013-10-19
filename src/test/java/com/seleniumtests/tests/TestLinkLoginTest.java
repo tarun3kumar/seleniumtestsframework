@@ -3,7 +3,7 @@ package com.seleniumtests.tests;
 import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.SeleniumTestPlan;
 import com.seleniumtests.dataobject.User;
-import com.seleniumtests.util.SpreadSheetUtil;
+import com.seleniumtests.util.SpreadSheetHelper;
 import com.seleniumtests.util.internal.entity.TestEntity;
 import com.seleniumtests.webpage.TestLinkLoginPage;
 import org.testng.ITestContext;
@@ -32,7 +32,7 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
         classMap.put("TestEntity", TestEntity.class);
         classMap.put("User", User.class);
 
-        return SpreadSheetUtil.getEntitiesFromSpreadsheet(
+        return SpreadSheetHelper.getEntitiesFromSpreadsheet(
                 TestLinkLoginTest.class, classMap, "loginuser.csv", 0,
                 null, filter);
     }

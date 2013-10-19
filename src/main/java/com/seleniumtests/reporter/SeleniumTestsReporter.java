@@ -1097,8 +1097,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			
 			context.put("mode",mode);
 
-			StringBuffer sbGroups = new StringBuffer();
-			sbGroups.append("envt,test,cal");
+			StringBuilder sbGroups = new StringBuilder();
+			sbGroups.append("envt,test");
 			List<SeleniumTestsPageListener> pageListenerList = PluginsHelper.getInstance().getPageListeners();
 			if (pageListenerList != null && !pageListenerList.isEmpty()) {
 				for (SeleniumTestsPageListener abstractPageListener : pageListenerList) {

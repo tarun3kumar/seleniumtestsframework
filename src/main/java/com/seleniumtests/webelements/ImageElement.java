@@ -8,10 +8,6 @@ public class ImageElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public ImageElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	public int getHeight() {
 		return super.getSize().getHeight();
 	}

@@ -26,18 +26,6 @@ public abstract class WebPageSection extends BasePage {
 		this.by = by;
 	}
 
-	public WebPageSection(String name, String locator) throws CustomSeleniumTestsException {
-		super();
-		if (locator.startsWith("xpath=")) {
-			locator = locator.substring(6);
-		} else if (!locator.startsWith("/") && !locator.startsWith("("))
-			locator = "//*[@id='" + locator + "' or @name='" + locator + "']";
-
-		this.name = name;
-		this.locator = locator;
-		this.by = By.xpath(locator);
-	}
-
 	/**
 	 * Captures page snapshot.
 	 */

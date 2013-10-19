@@ -9,10 +9,6 @@ public class RadioButtonElement extends HtmlElement {
 		super(label, by);
 	}
 
-	public RadioButtonElement(String label, String locator) {
-		super(label, locator);
-	}
-
 	public void check() {
 		TestLogging.logWebStep(null, "check " + toHTML(), false);
 		super.click();
@@ -24,8 +20,6 @@ public class RadioButtonElement extends HtmlElement {
 		super.click();
 	}
 
-	//TODO this code is repeated in other objects (like CheckBoxElement)--there should be an AbstractClickable
-	// and an IClickable where this gets specified and implemented
 	public boolean isSelected() {
 		findElement();
 		return element.isSelected();

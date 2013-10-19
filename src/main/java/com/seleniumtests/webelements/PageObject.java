@@ -42,13 +42,11 @@ public class PageObject extends BasePage implements IPage {
 	private String windowHandle = null;
 	private String title = null;
 	private String url = null;
-	// private String location = null;
 	private String bodyText = null;
 	private String htmlSource = null;
 	private String htmlSavedToPath = null;
 	private String suiteName = null;
 	private String outputDirectory = null;
-	// private String testMethodSignature = null;
 	private String htmlFilePath = null;
 	private String imageFilePath = null;
 
@@ -96,14 +94,14 @@ public class PageObject extends BasePage implements IPage {
 
 			// Open web page
 			if (url != null) {
-				open(url, convert);
+				open(url);
 			}
 
 			// Wait For Page Load
 			waitForPageToLoad();
 
 		} else {
-			TestLogging.logWebStep(null, "wait for popup page to load.", false);
+			TestLogging.logWebStep(null, "wait for popup to load.", false);
 			waitForPopup(popupWindowName);
 
 			Windows windows = new Windows(driver);
@@ -190,56 +188,8 @@ public class PageObject extends BasePage implements IPage {
 		this(false, null, pageIdentifierElement, url, false, waitForRedirection);
 	}
 
-	// ///////////////// Getters & Setters End
-	// ///////////////////////////////////////
 
-	/**
-	 * Constructor for Entry point page.
-	 * 
-	 * <pre>
-	 * WARNING!!! WARNING!!! WARNING!!! 
-	 * Should only be used in following cases
-	 * 1) Use this only with v3console adminURLs for 
-	 *    which feature pools point to staging.
-	 * 2) Tools like DCT, QATools
-	 * </pre>
-	 * 
-	 * @param pageIdentifierElement
-	 * @param url
-	 * @param isAbsoluteURL
-	 * @throws Exception
-	 */
-	public PageObject(HtmlElement pageIdentifierElement, String url,
-                      boolean isAbsoluteURL, boolean waitForRedirection) throws Exception {
-
-		this(false, null, pageIdentifierElement, url, !isAbsoluteURL,
-				waitForRedirection);
-	}
-
-	/**
-	 * Constructor for Entry point page. Null PageIdentifier Element, always
-	 * convert
-	 * 
-	 * @param url
-	 * @throws Exception
-	 */
-	public PageObject(String url) throws Exception {
-		this(false, null, null, url, false, false);
-	}
-
-	/**
-	 * Constructor for Entry point page. Null PageIdentifier Element, not
-	 * convert if convert=false
-	 * 
-	 * @param url
-	 * @param convert
-	 * @throws Exception
-	 */
-	public PageObject(String url, boolean convert) throws Exception {
-		this(false, null, null, url, convert, false);
-	}
-
-	public void assertCookiePresent(String name) {
+    public void assertCookiePresent(String name) {
 		TestLogging.logWebStep(null, "assert cookie " + name + " is present.",
                 false);
 		assertHTML(getCookieByName(name) != null, "Cookie: {" + name
@@ -278,8 +228,6 @@ public class PageObject extends BasePage implements IPage {
                             + " is present)."
                             : "."), false);
 	}
-
-	// ////////////////// assertion methods //////////////////////////
 
 	public void assertHtmlSource(String text) {
 		TestLogging.logWebStep(null, "assert text \"" + text
@@ -370,26 +318,6 @@ public class PageObject extends BasePage implements IPage {
 		}
 	}
 
-	/*public String convert(String url) {
-		if (SeleniumTestsContextManager.getThreadContext() != null) {
-			String urlConvertClass = SeleniumTestsContextManager.getThreadContext()
-					.getUrlConvertClass();
-			if (urlConvertClass != null) {
-				try {
-					Class<?> converterClass = Class.forName(urlConvertClass);
-					Object converter = converterClass.newInstance();
-					Method convert = converterClass.getMethod("convertURL",
-							String.class);
-					return (String) convert.invoke(converter, url);
-				} catch (Exception e) {
-					logger.warn("Convert URL failed", e);
-				}
-
-			}
-		}
-		return url;
-	}*/
-
     /**
 	 * Drags an element a certain distance and then drops it
 	 * 
@@ -412,14 +340,10 @@ public class PageObject extends BasePage implements IPage {
 		element.captureSnapshot("after dropping");
 	}
 
-	// ////////////////////// Drag-n-Drop Methods ////////////////////////////
 
 	public String getBodyText() {
-		// return driver.findElement(By.tagName("body")).getText();
 		return bodyText;
 	}
-
-	// ////////////////////// Flash Enable/Disable Methods ////////////
 
 	public final String getCookieByName(String name) {
 		if (driver.manage().getCookieNamed(name) == null)
@@ -431,7 +355,6 @@ public class PageObject extends BasePage implements IPage {
 		return driver.findElements(element.getBy()).size();
 	}
 
-	// add for avoid compile errorLogger for migration
 	public String getEval(String expression) {
 		CustomAssertion.assertTrue(false, "focus not implemented yet");
 		return null;
@@ -459,8 +382,6 @@ public class PageObject extends BasePage implements IPage {
 	 * @return jsErrors in format "line number, errorLogger message, source name; "
 	 */
 	public String getJSErrors() {
-		// return (String) ((JavascriptExecutor)
-		// driver).executeScript("window.ecaf_js_error");
 		if (WebUIDriver.getWebUXDriver().isAddJSErrorCollectorExtension()) {
 			List<JavaScriptError> jsErrorList = JavaScriptError
 					.readErrors(driver);
@@ -513,28 +434,7 @@ public class PageObject extends BasePage implements IPage {
 		frameFlag = false;
 	}
 
-	public void initWebUXElements() {
-		// Element will be initialized right before using, so no need additional
-		// steps
-		/*
-		 * try{ PageFactory.initElements(driver, this); }catch(Exception e) {
-		 * //ignore customexception } driver = WebUIDriver.getWebDriver(); Field[]
-		 * fields = this.getClass().getDeclaredFields(); for (Field field :
-		 * fields) { //System.out.println(field.getName());
-		 * 
-		 * try { if (field.get(this) instanceof HtmlElement) { Method method =
-		 * HtmlElement.class.getMethod("init"); method.invoke(field.get(this));
-		 * 
-		 * }else if(field.get(this) instanceof SelectList) { Method method =
-		 * SelectList.class.getMethod("init"); method.invoke(field.get(this)); }
-		 * } catch (Exception e) { }
-		 * 
-		 * }
-		 */
-
-	}
-
-	public final boolean isCookiePresent(String name) {
+    public final boolean isCookiePresent(String name) {
 		return getCookieByName(name) != null;
 	}
 
@@ -546,22 +446,13 @@ public class PageObject extends BasePage implements IPage {
 		new WebUtility(driver).maximizeWindow();
 	}
 
-	public void open(String url) throws Exception {
-		open(url, true);
-	}
-
-	private void open(String url, boolean convert) throws Exception {
+	private void open(String url) throws Exception {
 
 		if (this.getDriver() == null) {
 			TestLogging.logWebStep(url, "Launch browser", false);
 			driver = webUXDriver.createWebDriver();
-			//maximizeWindow();
 		}
 
-		if (convert) {
-//			String tempURL = convert(url);
-//			url = tempURL;
-		}
 		setUrl(url);
 		TestLogging.logWebStep(url, "Launch application URL: <a href='" + url + "'>" + url
                 + "</a>", false);
