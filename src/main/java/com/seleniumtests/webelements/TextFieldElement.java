@@ -10,14 +10,14 @@ public class TextFieldElement extends HtmlElement {
 	}
 
 	public void clear() {
-		TestLogging.logWebStep(null, "remove data on " + toHTML(), false);
+		TestLogging.logWebStep(null, "Remove data From " + toHTML(), false);
 		findElement();
 		if (!element.getAttribute("type").equalsIgnoreCase("file"))
 			element.clear();
 	}
 
 	public void sendKeys(String keysToSend) {
-		TestLogging.logWebStep(null, "enter data: \"" + keysToSend + "\" on "
+		TestLogging.logWebStep(null, "Enter data: \"" + keysToSend + "\" on "
                 + toHTML(), false);
 		findElement();
 		element.sendKeys(keysToSend);
