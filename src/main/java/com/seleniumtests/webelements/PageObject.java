@@ -92,12 +92,10 @@ public class PageObject extends BasePage implements IPage {
 
 		if (!popupFlag) {
 
-			// Open web page
 			if (url != null) {
 				open(url);
 			}
 
-			// Wait For Page Load
 			waitForPageToLoad();
 
 		} else {

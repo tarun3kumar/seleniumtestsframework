@@ -229,7 +229,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "seleniumtests_table_zebrastripe_left.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "seleniumtests_table_zebrastripe_right.gif");
 		resources.add("reporter" + File.separator + "images" + File.separator + "yukontoolbox" + File.separator + "seleniumtests_yellow_tr.gif");
-		resources.add("reporter" + File.separator + "js" + File.separator + "jquery-1.3.min.js");
+		resources.add("reporter" + File.separator + "js" + File.separator + "jquery-1.10.2.min.js");
 		resources.add("reporter" + File.separator + "js" + File.separator + "jquery.lightbox-0.5.min.js");
 		resources.add("reporter" + File.separator + "js" + File.separator + "mktree.js");
 		resources.add("reporter" + File.separator + "js" + File.separator + "report.js");
