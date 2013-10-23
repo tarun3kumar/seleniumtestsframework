@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "plugin" })
-@XmlRootElement(name = "mauiplugins")
+@XmlRootElement(name = "plugins")
 public class SeleniumTestsPlugins {
 
 	@XmlElement(required = true)
