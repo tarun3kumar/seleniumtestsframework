@@ -573,7 +573,7 @@ public class HtmlElement {
 	}
 
 	/**
-	 * For unit testing--need to be able to throw this customexception
+	 * Method, which should never be used
 	 */
 	protected void sleep(int waitTime) throws InterruptedException {
 		Thread.sleep(waitTime);
@@ -586,9 +586,9 @@ public class HtmlElement {
 	 * @return
 	 */
 	public String toHTML() {
-		return getClass().getSimpleName().toLowerCase()
-				+ " <a style=\"font-style:italic;color:#6699FF;text-decoration:none;\" href=# title=\"by={"
-				+ getBy().toString() + "}\">" + getLabel() + "</a>";
+        return getClass().getSimpleName().toLowerCase()
+                + " <a style=\"font-style:normal;color:#8C8984;text-decoration:none;\" href=# \">"
+                + getLabel()+",: "+ getBy().toString()  + "</a>";
 	}
 
 	/**
