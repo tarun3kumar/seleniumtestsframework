@@ -200,7 +200,7 @@ public class ScreenshotUtil {
 								WebUIDriver.getWebDriver(), "");
 				if (img == null)
 					return;
-				byte[] byteArray = img.getBytes();// KEEPME
+				byte[] byteArray = img.getBytes();
 				if (byteArray != null && byteArray.length > 0) {
 					String imgFile = "/screenshots/" + filename + ".png";
 					FileUtility.writeImage(getOutputDirectory() + imgFile,
@@ -210,7 +210,7 @@ public class ScreenshotUtil {
 					screenShot.setImagePath(imagePath);
 					SeleniumTestsContextManager.getThreadContext().addScreenShot(screenShot);
 					sbMessage.append(messagePrefix + ": <a href='" + imagePath
-							+ "' class='lightbox'>screenshot</a>");
+							+ "' class='lightbox'>Application Snapshot</a>");
 					TestLogging.logWebOutput(null, sbMessage.toString(), false);
 					sbMessage = null;
 				}
@@ -223,19 +223,4 @@ public class ScreenshotUtil {
 
 		}
 	}
-
-	// private static String readFileAsString(File file) throws
-	// java.io.IOException {
-	// StringBuffer fileData = new StringBuffer(1000);
-	// BufferedReader reader = new BufferedReader(new FileReader(file));
-	// char[] buf = new char[1024];
-	// int numRead = 0;
-	// while ((numRead = reader.read(buf)) != -1) {
-	// String readData = String.valueOf(buf, 0, numRead);
-	// fileData.append(readData);
-	// buf = new char[1024];
-	// }
-	// reader.close();
-	// return fileData.toString();
-	// }
 }
