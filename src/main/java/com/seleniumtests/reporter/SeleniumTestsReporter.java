@@ -461,7 +461,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 						String browserVersion = (String)testLevelContext.getAttribute("browserVersion");
 						if (browserVersion != null)
 							browser = browser + browserVersion;
-						contentBuffer.append("<div><i>App URL:  "+appURL+ ", Browser: " + browser + "</i></div>");
+						contentBuffer.append("<div><i>App URL:  <b>"+appURL+ "</b>, Browser: <b>" + browser + "</b></i></div>");
 					}
 					Object[] parameters = ans.getParameters();
 					List<String> msgs = Reporter.getOutput(ans);
