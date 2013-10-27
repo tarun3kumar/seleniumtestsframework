@@ -13,7 +13,6 @@ public class TestEntity {
     private String testMethod = "";
     private String testTitle = "";
     private String testSite = "";
-    private String testTags = "";
     private boolean isActive = true;
 
     public String getTestCaseId() {
@@ -26,10 +25,6 @@ public class TestEntity {
 
     public String getTestSite() {
         return testSite;
-    }
-
-    public String getTestTags() {
-        return testTags;
     }
 
     public String getTestTitle() {
@@ -56,31 +51,23 @@ public class TestEntity {
         this.testSite = testSite;
     }
 
-    public void setTestTags(String testTags) {
-        this.testTags = testTags;
-    }
-
     public void setTestTitle(String testTitle) {
         this.testTitle = testTitle;
     }
 
     public String toString() {
         StringBuffer ret = new StringBuffer();
-        ret.append("[TestCaseId=" + testCaseId);
+        ret.append("Test Attributes: [ TestCaseId: " + testCaseId);
         if (StringUtils.isNotEmpty(testMethod)) {
-            ret.append("|TestMethod=" + testMethod);
+            ret.append("|| TestMethod: " + testMethod);
         }
         if (StringUtils.isNotEmpty(testTitle)) {
-            ret.append("|TestTitle=" + testTitle);
-        }
-        if (StringUtils.isNotEmpty(testTags)) {
-            ret.append("|DPTag=" + testTags);
+            ret.append("||TestTitle: " + testTitle);
         }
         if (!isActive) {
-            ret.append("|IsActive=" + isActive);
+            ret.append("||IsActive: " + isActive);
         }
-        ret.append("]");
+        ret.append(" ]");
         return ret.toString();
     }
-
 }

@@ -23,4 +23,10 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        return stringBuilder.append("User [UserId = "+userID+", ").append("Password = "+password+"]").toString();
+    }
 }

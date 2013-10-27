@@ -151,11 +151,11 @@ public class WebUIDriver {
 		synchronized(this.getClass()){
 			driver = webDriverBuilder.createWebDriver();
 		}
-		if (config.getBrowserWindowWidth() > 0 && config.getBrowserWindowHeight() > 0){
+		/*if (config.getBrowserWindowWidth() > 0 && config.getBrowserWindowHeight() > 0){
 			new WebUtility(driver).resizeWindow(config.getBrowserWindowWidth(), config.getBrowserWindowHeight());
 		} else {
 			new WebUtility(driver).maximizeWindow();
-		}
+		}*/
 		driver = handleListeners(driver);
 
 		return driver;
@@ -180,12 +180,12 @@ public class WebUIDriver {
 
 	public WebDriver createWebDriver() throws Exception {
         System.out.println(Thread.currentThread() + ":" + new Date()
-				+ "Start creating web driver instance: " +this.getBrowser());
+				+ ":::Start creating web driver instance: " +this.getBrowser());
 		driver = createRemoteWebDriver(config.getBrowser().getBrowserType(), config
 				.getMode().name());
 
 		System.out.println(Thread.currentThread() + ":" + new Date()
-				+ "Finish creating web driver instance: " +this.getBrowser());
+				+ ":::Finish creating web driver instance: " +this.getBrowser());
 
 		driverSession.set(driver);
 		return driver;

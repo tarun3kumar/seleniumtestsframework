@@ -107,4 +107,12 @@ public class TestLinkProject {
     public void setPubliclyAvailable(boolean publiclyAvailable) {
         this.publiclyAvailable = publiclyAvailable;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        return stringBuilder.append("TestLinkProject [Create From Existing = "+createFromExisting+", ")
+                .append("Project Name ="+name+", ")
+                .append("Test case ID Prefix = "+testCaseIDPrefix+"]").toString();
+    }
 }
