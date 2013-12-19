@@ -1,4 +1,5 @@
 TestEntity.TestCaseId,TestEntity.TestMethod,TestEntity.TestTitle,User.UserID,User.Password
 testcaseid1,loginAsInvalidUser,loginAsInvalidUser,wronguserid,wrongpassword
+testcaseid4,loginAsInvalidUser,loginAsInvalidUser,wronguserid1,wrongpassword1
 testcaseid2,loginAsValidUser,loginAsValidUser,admin,admin
 testcaseid3,testForFailure,testForFailure,admin,admin
