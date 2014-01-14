@@ -131,7 +131,7 @@ public class SeleniumTestsContext {
 		setContextAttribute(context, WEB_DRIVER_GRID,
 				System.getProperty(WEB_DRIVER_GRID), null);
 		setContextAttribute(context, RUN_MODE,
-				System.getProperty(RUN_MODE), "local");
+				System.getProperty(RUN_MODE), "LOCAL");
 		setContextAttribute(context, BROWSER,
 				System.getProperty(BROWSER), "*firefox");
 		setContextAttribute(context, BROWSER_VERSION,
