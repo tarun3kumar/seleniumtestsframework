@@ -135,6 +135,13 @@ public abstract class BasePage {
 				+ " not found.");
 	}
 
+    public void assertElementDisplayed(HtmlElement element) {
+        TestLogging.logWebStep(null, "assert " + element.toHTML() + " is displayed.",
+                false);
+        assertHTML(element.isDisplayed(), element.toString()
+                + " not found.");
+    }
+
 	void assertHTML(boolean condition, String message) {
 		if (!condition) {
 			capturePageSnapshot();
