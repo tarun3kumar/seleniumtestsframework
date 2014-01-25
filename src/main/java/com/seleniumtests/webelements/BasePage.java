@@ -143,7 +143,7 @@ public abstract class BasePage {
     }
 
     public void assertCondition(boolean condition, String message) {
-        TestLogging.logWebStep(null, "assert " + message,
+        TestLogging.logWebStep(null, "assert that " + message,
                 false);
         assert condition;
     }
