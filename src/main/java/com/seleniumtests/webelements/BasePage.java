@@ -142,6 +142,12 @@ public abstract class BasePage {
                 + " not found.");
     }
 
+    public void assertCondition(boolean condition, String message) {
+        TestLogging.logWebStep(null, "assert " + message,
+                false);
+        assert condition;
+    }
+
 	void assertHTML(boolean condition, String message) {
 		if (!condition) {
 			capturePageSnapshot();
