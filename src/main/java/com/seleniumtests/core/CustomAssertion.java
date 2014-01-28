@@ -3,6 +3,8 @@ package com.seleniumtests.core;
 import java.util.Collection;
 import java.util.List;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.Reporter;
 
@@ -171,6 +173,25 @@ public class CustomAssertion {
         }
     }
 
+    ////////////// Hamcrest Matchers with soft assertion ////////////////
+    public static void assertThat(String reason, boolean assertion) {
+        if(SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
+            softAssertThat(reason, assertion);
+        } else {
+            MatcherAssert.assertThat(reason, assertion);
+        }
+    }
+
+    public static <T> void assertThat(String reason, T actual, Matcher<? super T> matcher) {
+        if(SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
+            softAssertThat(reason, actual, matcher);
+        } else {
+            MatcherAssert.assertThat(reason, actual, matcher);
+        }
+
+    }
+
+
     public static void fail(String message) {
         Assert.fail(message);
     }
@@ -333,6 +354,22 @@ public class CustomAssertion {
     public static void softAssertTrue(boolean condition, String message) {
         try {
             Assert.assertTrue(condition, message);
+        } catch (Throwable e) {
+            addVerificationFailure(e);
+        }
+    }
+
+    public static void softAssertThat(String reason, boolean assertion) {
+        try {
+            MatcherAssert.assertThat(reason, assertion);
+        } catch (Throwable e) {
+            addVerificationFailure(e);
+        }
+    }
+
+    public static <T> void softAssertThat(String reason, T actual, Matcher<? super T> matcher) {
+        try {
+            MatcherAssert.assertThat(reason, actual, matcher);
         } catch (Throwable e) {
             addVerificationFailure(e);
         }
