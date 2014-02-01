@@ -2,7 +2,6 @@ package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.TestLogging;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriverException;
 
 public class TextFieldElement extends HtmlElement {
 	public TextFieldElement(String label, By by) {
@@ -24,12 +23,6 @@ public class TextFieldElement extends HtmlElement {
 	}
 
 	public void type(String keysToSend) {
-		try {
-			clear();
-		} catch (WebDriverException e) {
-			TestLogging.logWebStep(null, "Exception:clear value on " + toHTML(),
-                    false);
-		}
 		sendKeys(keysToSend);
 	}
 
