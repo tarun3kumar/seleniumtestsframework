@@ -32,4 +32,9 @@ public class TextFieldElement extends HtmlElement {
 		}
 		sendKeys(keysToSend);
 	}
+
+    public void clearAndType(String keysToSend) {
+        clear();
+        type(keysToSend);
+    }
 }
