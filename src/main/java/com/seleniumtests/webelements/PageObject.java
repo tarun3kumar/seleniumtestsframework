@@ -1,35 +1,30 @@
 package com.seleniumtests.webelements;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import com.seleniumtests.core.*;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.seleniumtests.core.CustomAssertion;
+import com.seleniumtests.core.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsPageListener;
+import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import com.seleniumtests.customexception.NotCurrentPageException;
+import com.seleniumtests.driver.ScreenShot;
+import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.driver.WebUtility;
 import com.seleniumtests.helper.WaitHelper;
+import com.thoughtworks.selenium.Wait;
+import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
-
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.UnhandledAlertException;
-import org.openqa.selenium.UnsupportedCommandException;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.internal.seleniumemulation.Windows;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.testng.Assert;
 
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.seleniumtests.core.CustomAssertion;
-import com.seleniumtests.driver.ScreenShot;
-import com.seleniumtests.driver.ScreenshotUtil;
-import com.thoughtworks.selenium.Wait;
-import com.thoughtworks.selenium.Wait.WaitTimedOutException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class PageObject extends BasePage implements IPage {
 
@@ -533,6 +528,12 @@ public class PageObject extends BasePage implements IPage {
 	public final void resizeTo(int width, int height) {
 		new WebUtility(driver).resizeWindow(width, height);
 	}
+
+    public final void selectFrame(int index) {
+        TestLogging.logWebStep(null, "select frame using index" +index, false);
+        driver.switchTo().frame(index);
+        frameFlag = true;
+    }
 
 	public final void selectFrame(By by) {
 		TestLogging.logWebStep(null, "select frame, locator={\"" + by.toString()

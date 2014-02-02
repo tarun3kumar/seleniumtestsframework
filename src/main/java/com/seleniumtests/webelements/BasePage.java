@@ -135,6 +135,33 @@ public abstract class BasePage {
 				+ " not found.");
 	}
 
+    public void assertElementDisplayed(HtmlElement element) {
+        TestLogging.logWebStep(null, "assert " + element.toHTML() + " is displayed.",
+                false);
+        assertHTML(element.isDisplayed(), element.toString()
+                + " not found.");
+    }
+
+    public void assertElementSelected(HtmlElement element) {
+        TestLogging.logWebStep(null, "assert " + element.toHTML() + " is selected.",
+                false);
+        assertHTML(element.isSelected(), element.toString()
+                + " not found.");
+    }
+
+    public void assertElementNotSelected(HtmlElement element) {
+        TestLogging.logWebStep(null, "assert " + element.toHTML() + " is NOT selected.",
+                false);
+        assertHTML(!element.isSelected(), element.toString()
+                + " not found.");
+    }
+
+    public void assertCondition(boolean condition, String message) {
+        TestLogging.logWebStep(null, "assert that " + message,
+                false);
+        assert condition;
+    }
+
 	void assertHTML(boolean condition, String message) {
 		if (!condition) {
 			capturePageSnapshot();
