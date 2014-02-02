@@ -188,9 +188,18 @@ public class CustomAssertion {
         } else {
             MatcherAssert.assertThat(reason, actual, matcher);
         }
-
     }
 
+    public static <T> void assertThat(T actual, Matcher<? super T> matcher) {
+        if(SeleniumTestsContextManager.getThreadContext().isSoftAssertEnabled()) {
+            softAssertThat(actual, matcher);
+        } else {
+            MatcherAssert.assertThat(actual, matcher);
+        }
+    }
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void fail(String message) {
         Assert.fail(message);
@@ -370,6 +379,14 @@ public class CustomAssertion {
     public static <T> void softAssertThat(String reason, T actual, Matcher<? super T> matcher) {
         try {
             MatcherAssert.assertThat(reason, actual, matcher);
+        } catch (Throwable e) {
+            addVerificationFailure(e);
+        }
+    }
+
+    public static <T> void softAssertThat( T actual, Matcher<? super T> matcher) {
+        try {
+            MatcherAssert.assertThat(actual, matcher);
         } catch (Throwable e) {
             addVerificationFailure(e);
         }
