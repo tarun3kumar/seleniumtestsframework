@@ -3,12 +3,12 @@
 	verbose="1" thread-count="5">
 	<listeners>
 		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
-		<listener class-name="com.seleniumtests.core.TestRetryListener" />
+		<!--<listener class-name="com.seleniumtests.core.TestRetryListener" />-->
 	</listeners>
 
 	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
 	<parameter name="browser" value="*iexplore" />  <!--"*firefox, *chrome, *iexplore"-->
-	<parameter name="runMode" value="ExistingGrid" /> <!--LOCAL or ExistingGrid -->
+	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
     To start grid on a machine use following command -
@@ -36,10 +36,9 @@
 	<parameter name="maxConcurrentWebSessions" value="5" />
 	<parameter name="captureSnapshot" value="true" />
 	<parameter name="softAssertEnabled" value="true" />
-	<parameter name="webSessionTimeOut" value="60000" />
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-	<test name="Retry Test1" parallel="methods">
+	<!--<test name="Retry Test1" parallel="methods">
 		<groups>
 			<run>
 				<include name="retryTest1" />
@@ -69,23 +68,23 @@
         <classes>
             <class name="com.seleniumtests.tests.SoftAssertionTest" />
         </classes>
-    </test>
+    </test> -->
 
     <test name="Test LinkElement Login Test" parallel="false">
-        <parameter name="browser" value="*iexplore" />
+        <parameter name="browser" value="*chrome" />
         <groups>
             <run>
                 <include name="loginAsValidUser" />
-                <include name="loginAsInvalidUser"/>
+        <!--        <include name="loginAsInvalidUser"/>
                 <include name="testForFailure"/>
-            </run>
+        -->    </run>
         </groups>
         <classes>
             <class name="com.seleniumtests.tests.TestLinkLoginTest" />
         </classes>
     </test>
 
-    <test name="Test LinkElement Navigation Test" parallel="methods">
+    <!--<test name="Test LinkElement Navigation Test" parallel="methods">
         <groups>
             <run>
                 <include name="createTestProject" />
@@ -94,6 +93,6 @@
         <classes>
             <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
-    </test>
+    </test>-->
 
 </suite> 
