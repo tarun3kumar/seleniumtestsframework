@@ -1,64 +1,30 @@
 package com.seleniumtests.reporter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Method;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
-
 import com.seleniumtests.core.*;
+import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.helper.StringUtility;
+import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.Type;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.testng.IInvokedMethod;
-import org.testng.IInvokedMethodListener;
-import org.testng.IReporter;
-import org.testng.IResultMap;
-import org.testng.ISuite;
-import org.testng.ISuiteResult;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestNGMethod;
-import org.testng.ITestResult;
-import org.testng.Reporter;
+import org.testng.*;
 import org.testng.internal.ResultMap;
 import org.testng.internal.TestResult;
 import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
-import com.seleniumtests.core.SeleniumTestsContextManager;
-import com.seleniumtests.driver.ScreenShot;
-import com.thoughtworks.qdox.JavaDocBuilder;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaMethod;
-import com.thoughtworks.qdox.model.Type;
+import java.io.*;
+import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedMethodListener {
 
@@ -246,7 +212,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 	protected PrintWriter createWriter(String outDir) throws IOException {
 		System.setProperty("file.encoding", "UTF8");
 		uuid = uuid.replaceAll(" ", "-").replaceAll(":", "-"); 
-		File f = new File(outDir, "SeleniumFrameworkTestReport-" + uuid + ".html");
+		File f = new File(outDir, "SeleniumTestReport.html");
 		logger.info("generating report " + f.getAbsolutePath());
 		report = f;
         OutputStream out = new FileOutputStream(f);

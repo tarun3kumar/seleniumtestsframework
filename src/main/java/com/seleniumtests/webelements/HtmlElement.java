@@ -1,26 +1,13 @@
 package com.seleniumtests.webelements;
 
-import java.util.List;
-
 import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.helper.ContextHelper;
 import com.seleniumtests.helper.WaitHelper;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.InvalidSelectorException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.UnhandledAlertException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Mouse;
@@ -30,8 +17,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.seleniumtests.driver.BrowserType;
-import com.seleniumtests.driver.ScreenshotUtil;
+import java.util.List;
 
 /**
  * Provides methods to interact with a web page. All HTML element (ButtonElement, LinkElement, TextFieldElement, etc.)
@@ -462,6 +448,7 @@ public class HtmlElement {
 
 		int count = 0;
 		try {
+
 			count = WebUIDriver.getWebDriver().findElements(by).size();
 		} catch (RuntimeException e) {
 			if (e instanceof InvalidSelectorException) {

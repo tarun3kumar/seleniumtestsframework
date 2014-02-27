@@ -135,6 +135,20 @@ public abstract class BasePage {
 				+ " not found.");
 	}
 
+    public void assertElementEnabled(HtmlElement element) {
+        TestLogging.logWebStep(null, "assert " + element.toHTML() + " is enabled.",
+                false);
+        assertHTML(element.isEnabled(), element.toString()
+                + " not found.");
+    }
+
+    public void assertElementNotEnabled(HtmlElement element) {
+        TestLogging.logWebStep(null, "assert " + element.toHTML() + " is not enabled.",
+                false);
+        assertHTML(!element.isEnabled(), element.toString()
+                + " not found.");
+    }
+
     public void assertElementDisplayed(HtmlElement element) {
         TestLogging.logWebStep(null, "assert " + element.toHTML() + " is displayed.",
                 false);
