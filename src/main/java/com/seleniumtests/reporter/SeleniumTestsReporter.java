@@ -668,6 +668,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener,IInvokedM
 			VelocityContext context = new VelocityContext();
 			context.put("suiteName", suiteName);
 			context.put("totalRunTime", formatter.format((time_end - time_start) / 1000.) + " sec");
+            context.put("TimeStamp", new GregorianCalendar().getTime());
 			context.put("tests", tests2);
 			context.put("total", total);
 

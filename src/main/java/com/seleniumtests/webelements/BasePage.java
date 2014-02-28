@@ -3,24 +3,17 @@ package com.seleniumtests.webelements;
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customexception.NotCurrentPageException;
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.helper.WaitHelper;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidSelectorException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchWindowException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.thoughtworks.selenium.SeleniumException;
+import com.thoughtworks.selenium.Wait;
+import org.openqa.selenium.*;
 import org.openqa.selenium.internal.seleniumemulation.JavascriptLibrary;
 import org.openqa.selenium.internal.seleniumemulation.Windows;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
-import com.seleniumtests.driver.BrowserType;
-import com.seleniumtests.driver.WebUIDriver;
-import com.thoughtworks.selenium.SeleniumException;
-import com.thoughtworks.selenium.Wait;
 
 /**
  * Base html page abstraction. Used by PageObject and WebPageSection
@@ -532,4 +525,5 @@ public abstract class BasePage {
 		assertHTML(!textPresent, "Timed out waiting for text \"" + text
 				+ "\" to be gone.");
 	}
+
 }
