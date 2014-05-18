@@ -14,7 +14,7 @@ import com.seleniumtests.driver.WebUtility;
 import com.seleniumtests.helper.WaitHelper;
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
-import com.thoughtworks.selenium.webdriven.commands.Windows;
+import com.thoughtworks.selenium.webdriven.Windows;
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
