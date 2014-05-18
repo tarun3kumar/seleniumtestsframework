@@ -1,10 +1,9 @@
 package com.seleniumtests.browserfactory;
 
-import java.net.MalformedURLException;
-
 import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.android.AndroidDriver;
+
+import java.net.MalformedURLException;
 
 public class AndroidDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory{
 
@@ -14,13 +13,13 @@ public class AndroidDriverFactory extends AbstractWebDriverFactory implements IW
 
 	@Override
 	public WebDriver createWebDriver() throws MalformedURLException {
-		AndroidDriver driver = null;
+		/*AndroidDriver driver = null;
 		DriverConfig cfg = this.getWebDriverConfig();
 		
 		driver = new AndroidDriver(new AndroidCapabilitiesFactory().createCapabilities(cfg));
 		
-		this.setWebDriver(driver);
-		return driver;
+		this.setWebDriver(driver);*/
+		return null;
 	}
 
 }
