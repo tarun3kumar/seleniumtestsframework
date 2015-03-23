@@ -8,5 +8,5 @@ bin/
 chromedriver.log
 .idea/
 .settings/
-seleniumtestsframework.iml
 velocity.log
+seleniumtestsframework.iml
