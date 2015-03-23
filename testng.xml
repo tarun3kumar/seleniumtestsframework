@@ -70,7 +70,7 @@
         </classes>
     </test> -->
 
-    <test name="Test LinkElement Login Test" parallel="false">
+    <test name="Test Link Login Test" parallel="false">
         <parameter name="browser" value="*chrome" />
         <groups>
             <run>
