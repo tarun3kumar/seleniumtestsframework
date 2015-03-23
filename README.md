@@ -15,3 +15,5 @@ Depending on how you execute the projects, step by step selenium report after te
 
 1. ```<your home directory>/seleniumtestsframework/test-output/SeleniumTestReport.html``` when executing tests using eclipse testng plugin, or
 2. ```<your home directory>/seleniumtestsframework/target/surefire-reports/SeleniumTestReport.html``` when executing tests using maven command as stated above
+
+What next? of course [How-To guide](http://www.seleniumtests.com/2013/10/announcing-selenium-tests-automation.html) :-)
