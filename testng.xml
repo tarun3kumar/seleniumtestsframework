@@ -74,9 +74,9 @@
         <parameter name="browser" value="*chrome" />
         <groups>
             <run>
-                <include name="loginAsValidUser" />
+                <!--<include name="loginAsValidUser" />-->
                 <include name="loginAsInvalidUser"/>
-                <include name="testForFailure"/>
+                <!--<include name="testForFailure"/>-->
             </run>
         </groups>
         <classes>
