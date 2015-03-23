@@ -17,665 +17,477 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-
-
 /**
-
- * Comparator class containing the Core of XML Comparison Engine
-
- * Comparison Engine takes each Test Document Node and tries and find the Control/Golden 
-
- * Document Node which is a Best fit
-
+ * Comparator class containing the Core of XML Comparison Engine.
+ *
+ * <p/>Comparison Engine takes each Test Document Node and tries and find the Control/Golden
+ *
+ * <p/>Document Node which is a Best fit
  */
 
-public class Comparator
+public class Comparator implements XMLDogConstants {
 
-	implements XMLDogConstants
+    private Node _controlNode = null;
 
-{
+    private Node _testNode = null;
 
-	private Node _controlNode = null;
+    private Config _config = null;
 
-	private Node _testNode = null;
+    // List of listeners
 
-	private Config _config = null;
+    private List _listeners = new ArrayList();
 
-	// List of listeners
+    private Set _elist = new HashSet();
 
-	private List _listeners = new ArrayList();
+    private boolean _ignoringWhitespace = true;
 
-	private Set _elist = new HashSet();
+    private boolean _includeNodeValueInXPath = true;
 
-	private boolean _ignoringWhitespace = true;
+    /**
+     * Default Contructor.
+     */
 
-	private boolean _includeNodeValueInXPath = true;
+    public Comparator() {
 
+        this(null, null, new Config());
 
+    }
 
-	/**
+    /**
+     * Constructor.
+     *
+     * @param  controlDoc  the Control Document to compare test Document against
+     * @param  testDoc     the test Document to be compared for differences
+     */
 
-	 * Default Contructor
+    public Comparator(final Node controlNode, final Node testNode, final Config config) {
 
-	 */
+        /*
+         *
+         * if ((controlNode == null) || (testNode == null))
+         *
+         *      throw new IllegalArgumentException("Cannot compare null node");
+         *
+         */
 
-	public Comparator()
+        _config = config;
 
-	{
+        _controlNode = controlNode;
 
-		this(null, null, new Config());
+        _testNode = testNode;
 
-	}
+        _ignoringWhitespace = config.isIgnoringWhitespace();
 
+        _includeNodeValueInXPath = config.includesNodeValuesInXPath();
 
+        _listeners.clear();
 
+        _listeners.add(new Differences());
 
+    }
 
-	/**
+    /**
+     * Adds DifferenceListener.
+     */
 
-	 * Constructor
+    public void addDifferenceListener(final DifferenceListener listener) {
 
-	 * @param controlDoc the Control Document to compare test Document against
+        if (listener != null) {
 
-	 * @param testDoc the test Document to be compared for differences
+            _listeners.add(listener);
+        }
 
-	 */
+    }
 
-	public Comparator(Node controlNode, Node testNode, Config config)
+    /**
+     * Overrides DifferenceListener.<br>
+     *
+     * <p/>Method will clear all the DifferenceListeners and put only one
+     *
+     * <p/>DifferenceListener passed as an argument
+     */
 
-	{
+    public void overrideDifferenceListener(final DifferenceListener listener) {
 
-		/*
+        if (listener != null) {
 
-		if ((controlNode == null) || (testNode == null))
+            _listeners.clear();
 
-			throw new IllegalArgumentException("Cannot compare null node");
+            _listeners.add(listener);
 
-		*/
+        }
 
+    }
 
+    /**
+     * Notifies all the DifferenceListeners of the events.
+     */
 
-		_config = config;
+    private void notifyDifferenceListeners(final int type, final Node controlNode, final Node testNode,
+            final String msg) {
 
-		_controlNode = controlNode;
+        if (type == XMLDogConstants.EVENT_NODE_IDENTICAL) {
 
-		_testNode = testNode;
+            for (int i = 0; i < _listeners.size(); i++) {
 
-		_ignoringWhitespace = config.isIgnoringWhitespace();
+                ((DifferenceListener) _listeners.get(i)).identicalNodeFound(controlNode, testNode, msg);
+            }
 
-		_includeNodeValueInXPath = config.includesNodeValuesInXPath();
+        } else if (type == XMLDogConstants.EVENT_NODE_SIMILAR) {
 
+            for (int i = 0; i < _listeners.size(); i++) {
 
+                ((DifferenceListener) _listeners.get(i)).similarNodeFound(controlNode, testNode, msg);
+            }
 
-		_listeners.clear();
+        } else if (type == XMLDogConstants.EVENT_NODE_MISMATCH) {
 
-		_listeners.add(new Differences());
+            for (int i = 0; i < _listeners.size(); i++) {
 
-	}
+                ((DifferenceListener) _listeners.get(i)).nodeNotFound(controlNode, testNode, msg);
+            }
 
+        } else {
 
+            // do nothing
 
-	/**
+        }
 
-	 * Adds DifferenceListener
+    }
 
-	 */
+    /**
+     * Sets Control Node.
+     */
 
-	public void addDifferenceListener(DifferenceListener listener)
+    public void setControlNode(final Node controlNode) {
 
-	{
+        if (controlNode == null) {
 
-		if (listener != null)
+            throw new IllegalArgumentException("Cannot compare null node");
+        }
 
-			_listeners.add(listener);
+        _controlNode = controlNode;
 
-	}
+    }
 
+    /**
+     * Gets Control Node.
+     */
 
+    public Node getControlNode() {
 
-	/**
+        return _controlNode;
 
-	 * Overrides DifferenceListener<br>
+    }
 
-	 * Method will clear all the DifferenceListeners and put only one
+    /**
+     * Sets Test Node.
+     */
 
-	 * DifferenceListener passed as an argument
+    public void setTestNode(final Node testNode) {
 
-	 */
+        if (testNode == null) {
 
-	public void overrideDifferenceListener(DifferenceListener listener)
+            throw new IllegalArgumentException("Cannot compare null node");
+        }
 
-	{
+        _testNode = testNode;
 
-		if (listener != null)
+    }
 
-		{
+    /**
+     * Gets Test Node.
+     */
 
-			_listeners.clear();
+    public Node getTestNode() {
 
-			_listeners.add(listener);
+        return _testNode;
 
-		}
+    }
 
-	}
+    /**
+     * Convenience method to check if the whitespace is being ignored.
+     */
 
+    protected boolean isIgnoringWhitespace() {
 
+        return _config.isIgnoringWhitespace();
 
+    }
 
+    /**
+     * Compares Control and Test nodes.
+     */
 
-	/**
+    public Differences compare() {
 
-	 * Notifies all the DifferenceListeners of the events
+        log("IN comparator compare method");
 
-	 */
+        return compare(getControlNode(), getTestNode());
 
-	private void notifyDifferenceListeners(int type, Node controlNode, Node testNode, String msg)
+    }
 
-	{
+    /**
+     * Compares nodes and its children recursively.
+     *
+     * @param   control  the control Node
+     * @param   test     the test Node
+     *
+     * @return  the Differences between two Nodes
+     *
+     * @see     Differences
+     */
 
-		if (type == XMLDogConstants.EVENT_NODE_IDENTICAL)
+    public Differences compare(final Node controlNode, final Node testNode) {
 
-		{
+        Differences differences = new Differences();
 
-			for(int i=0; i<_listeners.size(); i++)
+        log("IN the compare(node, node) method");
 
-				((DifferenceListener)_listeners.get(i)).identicalNodeFound(controlNode, testNode, msg);
+        Node parent = null;
 
-		}
+        XNode xControlNode =
 
-		else
+            new XNode(controlNode,
+                XMLUtil.generateXPath(controlNode, _ignoringWhitespace, _includeNodeValueInXPath, false));
 
-		if (type == XMLDogConstants.EVENT_NODE_SIMILAR)
+        XNode xTestNode =
 
-		{
+            new XNode(testNode, XMLUtil.generateXPath(testNode, _ignoringWhitespace, _includeNodeValueInXPath, false));
 
-			for(int i=0; i<_listeners.size(); i++)
+        xControlNode.setDepth(0);
 
-				((DifferenceListener)_listeners.get(i)).similarNodeFound(controlNode, testNode, msg);
+        xTestNode.setDepth(0);
 
-		}
+        NodeResult nodeResult = new NodeResult(xControlNode, xTestNode, differences);
 
-		else
+        // For Document type Node
 
-		if (type == XMLDogConstants.EVENT_NODE_MISMATCH)
+        if (testNode.getNodeType() == Node.DOCUMENT_NODE) {
 
-		{
+            log("Test Node is Document Node");
 
-			for(int i=0; i<_listeners.size(); i++)
+            Element controlRoot = ((Document) controlNode).getDocumentElement();
 
-				((DifferenceListener)_listeners.get(i)).nodeNotFound(controlNode, testNode, msg);
+            // Element testRoot = ((Document)testNode).getDocumentElement();
 
-		}
+            if (testNode.hasChildNodes()) {
 
-		else
+                if (!controlNode.hasChildNodes()) {
 
-		{
+                    if (!_config.isCustomDifference()) {
 
-			// do nothing
+                        differences.add("/" + testNode.getNodeName() + " is entirely new document");
+                    } else {
 
-		}
+                        Difference diff = new Difference(DifferenceConstants.NEW_DOCUMENT, null, xTestNode);
 
-	}
+                        differences.add(diff);
 
+                    }
 
+                    return differences;
 
-	/**
+                } else {
 
-	 * Sets Control Node
+                    // Get all the Document Children and compare them
 
-	 */
+                    differences.add(compareChildNodes(xControlNode, xTestNode));
 
-	public void setControlNode(Node controlNode)
+                }
 
-	{
+            } else {
 
-		if (controlNode == null)
+                if (!_config.isCustomDifference()) {
 
-			throw new IllegalArgumentException("Cannot compare null node");
+                    differences.add("/" + testNode.getNodeName() + " is an empty document");
+                } else {
 
+                    Difference diff = new Difference(DifferenceConstants.EMPTY_DOCUMENT, xControlNode, xTestNode);
 
+                    differences.add(diff);
 
-		_controlNode = controlNode;
+                }
 
-	}
+                return differences;
 
+            }
 
+        } else {
 
-	/**
+            nodeResult = compareSimilarNodes(xControlNode, xTestNode,
+                    new OrderedMap(OrderedMap.TYPE_UNSYNCHRONIZED_MOV));
 
-	 * Gets Control Node
+            differences.add(nodeResult);
 
-	 */
+        }
 
-	public Node getControlNode()
+        return differences;
 
-	{
+    }
 
-		return _controlNode;
+    /**
+     * Compares Nodes similar to the ones which are input and returns the one.
+     *
+     * <p/>that is the BEST fit
+     *
+     * <p/>
+     * <br>
+     * OrderedMap is used for information such as which control Nodes are already
+     *
+     * <p/>visited and which test Nodes match a given control Node
+     *
+     * <p/>
+     * <br>
+     * For a given test Node and control Node set, similar Nodes are found using the parent
+     *
+     * <p/>of the control Node which closely match a given test Node and only the Node matching most
+     *
+     * <p/>closely to the test Node is returned
+     *
+     * @param   control      the control Node
+     * @param   test         the test Node
+     * @param   nodeTracker  the OrderedMap which contains control Nodes already visited as keys and
+     *
+     *                       <p/>all the matching test Nodes as the values
+     *
+     * @return  the NodeResult containing the Differences between two Nodes
+     *
+     * @see     NodeResult
+     */
 
-	}
+    protected NodeResult compareSimilarNodes(final XNode xControl, final XNode xTest, final OrderedMap nodeTracker) {
 
+        Differences differences = new Differences();
 
+        boolean noSimilarNodes = true; // to indicate no nodes of the type found
 
-	/**
+        boolean unset = true; // to indicate bestfit is uninitialzed
 
-	 *  Sets Test Node
+        Node control = xControl.getNode();
 
-	 */
+        Node test = xTest.getNode();
 
-	public void setTestNode(Node testNode)
+        XNode xSimilarNode = null;
 
-	{
+        String similarNodeXPath = null;
 
-		if (testNode == null)
+        NodeResult bestfitNodeResult = new NodeResult(xControl, xTest, differences);
 
-			throw new IllegalArgumentException("Cannot compare null node");
+        Node parent = control.getParentNode();
 
+        log("Parent XPath " + XMLUtil.generateXPath(xControl.getXPath()));
 
+        if (parent != null) {
 
-		_testNode = testNode;
+            List similarNodes = XMLUtil.getSimilarChildXNodes(parent, test, isIgnoringWhitespace());
 
-	}
+            Node similarNode = null;
 
+            NodeResult nr = null;
 
+            if (similarNodes.size() > 0) {
 
-	/**
+                noSimilarNodes = false;
+            }
 
-	 *  Gets Test Node
+            // FIXME FIXME FIXME!!
 
-	 */
+            // Later control can be transferred to the App User code, to give them
 
-	public Node getTestNode()
+            // control over comparing 2 similar nodes
 
-	{
+            for (int i = 0; i < similarNodes.size(); i++) {
 
-		return _testNode;
+                xSimilarNode = (XNode) similarNodes.get(i);
 
-	}
+                similarNodeXPath = XMLUtil.generateXPath(xSimilarNode.getNode(),
 
 
+                        XMLUtil.generateXPath(xControl.getXPath()),
 
-	/**
 
-	 * Convenience method to check if the whitespace is being ignored
+                        _ignoringWhitespace,
 
-	 */
 
-	protected boolean isIgnoringWhitespace()
+                        _includeNodeValueInXPath,
 
-	{
 
-		return _config.isIgnoringWhitespace();
+                        false);
 
-	}
+                xSimilarNode.setXPath(similarNodeXPath);
 
+                // For Element type Node
 
+                if (test.getNodeType() == Node.ELEMENT_NODE) {
 
-	/**
+                    log("compareSimilarNodes: Test node is ELEMENT type");
 
-	 * Compares Control and Test nodes
+                    nr = compareElements(xSimilarNode, xTest);
 
-	 */
+                } else
 
-	public Differences compare()
+                // For Entity Reference Node
 
-	{
+                if (test.getNodeType() == Node.ENTITY_REFERENCE_NODE) {
 
-		log("IN comparator compare method");
+                    log("compareSimilarNodes: Test node is Entity Reference type");
 
-		return compare(getControlNode(), getTestNode());
+                } else
 
-	}
+                // For Text Node
 
+                if (test.getNodeType() == Node.TEXT_NODE) {
 
+                    log("compareSimilarNodes: Test node is TEXT type");
 
-	/** 
+                    if ((StringUtil.isWhitespaceStr(test.getNodeValue())) && (isIgnoringWhitespace())) {
 
-	 * Compares nodes and its children recursively
+                        log("compareSimilarNodes: Ignoring WHITE space node");
+                    } else {
 
-	 * @param control the control Node
+                        nr = compareText(xSimilarNode, xTest);
+                    }
 
-	 * @param test the test Node
+                } else
 
-	 * @return the Differences between two Nodes
+                // For Document Type Node
 
-	 * @see Differences
+                if (test.getNodeType() == Node.DOCUMENT_TYPE_NODE) {
 
-	 */
+                    log("compareSimilarNodes: Test node is DOCUMENT TYPE type");
 
-	public Differences compare(Node controlNode, Node testNode)
+                    nr = compareDocumentType(xSimilarNode, xTest);
 
-	{
+                } else
 
-		Differences differences = new Differences();		
+                // For Comment Node
 
-		log("IN the compare(node, node) method");
+                if (test.getNodeType() == Node.COMMENT_NODE) {
 
-		Node parent = null;
+                    log("compareSimilarNodes: Test node is COMMENT type");
 
-		XNode xControlNode = 
+                    nr = compareComments(xSimilarNode, xTest);
 
-			new XNode(controlNode, XMLUtil.generateXPath(controlNode, _ignoringWhitespace, _includeNodeValueInXPath, false));
+                } else
 
-		XNode xTestNode = 
+                // For CDATA section Node
 
-			new XNode(testNode, XMLUtil.generateXPath(testNode, _ignoringWhitespace, _includeNodeValueInXPath, false));
+                if (test.getNodeType() == Node.CDATA_SECTION_NODE) {
 
-		xControlNode.setDepth(0);
+                    log("compareSimilarNodes: Test node is CDATA SECTION type");
 
-		xTestNode.setDepth(0);
+                    nr = compareCDATA(xSimilarNode, xTest);
 
-		NodeResult nodeResult = new NodeResult(xControlNode, xTestNode, differences);
+                }
 
+                // Make sure bestfitNodeResult has the best result so far
 
+                if (nr != null) {
 
-		// For Document type Node
+                    if ((nr.isExactMatch()) || (nr.isUniqueAttrMatch())) {
 
-		if (testNode.getNodeType() == Node.DOCUMENT_NODE)
-
-		{
-
-			log("Test Node is Document Node");
-
-			Element controlRoot = ((Document)controlNode).getDocumentElement();
-
-			//Element testRoot = ((Document)testNode).getDocumentElement();
-
-
-
-			if (testNode.hasChildNodes())
-
-			{
-
-				if(!controlNode.hasChildNodes())
-
-				{
-
-					if (!_config.isCustomDifference())
-
-						differences.add("/" + testNode.getNodeName() + " is entirely new document");
-
-					else
-
-					{
-
-						Difference diff = new Difference(DifferenceConstants.NEW_DOCUMENT, null, xTestNode);
-
-						differences.add(diff);
-
-					}
-
-
-
-					return differences;
-
-				}
-
-				else
-
-				{
-
-					// Get all the Document Children and compare them
-
-					differences.add(compareChildNodes(xControlNode, xTestNode));
-
-				}
-
-			}
-
-			else
-
-			{
-
-				if (!_config.isCustomDifference())
-
-					differences.add("/" + testNode.getNodeName() + " is an empty document");
-
-				else
-
-				{
-
-					Difference diff = new Difference(DifferenceConstants.EMPTY_DOCUMENT, xControlNode, xTestNode);
-
-					differences.add(diff);
-
-				}
-
-
-
-				return differences;
-
-			}
-
-		}
-
-		else
-
-		{
-
-			nodeResult = compareSimilarNodes(xControlNode, xTestNode, new OrderedMap(OrderedMap.TYPE_UNSYNCHRONIZED_MOV));
-
-			differences.add(nodeResult);
-
-		}
-
-
-
-		return differences;
-
-	}
-
-
-
-	/**
-
-	 * Compares Nodes similar to the ones which are input and returns the one
-
-	 * that is the BEST fit
-
-	 * <br> OrderedMap is used for information such as which control Nodes are already
-
-	 * visited and which test Nodes match a given control Node
-
-	 * <br> For a given test Node and control Node set, similar Nodes are found using the parent
-
-	 * of the control Node which closely match a given test Node and only the Node matching most
-
-	 * closely to the test Node is returned
-
-	 * @param control the control Node
-
-	 * @param test the test Node
-
-	 * @param nodeTracker the OrderedMap which contains control Nodes already visited as keys and
-
-	 * all the matching test Nodes as the values
-
-	 * @return the NodeResult containing the Differences between two Nodes
-
-	 * @see NodeResult
-
-	 */
-
-	protected NodeResult compareSimilarNodes(XNode xControl, XNode xTest, OrderedMap nodeTracker)
-
-	{
-
-		Differences differences = new Differences();		
-
-		boolean noSimilarNodes = true; // to indicate no nodes of the type found
-
-		boolean unset = true;	// to indicate bestfit is uninitialzed		
-
-		
-
-		Node control = xControl.getNode();
-
-		Node test = xTest.getNode();
-
-		XNode xSimilarNode = null;
-
-		String similarNodeXPath = null;
-
-		
-
-		NodeResult bestfitNodeResult = new NodeResult(xControl, xTest, differences);
-
-		
-
-		Node parent = control.getParentNode();
-
-		log("Parent XPath " + XMLUtil.generateXPath(xControl.getXPath()));
-
-
-
-		if (parent != null)
-
-		{
-
-			List similarNodes = XMLUtil.getSimilarChildXNodes(parent, test, isIgnoringWhitespace());
-
-
-
-			Node similarNode = null;
-
-			NodeResult nr = null;
-
-
-
-			if (similarNodes.size() > 0)
-
-				noSimilarNodes = false;
-
-
-
-			// FIXME FIXME FIXME!!
-
-			// Later control can be transferred to the App User code, to give them
-
-			// control over comparing 2 similar nodes
-
-			for(int i=0; i<similarNodes.size(); i++)
-
-			{
-
-				xSimilarNode = (XNode)similarNodes.get(i);
-
-				similarNodeXPath = XMLUtil.generateXPath(xSimilarNode.getNode(), 
-
-														XMLUtil.generateXPath(xControl.getXPath()), 
-
-														 						_ignoringWhitespace, 
-
-														 						_includeNodeValueInXPath, 
-
-														 						false);
-
-				xSimilarNode.setXPath(similarNodeXPath);
-
-
-
-				// For Element type Node
-
-				if (test.getNodeType() == Node.ELEMENT_NODE)
-
-				{
-
-					log("compareSimilarNodes: Test node is ELEMENT type");
-
-					nr = compareElements(xSimilarNode, xTest);
-
-				}
-
-				else
-
-				// For Entity Reference Node
-
-				if (test.getNodeType() == Node.ENTITY_REFERENCE_NODE)
-
-				{
-
-					log("compareSimilarNodes: Test node is Entity Reference type");
-
-				}
-
-				else
-
-				// For Text Node
-
-				if (test.getNodeType() == Node.TEXT_NODE)
-
-				{
-
-					log("compareSimilarNodes: Test node is TEXT type");
-
-					if ((StringUtil.isWhitespaceStr(test.getNodeValue())) && (isIgnoringWhitespace()))
-
-						log("compareSimilarNodes: Ignoring WHITE space node");
-
-					else
-
-						nr = compareText(xSimilarNode, xTest);
-
-				}
-
-				else
-
-				// For Document Type Node
-
-				if (test.getNodeType() == Node.DOCUMENT_TYPE_NODE)
-
-				{
-
-					log("compareSimilarNodes: Test node is DOCUMENT TYPE type");
-
-					nr = compareDocumentType(xSimilarNode, xTest);
-
-				}
-
-				else
-
-				// For Comment Node
-
-				if (test.getNodeType() == Node.COMMENT_NODE)
-
-				{
-
-					log("compareSimilarNodes: Test node is COMMENT type");
-
-					nr = compareComments(xSimilarNode, xTest);
-
-				}
-
-				else
-
-				// For CDATA section Node
-
-				if (test.getNodeType() == Node.CDATA_SECTION_NODE)
-
-				{
-
-					log("compareSimilarNodes: Test node is CDATA SECTION type");
-
-					nr = compareCDATA(xSimilarNode, xTest);
-
-				}
-
-
-
-				// Make sure bestfitNodeResult has the best result so far
-
-				if (nr != null)
-
-				{
-
-					if ((nr.isExactMatch()) || (nr.isUniqueAttrMatch()))
-
-					{
-
-						bestfitNodeResult = nr;
-
-
+                        bestfitNodeResult = nr;
 
                         // Continue only if this similarNode (controlNode) has NOT
 
@@ -686,1250 +498,928 @@ public class Comparator
                         boolean shouldBreak = false;
 
                         /*
+                         *
+                         * if(((ntObject = nodeTracker.getElement(similarNode)) instanceof NodeResult) &&
+                         *
+                         * (!((NodeResult)ntObject).isMatch()))
+                         *
+                         */
 
-                        if(((ntObject = nodeTracker.getElement(similarNode)) instanceof NodeResult) &&
+                        if ((ntObject = nodeTracker.getElement(similarNode)) == null) {
 
-                           (!((NodeResult)ntObject).isMatch()))
+                            shouldBreak = true;
+                        } else {
 
-                           */
+                            if (ntObject instanceof List) {
 
-                        if ((ntObject = nodeTracker.getElement(similarNode)) == null)
+                                List l = (List) ntObject;
 
-							shouldBreak = true;
+                                for (int j = 0; j < l.size(); j++) {
 
-						else
+                                    if (((NodeResult) l.get(j)).isMatch()) {
 
-						{
+                                        shouldBreak = true;
 
-							if (ntObject instanceof List)
+                                        break;
 
-							{
+                                    }
 
-								List l = (List)ntObject;
+                                }
 
-								for(int j=0; j<l.size(); j++)
+                            }
 
-								{
+                            if ((ntObject instanceof NodeResult) && (!((NodeResult) ntObject).isMatch())) {
 
-									if (((NodeResult)l.get(j)).isMatch())
+                                shouldBreak = true;
+                            }
 
-									{
+                        }
 
-										shouldBreak = true;
+                        if (shouldBreak) {
 
-										break;
+                            break;
+                        }
 
-									}
+                    } else {
 
-								}
+                        // Assign first NR as the Best Fit and then compare
 
-							}
+                        if (unset) {
 
+                            bestfitNodeResult = nr;
 
+                            unset = false;
 
-							if ((ntObject instanceof NodeResult) && (!((NodeResult)ntObject).isMatch()))
+                        }
 
-								shouldBreak = true;
+                        // whichever has minimum differences is the best fit
 
-						}
+                        else {
 
+                            if (nr.getDifferences().size() < bestfitNodeResult.getDifferences().size()) {
 
-
-						if (shouldBreak)
-
-							break;
-
-
-
-					}
-
-					else
-
-					{
-
-						// Assign first NR as the Best Fit and then compare
-
-						if (unset)
-
-						{
-
-							bestfitNodeResult = nr;
-
-							unset = false;
-
-						}
-
-						// whichever has minimum differences is the best fit
-
-						else
-
-						{
-
-							if (nr.getDifferences().size() < bestfitNodeResult.getDifferences().size())
-
-								bestfitNodeResult = nr;
-
-                            else
+                                bestfitNodeResult = nr;
+                            } else
 
                             // If they are equal take the one which is not present in the nodeTracker
 
-                            if ((nr.getDifferences().size() == bestfitNodeResult.getDifferences().size()) &&
+                            if ((nr.getDifferences().size() == bestfitNodeResult.getDifferences().size())
+                                    &&
 
-                                (nodeTracker.getElement(bestfitNodeResult.getControlNode().getNode()) != null))
+                                    (nodeTracker.getElement(bestfitNodeResult.getControlNode().getNode()) != null)) {
 
                                 bestfitNodeResult = nr;
+                            }
 
-						}
+                        }
 
-					}
+                    }
 
-				}
+                }
 
-			}  // end for all the similar nodes
+            } // end for all the similar nodes
 
-		}
+        }
 
+        // If no similar Nodes found and if its ignoring white space
 
+        if (noSimilarNodes) {
 
-		// If no similar Nodes found and if its ignoring white space
+            if ((isIgnoringWhitespace()) && (XMLUtil.isWhitespaceTextNode(test))) {
 
-		if (noSimilarNodes)
+                // ignore
 
-		{
+            } else {
 
-			if ((isIgnoringWhitespace()) && (XMLUtil.isWhitespaceTextNode(test)))
+                // BUG FIX
 
-			{
+                // Explicitly set control node to NULL to indicate NO MATCHES found
 
-				// ignore
+                bestfitNodeResult.setControlNode(new XNode(null, null));
 
-			}
+                if (!_config.isCustomDifference()) {
 
-			else
+                    differences.add("Added Node: Test Node " + xTest.getXPath());
+                } else {
 
-			{
+                    Difference diff = new Difference(DifferenceConstants.NODE_NOT_FOUND, xControl, xTest);
 
-				// BUG FIX
+                    differences.add(diff);
 
-				// Explicitly set control node to NULL to indicate NO MATCHES found
+                }
 
-				bestfitNodeResult.setControlNode(new XNode(null, null));
+            }
 
-				if (!_config.isCustomDifference())
+        }
 
-					differences.add("Added Node: Test Node " + xTest.getXPath());
+        log("Start===================================================================");
 
-				else
+        log("compareSimilarNodes: BestFitNode is " + bestfitNodeResult.toString());
 
-				{
+        log("End===================================================================");
 
-					Difference diff = new Difference(DifferenceConstants.NODE_NOT_FOUND, xControl, xTest);
+        return bestfitNodeResult;
 
-					differences.add(diff);
+    }
 
-				}
+    /**
+     * Compares DocumentType Node.
+     *
+     * @param   control  the control DOCTYPE Node
+     * @param   test     the test DOCTYPE Node
+     *
+     * @return  the NodeResult containing the Differences between two DOCTYPE Nodes
+     *
+     * @see     NodeResult
+     */
 
-			}
+    protected NodeResult compareDocumentType(final XNode xControl, final XNode xTest) {
 
-		}
+        Differences differences = new Differences();
 
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
+        boolean diffName = false;
 
-		log("Start===================================================================");
+        boolean diffPublicId = false;
 
-		log("compareSimilarNodes: BestFitNode is " + bestfitNodeResult.toString());
+        boolean diffSysId = false;
 
-		log("End===================================================================");
+        DocumentType control = (DocumentType) xControl.getNode();
 
-		return bestfitNodeResult;
+        DocumentType test = (DocumentType) xTest.getNode();
 
-	}
+        if ((diffName = XMLUtil.areNullorEqual(control.getPublicId(), test.getPublicId(), _ignoringWhitespace,
+                            _includeNodeValueInXPath))
+                &&
 
+                (diffSysId = XMLUtil.areNullorEqual(control.getSystemId(), test.getSystemId(), _ignoringWhitespace,
+                            _includeNodeValueInXPath))
+                &&
 
+                (diffPublicId = XMLUtil.areNullorEqual(control.getName(), test.getName(), _ignoringWhitespace,
+                            _includeNodeValueInXPath))) {
 
-	/**
+            // do nothing
 
-	 * Compares DocumentType Node
+        } else {
 
-	 * @param control the control DOCTYPE Node
+            if (!_config.isCustomDifference()) {
 
-	 * @param test the test DOCTYPE Node
+                differences.add("Different DocumentType Node: Current Node " + xTest.getXPath() + " --> Golden Node "
+                        + xControl.getXPath());
+            } else {
 
-	 * @return the NodeResult containing the Differences between two DOCTYPE Nodes
+                Difference diff = null;
 
-	 * @see NodeResult
+                if (diffName) {
 
-	 */
+                    diff = new Difference(DifferenceConstants.DOCTYPE_NAME, xControl, xTest);
+                } else if (diffSysId) {
 
-	protected NodeResult compareDocumentType(XNode xControl, XNode xTest)
+                    diff = new Difference(DifferenceConstants.DOCTYPE_SYSTEM_ID, xControl, xTest);
+                } else if (diffPublicId) {
 
-	{
+                    diff = new Difference(DifferenceConstants.DOCTYPE_PUBLIC_ID, xControl, xTest);
+                }
 
-		Differences differences = new Differences();
+                differences.add(diff);
 
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
+            }
 
-		boolean diffName = false;
+        }
 
-		boolean diffPublicId = false;
+        return nodeResult;
 
-		boolean diffSysId = false;
+    }
 
-		DocumentType control = (DocumentType)xControl.getNode();
+    /**
+     * Compares Comment Nodes.
+     *
+     * @param   control  the control Comment Node
+     * @param   test     the test Comment Node
+     *
+     * @return  the NodeResult containing the Differences between two Comment Nodes
+     *
+     * @see     NodeResult
+     */
 
-		DocumentType test = (DocumentType)xTest.getNode();
+    protected NodeResult compareComments(final XNode xControl, final XNode xTest) {
 
+        Differences differences = new Differences();
 
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
-		if ((diffName=XMLUtil.areNullorEqual(control.getPublicId(), test.getPublicId(), _ignoringWhitespace, _includeNodeValueInXPath)) &&
+        Comment control = (Comment) xControl.getNode();
 
-			(diffSysId=XMLUtil.areNullorEqual(control.getSystemId(), test.getSystemId(), _ignoringWhitespace, _includeNodeValueInXPath)) &&
+        Comment test = (Comment) xTest.getNode();
 
-			(diffPublicId=XMLUtil.areNullorEqual(control.getName(), test.getName(), _ignoringWhitespace, _includeNodeValueInXPath)))
+        if (!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace())) {
 
-		{
+            if (!_config.isCustomDifference()) {
 
-			// do nothing
+                differences.add("Different Comment Node: Current Node" + xTest.getXPath()
+                        +
 
-		}
+                        " --> Golden Node " + xControl.getXPath());
+            } else {
 
-		else
+                Difference diff = new Difference(DifferenceConstants.COMMENT_VALUE, xControl, xTest);
 
-		{
+                differences.add(diff);
 
-			if (!_config.isCustomDifference())
+            }
 
-				differences.add("Different DocumentType Node: Current Node " +
+        } else {
 
-							xTest.getXPath() + " --> Golden Node " +
+            nodeResult.setIfExactMatch(true);
+        }
 
-							xControl.getXPath());
+        return nodeResult;
 
-			else
+    }
 
-			{
+    /**
+     * Compares CDATASECTION Nodes.
+     *
+     * @param   control  the control CDATA Node
+     * @param   test     the test CDATA Node
+     *
+     * @return  the NodeResult containing the Differences between two CDATA Nodes
+     *
+     * @see     NodeResult
+     */
 
-				Difference diff = null;
+    protected NodeResult compareCDATA(final XNode xControl, final XNode xTest) {
 
+        Differences differences = new Differences();
 
+        CDATASection control = (CDATASection) xControl.getNode();
 
-				if (diffName)
+        CDATASection test = (CDATASection) xTest.getNode();
 
-					diff = new Difference(DifferenceConstants.DOCTYPE_NAME, xControl, xTest);
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
-				else
+        if (!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace())) {
 
-				if (diffSysId)
+            if (!_config.isCustomDifference()) {
 
-					diff = new Difference(DifferenceConstants.DOCTYPE_SYSTEM_ID, xControl, xTest);
+                differences.add("Different CDATA Node : Current Node " + xTest.getXPath()
+                        +
 
-				else
+                        " --> Golden Node " + xControl.getXPath());
+            } else {
 
-				if (diffPublicId)
+                Difference diff = new Difference(DifferenceConstants.CDATA_VALUE, xControl, xTest);
 
-					diff = new Difference(DifferenceConstants.DOCTYPE_PUBLIC_ID, xControl, xTest);
+                differences.add(diff);
 
+            }
 
+        } else {
 
-				differences.add(diff);
+            nodeResult.setIfExactMatch(true);
+        }
 
-			}
+        return nodeResult;
 
-		}
+    }
 
+    /**
+     * Compares Entity Reference Nodes.
+     *
+     * @param   control  the control EntityRef Node
+     * @param   test     the test EntityRef Node
+     *
+     * @return  the NodeResult containing the Differences between two EntityRef Nodes
+     *
+     * @see     NodeResult
+     */
 
+    protected NodeResult compareEntityRefs(final XNode xControl, final XNode xTest) {
 
-		return nodeResult;
+        Differences differences = new Differences();
 
-	}
+        EntityReference control = (EntityReference) xControl.getNode();
 
+        EntityReference test = (EntityReference) xTest.getNode();
 
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
-	/**
+        if (!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace())) {
 
-	 * Compares Comment Nodes
+            differences.add("Different Comment Node : Current Node " + xTest.getXPath()
+                    +
 
-	 * @param control the control Comment Node
+                    " --> Golden Node " + xControl.getXPath());
+        } else {
 
-	 * @param test the test Comment Node
+            nodeResult.setIfExactMatch(true);
+        }
 
-	 * @return the NodeResult containing the Differences between two Comment Nodes
+        return nodeResult;
 
-	 * @see NodeResult
+    }
 
-	 */
+    /**
+     * Compares Text Nodes.
+     *
+     * @param   control  the control Text Node
+     * @param   test     the test Text Node
+     *
+     * @return  the NodeResult containing the Differences between two Text Nodes
+     *
+     * @see     NodeResult
+     */
 
-	protected NodeResult compareComments(XNode xControl, XNode xTest)
+    protected NodeResult compareText(final XNode xControl, final XNode xTest) {
 
-	{
+        Differences differences = new Differences();
 
-		Differences differences = new Differences();
+        Text control = (Text) xControl.getNode();
 
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
+        Text test = (Text) xTest.getNode();
 
-		Comment control = (Comment)xControl.getNode();
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
-		Comment test = (Comment)xTest.getNode();
+        if (!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace())) {
 
+            if (DEBUG) {
 
+                System.out.println("===> Compare Text is ignoring whitespace " + isIgnoringWhitespace());
 
-		if(!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace()))
+                System.out.println("=====> Text nodes Control and test ");
 
-		{
+                XMLUtil.printNodeBasics(control);
 
-			if (!_config.isCustomDifference())
+                XMLUtil.printNodeBasics(test);
 
-				differences.add("Different Comment Node: Current Node" + xTest.getXPath() +
+            }
 
-							" --> Golden Node " + xControl.getXPath());
+            if (!_config.isCustomDifference()) {
 
-			else
+                differences.add("Different Text Node: Current Node " + xTest.getXPath()
+                        +
 
-			{
+                        " --> Golden Node " + xControl.getXPath());
+            } else {
 
-				Difference diff = new Difference(DifferenceConstants.COMMENT_VALUE, xControl, xTest);
+                Difference diff = new Difference(DifferenceConstants.TEXT_VALUE, xControl, xTest);
 
-				differences.add(diff);
+                differences.add(diff);
 
-			}
+            }
 
-		}
+        } else {
 
-		else
+            nodeResult.setIfExactMatch(true);
+        }
 
-			nodeResult.setIfExactMatch(true);
+        return nodeResult;
 
+    }
 
+    /**
+     * Compares Control and Test Element nodes.
+     *
+     * <p/>
+     * <br>
+     * While comparing Element nodes, all the Attributes as well as Children of the Element nodes
+     *
+     * <p/>are compared recursively
+     *
+     * @param   control  the control Element Node
+     * @param   test     the test Element Node
+     *
+     * @return  the NodeResult containing the Differences between two Element Node subtree
+     *
+     * @see     NodeResult
+     */
 
-		return nodeResult;
+    protected NodeResult compareElements(final XNode xControl, final XNode xTest) {
 
-	}
+        Differences differences = new Differences();
 
+        Element control = (Element) xControl.getNode();
 
+        Element test = (Element) xTest.getNode();
 
-	/**
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
-	 * Compares CDATASECTION Nodes
+        log("Comparing Elements at Test " + xTest.getXPath() + " Control " + xControl.getXPath());
 
-	 * @param control the control CDATA Node
+        /*
+         *
+         * Element controlNode = (Element)control.cloneNode(true);
+         *
+         * Element testNode = (Element)test.cloneNode(true);
+         *
+         *
+         *
+         * String uniqueAttrName = (String)_config.getUniqueAttributeMap().get(testNode.getTagName());
+         *
+         */
 
-	 * @param test the test CDATA Node
+        String uniqueAttrName = (String) _config.getUniqueAttributeMap().get(test.getTagName());
 
-	 * @return the NodeResult containing the Differences between two CDATA Nodes
+        // Special case if the nodes are same in the first shot itself
 
-	 * @see NodeResult
+        // based on the unique attribute
 
-	 */
+        // if((uniqueAttrName != null) && (XMLUtil.nodesEqual(controlNode, testNode, isIgnoringWhitespace())))
 
-	protected NodeResult compareCDATA(XNode xControl, XNode xTest)
+        if ((uniqueAttrName != null) && (XMLUtil.nodesEqual(control, test, isIgnoringWhitespace()))) {
 
-	{
+            /* Next block is identical except I am NOT USING CLONED NODE
+             *
+             * if((controlNode.hasAttributes()) && (testNode.hasAttributes()))
+             *
+             * {
+             *
+             *      String testAttrValue = testNode.getAttribute(uniqueAttrName);
+             *
+             *      String controlAttrValue = controlNode.getAttribute(uniqueAttrName);
+             *
+             *
+             *
+             *      if ((!testAttrValue.trim().equals("")) && (controlAttrValue.equals(testAttrValue)))
+             *
+             *      {
+             *
+             *              nodeResult.setUniqueAttrMatch(true);
+             *
+             *              return nodeResult;
+             *
+             *      }
+             *
+             * }
+             *
+             */
 
-		Differences differences = new Differences();
+            if ((control.hasAttributes()) && (test.hasAttributes())) {
 
-		CDATASection control = (CDATASection)xControl.getNode();
+                String testAttrValue = test.getAttribute(uniqueAttrName);
 
-		CDATASection test = (CDATASection)xTest.getNode();
+                String controlAttrValue = control.getAttribute(uniqueAttrName);
 
-		
+                if ((!testAttrValue.trim().equals("")) && (controlAttrValue.equals(testAttrValue))) {
 
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
+                    nodeResult.setUniqueAttrMatch(true);
 
+                    return nodeResult;
 
+                }
 
-		if(!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace()))
+            }
 
-		{
+        }
 
-			if (!_config.isCustomDifference())
+        reportMissingAttrs(xControl, xTest, differences);
 
-				differences.add("Different CDATA Node : Current Node " + xTest.getXPath() +
+        // Compare all the Child Nodes
 
-							" --> Golden Node " + xControl.getXPath());
+        differences.add(compareChildNodes(xControl, xTest));
 
-			else
+        // if no differences, its an exact match
 
-			{
+        if (differences.size() == 0) {
 
-				Difference diff = new Difference(DifferenceConstants.CDATA_VALUE, xControl, xTest);
+            log(" Exact match for Test ELEMENT node " + XMLUtil.getNodeBasics(test)
+                    +
 
-				differences.add(diff);
+                    " with control node " + XMLUtil.getNodeBasics(control));
 
-			}
+            nodeResult.setIfExactMatch(true);
 
-		}
+        }
 
-		else
+        return nodeResult;
 
-			nodeResult.setIfExactMatch(true);
+    }
 
+    private Differences reportMissingAttrs(final XNode xControl, final XNode xTest, final Differences differences) {
 
+        boolean includedEmpty = false;
 
-		return nodeResult;
+        boolean excludedEmpty = false;
 
-	}
+        List excludedAttrs = null;
 
+        List includedAttrs = null;
 
+        Element control = (Element) xControl.getNode();
 
-	/**
+        Element test = (Element) xTest.getNode();
 
-	 * Compares Entity Reference Nodes
+        String controlNodeXPath = xControl.getXPath();
 
- 	 * @param control the control EntityRef Node
+        String testNodeXPath = xTest.getXPath();
 
-	 * @param test the test EntityRef Node
+        log("Comparing Attributes for test " + testNodeXPath + " control " + controlNodeXPath);
 
-	 * @return the NodeResult containing the Differences between two EntityRef Nodes
+        Element controlNode = (Element) control.cloneNode(true);
 
-	 * @see NodeResult
+        Element testNode = (Element) test.cloneNode(true);
 
-	 */
+        // Since the elementList contains elements with the same name, we only
 
-	protected NodeResult compareEntityRefs(XNode xControl, XNode xTest)
+        // need to get this once
 
-	{
+        excludedAttrs = (List) _config.getExcludedAttributesMap().get(testNode.getTagName());
 
-		Differences differences = new Differences();
+        includedAttrs = (List) _config.getIncludedAttributesMap().get(testNode.getTagName());
 
-		EntityReference control = (EntityReference)xControl.getNode();
+        if ((includedAttrs == null) || (includedAttrs.size() == 0)) {
 
-		EntityReference test = (EntityReference)xTest.getNode();
+            includedEmpty = true;
+        }
 
-		
+        if ((excludedAttrs == null) || (excludedAttrs.size() == 0)) {
 
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
+            excludedEmpty = true;
+        }
 
+        NamedNodeMap testAttrs = testNode.getAttributes();
 
+        NamedNodeMap controlAttrs = controlNode.getAttributes();
 
-		if(!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace()))
+        NamedNodeMap testAttrsForXPath = test.getAttributes();
 
-			differences.add("Different Comment Node : Current Node " +
+        NamedNodeMap controlAttrsForXPath = control.getAttributes();
 
-							xTest.getXPath() +
+        if (DEBUG) {
 
-							" --> Golden Node " +
+            System.out.println(" ********** " + test.getNodeName() + " test node has " + testAttrs.getLength()
+                    + " attrs ");
 
-							xControl.getXPath());
+            System.out.println(" ********** " + control.getNodeName() + " control node has " + controlAttrs.getLength()
+                    + " attrs ");
 
-		else
+        }
 
-			nodeResult.setIfExactMatch(true);
+        // Remove all the excluded attributes, no need to compare them
 
+        if (!excludedEmpty) {
 
+            for (int i = 0; i < excludedAttrs.size(); i++) {
 
-		return nodeResult;
+                if (testAttrs != null) {
 
-	}
+                    testAttrs.removeNamedItem((String) excludedAttrs.get(i));
+                }
 
+                if (controlAttrs != null) {
 
+                    controlAttrs.removeNamedItem((String) excludedAttrs.get(i));
+                }
 
+            }
 
+        }
 
-	/**
+        String testAttrName = null;
 
-	 * Compares Text Nodes
+        Attr testAttrNode = null;
 
-	 * @param control the control Text Node
+        Attr testAttrNodeXPath = null;
 
-	 * @param test the test Text Node
+        Attr controlAttrNode = null;
 
-	 * @return the NodeResult containing the Differences between two Text Nodes
+        Attr controlAttrNodeXPath = null;
 
-	 * @see NodeResult
+        String controlAttrNodeXPathStr = null;
 
-	 */
+        if (testAttrs != null) {
 
-	protected NodeResult compareText(XNode xControl, XNode xTest)
+            for (int j = 0; j < testAttrs.getLength(); j++) {
 
-	{
+                testAttrNode = (Attr) testAttrs.item(j);
 
-		Differences differences = new Differences();
+                testAttrName = testAttrNode.getName();
 
-		Text control = (Text)xControl.getNode();
+                testAttrNodeXPath = (Attr) testAttrsForXPath.getNamedItem(testAttrName);
 
-		Text test = (Text)xTest.getNode();
+                // Skip this attribute if its not in the included attrs
 
-		
+                if ((!includedEmpty) && (!includedAttrs.contains(testAttrName))) {
 
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
+                    continue;
+                }
 
+                String nodeXPath =
 
+                    XMLUtil.generateXPath(testAttrNode, testNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath,
+                        false);
 
-		if(!XMLUtil.nodesEqual(control, test, isIgnoringWhitespace()))
+                // Skip this attribute if its in the EList
 
-		{
+                if (_config.isXPathEListEnabled()) {
 
-			if (DEBUG)
+                    if (_config.applyEListToSiblings()) {
 
-			{
+                        nodeXPath = XMLUtil.getNoIndexXPath(nodeXPath);
+                    }
 
-				System.out.println("===> Compare Text is ignoring whitespace " + isIgnoringWhitespace());
+                    if (_config.getXPathEList().containsKey(nodeXPath)) {
 
-				System.out.println("=====> Text nodes Control and test ");
+                        continue;
 
+                        // exclude this if its Xpath is in the EList
 
+                    }
 
-				XMLUtil.printNodeBasics(control);
+                }
 
-				XMLUtil.printNodeBasics(test);
+                if (controlAttrs != null) {
 
-			}
+                    controlAttrNode = (Attr) controlAttrs.getNamedItem(testAttrName);
 
+                    controlAttrNodeXPath = (Attr) controlAttrsForXPath.getNamedItem(testAttrName);
 
+                }
 
-			if (!_config.isCustomDifference())
+                XNode xTestNode = null;
 
-				differences.add("Different Text Node: Current Node " + xTest.getXPath() +
+                XNode xControlNode = null;
 
-							" --> Golden Node " + xControl.getXPath());
+                if (controlAttrNode == null) {
 
-			else
+                    log("Added Attribute: Test node " + nodeXPath);
 
-			{
+                    if (!_config.isCustomDifference()) {
 
-				Difference diff = new Difference(DifferenceConstants.TEXT_VALUE, xControl, xTest);
+                        differences.add("New Attribute added: Test Node " + nodeXPath);
+                    } else {
 
-				differences.add(diff);
+                        if (testAttrNode != null) {
 
-			}
+                            xTestNode = new XNode(testAttrNodeXPath,
 
-		}
 
-		else
+                                    XMLUtil.generateXPath(testAttrNode, testNodeXPath, _ignoringWhitespace,
+                                        _includeNodeValueInXPath, false));
+                        }
 
-			nodeResult.setIfExactMatch(true);
+                        if (controlAttrNode != null) {
 
+                            xControlNode = new XNode(controlAttrNodeXPath,
 
 
-		return nodeResult;
+                                    XMLUtil.generateXPath(controlAttrNode, controlNodeXPath, _ignoringWhitespace,
+                                        _includeNodeValueInXPath, false));
+                        }
 
-	}
+                        Difference diff = new Difference(DifferenceConstants.ATTR_NAME_NOT_FOUND, xControlNode,
+                                xTestNode);
 
+                        differences.add(diff);
 
+                    }
 
+                } else {
 
+                    if (!controlAttrNode.getValue().equals(testAttrNode.getValue())) {
 
-	/**
+                        controlAttrNodeXPathStr = XMLUtil.generateXPath(controlAttrNode, controlNodeXPath,
+                                _ignoringWhitespace, _includeNodeValueInXPath, false);
 
-	 * Compares Control and Test Element nodes
+                        log("Different Attributes: Test document Node " + nodeXPath
+                                +
 
-	 * <br> While comparing Element nodes, all the Attributes as well as Children of the Element nodes
+                                " --> Control document Node " + controlAttrNodeXPathStr);
 
-	 * are compared recursively
+                        if (!_config.isCustomDifference()) {
 
-	 * @param control the control Element Node
+                            differences.add("Different Attributes: Current Node " + nodeXPath
+                                    +
 
-	 * @param test the test Element Node
+                                    " --> Golden Node " + controlAttrNodeXPathStr);
+                        } else {
 
-	 * @return the NodeResult containing the Differences between two Element Node subtree
+                            if (testAttrNode != null) {
 
-	 * @see NodeResult
+                                xTestNode = new XNode(testAttrNode,
 
-	 */
 
-	protected NodeResult compareElements(XNode xControl, XNode xTest)
+                                        XMLUtil.generateXPath(testAttrNode, testNodeXPath, _ignoringWhitespace,
+                                            _includeNodeValueInXPath, false));
+                            }
 
-	{
+                            if (controlAttrNode != null) {
 
-		Differences differences = new Differences();
+                                xControlNode = new XNode(controlAttrNode,
 
-		Element control = (Element)xControl.getNode();
 
-		Element test = (Element)xTest.getNode();
+                                        controlAttrNodeXPathStr);
+                            }
 
-		
+                            Difference diff = new Difference(DifferenceConstants.ATTR_VALUE, xControlNode, xTestNode);
 
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
+                            differences.add(diff);
 
-		log("Comparing Elements at Test " + xTest.getXPath() + " Control " + xControl.getXPath());
+                        }
 
+                    }
 
+                    // Remove Attribute from the Control document, whatever that is left
 
-		/*
+                    // in the end didnt exist in the Test document
 
-		Element controlNode = (Element)control.cloneNode(true);
+                    controlAttrs.removeNamedItem(testAttrName);
 
-		Element testNode = (Element)test.cloneNode(true);
+                }
 
+            }
 
+        }
 
-		String uniqueAttrName = (String)_config.getUniqueAttributeMap().get(testNode.getTagName());
+        // If any attributes left unmatched, add them to differences list
 
-		*/
+        if (controlAttrs.getLength() > 0) {
 
-		String uniqueAttrName = (String)_config.getUniqueAttributeMap().get(test.getTagName());
+            XNode xTestNode = null;
 
-		// Special case if the nodes are same in the first shot itself
+            XNode xControlNode = null;
 
-		// based on the unique attribute
+            for (int i = 0; i < controlAttrs.getLength(); i++) {
 
-		//if((uniqueAttrName != null) && (XMLUtil.nodesEqual(controlNode, testNode, isIgnoringWhitespace())))
+                controlAttrNode = (Attr) controlAttrs.item(i);
 
-		if((uniqueAttrName != null) && (XMLUtil.nodesEqual(control, test, isIgnoringWhitespace())))
+                controlAttrNodeXPath = (Attr) controlAttrsForXPath.getNamedItem(controlAttrNode.getName());
 
-		{
+                testAttrNodeXPath = (Attr) testAttrsForXPath.getNamedItem(controlAttrNode.getName());
 
-			/* Next block is identical except I am NOT USING CLONED NODE
+                controlAttrNodeXPathStr = XMLUtil.generateXPath(controlAttrNodeXPath, controlNodeXPath,
+                        _ignoringWhitespace, _includeNodeValueInXPath, false);
 
-			if((controlNode.hasAttributes()) && (testNode.hasAttributes()))
+                // Skip this attribute if its in the EList
 
-			{
+                if (_config.isXPathEListEnabled()) {
 
-				String testAttrValue = testNode.getAttribute(uniqueAttrName);
+                    if (_config.applyEListToSiblings()) {
 
-				String controlAttrValue = controlNode.getAttribute(uniqueAttrName);
+                        controlAttrNodeXPathStr = XMLUtil.getNoIndexXPath(controlAttrNodeXPathStr);
+                    }
 
+                    if (_config.getXPathEList().containsKey(controlAttrNodeXPathStr)) {
 
+                        continue;
+                    }
 
-				if ((!testAttrValue.trim().equals("")) && (controlAttrValue.equals(testAttrValue)))
+                }
 
-				{
+                log("Missing Attribute: Test document is missing attribute "
+                        + XMLUtil.generateXPath(controlAttrNodeXPath, isIgnoringWhitespace()));
 
-					nodeResult.setUniqueAttrMatch(true);
+                if (!_config.isCustomDifference()) {
 
-					return nodeResult;
+                    differences.add("Missing Attribute: Test Node " + controlAttrNodeXPathStr);
+                } else {
 
-				}
+                    if (testAttrNodeXPath != null) {
 
-			}
+                        xTestNode = new XNode(testAttrNodeXPath,
 
-			*/
 
-			if((control.hasAttributes()) && (test.hasAttributes()))
+                                XMLUtil.generateXPath(testAttrNodeXPath, testNodeXPath, _ignoringWhitespace,
+                                    _includeNodeValueInXPath, false));
+                    }
 
-			{
+                    if (controlAttrNodeXPath != null) {
 
-				String testAttrValue = test.getAttribute(uniqueAttrName);
+                        xControlNode = new XNode(controlAttrNodeXPath, controlAttrNodeXPathStr);
+                    }
 
-				String controlAttrValue = control.getAttribute(uniqueAttrName);
+                    Difference diff = new Difference(DifferenceConstants.ATTR_NAME_NOT_FOUND, xControlNode, xTestNode);
 
+                    differences.add(diff);
 
+                }
 
-				if ((!testAttrValue.trim().equals("")) && (controlAttrValue.equals(testAttrValue)))
+            }
 
-				{
+        }
 
-					nodeResult.setUniqueAttrMatch(true);
+        return differences;
 
-					return nodeResult;
+    }
 
-				}
+    /**
+     * FIXME FIXME FIXME!!
+     *
+     * <p/>Refactor above function to reduce the complexity and put compare attributes here
+     *
+     * <p/>Compares Attribute Nodes
+     */
 
-			}
+    protected NodeResult compareAttributes(final XNode xControl, final XNode xTest) {
 
-		}
+        Differences differences = new Differences();
 
+        NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
 
+        return nodeResult;
 
-		reportMissingAttrs(xControl, xTest, differences);
+    }
 
+    /**
+     * Compares all the Child Nodes for given Control and Test Nodes recursively.
+     *
+     * <p/>
+     * <br>
+     * Reports differences between the entire subtree till the leaf nodes for
+     *
+     * <p/>control and test Nodes
+     *
+     * @param   controlNode  the control Node
+     * @param   testNode     the test Node
+     *
+     * @return  the Differences between control Node and test Node
+     *
+     * @see     Differences
+     */
 
+    protected Differences compareChildNodes(final XNode xControl, final XNode xTest) {
 
-		// Compare all the Child Nodes
+        if ((xControl == null) || (xTest == null)) {
 
-		differences.add(compareChildNodes(xControl, xTest));		
+            throw new IllegalArgumentException("Test and/or Control Node argument cannot be null");
+        }
 
+        log("Comparing CHILD Nodes for Test:" + xTest.getXPath() + "-Control:" + xControl.getXPath() + "-");
 
+        Differences differences = new Differences();
 
-		// if no differences, its an exact match
+        OrderedMap nodeTracker = new OrderedMap(OrderedMap.TYPE_UNSYNCHRONIZED_MOV);
 
-		if (differences.size() == 0)
+        Node control = xControl.getNode();
 
-		{
-
-			log(" Exact match for Test ELEMENT node " + XMLUtil.getNodeBasics(test) +
-
-				" with control node " + XMLUtil.getNodeBasics(control));
-
-			nodeResult.setIfExactMatch(true);
-
-		}
-
-
-
-		return nodeResult;
-
-	}
-
-
-
-
-
-	private Differences reportMissingAttrs(XNode xControl, XNode xTest, Differences differences)
-
-	{
-
-		boolean includedEmpty = false;
-
-		boolean excludedEmpty = false;
-
-		List excludedAttrs = null;
-
-		List includedAttrs = null;
-
-		
-
-		Element control = (Element)xControl.getNode();
-
-		Element test = (Element)xTest.getNode();
-
-		String controlNodeXPath = xControl.getXPath();
-
-		String testNodeXPath = xTest.getXPath();
-
-		
-
-		log("Comparing Attributes for test " + testNodeXPath + " control " + controlNodeXPath);
-
-
-
-		Element controlNode = (Element)control.cloneNode(true);
-
-		Element testNode = (Element)test.cloneNode(true);
-
-
-
-		// Since the elementList contains elements with the same name, we only
-
-		// need to get this once
-
-		excludedAttrs =
-
-			(List)_config.getExcludedAttributesMap().get(testNode.getTagName());
-
-		includedAttrs =
-
-			(List)_config.getIncludedAttributesMap().get(testNode.getTagName());
-
-
-
-		if ((includedAttrs == null) || (includedAttrs.size() == 0))
-
-			includedEmpty = true;
-
-
-
-		if ((excludedAttrs == null) || (excludedAttrs.size() == 0))
-
-			excludedEmpty = true;
-
-
-
-		NamedNodeMap testAttrs = testNode.getAttributes();
-
-		NamedNodeMap controlAttrs = controlNode.getAttributes();
-
-		NamedNodeMap testAttrsForXPath = test.getAttributes();
-
-		NamedNodeMap controlAttrsForXPath = control.getAttributes();
-
-
-
-		if (DEBUG)
-
-		{
-
-			System.out.println(" ********** " + test.getNodeName() + " test node has " + testAttrs.getLength() + " attrs ");
-
-			System.out.println(" ********** " + control.getNodeName() + " control node has " + controlAttrs.getLength() + " attrs ");
-
-		}
-
-
-
-		// Remove all the excluded attributes, no need to compare them
-
-		if (!excludedEmpty)
-
-		{
-
-			for(int i=0; i<excludedAttrs.size(); i++)
-
-			{
-
-				if (testAttrs != null)
-
-					testAttrs.removeNamedItem((String)excludedAttrs.get(i));
-
-
-
-				if (controlAttrs != null)
-
-					controlAttrs.removeNamedItem((String)excludedAttrs.get(i));
-
-			}
-
-		}
-
-
-
-		String testAttrName = null;
-
-		Attr testAttrNode = null;
-
-		Attr testAttrNodeXPath = null;
-
-		Attr controlAttrNode = null;
-
-		Attr controlAttrNodeXPath = null;
-
-		String controlAttrNodeXPathStr = null;
-
-
-
-		if (testAttrs != null)
-
-		{
-
-			for(int j=0; j<testAttrs.getLength(); j++)
-
-			{
-
-				testAttrNode = (Attr)testAttrs.item(j);
-
-				testAttrName = testAttrNode.getName();
-
-				testAttrNodeXPath = (Attr)testAttrsForXPath.getNamedItem(testAttrName);
-
-
-
-				// Skip this attribute if its not in the included attrs
-
-				if ((!includedEmpty) && (!includedAttrs.contains(testAttrName)))
-
-					continue;
-
-					
-
-				String nodeXPath = 
-
-						XMLUtil.generateXPath(testAttrNode, testNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false);
-
-
-
-				// Skip this attribute if its in the EList
-
-				if (_config.isXPathEListEnabled())
-
-				{						
-
-					if (_config.applyEListToSiblings())
-
-						nodeXPath = XMLUtil.getNoIndexXPath(nodeXPath);
-
-									
-
-					if (_config.getXPathEList().containsKey(nodeXPath))
-
-					{
-
-						continue;
-
-						// exclude this if its Xpath is in the EList
-
-					}
-
-				}
-
-
-
-
-
-				if (controlAttrs != null)
-
-				{
-
-					controlAttrNode = (Attr)controlAttrs.getNamedItem(testAttrName);
-
-					controlAttrNodeXPath = (Attr)controlAttrsForXPath.getNamedItem(testAttrName);
-
-				}
-
-
-
-				XNode xTestNode = null;
-
-				XNode xControlNode = null;
-
-
-
-				if (controlAttrNode == null)
-
-				{
-
-					log("Added Attribute: Test node " + nodeXPath);
-
-
-
-					if (!_config.isCustomDifference())
-
-						differences.add("New Attribute added: Test Node " + nodeXPath);
-
-					else
-
-					{
-
-						if (testAttrNode != null)
-
-							xTestNode = new XNode(testAttrNodeXPath,
-
-												XMLUtil.generateXPath(testAttrNode, testNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false));
-
-						if (controlAttrNode != null)
-
-							xControlNode = new XNode(controlAttrNodeXPath,
-
-													XMLUtil.generateXPath(controlAttrNode, controlNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false));
-
-
-
-						Difference diff = new Difference(DifferenceConstants.ATTR_NAME_NOT_FOUND, xControlNode, xTestNode);
-
-						differences.add(diff);
-
-					}
-
-				}
-
-				else
-
-				{
-
-					if(!controlAttrNode.getValue().equals(testAttrNode.getValue()))
-
-					{
-
-						controlAttrNodeXPathStr = XMLUtil.generateXPath(controlAttrNode, controlNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false);
-
-						log("Different Attributes: Test document Node " +
-
-										nodeXPath +
-
-										" --> Control document Node " +
-
-										controlAttrNodeXPathStr);
-
-
-
-						if (!_config.isCustomDifference())
-
-							differences.add("Different Attributes: Current Node " +
-
-										nodeXPath +
-
-										" --> Golden Node " + controlAttrNodeXPathStr
-
-										);
-
-						else
-
-						{
-
-							if (testAttrNode != null)
-
-								xTestNode = new XNode(testAttrNode,
-
-														XMLUtil.generateXPath(testAttrNode, testNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false));
-
-							if (controlAttrNode != null)
-
-								xControlNode = new XNode(controlAttrNode,
-
-														  controlAttrNodeXPathStr);
-
-
-
-							Difference diff = new Difference(DifferenceConstants.ATTR_VALUE, xControlNode, xTestNode);
-
-							differences.add(diff);
-
-						}
-
-					}
-
-					// Remove Attribute from the Control document, whatever that is left
-
-					// in the end didnt exist in the Test document
-
-					controlAttrs.removeNamedItem(testAttrName);
-
-				}
-
-			}
-
-		}
-
-
-
-		// If any attributes left unmatched, add them to differences list
-
-		if (controlAttrs.getLength() > 0)
-
-		{
-
-			XNode xTestNode = null;
-
-			XNode xControlNode = null;
-
-
-
-			for (int i=0; i<controlAttrs.getLength(); i++)
-
-			{
-
-				controlAttrNode = (Attr)controlAttrs.item(i);
-
-				controlAttrNodeXPath = (Attr)controlAttrsForXPath.getNamedItem(controlAttrNode.getName());
-
-				testAttrNodeXPath = (Attr)testAttrsForXPath.getNamedItem(controlAttrNode.getName());
-
-
-
-				controlAttrNodeXPathStr = XMLUtil.generateXPath(controlAttrNodeXPath, controlNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false);
-
-				
-
-				// Skip this attribute if its in the EList
-
-				if (_config.isXPathEListEnabled()) 
-
-				{
-
-					
-
-					if(_config.applyEListToSiblings())
-
-						controlAttrNodeXPathStr = XMLUtil.getNoIndexXPath(controlAttrNodeXPathStr);
-
-									
-
-									
-
-					if(_config.getXPathEList().containsKey(controlAttrNodeXPathStr))
-
-						continue;
-
-				}
-
-
-
-				log("Missing Attribute: Test document is missing attribute " +
-
-								XMLUtil.generateXPath(controlAttrNodeXPath, isIgnoringWhitespace()));
-
-
-
-				if (!_config.isCustomDifference())
-
-					differences.add("Missing Attribute: Test Node " +
-
-								controlAttrNodeXPathStr);
-
-				else
-
-				{
-
-					if (testAttrNodeXPath != null)
-
-						xTestNode = new XNode(testAttrNodeXPath,
-
-												XMLUtil.generateXPath(testAttrNodeXPath, testNodeXPath, _ignoringWhitespace, _includeNodeValueInXPath, false));
-
-
-
-					if (controlAttrNodeXPath != null)
-
-						xControlNode = new XNode(controlAttrNodeXPath, controlAttrNodeXPathStr);
-
-
-
-					Difference diff = new Difference(DifferenceConstants.ATTR_NAME_NOT_FOUND, xControlNode, xTestNode);
-
-					differences.add(diff);
-
-				}
-
-			}
-
-		}
-
-
-
-		return differences;
-
-	}
-
-
-
-	/**
-
-	 * FIXME FIXME FIXME!!
-
-	 * Refactor above function to reduce the complexity and put compare attributes here
-
-	 * Compares Attribute Nodes
-
-	 *
-
-	 */
-
-	protected NodeResult compareAttributes(XNode xControl, XNode xTest)
-
-	{
-
-		Differences differences = new Differences();
-
-		NodeResult nodeResult = new NodeResult(xControl, xTest, differences);
-
-
-
-		return nodeResult;
-
-	}
-
-
-
-	/**
-
-	 * Compares all the Child Nodes for given Control and Test Nodes recursively
-
-	 * <br>Reports differences between the entire subtree till the leaf nodes for
-
-	 * control and test Nodes
-
-	 * @param controlNode the control Node
-
-	 * @param testNode the test Node
-
-	 * @return the Differences between control Node and test Node
-
-	 * @see Differences
-
-	 */
-
-	protected Differences compareChildNodes(XNode xControl, XNode xTest)
-
-	{
-
-		if ((xControl == null) || (xTest == null))
-
-			throw new IllegalArgumentException("Test and/or Control Node argument cannot be null");
-
-			
-
-		log("Comparing CHILD Nodes for Test:" + xTest.getXPath() + "-Control:" + xControl.getXPath() + "-");
-
-
-
-		Differences differences = new Differences();
-
-		OrderedMap nodeTracker = new OrderedMap(OrderedMap.TYPE_UNSYNCHRONIZED_MOV);
-
-		
-
-		Node control = xControl.getNode();
-
-		Node test = xTest.getNode();
-
-		
+        Node test = xTest.getNode();
 
         NodeList testChildNodes = null;
 
-		NodeList controlChildNodes = null;
+        NodeList controlChildNodes = null;
 
+        Node testChildNode = null;
 
+        Node controlChildNode = null;
 
-		Node testChildNode = null;
+        // Check to see if the Control Node or Test Node has been added
 
-		Node controlChildNode = null;
+        if (control == null) {
 
-		
+            if (test != null) {
 
-		// Check to see if the Control Node or Test Node has been added
+                if (!_config.isCustomDifference()) {
 
-		if (control == null)
+                    differences.add("Test Node added at " + xTest.getXPath());
+                } else {
 
-		{
+                    Difference diff = new Difference(DifferenceConstants.ADDED_NODE, null, xTest);
 
-			if (test != null)
+                    differences.add(diff);
 
-			{
+                }
 
-				if (!_config.isCustomDifference())
+                return differences;
 
-					differences.add("Test Node added at " + xTest.getXPath());
+            } else {
 
-				else
+                return null;
+            }
 
-				{					
+        } else {
 
-					Difference diff = new Difference(DifferenceConstants.ADDED_NODE, null, xTest);
+            if (test == null) {
 
-					differences.add(diff);
+                if (!_config.isCustomDifference()) {
 
-				}
+                    differences.add("Golden Node added at " + xControl.getXPath());
+                } else {
 
-				
+                    Difference diff = new Difference(DifferenceConstants.ADDED_NODE, xControl, null);
 
-				return differences;
+                    differences.add(diff);
 
-			}
+                }
 
-			else
+                return differences;
 
-				return null;				
+            }
 
-		}
-
-		else
-
-		{
-
-			if (test == null)
-
-			{
-
-				if (!_config.isCustomDifference())
-
-					differences.add("Golden Node added at " + xControl.getXPath());
-
-				else
-
-				{
-
-					Difference diff = new Difference(DifferenceConstants.ADDED_NODE, xControl, null);
-
-					differences.add(diff);
-
-				}
-
-				
-
-				return differences;
-
-			}
-
-		}
-
-					
+        }
 
         // If it came this far, then both control and test are NON NULL
 
-		if (test.hasChildNodes())
+        if (test.hasChildNodes()) {
 
-		{
+            if (control.hasChildNodes()) {
 
-			if (control.hasChildNodes())
+                testChildNodes = test.getChildNodes();
 
-			{
+                controlChildNodes = control.getChildNodes();
 
-				testChildNodes = test.getChildNodes();
-
-				controlChildNodes = control.getChildNodes();
-
-
-
-	            NodeResult matchedNodeResult = null;
+                NodeResult matchedNodeResult = null;
 
                 String testNodeXPath = null;
 
@@ -1941,139 +1431,97 @@ public class Comparator
 
                 String controlChildXPath = null;
 
+                // For Test Node Child and find a matching Control Node
 
+                for (int i = 0; i < testChildNodes.getLength(); i++) {
 
-				// For Test Node Child and find a matching Control Node
+                    testChildNode = testChildNodes.item(i);
 
-				for(int i=0; i<testChildNodes.getLength(); i++)
+                    testChildXPath = XMLUtil.generateXPath(testChildNode, xTest.getXPath(), _ignoringWhitespace,
+                            _includeNodeValueInXPath, false);
 
-				{
+                    xTestChildNode = new XNode(testChildNode, testChildXPath);
 
-					testChildNode = testChildNodes.item(i);
+                    xTestChildNode.setDepth(xTest.getDepth() + 1);
 
-					testChildXPath = XMLUtil.generateXPath(testChildNode, xTest.getXPath(), _ignoringWhitespace, _includeNodeValueInXPath, false);
+                    xTestChildNode.setPosition(i);
 
-					xTestChildNode = new XNode(testChildNode, testChildXPath);
+                    // If controlChildNode is null, return first child since we are going to get its parent
 
-					xTestChildNode.setDepth(xTest.getDepth()+1);
+                    // and find similar Nodes anyway
 
-					xTestChildNode.setPosition(i);
+                    controlChildNode = controlChildNodes.item(i) == null ? controlChildNodes.item(0)
+                                                                         : controlChildNodes.item(i);
 
-					
+                    log("******** controlChildNode " + controlChildNode.getNodeName() + " type "
+                            + controlChildNode.getNodeType());
 
-					// If controlChildNode is null, return first child since we are going to get its parent
+                    controlChildXPath = XMLUtil.generateXPath(controlChildNode, xControl.getXPath(),
+                            _ignoringWhitespace, _includeNodeValueInXPath, false);
 
-					// and find similar Nodes anyway
+                    log("compareChildNodes()......controlChildXPath " + controlChildXPath);
 
-					controlChildNode = controlChildNodes.item(i)==null?controlChildNodes.item(0):controlChildNodes.item(i);
+                    xControlChildNode = new XNode(controlChildNode, controlChildXPath);
 
-					log("******** controlChildNode " + controlChildNode.getNodeName() + " type " + controlChildNode.getNodeType()); 
+                    if (_config.isXPathEListEnabled()) {
 
-					controlChildXPath = XMLUtil.generateXPath(controlChildNode, xControl.getXPath(), _ignoringWhitespace, _includeNodeValueInXPath, false);
-
-					
-
-					log("compareChildNodes()......controlChildXPath " + controlChildXPath);
-
-					xControlChildNode = new XNode(controlChildNode, controlChildXPath);
-
-
-
-                    if (_config.isXPathEListEnabled())
-
-					{
-
-						testNodeXPath = _config.applyEListToSiblings()?
-
-										xTestChildNode.getNoIndexXPath():
-
-										xTestChildNode.getXPath();										
+                        testNodeXPath = _config.applyEListToSiblings() ? xTestChildNode.getNoIndexXPath()
+                                                                       : xTestChildNode.getXPath();
 
                     }
 
+                    if ((XMLUtil.isWhitespaceTextNode(testChildNode)) && (isIgnoringWhitespace())) {
 
+                        // skip
 
-					if ((XMLUtil.isWhitespaceTextNode(testChildNode)) && (isIgnoringWhitespace()))
+                        // Ignore Whitespace only TEXT nodes
 
-					{
+                        log("Ignoring Whitespace Node");
 
-						// skip
+                    } else if (XMLUtil.isCommentNode(testChildNode) && (_config.isIgnoringComments())) {
 
-						// Ignore Whitespace only TEXT nodes
+                        // skip
 
-						
+                        // Ignore Comment nodes
 
-						log("Ignoring Whitespace Node");
+                        log("Ignoring Comment Node");
 
-					}
-
-					else
-
-					if (XMLUtil.isCommentNode(testChildNode) && (_config.isIgnoringComments()))
-
-					{
-
-						// skip
-
-						// Ignore Comment nodes
-
-						log("Ignoring Comment Node");
-
-					}
-
-					else
-
-					if ((testNodeXPath != null) && (_config.getXPathEList().containsKey(testNodeXPath)))
-
-					{
+                    } else if ((testNodeXPath != null) && (_config.getXPathEList().containsKey(testNodeXPath))) {
 
                         // exclude this if its Xpath is in the EList
 
                         log("Ignoring the Node since its XPath entry in EList file");
 
-					}
+                    }
 
                     // Now we need to find Similar control nodes
 
-                    else
-
-                    {
+                    else {
 
                         // Skip the global excluded Elements
 
-                        if ((testChildNode.getNodeType() == Node.ELEMENT_NODE) &&
+                        if ((testChildNode.getNodeType() == Node.ELEMENT_NODE)
+                                &&
 
-                            (_config.getExcludedElementsSet().contains(testChildNode.getNodeName())))
-
-                        {
+                                (_config.getExcludedElementsSet().contains(testChildNode.getNodeName()))) {
 
                             // Skip
 
-                            log("compareChildNodes: Ignoring element child node at " +
+                            log("compareChildNodes: Ignoring element child node at "
+                                    + XMLUtil.generateXPath(testChildNode, isIgnoringWhitespace())
+                                    +
 
-                                XMLUtil.generateXPath(testChildNode, isIgnoringWhitespace()) +
+                                    " since its in ignore list");
 
-                                " since its in ignore list");
-
-                        }
-
-                        else
-
-                        {
-
-                        	
+                        } else {
 
                             matchedNodeResult = compareSimilarNodes(xControlChildNode, xTestChildNode, nodeTracker);
 
                             log("CompareChildNodes: Matched node result " + matchedNodeResult.toString());
 
-
-
                             // Ignore Control nodes for non matched Test nodes
 
-                            if (matchedNodeResult.getControlNode() != null)
-
-                            {
+                            if (matchedNodeResult.getControlNode() != null) {
 
                                 // Add this matched entry in the nodeTracker
 
@@ -2083,11 +1531,7 @@ public class Comparator
 
                                 nodeTracker.add(matchedNodeResult.getControlNode().getNode(), matchedNodeResult);
 
-                            }
-
-                            else
-
-                            {
+                            } else {
 
                                 differences.add(matchedNodeResult);
 
@@ -2097,592 +1541,442 @@ public class Comparator
 
                     }
 
-				} // end for each test child Node
+                } // end for each test child Node
 
+                // Node Tracker contains Control Nodes as keys and Matching Test nodes
 
+                // as Objects, these Objects can be List if there are more Test nodes
 
-	            // Node Tracker contains Control Nodes as keys and Matching Test nodes
+                // for a given Control node
 
-	            // as Objects, these Objects can be List if there are more Test nodes
+                // Go thru the matched Test nodes to see if there are more Test Nodes
 
-	            // for a given Control node
+                // for a given Control Node
 
+                // Since potentially many Test Nodes can match one Control Node
 
+                Object[] nodeResults = nodeTracker.elements();
 
-	            // Go thru the matched Test nodes to see if there are more Test Nodes
+                for (int i = 0; i < nodeResults.length; i++) {
 
-	            // for a given Control Node
+                    Object nodeResult = nodeResults[i];
 
-	            // Since potentially many Test Nodes can match one Control Node
+                    // System.out.println(" i = " + i);
 
-	            Object[] nodeResults = nodeTracker.elements();
+                    NodeResult minDiffNR = null;
 
-	            for(int i=0; i<nodeResults.length; i++)
+                    // if its a List its MOV
 
-	            {
+                    if (nodeResult instanceof List) {
 
-	                Object nodeResult = nodeResults[i];
+                        log("CompareChildNodes: ++++++ Adding child differences from LIST NodeResult "
+                                + nodeResult.toString());
 
-	                //System.out.println(" i = " + i);
+                        NodeResult currentNR = null;
 
-	                NodeResult minDiffNR = null;
+                        minDiffNR = (NodeResult) ((List) nodeResult).get(0);
 
+                        for (int j = 1; j < ((List) nodeResult).size(); j++) {
 
+                            currentNR = (NodeResult) ((List) nodeResult).get(j);
 
-	                // if its a List its MOV
+                            // Gather all the Nodes with more Differences
 
-	                if(nodeResult instanceof List)
+                            if ((currentNR.getNumDifferences()) < (minDiffNR.getNumDifferences())) {
 
-	                {
+                                if (!_config.isCustomDifference()) {
 
-	                	log("CompareChildNodes: ++++++ Adding child differences from LIST NodeResult " +
+                                    // If currentNR is an exact match
 
-	                		nodeResult.toString());
+                                    if (currentNR.getNumDifferences() == 0) {
 
-	                	NodeResult currentNR = null;
+                                        differences.add("Added Node: Test Node " + minDiffNR.getTestNode().getXPath());
 
-	                	minDiffNR = (NodeResult)((List)nodeResult).get(0);
+                                    } else {
 
+                                        differences.add("Added Node/Multiple Matches: Current Node "
+                                                + minDiffNR.getTestNode().getXPath()
+                                                +
 
+                                                " seems to match with already matched Golden Node at "
+                                                + minDiffNR.getControlNode().getXPath());
 
-	                    for(int j=1; j<((List)nodeResult).size(); j++)
+                                        differences.add(minDiffNR);
 
-	                    {
+                                    }
 
-	                    	currentNR = (NodeResult)((List)nodeResult).get(j);
+                                } else {
 
+                                    XNode xTNode = new XNode(minDiffNR.getTestNode().getNode(),
 
 
-	                    	// Gather all the Nodes with more Differences
+                                            minDiffNR.getTestNode().getXPath());
 
-	                    	if ((currentNR.getNumDifferences()) < (minDiffNR.getNumDifferences()))
+                                    XNode xCNode = new XNode(minDiffNR.getControlNode().getNode(),
 
-	                    	{
 
+                                            minDiffNR.getControlNode().getXPath());
 
+                                    Difference diff = null;
 
-	                    		if (!_config.isCustomDifference())
+                                    if (currentNR.getNumDifferences() == 0) {
 
-	                    		{
+                                        diff = new Difference(DifferenceConstants.ADDED_NODE,
 
-	                    			// If currentNR is an exact match
 
-	                    			if (currentNR.getNumDifferences() == 0)
+                                                xCNode, xTNode);
 
-	                    			{
+                                    } else {
 
-										differences.add("Added Node: Test Node " +
+                                        diff = new Difference(DifferenceConstants.MULTIPLE_MATCHES_ADDED_NODE,
 
-	                    								minDiffNR.getTestNode().getXPath());
 
-	                    			}
+                                                xCNode, xTNode);
 
-	                    			else
+                                    }
 
-	                    			{
+                                    differences.add(diff);
 
-	                    				differences.add("Added Node/Multiple Matches: Current Node " +
+                                }
 
-	                    								minDiffNR.getTestNode().getXPath() +
+                                minDiffNR = currentNR;
 
-	                    								" seems to match with already matched Golden Node at " +
+                            } else {
 
-	                    								minDiffNR.getControlNode().getXPath());
+                                if (!_config.isCustomDifference()) {
 
-	                    				differences.add(minDiffNR);
+                                    // If minNR is an exact match
 
-	                    			}
+                                    if (minDiffNR.getNumDifferences() == 0) {
 
-	                    		}
+                                        differences.add("Added Node: Test Node " + currentNR.getTestNode().getXPath());
 
-								else
+                                    } else {
 
-								{
+                                        differences.add("Added Node/Multiple matches: Current Node "
+                                                + currentNR.getTestNode().getXPath()
+                                                +
 
-									XNode xTNode = new XNode(minDiffNR.getTestNode().getNode(), 
+                                                " seems to match with already matched Golden Node at "
+                                                + currentNR.getControlNode().getXPath());
 
-																minDiffNR.getTestNode().getXPath());
+                                        differences.add(currentNR);
 
-									XNode xCNode = new XNode(minDiffNR.getControlNode().getNode(), 
+                                    }
 
-															minDiffNR.getControlNode().getXPath());
+                                } else {
 
-									Difference diff = null;
+                                    XNode xTNode = new XNode(currentNR.getTestNode().getNode(),
 
-									if (currentNR.getNumDifferences() == 0)
 
-									{
+                                            currentNR.getTestNode().getXPath());
 
-										diff = new Difference(DifferenceConstants.ADDED_NODE,
+                                    XNode xCNode = new XNode(minDiffNR.getControlNode().getNode(),
 
-																		  xCNode, xTNode);
 
-									}
+                                            currentNR.getControlNode().getXPath());
 
-									else
+                                    Difference diff = null;
 
-									{
+                                    if (minDiffNR.getNumDifferences() == 0) {
 
-										diff = new Difference(DifferenceConstants.MULTIPLE_MATCHES_ADDED_NODE,
+                                        diff = new Difference(DifferenceConstants.ADDED_NODE,
 
-																		  xCNode, xTNode);
 
-									}
+                                                xCNode, xTNode);
 
+                                    } else {
 
+                                        diff = new Difference(DifferenceConstants.MULTIPLE_MATCHES_ADDED_NODE,
 
-									differences.add(diff);
 
-								}
+                                                xCNode, xTNode);
 
-	                    		minDiffNR = currentNR;
+                                    }
 
-	                    	}
+                                    differences.add(diff);
 
-	                    	else
+                                }
 
-	                    	{
+                            }
 
-	                    		if (!_config.isCustomDifference())
+                        }
 
-	                    		{
+                        // The Node with least differences is now added
 
-	                    			// If minNR is an exact match
+                        // to the list of differences
 
-	                    			if (minDiffNR.getNumDifferences() == 0)
+                        if ((!_config.isIgnoringOrder())
+                                &&
 
-	                    			{
+                                (minDiffNR.getControlNode().getPosition() != minDiffNR.getTestNode().getPosition())) {
 
-										differences.add("Added Node: Test Node " +
+                            if (!_config.isCustomDifference()) {
 
-	                    						currentNR.getTestNode().getXPath());
+                                differences.add("Position Mismatch: Current Node " + minDiffNR.getTestNode().getXPath()
+                                        + " at position " + Integer.toString(minDiffNR.getTestNode().getPosition())
+                                        +
 
+                                        " matches " + (minDiffNR.isExactMatch() ? "" : "closely")
+                                        +
 
+                                        " with Golden Node " + minDiffNR.getControlNode().getXPath() + " at position "
+                                        + Integer.toString(minDiffNR.getControlNode().getPosition()));
 
-	                    			}
+                            } else {
 
-	                    			else
+                                differences.add(new Difference(DifferenceConstants.POSITION_MISMATCH,
 
-	                    			{
 
-										differences.add("Added Node/Multiple matches: Current Node " +
+                                        minDiffNR.getControlNode(),
 
-	                    						currentNR.getTestNode().getXPath() +
 
-	                    						" seems to match with already matched Golden Node at " +
+                                        minDiffNR.getTestNode()));
+                            }
 
-	                    						currentNR.getControlNode().getXPath());
+                        }
 
-	                    				differences.add(currentNR);
+                        differences.add(minDiffNR);
 
-	                    			}
+                    } else {
 
-	                    		}
+                        NodeResult nr = (NodeResult) nodeResult;
 
-								else
+                        log("compareChildNodes: ++++++ Adding child differences from INDIVIDUAL NodeResult "
+                                + nodeResult.toString());
 
-								{
+                        if ((!_config.isIgnoringOrder())
+                                &&
 
-									XNode xTNode = new XNode(currentNR.getTestNode().getNode(),
+                                (nr.getControlNode().getPosition() != nr.getTestNode().getPosition())) {
 
-															currentNR.getTestNode().getXPath());
+                            if (!_config.isCustomDifference()) {
 
-									XNode xCNode = new XNode(minDiffNR.getControlNode().getNode(),
+                                differences.add("Position Mismatch: Current Node " + nr.getTestNode().getXPath()
+                                        + " at position " + Integer.toString(nr.getTestNode().getPosition())
+                                        +
 
-															  currentNR.getControlNode().getXPath());
+                                        " matches " + (nr.isExactMatch() ? "" : "closely")
+                                        +
 
-									
+                                        " with Golden Node " + nr.getControlNode().getXPath() + " at position "
+                                        + Integer.toString(nr.getControlNode().getPosition()));
 
-									Difference diff = null;
+                            } else {
 
-									if (minDiffNR.getNumDifferences() == 0)
+                                differences.add(new Difference(DifferenceConstants.POSITION_MISMATCH,
 
-									{
 
-										diff = new Difference(DifferenceConstants.ADDED_NODE,
+                                        nr.getControlNode(),
 
-																		  xCNode, xTNode);
 
-									}
+                                        nr.getTestNode()));
+                            }
 
-									else
+                        }
 
-									{
+                        differences.add(nr);
 
-										diff = new Difference(DifferenceConstants.MULTIPLE_MATCHES_ADDED_NODE,
+                    }
 
-																	  xCNode, xTNode);
+                }
 
-									}
+                String controlChildNodeXPathStr = null;
 
+                // Go thru the Control Nodes to see if there are unmatched Control nodes
 
+                for (int i = 0; i < controlChildNodes.getLength(); i++) {
 
-									differences.add(diff);
+                    controlChildNode = controlChildNodes.item(i);
 
-								}
+                    controlChildNodeXPathStr = XMLUtil.generateXPath(controlChildNode, xControl.getXPath(),
+                            _ignoringWhitespace, _includeNodeValueInXPath, false);
 
-	                    	}
+                    if (!nodeTracker.containsElementKey(controlChildNode)) {
 
-	                    }
+                        if (_config.applyEListToSiblings()) {
 
+                            controlChildNodeXPathStr = XMLUtil.getNoIndexXPath(controlChildNodeXPathStr);
+                        }
 
+                        if (!_config.getXPathEList().containsKey(controlChildNodeXPathStr)) {
 
-	                    // The Node with least differences is now added
+                            reportNodeDifference(new XNode(controlChildNode,
 
-	                    // to the list of differences
 
-	                    if ((!_config.isIgnoringOrder()) && 
+                                    XMLUtil.generateXPath(controlChildNode, xControl.getXPath(), _ignoringWhitespace,
+                                        _includeNodeValueInXPath, false)),
 
-	                    	(minDiffNR.getControlNode().getPosition() != minDiffNR.getTestNode().getPosition()))
 
-	                    {
+                                xTest, differences, "Missing Node: Current Node ");
+                        }
 
-	                    	if (!_config.isCustomDifference())
+                    }
 
-	                    	{
+                }
 
-	                    		differences.add("Position Mismatch: Current Node " + 
+            }
 
-	                    						minDiffNR.getTestNode().getXPath() + " at position " + 
+            // Report all the Nodes under Test node as being NEWLY added
 
-	                    						Integer.toString(minDiffNR.getTestNode().getPosition()) + 
+            else {
 
-	                    						" matches " + (minDiffNR.isExactMatch() ? "": "closely") +
+                testChildNodes = test.getChildNodes();
 
-	                    						" with Golden Node " + 
+                String testChildNodeXPathStr = null;
 
-	                    						minDiffNR.getControlNode().getXPath() + " at position " + 
+                for (int i = 0; i < testChildNodes.getLength(); i++) {
 
-	                    						Integer.toString(minDiffNR.getControlNode().getPosition()));
+                    testChildNode = testChildNodes.item(i);
 
-	                    	}
+                    testChildNodeXPathStr = XMLUtil.generateXPath(testChildNode, xTest.getXPath(), _ignoringWhitespace,
+                            _includeNodeValueInXPath, false);
 
-	                    	else
+                    reportNodeDifference(xControl, new XNode(testChildNode, testChildNodeXPathStr),
 
-		                    	differences.add(new Difference(DifferenceConstants.POSITION_MISMATCH, 
 
-	                    									minDiffNR.getControlNode(), 
+                        differences, "Added Node: Test Node ");
 
-	                    									minDiffNR.getTestNode()));
+                }
 
-	                    }
+            } // end else NO control child Nodes
 
-	                    
+        } // end if Test node has Child Nodes
 
-	                    differences.add(minDiffNR);
+        // Report all the Control Nodes as being missing
 
-	                }
+        else {
 
-	                else
+            if (control.hasChildNodes()) {
 
-	                {
+                String controlChildNodeXPathStr = null;
 
-	                	NodeResult nr = (NodeResult)nodeResult;
+                controlChildNodes = control.getChildNodes();
 
-	                	log("compareChildNodes: ++++++ Adding child differences from INDIVIDUAL NodeResult " + nodeResult.toString());
+                for (int i = 0; i < controlChildNodes.getLength(); i++) {
 
-	                	if ((!_config.isIgnoringOrder()) && 
+                    controlChildNode = controlChildNodes.item(i);
 
-	                    	(nr.getControlNode().getPosition() != nr.getTestNode().getPosition()))
+                    controlChildNodeXPathStr = XMLUtil.generateXPath(controlChildNode, xControl.getXPath(),
+                            _ignoringWhitespace, _includeNodeValueInXPath, false);
 
-	                    {
+                    reportNodeDifference(new XNode(controlChildNode, controlChildNodeXPathStr), xTest,
 
-	                    	if (!_config.isCustomDifference())
 
-	                    	{
+                        differences, "Missing Node: Test document is missing node ");
 
-	                    		differences.add("Position Mismatch: Current Node " + 
+                }
 
-	                    						nr.getTestNode().getXPath() + " at position " + 
+            }
 
-	                    						Integer.toString(nr.getTestNode().getPosition()) + 
+        }
 
-	                    						" matches " + (nr.isExactMatch() ? "": "closely") + 
+        return differences;
 
-	                    						" with Golden Node " + 
+    }
 
-	                    						nr.getControlNode().getXPath() + " at position " + 
+    /**
+     * Reports a Node difference, based on the configuration settings.
+     *
+     * @param  node         the Node to report the Differences for
+     * @param  differences  the Differences to which all the differences will be added
+     * @param  msg          the Message that will be appended before the actual difference String
+     */
 
-	                    						Integer.toString(nr.getControlNode().getPosition()));
+    private void reportNodeDifference(final XNode xControl, final XNode xTest, final Differences differences,
+            final String msg) {
 
-	                    	}
+        Node control = xControl.getNode();
 
-	                    	else
+        Node test = xTest.getNode();
 
-		                    	differences.add(new Difference(DifferenceConstants.POSITION_MISMATCH, 
+        if ((control == null) && (test == null)) {
 
-	                    									nr.getControlNode(), 
+            return;
+        }
 
-	                    									nr.getTestNode()));
+        XNode node = control == null ? xTest : xControl;
 
-	                    }
+        if ((XMLUtil.isWhitespaceTextNode(node.getNode())) && (isIgnoringWhitespace())) {
 
-	                	differences.add(nr);
+            // skip
 
-	                }
+        } else if (XMLUtil.isCommentNode(node.getNode()) && (_config.isIgnoringComments())) {
 
-	            }
+            // skip
 
+            // Ignore Comment nodes
 
+        } else {
 
-				String controlChildNodeXPathStr = null;
+            // Skip the excluded Elements
 
-	            // Go thru the Control Nodes to see if there are unmatched Control nodes
+            if ((node.getNode().getNodeType() == Node.ELEMENT_NODE)
+                    &&
 
-	           	for(int i=0; i<controlChildNodes.getLength(); i++)
+                    (_config.getExcludedElementsSet().contains(node.getNode().getNodeName()))) {
 
-	           	{
+                // Skip
 
-	           		controlChildNode = controlChildNodes.item(i);
+                log("Ignoring element child node at " + node.getXPath()
+                        +
 
-	           		controlChildNodeXPathStr = XMLUtil.generateXPath(controlChildNode, xControl.getXPath(), _ignoringWhitespace, _includeNodeValueInXPath, false);
+                        " since its in ignore list");
 
-	           		
+            } else {
 
-	           		if (!nodeTracker.containsElementKey(controlChildNode))
+                if (!_config.isCustomDifference()) {
 
-	            	{	            		
+                    differences.add(msg + node.getXPath());
 
-						if(_config.applyEListToSiblings())
+                } else {
 
-							controlChildNodeXPathStr = XMLUtil.getNoIndexXPath(controlChildNodeXPathStr);
+                    NodeDetail testNodeDetail = null;
 
+                    NodeDetail controlNodeDetail = null;
 
+                    Difference diff = new Difference(DifferenceConstants.NODE_NOT_FOUND,
 
-						if (!_config.getXPathEList().containsKey(controlChildNodeXPathStr))
 
-	            			reportNodeDifference(new XNode(controlChildNode, 
+                            xControl, xTest);
 
-	            											XMLUtil.generateXPath(controlChildNode, xControl.getXPath(), _ignoringWhitespace, _includeNodeValueInXPath, false)), 
+                    differences.add(diff);
 
-	            								 xTest, differences, "Missing Node: Current Node ");
+                }
 
-	            	}
+            }
 
+        }
 
+    }
 
-	           	}
+    /**
+     * Prints msg to System.out.
+     */
 
-			}
+    public static void log(final String msg) {
 
-			// Report all the Nodes under Test node as being NEWLY added
+        if (DEBUG) {
 
-			else
+            System.out.println("Comparator:" + msg);
+        }
 
-			{
+    }
 
-				testChildNodes = test.getChildNodes();
+    /**
+     * Prints msg and Exception to System.out.
+     */
 
-				String testChildNodeXPathStr = null;
+    public static void log(final String msg, final Throwable t) {
 
-				
+        if (DEBUG) {
 
-				for(int i=0; i<testChildNodes.getLength(); i++)
+            log(msg);
 
-				{
+            t.printStackTrace(System.out);
 
-					testChildNode = testChildNodes.item(i);
+        }
 
-					testChildNodeXPathStr = XMLUtil.generateXPath(testChildNode, xTest.getXPath(), _ignoringWhitespace, _includeNodeValueInXPath, false);
-
-	           		reportNodeDifference(xControl, new XNode(testChildNode, testChildNodeXPathStr), 
-
-	           							differences, "Added Node: Test Node ");
-
-				}
-
-			} // end else NO control child Nodes
-
-		} // end if Test node has Child Nodes
-
-		// Report all the Control Nodes as being missing
-
-		else
-
-		{
-
-			if (control.hasChildNodes())
-
-			{
-
-				String controlChildNodeXPathStr = null;
-
-				controlChildNodes = control.getChildNodes();
-
-
-
-				for(int i=0; i<controlChildNodes.getLength(); i++)
-
-				{
-
-					controlChildNode = controlChildNodes.item(i);
-
-					controlChildNodeXPathStr = XMLUtil.generateXPath(controlChildNode, xControl.getXPath(), _ignoringWhitespace, _includeNodeValueInXPath, false);
-
-	           		reportNodeDifference(new XNode(controlChildNode, controlChildNodeXPathStr), xTest, 
-
-	           							differences, "Missing Node: Test document is missing node ");
-
-				}
-
-			}
-
-		}
-
-
-
-		return differences;
-
-	}
-
-
-
-	/**
-
-	 * Reports a Node difference, based on the configuration settings
-
-	 * @param node the Node to report the Differences for
-
-	 * @param differences the Differences to which all the differences will be added
-
-	 * @param msg the Message that will be appended before the actual difference String
-
-	 */
-
-	private void reportNodeDifference(XNode xControl, XNode xTest, Differences differences, String msg)
-
-	{
-
-		Node control = xControl.getNode();
-
-		Node test = xTest.getNode();
-
-		
-
-		if ((control == null) && (test == null))
-
-			return;
-
-		XNode node = control==null?xTest:xControl;
-
-
-
-		if ((XMLUtil.isWhitespaceTextNode(node.getNode())) && (isIgnoringWhitespace()))
-
-		{
-
-			//skip
-
-		}
-
-		else
-
-		if (XMLUtil.isCommentNode(node.getNode()) && (_config.isIgnoringComments()))
-
-		{
-
-			// skip
-
-			// Ignore Comment nodes
-
-		}
-
-		else
-
-		{
-
-			// Skip the excluded Elements
-
-			if ((node.getNode().getNodeType() == Node.ELEMENT_NODE) &&
-
-				(_config.getExcludedElementsSet().contains(node.getNode().getNodeName())))
-
-			{
-
-				// Skip
-
-				log("Ignoring element child node at " + node.getXPath() +
-
-				    " since its in ignore list");
-
-			}
-
-    		else
-
-    		{
-
-				if (!_config.isCustomDifference())
-
-	            {
-
-					differences.add(msg + node.getXPath());
-
-	            }
-
-				else
-
-				{
-
-					NodeDetail testNodeDetail = null;
-
-					NodeDetail controlNodeDetail = null;
-
-
-
-					Difference diff = new Difference(DifferenceConstants.NODE_NOT_FOUND,
-
-													  xControl, xTest);
-
-					differences.add(diff);
-
-				}
-
-    		}
-
-		}
-
-	}
-
-
-
-	/**
-
-	 * Prints msg to System.out
-
-	 */
-
-	public static void log(String msg)
-
-	{
-
-		if (DEBUG)
-
-			System.out.println("Comparator:" + msg);
-
-	}
-
-
-
-	/**
-
-	 * Prints msg and Exception to System.out
-
-	 */
-
-	public static void log(String msg, Throwable t)
-
-	{
-
-		if (DEBUG)
-
-		{
-
-			log(msg);
-
-			t.printStackTrace(System.out);
-
-		}
-
-	}
+    }
 
 }

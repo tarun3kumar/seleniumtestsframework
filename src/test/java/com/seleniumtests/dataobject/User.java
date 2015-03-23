@@ -1,7 +1,7 @@
 package com.seleniumtests.dataobject;
 
 /**
- * User account object for TestLink
+ * User account object for TestLink.
  */
 public class User {
 
@@ -12,21 +12,22 @@ public class User {
         return userID;
     }
 
-   public String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(final String userID) {
         this.userID = userID;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.append("User [UserId = "+userID+", ").append("Password = "+password+"]").toString();
+        return stringBuilder.append("User [UserId = " + userID + ", ").append("Password = " + password + "]")
+                            .toString();
     }
 }

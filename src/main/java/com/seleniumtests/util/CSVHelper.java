@@ -6,8 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import java.net.URL;
 import java.net.URLConnection;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,12 +18,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.seleniumtests.core.Filter;
-import com.seleniumtests.customexception.CustomSeleniumTestsException;
-import com.seleniumtests.util.internal.entity.TestEntity;
 import org.apache.log4j.Logger;
 
+import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.TestLogging;
+
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
+
+import com.seleniumtests.util.internal.entity.TestEntity;
 
 public class CSVHelper {
     private static Logger logger = TestLogging.getLogger(CSVHelper.class);
@@ -31,32 +35,39 @@ public class CSVHelper {
     public static final String TAB_CHAR = "	";
 
     /**
-     * Reads data from csv formatted file.
-     * Keep csv file in the same folder as the test case class and specify class as <code>this.getClass()</code>.
+     * Reads data from csv formatted file. Keep csv file in the same folder as the test case class and specify class as
+     * <code>this.getClass()</code>.
      *
-     * @param clazz
-     * @param filename
-     * @param fields
-     * @param filter
-     * @param readHeaders
+     * @param   clazz
+     * @param   filename
+     * @param   fields
+     * @param   filter
+     * @param   readHeaders
+     *
      * @return
-     * @throws Exception
+     *
+     * @throws  Exception
      */
-    public static Iterator<Object[]> getDataFromCSVFile(Class<?> clazz, String filename, String[] fields, Filter filter, boolean readHeaders, boolean supportDPFilter) {
+    public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename,
+            final String[] fields, final Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
         return getDataFromCSVFile(clazz, filename, fields, filter, readHeaders, null, supportDPFilter);
     }
 
-    public static Iterator<Object[]> getDataFromCSVFile(Class<?> clazz, String filename, String[] fields, Filter filter, boolean readHeaders, String delimiter, boolean supportDPFilter) {
+    public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename,
+            final String[] fields, Filter filter, final boolean readHeaders, final String delimiter,
+            final boolean supportDPFilter) {
 
         InputStream is = null;
         try {
-            if (clazz != null)
+            if (clazz != null) {
                 is = clazz.getResourceAsStream(filename);
-            else
+            } else {
                 is = new FileInputStream(filename);
+            }
 
-            if (is == null)
+            if (is == null) {
                 return new ArrayList<Object[]>().iterator();
+            }
 
             // Get the sheet
             String[][] csvData = read(is, delimiter);
@@ -73,28 +84,35 @@ public class CSVHelper {
                         rowData.add(fields[i]);
                     }
                 }
+
                 sheetData.add(rowData.toArray(new Object[rowData.size()]));
             }
 
             int testTitleColumnIndex = -1;
             int testSiteColumnIndex = -1;
+
             // Search title
             for (int i = 0; i < csvData[0].length; i++) {
                 if (testTitleColumnIndex == -1 && TestEntity.TEST_TITLE.equalsIgnoreCase(csvData[0][i])) {
                     testTitleColumnIndex = i;
                 }
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1)
+
+                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
                     break;
+                }
             }
 
             // Check for blank rows first
             // First row is the header
             StringBuilder sbBlank = new StringBuilder();
             for (int i = 1; i < csvData.length; i++) {
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1 && (csvData[i][testTitleColumnIndex].trim().length() == 0 || csvData[i][testSiteColumnIndex].trim().length() == 0)) {
+                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1
+                        && (csvData[i][testTitleColumnIndex].trim().length() == 0
+                            || csvData[i][testSiteColumnIndex].trim().length() == 0)) {
                     sbBlank.append(i + 1).append(',');
                 }
             }
+
             if (sbBlank.length() > 0) {
                 sbBlank.deleteCharAt(sbBlank.length() - 1);
                 throw new CustomSeleniumTestsException("Blank TestTitle found on Row(s) " + sbBlank.toString() + ".");
@@ -114,13 +132,19 @@ public class CSVHelper {
                     }
                 }
             }
+
             // The first row is the header data
             for (int i = 1; i < csvData.length; i++) {
+
                 // Check for duplicate Title
                 if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
-                    String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$" + csvData[i][testSiteColumnIndex];
-                    if (uniqueDataSet.contains(uniqueString))
-                        throw new CustomSeleniumTestsException("Duplicate TestTitle found in the spreadsheet with TestTitle: = {" + csvData[i][testTitleColumnIndex] + "} ");
+                    String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$"
+                            + csvData[i][testSiteColumnIndex];
+                    if (uniqueDataSet.contains(uniqueString)) {
+                        throw new CustomSeleniumTestsException(
+                            "Duplicate TestTitle found in the spreadsheet with TestTitle: = {"
+                                + csvData[i][testTitleColumnIndex] + "} ");
+                    }
 
                     uniqueDataSet.add(uniqueString);
                 }
@@ -135,11 +159,14 @@ public class CSVHelper {
 
                 if (fields == null) {
                     for (int j = 0; j < csvData[0].length; j++) {
-                        // Fix for null values not getting created when number of columns in a row is less than expected.
-                        if (csvData[i].length > j)
+
+                        // Fix for null values not getting created when number of columns in a row is less than
+                        // expected.
+                        if (csvData[i].length > j) {
                             rowData.add(csvData[i][j]);
-                        else
+                        } else {
                             rowData.add(null);
+                        }
                     }
                 } else {
                     for (int k = 0; k < fields.length; k++) {
@@ -147,17 +174,20 @@ public class CSVHelper {
                     }
                 }
 
-                //To support include tags and exclude tags
+                // To support include tags and exclude tags
                 if (supportDPFilter) {
                     SpreadSheetHelper.formatDPTags(rowDataMap);
                 }
+
                 if (filter == null || filter.match(rowDataMap)) {
                     sheetData.add(rowData.toArray(new Object[rowData.size()]));
                 }
             }
 
-            if ((!readHeaders && sheetData.isEmpty()) || (readHeaders && sheetData.size() <= 1))
-                logger.warn("No matching data found on csv file: " + filename + " with filter criteria: " + filter.toString());
+            if ((!readHeaders && sheetData.isEmpty()) || (readHeaders && sheetData.size() <= 1)) {
+                logger.warn("No matching data found on csv file: " + filename + " with filter criteria: "
+                        + filter.toString());
+            }
 
             return sheetData.iterator();
         } catch (Throwable e) {
@@ -174,25 +204,31 @@ public class CSVHelper {
     }
 
     /**
-     * Get headers from a csv file
-     * @param clazz	- null means use the absolute file path, otherwise use relative path under the class
-     * @param filename
-     * @param delimiter - null means ","
+     * Get headers from a csv file.
+     *
+     * @param   clazz      - null means use the absolute file path, otherwise use relative path under the class
+     * @param   filename
+     * @param   delimiter  - null means ","
+     *
      * @return
      */
-    public static ArrayList<String> getHeaderFromCSVFile(Class<?> clazz, String filename,String delimiter)
-    {
-        if(delimiter==null)delimiter=",";
+    public static ArrayList<String> getHeaderFromCSVFile(final Class<?> clazz, final String filename,
+            String delimiter) {
+        if (delimiter == null) {
+            delimiter = ",";
+        }
 
         InputStream is = null;
         try {
-            if (clazz != null)
+            if (clazz != null) {
                 is = clazz.getResourceAsStream(filename);
-            else
+            } else {
                 is = new FileInputStream(filename);
+            }
 
-            if (is == null)
+            if (is == null) {
                 return null;
+            }
 
             // Get the sheet
             String[][] csvData = read(is, delimiter);
@@ -202,6 +238,7 @@ public class CSVHelper {
             for (int j = 0; j < csvData[0].length; j++) {
                 rowData.add(csvData[0][j]);
             }
+
             return rowData;
         } catch (Throwable e) {
             throw new RuntimeException(e.getMessage());
@@ -218,13 +255,14 @@ public class CSVHelper {
     }
 
     /**
-     * Parses line
+     * Parses line.
      *
-     * @param line
-     * @param delim
+     * @param   line
+     * @param   delim
+     *
      * @return
      */
-    public static String[] parseLine(String line, String delim) {
+    public static String[] parseLine(final String line, final String delim) {
         if (line == null || line.trim().length() == 0) {
             return null;
         }
@@ -247,11 +285,13 @@ public class CSVHelper {
                     count++;
                     sbToken.append(DELIM_CHAR).append(tokens[count]);
                 }
+
                 sbToken.deleteCharAt(sbToken.length() - 1);
                 tokenList.add(sbToken.toString());
             } else {
                 tokenList.add(tokens[count]);
             }
+
             count++;
         }
 
@@ -259,69 +299,80 @@ public class CSVHelper {
             result = new String[tokenList.size()];
             tokenList.toArray(result);
         }
+
         return result;
 
     }
 
     /**
-     * Parses file and returns a String[][] object
+     * Parses file and returns a String[][] object.
      *
-     * @param file
+     * @param   file
+     *
      * @return
-     * @throws IOException
+     *
+     * @throws  IOException
      */
-    public static String[][] read(File file) throws IOException {
+    public static String[][] read(final File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
         return read(fis);
     }
 
-    public static String[][] read(InputStream is) throws IOException {
+    public static String[][] read(final InputStream is) throws IOException {
         return read(is, null);
     }
 
     /**
-     * Parses an input stream and returns a String[][] object
+     * Parses an input stream and returns a String[][] object.
      *
-     * @param is
+     * @param   is
+     *
      * @return
-     * @throws IOException
+     *
+     * @throws  IOException
      */
-    public static String[][] read(InputStream is, String delim) throws IOException {
+    public static String[][] read(final InputStream is, final String delim) throws IOException {
 
         String[][] result = null;
         List<String[]> list = new ArrayList<String[]>();
         String inputLine;
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is,"UTF-8"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         while ((inputLine = reader.readLine()) != null) {
             try {
                 String[] item;
-                if (delim == null)
+                if (delim == null) {
                     item = parseLine(inputLine, DELIM_CHAR);
-                else
+                } else {
                     item = parseLine(inputLine, delim);
-                if (item != null)
+                }
+
+                if (item != null) {
                     list.add(item);
-            } catch (Exception e) {
-            }
+                }
+            } catch (Exception e) { }
         }
+
         reader.close();
 
         if (list.size() > 0) {
             result = new String[list.size()][];
             list.toArray(result);
         }
+
         return result;
     }
 
     /**
-     * Parses URL and returns a String[][] object
+     * Parses URL and returns a String[][] object.
      *
-     * @param url
+     * @param   url
+     *
      * @return
-     * @throws IOException
+     *
+     * @throws  IOException
      */
-    public static String[][] read(URL url) throws IOException {
+    public static String[][] read(final URL url) throws IOException {
         URLConnection con = url.openConnection();
         return read(con.getInputStream());
     }

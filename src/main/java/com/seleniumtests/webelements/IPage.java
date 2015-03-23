@@ -1,17 +1,17 @@
 package com.seleniumtests.webelements;
 
 public interface IPage {
-	
-	String getBodyText();
 
-	String getHtmlSavedToPath();
+    String getBodyText();
 
-	String getHtmlSource();
+    String getHtmlSavedToPath();
 
-	String getJSErrors();
+    String getHtmlSource();
 
-	String getLocation();
+    String getJSErrors();
 
-	String getTitle();
+    String getLocation();
+
+    String getTitle();
 
 }

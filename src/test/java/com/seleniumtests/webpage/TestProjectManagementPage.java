@@ -1,16 +1,16 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.webelements.ButtonElement;
-import com.seleniumtests.webelements.SelectList;
-import com.seleniumtests.webelements.TextFieldElement;
-import com.seleniumtests.webelements.PageObject;
 import org.openqa.selenium.By;
 
+import com.seleniumtests.webelements.ButtonElement;
+import com.seleniumtests.webelements.PageObject;
+import com.seleniumtests.webelements.SelectList;
+import com.seleniumtests.webelements.TextFieldElement;
+
 /**
- * Offers services provided by Test Project Management page
+ * Offers services provided by Test Project Management page.
  *
- * Date: 10/4/13
- * Time: 9:03 AM
+ * <p/>Date: 10/4/13 Time: 9:03 AM
  */
 public class TestProjectManagementPage extends PageObject {
 
@@ -19,7 +19,8 @@ public class TestProjectManagementPage extends PageObject {
     }
 
     private static ButtonElement createTestProjectButton = new ButtonElement("Create Test Project", By.id("create"));
-    private static SelectList createFromExistingTestProject = new SelectList("Create from Existing", By.name("copy_from_tproject_id"));
+    private static SelectList createFromExistingTestProject = new SelectList("Create from Existing",
+            By.name("copy_from_tproject_id"));
     private static TextFieldElement name = new TextFieldElement("Name ", By.name("tprojectName"));
     private static TextFieldElement testCaseIdPrefix = new TextFieldElement("Text Case Prefix", By.name("tcasePrefix"));
     private static ButtonElement createButton = new ButtonElement("Create", By.name("doActionButton"));
@@ -46,21 +47,22 @@ public class TestProjectManagementPage extends PageObject {
         return this;
     }
 
-    public TestProjectManagementPage selectCreateFromExistingTestProject(boolean createFromExisting) {
-        if(! createFromExisting) {
+    public TestProjectManagementPage selectCreateFromExistingTestProject(final boolean createFromExisting) {
+        if (!createFromExisting) {
             // do nothing
-        }  else {
-           // Select something
+        } else {
+            // Select something
         }
+
         return this;
     }
 
-    public TestProjectManagementPage enterProjectName(String projectName) {
+    public TestProjectManagementPage enterProjectName(final String projectName) {
         name.sendKeys(projectName);
         return this;
     }
 
-    public TestProjectManagementPage enterPrefix(String prefix) {
+    public TestProjectManagementPage enterPrefix(final String prefix) {
         testCaseIdPrefix.sendKeys(prefix);
         return this;
     }

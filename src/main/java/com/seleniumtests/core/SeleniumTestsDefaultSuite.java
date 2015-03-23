@@ -13,121 +13,100 @@ import org.testng.ISuiteResult;
 import org.testng.ITestNGListener;
 import org.testng.ITestNGMethod;
 import org.testng.SuiteRunState;
+
 import org.testng.internal.annotations.IAnnotationFinder;
+
 import org.testng.xml.XmlSuite;
 
 public class SeleniumTestsDefaultSuite implements ISuite {
 
-	private static final long serialVersionUID = -152933123712833411L;
-	private XmlSuite xmlSuite;
-	public SeleniumTestsDefaultSuite(){
-		this.xmlSuite = new DefaultXmlSuite();
-	}
-	
-	public Object getAttribute(String name) {
-		return null;
-	}
+    private static final long serialVersionUID = -152933123712833411L;
+    private XmlSuite xmlSuite;
 
-	
-	public void setAttribute(String name, Object value) {
-	}
+    public SeleniumTestsDefaultSuite() {
+        this.xmlSuite = new DefaultXmlSuite();
+    }
 
-	
-	public Set<String> getAttributeNames() {
-		return null;
-	}
+    public Object getAttribute(final String name) {
+        return null;
+    }
 
-	
-	public Object removeAttribute(String name) {
-		return null;
-	}
+    public void setAttribute(final String name, final Object value) { }
 
-	
-	public String getName() {
-		return "Default suite";
-	}
+    public Set<String> getAttributeNames() {
+        return null;
+    }
 
-	
-	public Map<String, ISuiteResult> getResults() {
-		return null;
-	}
+    public Object removeAttribute(final String name) {
+        return null;
+    }
 
-	
-	public IObjectFactory getObjectFactory() {
-		return null;
-	}
+    public String getName() {
+        return "Default suite";
+    }
 
-	
-	public IObjectFactory2 getObjectFactory2() {
-		return null;
-	}
+    public Map<String, ISuiteResult> getResults() {
+        return null;
+    }
 
-	
-	public String getOutputDirectory() {
-		return null;
-	}
+    public IObjectFactory getObjectFactory() {
+        return null;
+    }
 
-	
-	public String getParallel() {
-		return null;
-	}
+    public IObjectFactory2 getObjectFactory2() {
+        return null;
+    }
 
-	
-	public String getParameter(String parameterName) {
-		return null;
-	}
+    public String getOutputDirectory() {
+        return null;
+    }
 
-	
-	public Map<String, Collection<ITestNGMethod>> getMethodsByGroups() {
-		return null;
-	}
+    public String getParallel() {
+        return null;
+    }
 
-	
-	public Collection<ITestNGMethod> getInvokedMethods() {
-		return null;
-	}
+    public String getParameter(final String parameterName) {
+        return null;
+    }
 
-	
-	public List<IInvokedMethod> getAllInvokedMethods() {
-		return null;
-	}
+    public Map<String, Collection<ITestNGMethod>> getMethodsByGroups() {
+        return null;
+    }
 
-	
-	public Collection<ITestNGMethod> getExcludedMethods() {
-		return null;
-	}
+    public Collection<ITestNGMethod> getInvokedMethods() {
+        return null;
+    }
 
-	
-	public void run() {
-	}
+    public List<IInvokedMethod> getAllInvokedMethods() {
+        return null;
+    }
 
-	
-	public String getHost() {
-		return null;
-	}
+    public Collection<ITestNGMethod> getExcludedMethods() {
+        return null;
+    }
 
-	
-	public SuiteRunState getSuiteState() {
-		return null;
-	}
+    public void run() { }
 
-	
-	public IAnnotationFinder getAnnotationFinder() {
-		return null;
-	}
+    public String getHost() {
+        return null;
+    }
 
-	
-	public XmlSuite getXmlSuite() {
-		return xmlSuite;
-	}
+    public SuiteRunState getSuiteState() {
+        return null;
+    }
 
-	
-	public void addListener(ITestNGListener listener) {
-	}
+    public IAnnotationFinder getAnnotationFinder() {
+        return null;
+    }
 
-	
-	public List<ITestNGMethod> getAllMethods() {
-		return null;
-	}
+    public XmlSuite getXmlSuite() {
+        return xmlSuite;
+    }
+
+    public void addListener(final ITestNGListener listener) { }
+
+    public List<ITestNGMethod> getAllMethods() {
+        return null;
+    }
 
 }

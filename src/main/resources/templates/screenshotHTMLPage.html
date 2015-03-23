@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-<title>Insert title here</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+    <title>Insert title here</title>
 
-<script src="../resources/js/jquery-1.10.2.min.js" language="JavaScript"></script>
+    <script src="../resources/js/jquery-1.10.2.min.js" language="JavaScript"></script>
 
-<script type="text/javascript">                                         
+    <script type="text/javascript">                                         
 var previousURL = '$previousURL';
 var nextURL = '$nextURL';
 
@@ -102,37 +102,38 @@ function getStatus(url){
 }
 
  });
-</script>
+
+    </script>
 
 </head>
 <body>
 
-<div id='message'>page url : $pageUrl<br />
-message : $message<br />
+<div id='message'>page url : $pageUrl<br/>
+    message : $message<br/>
 </div>
 
 <table border="1">
-	<tr>
-		<td id='tabScreenshot'>screenshot</td>
-		<td id='tabSource'>source</td>
-		<td id='tabSourceRendered'>sourceRendered</td>
-	</tr>
+    <tr>
+        <td id='tabScreenshot'>screenshot</td>
+        <td id='tabSource'>source</td>
+        <td id='tabSourceRendered'>sourceRendered</td>
+    </tr>
 </table>
 
-<div id='screenshot'><img src="../$imagesrc" /></div>
+<div id='screenshot'><img src="../$imagesrc"/></div>
 
 
 <div id='source'>source is here : $sourcelink
-<div rows="50" cols="150">$source</div>
+    <div rows="50" cols="150">$source</div>
 </div>
 
 
 <div id='sourceRenderedTab'>WARNING : this is a the preview of the
-html only.The html uses some dynamic includes
-Those files might have changed since the test was ran. Refer to the
-screenshot to have what the page really looked like.
+    html only.The html uses some dynamic includes
+    Those files might have changed since the test was ran. Refer to the
+    screenshot to have what the page really looked like.
 
-<div id='sourceRendered'></div>
+    <div id='sourceRendered'></div>
 
 </div>
 

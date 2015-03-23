@@ -1,80 +1,62 @@
 package com.seleniumtests.xmldog;
 
-import org.w3c.dom.Node;
-
-
-
 /**
-
+ * Value object that describes a difference between DOM Nodes using one of.
  *
-
- * Value object that describes a difference between DOM Nodes using one of
-
- * the DifferenceConstants ID values and a XNode instance.
-
- * <br />Examples and more at <a href="http://xmlunit.sourceforge.net"/>xmlunit.sourceforge.net</a>
-
- * @see XNode
-
+ * <p/>the DifferenceConstants ID values and a XNode instance.
+ *
+ * <p/>
+ * <br />
+ * Examples and more at <a href="http://xmlunit.sourceforge.net"/>xmlunit.sourceforge.net</a>
+ *
+ * @see  XNode
  */
 
-public class Difference 
+public class Difference {
 
-{
-
-    /** Simple unique identifier */
+    /**
+     * Simple unique identifier.
+     */
 
     private int _id;
 
-    /** Description of the difference */
+    /**
+     * Description of the difference.
+     */
 
     private final String _description;
 
-    /** TRUE if the difference represents a similarity, FALSE otherwise */
+    /**
+     * TRUE if the difference represents a similarity, FALSE otherwise.
+     */
 
     private boolean _recoverable;
-
-    
 
     private XNode _xControlNode = null;
 
     private XNode _xTestNode = null;
 
-
-
     /**
-
-     * Constructor for non-similar Difference instances
-
-     * @param id
-
-     * @param description
-
+     * Constructor for non-similar Difference instances.
+     *
+     * @param  id
+     * @param  description
      */
 
-    protected Difference(int id, String description) 
-
-    {
+    protected Difference(final int id, final String description) {
 
         this(id, description, false);
 
     }
 
-
-
     /**
-
-     * Constructor for similar Difference instances
-
-     * @param id
-
-     * @param description
-
+     * Constructor for similar Difference instances.
+     *
+     * @param  id
+     * @param  description
      */
 
-    protected Difference(int id, String description, boolean recoverable) 
-
-    {
+    protected Difference(final int id, final String description, final boolean recoverable) {
 
         _id = id;
 
@@ -84,21 +66,13 @@ public class Difference
 
     }
 
-    
-
-
-
     /**
-
-     * Copy constructor using prototype Difference and
-
-     * encountered NodeDetails
-
+     * Copy constructor using prototype Difference and.
+     *
+     * <p/>encountered NodeDetails
      */
 
-    protected Difference(Difference prototype, XNode xControlNode, XNode xTestNode) 
-
-    {
+    protected Difference(final Difference prototype, final XNode xControlNode, final XNode xTestNode) {
 
         this(prototype.getId(), prototype.getDescription(), prototype.isRecoverable());
 
@@ -108,211 +82,136 @@ public class Difference
 
     }
 
-    
-
     /**
-
-     * @return the id
-
+     * @return  the id
      */
 
-    public int getId() 
-
-    {
+    public int getId() {
 
         return _id;
 
     }
 
-    
+    public void setId(final int id) {
 
-    public void setId(int id)
+        _id = id;
 
-    {
-
-    	_id = id;
-
-    }	
-
-
+    }
 
     /**
-
-     * @return the description
-
+     * @return  the description
      */
 
-    public String getDescription() 
-
-    {
+    public String getDescription() {
 
         return _description;
 
     }
 
-
-
     /**
-
-     * @return TRUE if the difference represents a similarity, FALSE otherwise
-
+     * @return  TRUE if the difference represents a similarity, FALSE otherwise
      */
 
-    public boolean isRecoverable() 
-
-    {
+    public boolean isRecoverable() {
 
         return _recoverable;
 
     }
 
-    
-
     /**
-
      * Allow the recoverable field value to be overridden.
-
-     * Used when an override DifferenceListener is used in conjunction with
-
-     * a DetailedDiff.
-
+     *
+     * <p/>Used when an override DifferenceListener is used in conjunction with
+     *
+     * <p/>a DetailedDiff.
      */
 
-    protected void setRecoverable(boolean overrideValue) 
+    protected void setRecoverable(final boolean overrideValue) {
 
-    {
-
-    	_recoverable = overrideValue;
+        _recoverable = overrideValue;
 
     }
-
-    
 
     /**
-
-     * @return the XNode from the piece of XML used as the control 
-
-     * at the Node where this difference was encountered
-
+     * @return  the XNode from the piece of XML used as the control
+     *
+     *          <p/>at the Node where this difference was encountered
      */
 
-    public XNode getControlNodeDetail() 
+    public XNode getControlNodeDetail() {
 
-    {
-
-    	return _xControlNode;
+        return _xControlNode;
 
     }
-
-
-
-	/**
-
-	 * Sets control Node detail
-
-	 */    
-
-    public void setControlNodeDetail(XNode XNode)
-
-    {
-
-    	_xControlNode = XNode;
-
-    }
-
-
 
     /**
-
-     * @return the XNode from the piece of XML used as the test
-
-     * at the Node where this difference was encountered
-
+     * Sets control Node detail.
      */
 
-    public XNode getTestNodeDetail() 
+    public void setControlNodeDetail(final XNode XNode) {
 
-    {
-
-    	return _xTestNode;
+        _xControlNode = XNode;
 
     }
 
-    
-
     /**
-
-     * Sets test Node detail
-
+     * @return  the XNode from the piece of XML used as the test
+     *
+     *          <p/>at the Node where this difference was encountered
      */
 
-    public void setTestNodeDetail(XNode XNode)
+    public XNode getTestNodeDetail() {
 
-    {
-
-    	_xTestNode = XNode;
+        return _xTestNode;
 
     }
 
-    
-
     /**
-
-     * @return a basic representation of the object state and identity
-
-     * and if <code>XNode</code> instances are populated append 
-
-     * their details also
-
+     * Sets test Node detail.
      */
 
-    public String toString() 
+    public void setTestNodeDetail(final XNode XNode) {
 
-    {
+        _xTestNode = XNode;
 
-    	StringBuffer buf = new StringBuffer();
+    }
 
-    	if (_xControlNode == null || _xTestNode == null) 
+    /**
+     * @return  a basic representation of the object state and identity
+     *
+     *          <p/>and if <code>XNode</code> instances are populated append
+     *
+     *          <p/>their details also
+     */
 
-    	{
+    public String toString() {
 
-    		appendBasicRepresentation(buf);
+        StringBuffer buf = new StringBuffer();
 
-    	} else 
+        if (_xControlNode == null || _xTestNode == null) {
 
-    	{
+            appendBasicRepresentation(buf);
 
-    		appendDetailedRepresentation(buf);
+        } else {
 
-    	}
+            appendDetailedRepresentation(buf);
+
+        }
 
         return buf.toString();
 
-    } 
+    }
 
-    
-
-    private void appendBasicRepresentation(StringBuffer buf) 
-
-    {
+    private void appendBasicRepresentation(final StringBuffer buf) {
 
         buf.append("Difference (#").append(_id).append(") ").append(_description);
 
     }
 
-    
+    private void appendDetailedRepresentation(final StringBuffer buf) {
 
-    private void appendDetailedRepresentation(StringBuffer buf) 
-
-    {    	
-
-    	buf.append("Expected ").append(getDescription())
-
-            .append(" '").append(_xControlNode.getValue())
-
-            .append("' but was '").append(_xTestNode.getValue())
-
-            .append("' - comparing ");
+        buf.append("Expected ").append(getDescription()).append(" '").append(_xControlNode.getValue())
+           .append("' but was '").append(_xTestNode.getValue()).append("' - comparing ");
 
         NodeDescription.appendNodeDetail(buf, _xControlNode);
 

@@ -1,47 +1,47 @@
 package com.seleniumtests.core;
 
-import com.seleniumtests.reporter.PluginsHelper;
 import org.apache.log4j.Logger;
+
+import com.seleniumtests.reporter.PluginsHelper;
 
 import com.seleniumtests.webelements.IPage;
 
 /**
- * Plugin architecture for SEO, Java Script, Accessibility etc tests.
+ * Plugin architecture for SEO, Java Script, Accessibility etc functional tests.
  */
 public abstract class SeleniumTestsPageListener {
     protected static final Logger logger = TestLogging.getLogger(SeleniumTestsPageListener.class);
 
     /**
-     * Informs all the page listeners on page Load
+     * Informs all the page listeners on page Load.
      *
-     * @param page
+     * @param  page
      */
-    public static void informPageLoad(IPage page) {
-        PluginsHelper.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
-                page, true);
+    public static void informPageLoad(final IPage page) {
+        PluginsHelper.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext()
+                .getTestMethodSignature(), page, true);
     }
 
     /**
-     * Informs all the page listeners on page Unload
+     * Informs all the page listeners on page Unload.
      *
-     * @param page
+     * @param  page
      */
-    public static void informPageUnload(IPage page) {
-        PluginsHelper.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext().getTestMethodSignature(),
-                page, false);
+    public static void informPageUnload(final IPage page) {
+        PluginsHelper.getInstance().invokePageListeners(SeleniumTestsContextManager.getThreadContext()
+                .getTestMethodSignature(), page, false);
     }
 
     private String title;
 
     private boolean testResultEffected;
 
-    public SeleniumTestsPageListener(String title, boolean testResultEffected) {
+    public SeleniumTestsPageListener(final String title, final boolean testResultEffected) {
         this.title = title;
         this.testResultEffected = testResultEffected;
     }
 
-    public SeleniumTestsPageListener() {
-    }
+    public SeleniumTestsPageListener() { }
 
     public String getTitle() {
         return title;

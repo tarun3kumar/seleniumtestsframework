@@ -4,302 +4,204 @@ import java.util.ArrayList;
 
 import org.w3c.dom.Node;
 
-
 /**
-
- * Differences class used to store all the Differences between the Nodes
-
- * being compared
+ * Differences class used to store all the Differences between the Nodes.
+ *
+ * <p/>being compared
  */
 
-public class Differences extends ArrayList
+public class Differences extends ArrayList implements DifferenceListener {
 
-	implements DifferenceListener
+    /**
+     * Default Constructor.
+     */
 
-{		
+    public Differences() {
 
-	/**
+        super();
 
-	 * Default Constructor
+    }
 
-	 */
+    /**
+     * Copy Constructor.
+     */
 
-	public Differences()
+    public Differences(final Differences differences) {
 
-	{
+        addAll(differences);
 
-		super();
+    }
 
-	}
+    /**
+     * Adds Differences from the input NodeResult.
+     *
+     * @see  NodeResult
+     */
 
-	
+    public boolean add(final NodeResult nr) {
 
-	/**
+        if ((nr != null) && (nr.getDifferences() != null)) {
 
-	 * Copy Constructor
+            addAll(nr.getDifferences());
 
-	 */
+            return true;
 
-	public Differences(Differences differences)
+        }
 
-	{
+        return false;
 
-		addAll(differences);
+    }
 
-	}
+    /**
+     * Adds Differences from the input Differences.
+     */
 
-	
+    public boolean add(final Differences diffs) {
 
-	/**
+        return addAll(diffs);
 
-	 * Adds Differences from the input NodeResult
+    }
 
-	 * @see NodeResult
+    public boolean add(final Object obj) {
 
-	 */
+        if (obj instanceof NodeResult) {
 
-	public boolean add(NodeResult nr)
+            return add((NodeResult) obj);
+        } else if (obj instanceof Differences) {
 
-	{
+            return add((Differences) obj);
+        } else {
 
-		if ((nr != null) && (nr.getDifferences() != null))
+            return super.add(obj.toString());
+        }
 
-		{
+    }
 
-			addAll(nr.getDifferences());
+    /**
+     * Notifies DifferenceListener that similar node has been found in.
+     *
+     * <p/>the test Document<br>
+     *
+     * <p/>Implementation method from DifferenceListener interface
+     */
 
-			return true;
+    public void similarNodeFound(final Node controlNode, final Node testNode, final String msg) {
 
-		}
+        add(msg);
 
-		
+    }
 
-		return false;
+    /**
+     * Notifies DifferenceListener that identical node has been found in.
+     *
+     * <p/>the test Document<br>
+     *
+     * <p/>Implementation method from DifferenceListener interface
+     */
 
-	}
+    public void identicalNodeFound(final Node controlNode, final Node testNode, final String msg) {
 
-	
+        add(msg);
 
-	/**
+    }
 
-	 * Adds Differences from the input Differences	 
+    /**
+     * Notifies DifferenceListener that corresponding node has NOT been found in.
+     *
+     * <p/>the test Document<br>
+     *
+     * <p/>Implementation method from DifferenceListener interface
+     */
 
-	 */
+    public void nodeNotFound(final Node controlNode, final Node testNode, final String msg) {
 
-	public boolean add(Differences diffs)
+        add(msg);
 
-	{
+    }
 
-		return addAll(diffs);		
+    /**
+     * Gets difference count.
+     */
 
-	}
+    public int getDiffCount() {
 
-	
+        return size();
 
-	public boolean add(Object obj)
+    }
 
-	{
+    /**
+     * Gets the String representation of the object.
+     */
 
-		if (obj instanceof NodeResult)
+    public String toString() {
 
-			return add((NodeResult)obj);
+        StringBuffer sb = new StringBuffer();
 
-		else
+        sb.append("Differences:[ size: " + size());
 
-		if (obj instanceof Differences)
+        sb.append(StringUtil.getNewlineStr());
 
-			return add((Differences)obj);
+        if (size() > 0) {
 
-		else
+            for (int i = 0; i < size(); i++) {
 
-			return super.add(obj.toString());
+                // System.out.println(" Element in the differences list is of type " + get(i).getClass());
 
-	}
+                sb.append(get(i).toString());
 
-	
+                sb.append(StringUtil.getNewlineStr());
 
-	/**
+            }
 
-	 * Notifies DifferenceListener that similar node has been found in 
+        } else {
 
-	 * the test Document<br>
+            sb.append("XML Nodes are identical, No differences found");
+        }
 
-	 * Implementation method from DifferenceListener interface
+        sb.append(StringUtil.getNewlineStr());
 
-	 */
+        sb.append("]");
 
-	public void similarNodeFound(Node controlNode, Node testNode, String msg)
+        return sb.toString();
 
-	{
+    }
 
-		add(msg);
+    /**
+     * Gets Simple HTML string form of the Differences, with all the individual differences.
+     *
+     * <p/>seperated by line break<br>
+     * HTML tag
+     */
 
-	}
+    public String getHTML() {
 
-	
+        StringBuffer sb = new StringBuffer();
 
-	/**
+        sb.append("<UL>");
 
-	 * Notifies DifferenceListener that identical node has been found in 
+        if (size() > 0) {
 
-	 * the test Document<br>
+            for (int i = 0; i < size(); i++) {
 
-	 * Implementation method from DifferenceListener interface
+                // System.out.println(" Element in the differences list is of type " + get(i).getClass());
 
-	 */
+                sb.append("<LI>");
 
-	public void identicalNodeFound(Node controlNode, Node testNode, String msg)
+                sb.append(get(i).toString());
 
-	{
+                sb.append("</LI>");
 
-		add(msg);
+            }
 
-	}
+        } else {
 
-	
+            sb.append("<B>Nodes are identical, No differences found</B>");
+        }
 
-	/**
+        sb.append("</UL>");
 
-	 * Notifies DifferenceListener that corresponding node has NOT been found in 
+        return sb.toString();
 
-	 * the test Document<br>
-
-	 * Implementation method from DifferenceListener interface
-
-	 */
-
-	public void nodeNotFound(Node controlNode, Node testNode, String msg)
-
-	{
-
-		add(msg);
-
-	}
-
-	
-
-	
-
-	/**
-
-	 * Gets difference count
-
-	 */	
-
-	public int getDiffCount()
-
-	{
-
-		return size();
-
-	}
-
-	
-
-	/**
-
-	 * Gets the String representation of the object
-
-	 */
-
-	public String toString()
-
-	{
-
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("Differences:[ size: " + size());
-
-		sb.append(StringUtil.getNewlineStr()); 
-
-		
-
-		if (size() > 0)
-
-		{
-
-			for(int i=0; i<size(); i++)
-
-			{
-
-				//System.out.println(" Element in the differences list is of type " + get(i).getClass());
-
-				sb.append(get(i).toString());				
-
-				sb.append(StringUtil.getNewlineStr());
-
-			}
-
-		}
-
-		else
-
-			sb.append("XML Nodes are identical, No differences found");
-
-		
-
-		sb.append(StringUtil.getNewlineStr());
-
-		sb.append("]");
-
-			
-
-		return sb.toString();
-
-	}
-
-	
-
-	/**
-
-	 * Gets Simple HTML string form of the Differences, with all the individual differences
-
-	 * seperated by line break <br> HTML tag
-
-	 */
-
-	public String getHTML()
-
-	{
-
-		StringBuffer sb = new StringBuffer();		
-
-		sb.append("<UL>");
-
-		
-
-		if (size() > 0)
-
-		{
-
-			for(int i=0; i<size(); i++)
-
-			{
-
-				//System.out.println(" Element in the differences list is of type " + get(i).getClass());
-
-				sb.append("<LI>");
-
-				sb.append(get(i).toString());
-
-				sb.append("</LI>");
-
-			}
-
-		}
-
-		else
-
-			sb.append("<B>Nodes are identical, No differences found</B>");
-
-		
-
-		sb.append("</UL>");		
-
-			
-
-		return sb.toString();
-
-	}
+    }
 
 }

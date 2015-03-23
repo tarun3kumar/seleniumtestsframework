@@ -1,48 +1,48 @@
 <div id='$testId' style='width: 100%'>
-	<div class="yuk_tab_panel suitePanel">
-		<div class="yuk_goldgrad_tl">
-			<div class="yuk_goldgrad_tr">
-				<div class="yuk_goldgrad_m"></div>
-			</div>
-		</div>
+    <div class="yuk_tab_panel suitePanel">
+        <div class="yuk_goldgrad_tl">
+            <div class="yuk_goldgrad_tr">
+                <div class="yuk_goldgrad_m"></div>
+            </div>
+        </div>
 
-		<div class="yuk_tabbed_nav">
-			<h2 class="yuk_tab_title" id='$testId' style="padding-bottom: 10px;">Test Details - $testName</h2>
+        <div class="yuk_tabbed_nav">
+            <h2 class="yuk_tab_title" id='$testId' style="padding-bottom: 10px;">Test Details - $testName</h2>
 
             <div style='float: left'>
-				<input type='checkbox'name='$testId' value="skipped" checked='checked'>
-				<font color="grey"><b>skipped</b></font>
-			</div>
-			<div style='float: left'>
-				<input type='checkbox' name='$testId' value='failed' checked='checked'>
-				<font color="red"><b>failed</b></font>
-			</div>
-			<div style='float: left'>
-				<input type='checkbox' name='$testId' value='passed' checked='checked'>
-				<font color="green"><b>passed</b></font>
-			</div>
+                <input type='checkbox' name='$testId' value="skipped" checked='checked'>
+                <font color="grey"><b>skipped</b></font>
+            </div>
+            <div style='float: left'>
+                <input type='checkbox' name='$testId' value='failed' checked='checked'>
+                <font color="red"><b>failed</b></font>
+            </div>
+            <div style='float: left'>
+                <input type='checkbox' name='$testId' value='passed' checked='checked'>
+                <font color="green"><b>passed</b></font>
+            </div>
 
-			<ul id='$testId' style="margin-left:1400px;">
-				<li class='tab active' id='test'>
-					<a href="#"><span>Tests (
+            <ul id='$testId' style="margin-left:1400px;">
+                <li class='tab active' id='test'>
+                    <a href="#"><span>Tests (
 					<font color="green">$testp</font> 
 					/ <font color="red">$testf</font> 
 					/ <font color="grey">$tests</font>
 					)</span></a>
-				</li>
-				$globalerrortabs
-			</ul>
-		</div>
-	
-		<div class="clear_both"></div>
-		
-		<div class='envt' style='width: 98%;margin-left:15px;'>
-			$envthtml
-		</div>
-		
-		<div class='test' style='width: 98%;margin-left:15px;'>
-			$testhtml
-		</div>
-		$globalerrorhtmls
-	</div>
+                </li>
+                $globalerrortabs
+            </ul>
+        </div>
+
+        <div class="clear_both"></div>
+
+        <div class='envt' style='width: 98%;margin-left:15px;'>
+            $envthtml
+        </div>
+
+        <div class='test' style='width: 98%;margin-left:15px;'>
+            $testhtml
+        </div>
+        $globalerrorhtmls
+    </div>
 </div>

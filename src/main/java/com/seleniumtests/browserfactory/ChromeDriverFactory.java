@@ -1,51 +1,51 @@
 package com.seleniumtests.browserfactory;
 
 import java.io.IOException;
+
 import java.util.concurrent.TimeUnit;
 
-import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class ChromeDriverFactory extends AbstractWebDriverFactory implements
-		IWebDriverFactory {
+import com.seleniumtests.driver.DriverConfig;
 
-	public ChromeDriverFactory(DriverConfig cfg) {
-		super(cfg);
-	}
+public class ChromeDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {
 
-	/**
-	 * create native driver instance, designed for unit testing
-	 * 
-	 * @return
-	 */
-	protected WebDriver createNativeDriver() {
-		return new ChromeDriver(
-				new ChromeCapabilitiesFactory().createCapabilities(webDriverConfig));
-	}
+    public ChromeDriverFactory(final DriverConfig cfg) {
+        super(cfg);
+    }
 
-	@Override
-	public WebDriver createWebDriver() throws IOException {
-		DriverConfig cfg = this.getWebDriverConfig();
+    /**
+     * create native driver instance, designed for unit testing.
+     *
+     * @return
+     */
+    protected WebDriver createNativeDriver() {
+        return new ChromeDriver(new ChromeCapabilitiesFactory().createCapabilities(webDriverConfig));
+    }
 
-		driver = createNativeDriver();
+    @Override
+    public WebDriver createWebDriver() throws IOException {
+        DriverConfig cfg = this.getWebDriverConfig();
 
-		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
-		if (cfg.getPageLoadTimeout() >= 0) {
-			setPageLoadTimeout(cfg.getPageLoadTimeout());
-		}
-		this.setWebDriver(driver);
-		return driver;
-	}
+        driver = createNativeDriver();
 
-	protected void setPageLoadTimeout(long timeout) {
-		try {
-			driver.manage().timeouts()
-					.pageLoadTimeout(timeout, TimeUnit.SECONDS);
-		} catch (UnsupportedCommandException e) {
-			// chromedriver1 does not support pageLoadTimeout
-		}
-	}
+        setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
+        if (cfg.getPageLoadTimeout() >= 0) {
+            setPageLoadTimeout(cfg.getPageLoadTimeout());
+        }
+
+        this.setWebDriver(driver);
+        return driver;
+    }
+
+    protected void setPageLoadTimeout(final long timeout) {
+        try {
+            driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
+        } catch (UnsupportedCommandException e) {
+            // chromedriver1 does not support pageLoadTimeout
+        }
+    }
 
 }

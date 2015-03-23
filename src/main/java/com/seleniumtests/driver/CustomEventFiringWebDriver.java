@@ -7,31 +7,30 @@ import org.openqa.selenium.remote.UselessFileDetector;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 /**
- * Supports file upload in remote webdriver
- *
+ * Supports file upload in remote webdriver.
  */
 public class CustomEventFiringWebDriver extends EventFiringWebDriver {
-	private FileDetector fileDetector = new UselessFileDetector();
-	private WebDriver driver = null;
+    private FileDetector fileDetector = new UselessFileDetector();
+    private WebDriver driver = null;
 
-	public CustomEventFiringWebDriver(WebDriver driver) {
-		super(driver);
-		this.driver = driver;
-	}
+    public CustomEventFiringWebDriver(final WebDriver driver) {
+        super(driver);
+        this.driver = driver;
+    }
 
-	public void setFileDetector(FileDetector detector) {
-		if (detector == null) {
-			throw new WebDriverException(
-					"file detector is null");
-		}
-		fileDetector = detector;
-	}
+    public void setFileDetector(final FileDetector detector) {
+        if (detector == null) {
+            throw new WebDriverException("file detector is null");
+        }
 
-	public FileDetector getFileDetector() {
-		return fileDetector;
-	}
-	
-	public WebDriver getWebDriver(){
-		return driver;
-	}
+        fileDetector = detector;
+    }
+
+    public FileDetector getFileDetector() {
+        return fileDetector;
+    }
+
+    public WebDriver getWebDriver() {
+        return driver;
+    }
 }

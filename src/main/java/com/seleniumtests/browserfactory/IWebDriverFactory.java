@@ -1,15 +1,16 @@
 package com.seleniumtests.browserfactory;
 
-import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 
-public interface IWebDriverFactory {
-	
-	public void cleanUp();
-	
-	public WebDriver createWebDriver() throws Exception;
-	
-	public WebDriver getWebDriver();
+import com.seleniumtests.driver.DriverConfig;
 
-	public DriverConfig getWebDriverConfig();
+public interface IWebDriverFactory {
+
+    void cleanUp();
+
+    WebDriver createWebDriver() throws Exception;
+
+    WebDriver getWebDriver();
+
+    DriverConfig getWebDriverConfig();
 }

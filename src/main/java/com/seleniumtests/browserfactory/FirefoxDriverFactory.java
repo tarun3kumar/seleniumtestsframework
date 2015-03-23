@@ -2,95 +2,90 @@ package com.seleniumtests.browserfactory;
 
 import java.util.concurrent.TimeUnit;
 
-import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class FirefoxDriverFactory extends AbstractWebDriverFactory implements
-		IWebDriverFactory {
-	private long timeout = 60;
+import com.seleniumtests.driver.DriverConfig;
 
-	/**
-	 * 
-	 * @param cfg
-	 *            the configuration of the firefoxDriver
-	 */
-	public FirefoxDriverFactory(DriverConfig cfg) {
-		super(cfg);
-	}
+public class FirefoxDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {
+    private long timeout = 60;
 
-	/**
-	 * create native driver instance, designed for unit testing
-	 * 
-	 * @return
-	 */
-	protected WebDriver createNativeDriver() {
-		return new FirefoxDriver( 
-				new FirefoxCapabilitiesFactory().createCapabilities(webDriverConfig));
-	}
+    /**
+     * @param  cfg  the configuration of the firefoxDriver
+     */
+    public FirefoxDriverFactory(final DriverConfig cfg) {
+        super(cfg);
+    }
 
-	@Override
-	public WebDriver createWebDriver() {
-		DriverConfig cfg = this.getWebDriverConfig();
+    /**
+     * create native driver instance, designed for unit testing.
+     *
+     * @return
+     */
+    protected WebDriver createNativeDriver() {
+        return new FirefoxDriver(new FirefoxCapabilitiesFactory().createCapabilities(webDriverConfig));
+    }
 
-		System.out.println("start create firefox");
-		driver = createWebDriverWithTimeout();
+    @Override
+    public WebDriver createWebDriver() {
+        DriverConfig cfg = this.getWebDriverConfig();
 
-		System.out.println("end create firefox");
+        System.out.println("start create firefox");
+        driver = createWebDriverWithTimeout();
 
-		// Implicit Waits to handle dynamic element. The default value is 5
-		// seconds.
-		setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
-		if (cfg.getPageLoadTimeout() >= 0) {
-			setPageLoadTimeout(cfg.getPageLoadTimeout());
-		}
+        System.out.println("end create firefox");
 
-		this.setWebDriver(driver);
-		return driver;
-	}
+        // Implicit Waits to handle dynamic element. The default value is 5
+        // seconds.
+        setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
+        if (cfg.getPageLoadTimeout() >= 0) {
+            setPageLoadTimeout(cfg.getPageLoadTimeout());
+        }
 
-	/**
-	 * Create webDriver, capture socket customexception and retry with timeout
-	 * 
-	 * @return WebDriver
-	 */
-	protected WebDriver createWebDriverWithTimeout() {
-		long time = 0;
-		while (time < getTimeout()) {
-			try {
-				driver = createNativeDriver();
-				return driver;
-			} catch (WebDriverException ex) {
-				if (ex.getMessage().contains("SocketException")
-						|| ex.getMessage().contains(
-								"Failed to connect to binary FirefoxBinary")
-						|| ex.getMessage()
-								.contains(
-										"Unable to bind to locking port 7054 within 45000 ms")) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-					}
-					time++;
-				} else
-					throw new RuntimeException(ex);
-			}
-		}
-		throw new RuntimeException(
-				"Got customexception when creating webDriver with socket timeout 1 minute");
-	}
+        this.setWebDriver(driver);
+        return driver;
+    }
 
-	/**
-	 * It's designed for shorten tiemout in unit testing
-	 * 
-	 * @return timeout
-	 */
-	protected long getTimeout() {
-		return timeout;
-	}
+    /**
+     * Create webDriver, capture socket customexception and retry with timeout.
+     *
+     * @return  WebDriver
+     */
+    protected WebDriver createWebDriverWithTimeout() {
+        long time = 0;
+        while (time < getTimeout()) {
+            try {
+                driver = createNativeDriver();
+                return driver;
+            } catch (WebDriverException ex) {
+                if (ex.getMessage().contains("SocketException")
+                        || ex.getMessage().contains("Failed to connect to binary FirefoxBinary")
+                        || ex.getMessage().contains("Unable to bind to locking port 7054 within 45000 ms")) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) { }
 
-	protected void setPageLoadTimeout(long timeout) {
-		driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
-	}
+                    time++;
+                } else {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
+
+        throw new RuntimeException("Got customexception when creating webDriver with socket timeout 1 minute");
+    }
+
+    /**
+     * It's designed for shorten tiemout in unit testing.
+     *
+     * @return  timeout
+     */
+    protected long getTimeout() {
+        return timeout;
+    }
+
+    protected void setPageLoadTimeout(final long timeout) {
+        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
+    }
 }

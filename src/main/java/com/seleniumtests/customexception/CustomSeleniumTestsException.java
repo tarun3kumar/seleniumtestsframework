@@ -2,22 +2,21 @@
 package com.seleniumtests.customexception;
 
 public class CustomSeleniumTestsException extends Exception {
-	
-	private static final long serialVersionUID = -5567383832452234582L;
 
-	public CustomSeleniumTestsException() {
-	}
+    private static final long serialVersionUID = -5567383832452234582L;
 
-	public CustomSeleniumTestsException(String message) {
-		super(message);
-	}
+    public CustomSeleniumTestsException() { }
 
-	public CustomSeleniumTestsException(Throwable cause) {
-		super(cause);
-	}
+    public CustomSeleniumTestsException(final String message) {
+        super(message);
+    }
 
-	public CustomSeleniumTestsException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public CustomSeleniumTestsException(final Throwable cause) {
+        super(cause);
+    }
+
+    public CustomSeleniumTestsException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 
 }

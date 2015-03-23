@@ -75,16 +75,16 @@
         <groups>
             <run>
                 <include name="loginAsValidUser" />
-        <!--        <include name="loginAsInvalidUser"/>
+                <include name="loginAsInvalidUser"/>
                 <include name="testForFailure"/>
-        -->    </run>
+            </run>
         </groups>
         <classes>
             <class name="com.seleniumtests.tests.TestLinkLoginTest" />
         </classes>
     </test>
 
-    <!--<test name="Test LinkElement Navigation Test" parallel="methods">
+   <!-- <test name="Test LinkElement Navigation Test" parallel="methods">
         <groups>
             <run>
                 <include name="createTestProject" />

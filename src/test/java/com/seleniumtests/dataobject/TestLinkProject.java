@@ -1,10 +1,9 @@
 package com.seleniumtests.dataobject;
 
 /**
- * Attributes of a test link project
+ * Attributes of a test link project.
  *
- * Date: 10/4/13
- * Time: 8:28 AM
+ * <p/>Date: 10/4/13 Time: 8:28 AM
  */
 public class TestLinkProject {
 
@@ -24,7 +23,7 @@ public class TestLinkProject {
         return createFromExisting;
     }
 
-    public void setCreateFromExisting(boolean createFromExisting) {
+    public void setCreateFromExisting(final boolean createFromExisting) {
         this.createFromExisting = createFromExisting;
     }
 
@@ -32,7 +31,7 @@ public class TestLinkProject {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -40,7 +39,7 @@ public class TestLinkProject {
         return testCaseIDPrefix;
     }
 
-    public void setTestCaseIDPrefix(String testCaseIDPrefix) {
+    public void setTestCaseIDPrefix(final String testCaseIDPrefix) {
         this.testCaseIDPrefix = testCaseIDPrefix;
     }
 
@@ -48,7 +47,7 @@ public class TestLinkProject {
         return projectDescription;
     }
 
-    public void setProjectDescription(String projectDescription) {
+    public void setProjectDescription(final String projectDescription) {
         this.projectDescription = projectDescription;
     }
 
@@ -56,7 +55,7 @@ public class TestLinkProject {
         return enableRequirementFeature;
     }
 
-    public void setEnableRequirementFeature(boolean enableRequirementFeature) {
+    public void setEnableRequirementFeature(final boolean enableRequirementFeature) {
         this.enableRequirementFeature = enableRequirementFeature;
     }
 
@@ -64,7 +63,7 @@ public class TestLinkProject {
         return enableTestingPriority;
     }
 
-    public void setEnableTestingPriority(boolean enableTestingPriority) {
+    public void setEnableTestingPriority(final boolean enableTestingPriority) {
         this.enableTestingPriority = enableTestingPriority;
     }
 
@@ -72,7 +71,7 @@ public class TestLinkProject {
         return enableTestAutomation;
     }
 
-    public void setEnableTestAutomation(boolean enableTestAutomation) {
+    public void setEnableTestAutomation(final boolean enableTestAutomation) {
         this.enableTestAutomation = enableTestAutomation;
     }
 
@@ -80,7 +79,7 @@ public class TestLinkProject {
         return enableInventory;
     }
 
-    public void setEnableInventory(boolean enableInventory) {
+    public void setEnableInventory(final boolean enableInventory) {
         this.enableInventory = enableInventory;
     }
 
@@ -88,7 +87,7 @@ public class TestLinkProject {
         return issueTrackerNavigation;
     }
 
-    public void setIssueTrackerNavigation(boolean issueTrackerNavigation) {
+    public void setIssueTrackerNavigation(final boolean issueTrackerNavigation) {
         this.issueTrackerNavigation = issueTrackerNavigation;
     }
 
@@ -96,7 +95,7 @@ public class TestLinkProject {
         return activelyAvailable;
     }
 
-    public void setActivelyAvailable(boolean activelyAvailable) {
+    public void setActivelyAvailable(final boolean activelyAvailable) {
         this.activelyAvailable = activelyAvailable;
     }
 
@@ -104,15 +103,15 @@ public class TestLinkProject {
         return publiclyAvailable;
     }
 
-    public void setPubliclyAvailable(boolean publiclyAvailable) {
+    public void setPubliclyAvailable(final boolean publiclyAvailable) {
         this.publiclyAvailable = publiclyAvailable;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.append("TestLinkProject [Create From Existing = "+createFromExisting+", ")
-                .append("Project Name ="+name+", ")
-                .append("Test case ID Prefix = "+testCaseIDPrefix+"]").toString();
+        return stringBuilder.append("TestLinkProject [Create From Existing = " + createFromExisting + ", ")
+                            .append("Project Name =" + name + ", ")
+                            .append("Test case ID Prefix = " + testCaseIDPrefix + "]").toString();
     }
 }

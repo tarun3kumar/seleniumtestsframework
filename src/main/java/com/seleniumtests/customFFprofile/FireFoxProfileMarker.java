@@ -1,5 +1,6 @@
 package com.seleniumtests.customFFprofile;
 
-public class FireFoxProfileMarker {
-
-}
+/**
+ * FireFoxProfileMarker.
+ */
+public class FireFoxProfileMarker { }

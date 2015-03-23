@@ -1,26 +1,28 @@
 package com.seleniumtests.webpage;
 
-import com.seleniumtests.core.CustomAssertion;
-import com.seleniumtests.webelements.LinkElement;
-import com.seleniumtests.webelements.SelectList;
-import com.seleniumtests.webelements.PageObject;
 import org.openqa.selenium.By;
 
+import com.seleniumtests.core.CustomAssertion;
+
+import com.seleniumtests.webelements.LinkElement;
+import com.seleniumtests.webelements.PageObject;
+import com.seleniumtests.webelements.SelectList;
+
 /**
- * Provides services offered by TestLink login Admin Page
+ * Provides services offered by TestLink login Admin Page.
  *
- * Date: 10/2/13
- * Time: 6:26 PM
+ * <p/>Date: 10/2/13 Time: 6:26 PM
  */
 public class AdminHomePage extends PageObject {
 
     private static SelectList documentationDropDown = new SelectList("Documentation drop down", By.name("docs"));
 
-    public AdminHomePage() throws Exception{
+    public AdminHomePage() throws Exception {
         super(); // No check on page identification
     }
 
-    private LinkElement testProjectManagementLink = new LinkElement("Test Project Management LinkElement", By.linkText("Test Project Management"));
+    private LinkElement testProjectManagementLink = new LinkElement("Test Project Management LinkElement",
+            By.linkText("Test Project Management"));
     private SelectList testProjectDropdown = new SelectList("Test Project Dropdown", By.name("testproject"));
 
     public AdminHomePage switchToTestLinkFrame() {
@@ -38,7 +40,7 @@ public class AdminHomePage extends PageObject {
         return this;
     }
 
-    public AdminHomePage selectGivenTestProject(int index) {
+    public AdminHomePage selectGivenTestProject(final int index) {
         switchToTestLinkFrame();
         switchToTitleBarFrame();
         testProjectDropdown.selectByIndex(index);
@@ -68,9 +70,5 @@ public class AdminHomePage extends PageObject {
         testProjectManagementLink.click();
         return new TestProjectManagementPage();
     }
-
-
-
-
 
 }

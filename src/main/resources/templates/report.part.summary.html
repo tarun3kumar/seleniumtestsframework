@@ -1,104 +1,105 @@
 <div id='report_summary' xmlns="http://www.w3.org/1999/html">
 
-	<div class="yuk_goldgrad_tl">
-		<div class="yuk_goldgrad_tr">
-			<div class="yuk_goldgrad_m"></div>
-		</div>
-	</div>
-	<h2 class="yuk_goldgrad_ltitle">$suiteName</h2>
+    <div class="yuk_goldgrad_tl">
+        <div class="yuk_goldgrad_tr">
+            <div class="yuk_goldgrad_m"></div>
+        </div>
+    </div>
+    <h2 class="yuk_goldgrad_ltitle">$suiteName</h2>
 
-	<table id="yuk_table" cellpadding="0" cellspacing="0" border="0"
-		summary="This is a summary of the data presented in the table">
-		<!-- *** please complete a summary of the table *** -->
-	
-		<!-- start colgroup -->
-		<colgroup>
-			<col />
-			<col align="right" />
-			<col align="right" />
-			<col align="right" />
-			<!-- needs align attribute for IE -->
-			<col align="right" />
-			<!-- needs align attribute for IE -->
-		</colgroup>
-		<!-- //end colgroup -->
-	
-		<!-- start table column headers -->
-		<thead>
-			<!-- *** give column headers abbr *** -->
-			<tr>
-				<th scope="col" abbr="header1_abbr" id="first_col">Tests in Test Suite:</th>
-				<th scope="col" abbr="header2_abbr" class="right">Method Count</th>
-				<th scope="col" abbr="header3_abbr" class="right">Passed Tests Count</th>
-				<th scope="col" abbr="header4_abbr" class="right">Failed Tests Count</th>
-				<th scope="col" abbr="header5_abbr" class="right">Skipped Tests Count</th>
-				<!-- use class name left/right/center to align text in column -->
-			</tr>
-		</thead>
-		<!-- //end table column headers -->
-	
-		<!-- start table foot -->
-		<tfoot>
-			<tr>
-				<td colspan="5">Test Execution Time : $totalRunTime.</td>
-				<!-- set total number of columns -->
-			</tr>
+    <table id="yuk_table" cellpadding="0" cellspacing="0" border="0"
+           summary="This is a summary of the data presented in the table">
+        <!-- *** please complete a summary of the table *** -->
 
-            <tr>
-                <td colspan="5">----------------------------------------------</td>
-            </tr>
+        <!-- start colgroup -->
+        <colgroup>
+            <col/>
+            <col align="right"/>
+            <col align="right"/>
+            <col align="right"/>
+            <!-- needs align attribute for IE -->
+            <col align="right"/>
+            <!-- needs align attribute for IE -->
+        </colgroup>
+        <!-- //end colgroup -->
 
-            <tr>
-                <td colspan="5">Test Execution Date : $TimeStamp.</td>
-            </tr>
+        <!-- start table column headers -->
+        <thead>
+        <!-- *** give column headers abbr *** -->
+        <tr>
+            <th scope="col" abbr="header1_abbr" id="first_col">Tests in Test Suite:</th>
+            <th scope="col" abbr="header2_abbr" class="right">Method Count</th>
+            <th scope="col" abbr="header3_abbr" class="right">Passed Tests Count</th>
+            <th scope="col" abbr="header4_abbr" class="right">Failed Tests Count</th>
+            <th scope="col" abbr="header5_abbr" class="right">Skipped Tests Count</th>
+            <!-- use class name left/right/center to align text in column -->
+        </tr>
+        </thead>
+        <!-- //end table column headers -->
+
+        <!-- start table foot -->
+        <tfoot>
+        <tr>
+            <td colspan="5">Test Execution Time : $totalRunTime.</td>
+            <!-- set total number of columns -->
+        </tr>
+
+        <tr>
+            <td colspan="5">----------------------------------------------</td>
+        </tr>
+
+        <tr>
+            <td colspan="5">Test Execution Date : $TimeStamp.</td>
+        </tr>
 
         </tfoot>
-		<!-- //end table foot -->
-	
-		<!-- //end table foot -->
-	
-		<!-- start table body -->
-		<tbody>
-			#set( $odd = 1 )
-			#foreach( $miniTestResult in $tests )
-			#if ( $odd==1 )
-			<tr class="odd">
-			#set($odd=0)
-			#else
-			<tr class="even">
-			#set($odd=1)
-			#end
-				<td class="first"><a class='toDetailLnk' tg='$miniTestResult.getId()' href='#'>$miniTestResult.getName()</a></td>
-					<td>$miniTestResult.getTotalMethod()</td>
-					<td>$miniTestResult.getInstancesPassed()</td>
-					<td>$miniTestResult.getInstancesFailed()</td>
-					<td class="last">$miniTestResult.getInstancesSkipped()</td>
-			</tr>
-   			#end
-			#if ( $odd==1 )
-			<tr class="odd">
-			#else
-			<tr class="even">
-			#end
-				<td class="first"><b>Total</b></td>
-					<td><b>$total.getTotalMethod()</b></td>
-					<td><b>$total.getInstancesPassed()</b></td>
-					<td><b>$total.getInstancesFailed()</b></td>
-					<td class="last"><b>$total.getInstancesSkipped()</b></td>
-			</tr>
-		</tbody>
-		<!-- //end table body -->
-	
-	</table>
-	<!-- //end panel table --> 
+        <!-- //end table foot -->
+
+        <!-- //end table foot -->
+
+        <!-- start table body -->
+        <tbody>
+        #set( $odd = 1 )
+        #foreach( $miniTestResult in $tests )
+        #if ( $odd==1 )
+        <tr class="odd">
+            #set($odd=0)
+            #else
+        <tr class="even">
+            #set($odd=1)
+            #end
+            <td class="first"><a class='toDetailLnk' tg='$miniTestResult.getId()' href='#'>$miniTestResult.getName()</a>
+            </td>
+            <td>$miniTestResult.getTotalMethod()</td>
+            <td>$miniTestResult.getInstancesPassed()</td>
+            <td>$miniTestResult.getInstancesFailed()</td>
+            <td class="last">$miniTestResult.getInstancesSkipped()</td>
+        </tr>
+        #end
+        #if ( $odd==1 )
+        <tr class="odd">
+            #else
+        <tr class="even">
+            #end
+            <td class="first"><b>Total</b></td>
+            <td><b>$total.getTotalMethod()</b></td>
+            <td><b>$total.getInstancesPassed()</b></td>
+            <td><b>$total.getInstancesFailed()</b></td>
+            <td class="last"><b>$total.getInstancesSkipped()</b></td>
+        </tr>
+        </tbody>
+        <!-- //end table body -->
+
+    </table>
+    <!-- //end panel table -->
 
 
-	<!-- start panel footer -->
-	<div class="yuk_grey_bm">
-		<div class="yuk_grey_br">
-			<div class="yuk_grey_bl"></div>
-		</div>
-	<!-- //end panel footer -->
-	</div>
+    <!-- start panel footer -->
+    <div class="yuk_grey_bm">
+        <div class="yuk_grey_br">
+            <div class="yuk_grey_bl"></div>
+        </div>
+        <!-- //end panel footer -->
+    </div>
 
 </div>

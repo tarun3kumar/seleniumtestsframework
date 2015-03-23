@@ -1,36 +1,40 @@
 package com.seleniumtests.core;
 
 import java.io.IOException;
+
 import java.lang.reflect.Method;
+
 import java.util.Date;
 import java.util.List;
 
-import com.seleniumtests.driver.WebUIDriver;
 import org.apache.log4j.Logger;
+
 import org.testng.ITestContext;
+
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+
 import org.testng.xml.XmlTest;
 
+import com.seleniumtests.driver.WebUIDriver;
+
 /**
- * This class initializes context, sets up and tears down and clean up drivers
- * An STF test should extend this class.
- *
+ * This class initializes context, sets up and tears down and clean up drivers An STF test should extend this class.
  */
 public abstract class SeleniumTestPlan {
     private static final Logger logger = TestLogging.getLogger(SeleniumTestPlan.class);
     private Date start;
 
     /**
+     * @param   testContext
      *
-     * @param testContext
-     * @throws IOException
+     * @throws  IOException
      */
     @BeforeSuite(alwaysRun = true)
-    public void beforeTestSuite(ITestContext testContext) throws IOException {
+    public void beforeTestSuite(final ITestContext testContext) throws IOException {
         System.out.println("####################################################");
         System.out.println("####################################################");
         System.out.println("####################################################");
@@ -46,21 +50,23 @@ public abstract class SeleniumTestPlan {
     }
 
     /**
-     * Configure Test Params setting
+     * Configure Test Params setting.
      *
-     * @param xmlTest
+     * @param  xmlTest
      */
     @BeforeTest(alwaysRun = true)
-    public void beforeTest(ITestContext testContext, XmlTest xmlTest) {
+    public void beforeTest(final ITestContext testContext, final XmlTest xmlTest) {
         SeleniumTestsContextManager.initTestLevelContext(testContext, xmlTest);
     }
 
     @BeforeMethod(alwaysRun = true)
-    public void beforeTestMethod(Object[] parameters, Method method, ITestContext testContex, XmlTest xmlTest) {
+    public void beforeTestMethod(final Object[] parameters, final Method method, final ITestContext testContex,
+            final XmlTest xmlTest) {
         logger.info(Thread.currentThread() + " Start method " + method.getName());
         SeleniumTestsContextManager.initThreadContext(testContex, xmlTest);
         if (method != null) {
-            SeleniumTestsContextManager.getThreadContext().setAttribute(SeleniumTestsContext.TEST_METHOD_SIGNATURE, buildMethodSignature(method, parameters));
+            SeleniumTestsContextManager.getThreadContext().setAttribute(SeleniumTestsContext.TEST_METHOD_SIGNATURE,
+                buildMethodSignature(method, parameters));
         }
     }
 
@@ -70,36 +76,40 @@ public abstract class SeleniumTestPlan {
     }
 
     /**
-     * clean up
-     * @param parameters
-     * @param method
-     * @param testContex
-     * @param xmlTest
+     * clean up.
+     *
+     * @param  parameters
+     * @param  method
+     * @param  testContex
+     * @param  xmlTest
      */
     @AfterMethod(alwaysRun = true)
-    public void afterTestMethod(Object[] parameters, Method method, ITestContext testContex, XmlTest xmlTest) {
+    public void afterTestMethod(final Object[] parameters, final Method method, final ITestContext testContex,
+            final XmlTest xmlTest) {
         List<TearDownService> serviceList = SeleniumTestsContextManager.getThreadContext().getTearDownServices();
         if (serviceList != null && !serviceList.isEmpty()) {
             for (TearDownService service : serviceList) {
                 service.tearDown();
             }
         }
+
         WebUIDriver.cleanUp();
         logger.info(Thread.currentThread() + " Finish method " + method.getName());
     }
 
-
-    private String buildMethodSignature(Method method, Object[] parameters) {
-        return method.getDeclaringClass().getCanonicalName() + "." + method.getName() + "(" + buildParameterString(parameters) + ")";
+    private String buildMethodSignature(final Method method, final Object[] parameters) {
+        return method.getDeclaringClass().getCanonicalName() + "." + method.getName() + "("
+                + buildParameterString(parameters) + ")";
     }
 
     /**
-     * Remove name space from parameters
+     * Remove name space from parameters.
      *
-     * @param parameters
+     * @param   parameters
+     *
      * @return
      */
-    private String buildParameterString(Object[] parameters) {
+    private String buildParameterString(final Object[] parameters) {
         StringBuffer parameter = new StringBuffer();
 
         if (parameters != null) {
@@ -114,8 +124,9 @@ public abstract class SeleniumTestPlan {
             }
         }
 
-        if (parameter.length() > 0)
+        if (parameter.length() > 0) {
             parameter.delete(parameter.length() - 2, parameter.length() - 1);
+        }
 
         return parameter.toString();
     }

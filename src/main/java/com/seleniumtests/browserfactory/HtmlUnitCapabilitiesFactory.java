@@ -1,36 +1,39 @@
 package com.seleniumtests.browserfactory;
 
-import com.seleniumtests.driver.DriverConfig;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class HtmlUnitCapabilitiesFactory implements ICapabilitiesFactory{
+import com.seleniumtests.driver.DriverConfig;
 
-	public DesiredCapabilities createCapabilities(DriverConfig webDriverConfig) {
-		DesiredCapabilities capability = null;
-		capability = DesiredCapabilities.htmlUnit();
-		
-		if(webDriverConfig.isEnableJavascript())
-			capability.setJavascriptEnabled(true);
-		else
-			capability.setJavascriptEnabled(false);
-		capability.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
-		capability.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+public class HtmlUnitCapabilitiesFactory implements ICapabilitiesFactory {
 
-		if (webDriverConfig.getBrowserVersion()!= null) {
-			capability.setVersion(webDriverConfig.getBrowserVersion());
-		}
+    public DesiredCapabilities createCapabilities(final DriverConfig webDriverConfig) {
+        DesiredCapabilities capability = null;
+        capability = DesiredCapabilities.htmlUnit();
 
-		if (webDriverConfig.getPlatform() != null) {
-			capability.setPlatform(webDriverConfig.getPlatform());
-		}
-		
-		
-		if (webDriverConfig.getProxyHost() != null) {
-			Proxy proxy = webDriverConfig.getProxy();
-			capability.setCapability(CapabilityType.PROXY, proxy);
-		}
-		return capability;
-	}
+        if (webDriverConfig.isEnableJavascript()) {
+            capability.setJavascriptEnabled(true);
+        } else {
+            capability.setJavascriptEnabled(false);
+        }
+
+        capability.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
+        capability.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+
+        if (webDriverConfig.getBrowserVersion() != null) {
+            capability.setVersion(webDriverConfig.getBrowserVersion());
+        }
+
+        if (webDriverConfig.getPlatform() != null) {
+            capability.setPlatform(webDriverConfig.getPlatform());
+        }
+
+        if (webDriverConfig.getProxyHost() != null) {
+            Proxy proxy = webDriverConfig.getProxy();
+            capability.setCapability(CapabilityType.PROXY, proxy);
+        }
+
+        return capability;
+    }
 }

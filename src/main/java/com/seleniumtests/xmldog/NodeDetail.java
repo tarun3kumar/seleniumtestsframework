@@ -2,187 +2,124 @@ package com.seleniumtests.xmldog;
 
 import org.w3c.dom.Node;
 
-
-
 /**
-
- * Class that mimics XMLUnit <i>NodeDetail</i> class. Primarily used 
-
- * to store the details about the Node being compared
-
- * 
-
+ * Class that mimics XMLUnit <i>NodeDetail</i> class. Primarily used
+ *
+ * <p/>to store the details about the Node being compared
  */
 
-public class NodeDetail 
+public class NodeDetail {
 
-{
+    private Node _node = null;
 
+    private String _xpath = null;
 
+    private String _value = null;
 
-	private Node _node = null;
+    /**
+     * Constructor.
+     */
 
-	private String _xpath = null;
+    public NodeDetail() { }
 
-	private String _value = null;
+    /**
+     * Constructor.
+     *
+     * @param  node  the Document Node
+     *
+     * @paran  xpath the XPath location of the Node
+     */
 
-	
+    public NodeDetail(final Node node, final String xpath) {
 
-	/**
+        _node = node;
 
-	 * Constructor
+        _xpath = xpath;
 
-	 */
+    }
 
-	public NodeDetail()
+    /**
+     * Constructor.
+     *
+     * @param  value  the value of the Node
+     * @param  node   the Document Node
+     *
+     * @paran  xpath the XPath location of the Node
+     */
 
-	{
+    public NodeDetail(final String value, final Node node, final String xpath) {
 
-	}
+        _value = value;
 
-	
+        _node = node;
 
-	/**
+        _xpath = xpath;
 
-	 * Constructor
+    }
 
-	 * @param node the Document Node
+    /**
+     * Gets the Node.
+     *
+     * @return  the Document Node
+     */
 
-	 * @paran xpath the XPath location of the Node
+    public Node getNode() {
 
-	 */
+        return _node;
 
-	public NodeDetail(Node node, String xpath)
+    }
 
-	{
+    /**
+     * Sets the Node.
+     *
+     * @param  node  the Document Node
+     */
 
-		_node = node;
+    public void setNode(final Node node) {
 
-		_xpath = xpath;
+        _node = node;
 
-	}
+    }
 
-	
+    /**
+     * Gets XPath expression for the Node.
+     *
+     * @return  the XPath expression for the Node
+     */
 
-	/**
+    public String getXPathLocation() {
 
-	 * Constructor
+        return _xpath;
 
-	 * @param value the value of the Node
+    }
 
-	 * @param node the Document Node
+    /**
+     * Sets XPath expression for the Node.
+     *
+     * @param  xpath  the XPath expression for the Node
+     */
 
-	 * @paran xpath the XPath location of the Node
+    public void setXPathLocation(final String xpath) {
 
-	 */
+        _xpath = xpath;
 
-	public NodeDetail(String value, Node node, String xpath)
+    }
 
-	{
+    /**
+     * Gets the value of the Node.
+     *
+     * @return  the Node value
+     */
 
-		_value = value;
+    public String getValue() {
 
-		_node = node;
+        if (_value == null) {
 
-		_xpath = xpath;
+            return getNode().getNodeValue();
+        }
 
-	}
+        return _value;
 
-	
-
-	/**
-
-	 * Gets the Node
-
-	 * @return the Document Node
-
-	 */
-
-	public Node getNode()
-
-	{
-
-		return _node;
-
-	}
-
-	
-
-	/**
-
-	 * Sets the Node
-
-	 * @param node the Document Node
-
-	 */
-
-	public void setNode(Node node)
-
-	{
-
-		_node = node;
-
-	}
-
-	
-
-	/**
-
-	 * Gets XPath expression for the Node
-
-	 * @return the XPath expression for the Node
-
-	 */
-
-	public String getXPathLocation()
-
-	{		
-
-		return _xpath;
-
-	}
-
-	
-
-	/**
-
-	 * Sets XPath expression for the Node
-
-	 * @param xpath the XPath expression for the Node
-
-	 */
-
-	public void setXPathLocation(String xpath)
-
-	{
-
-		_xpath = xpath;
-
-	}
-
-
-
-	/**
-
-	 * Gets the value of the Node
-
-	 * @return the Node value
-
-	 */	
-
-	public String getValue()
-
-	{
-
-		if (_value == null)
-
-			return getNode().getNodeValue();
-
-		
-
-		return _value;
-
-	}		
+    }
 
 }
-

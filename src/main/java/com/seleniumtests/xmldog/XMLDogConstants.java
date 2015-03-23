@@ -1,50 +1,31 @@
 package com.seleniumtests.xmldog;
 
 /**
-
- * XMLDogConstants.java
-
- *
-
- * To change this generated comment edit the template variable "typecomment":
-
- * Window>Preferences>Java>Templates.
-
- * To enable and disable the creation of type comments go to
-
- * Window>Preferences>Java>Code Generation.
-
- * $Id$
-
+ * XMLDogConstants.java. To change this generated comment edit the template variable "typecomment":
+ * Window>Preferences>Java>Templates. To enable and disable the creation of type comments go to
+ * Window>Preferences>Java>Code Generation. $Id$
  */
-
 
 /**
- * XMLDogConstants Interface containing all the XMLDog Application constants
+ * XMLDogConstants Interface containing all the XMLDog Application constants.
  */
 
-public interface XMLDogConstants 
+public interface XMLDogConstants {
 
-{
+    // Application name
 
-	// Application name
+    String APP_NAME = "XMLDog";
 
-	public static final String APP_NAME = "XMLDog";
+    // DEBUG flag
 
-	
+    boolean DEBUG = false;
 
-	// DEBUG flag
+    // Event types sent to the DifferenceListeners
 
-	public static final boolean DEBUG = false;
+    int EVENT_NODE_IDENTICAL = 0;
 
+    int EVENT_NODE_SIMILAR = 1;
 
-
-	// Event types sent to the DifferenceListeners	
-
-	public static final int EVENT_NODE_IDENTICAL = 0;
-
-	public static final int EVENT_NODE_SIMILAR = 1;
-
-	public static final int EVENT_NODE_MISMATCH = 2;	
+    int EVENT_NODE_MISMATCH = 2;
 
 }

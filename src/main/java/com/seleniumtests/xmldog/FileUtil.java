@@ -6,325 +6,237 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.List;
 import java.util.StringTokenizer;
 
-
-
 /**
-
- * FileUtil class containing utility functions related to Files
-
- * @author Ritesh Trivedi
-
- * @version 1.0 07/03/2003 2:49 PM PST
-
+ * FileUtil class containing utility functions related to Files.
+ *
+ * @author   Ritesh Trivedi
+ * @version  1.0 07/03/2003 2:49 PM PST
  */
 
-public class FileUtil 
+public class FileUtil {
 
-{
+    /**
+     * Writes String representation of the elements in the list in to the file.
+     *
+     * @param   file  the File in which write
+     * @param   list  the list containing the elements to be written
+     *
+     * @throws  IOException  If anything wrong with File operations
+     */
 
-	
+    public static void writeListAsStr(final String file, final List list) throws IOException {
 
-	/**
+        if ((list == null) || (list.size() == 0)
+                ||
 
-	 * Writes String representation of the elements in the list in to the file
+                (file == null) || (file.trim().length() == 0)) {
 
-	 * @param file the File in which write
+            return;
+        }
 
-	 * @param list the list containing the elements to be written
+        BufferedWriter bw = null;
 
-	 * @throws IOException If anything wrong with File operations
+        try {
 
-	 */
+            bw = new BufferedWriter(new FileWriter(file));
 
-	public static void writeListAsStr(String file, List list)
+            for (int i = 0; i < list.size(); i++) {
 
-		throws IOException
+                bw.write(list.get(i).toString());
 
-	{
+                bw.write(StringUtil.getNewlineStr());
 
-		if ((list == null) || (list.size() == 0) || 
+            }
 
-			(file == null) || (file.trim().length() == 0))
+        } catch (IOException ex) {
 
-			return;				
+            throw ex;
 
-		
+        } finally {
 
-		BufferedWriter bw = null;
+            try {
 
-		
+                bw.close();
 
-		try
+                bw = null;
 
-		{
+            } catch (Exception ex) {
 
-			bw = new BufferedWriter(new FileWriter(file));
+                // do nothing
 
-					
+            }
 
-			for(int i=0; i<list.size(); i++)
+        }
 
-			{
+    }
 
-				bw.write(list.get(i).toString());
+    /**
+     * Gets prefix for the filename.
+     *
+     * <p/>
+     * <br>
+     * Anything till the last "." in the filename is considered Prefix
+     *
+     * @param   filename  the Name of the file
+     *
+     * @return  the prefix for the filename
+     */
 
-				bw.write(StringUtil.getNewlineStr());
+    public static String getPrefix(final String filename) {
 
-			}
+        StringTokenizer st = new StringTokenizer(filename, ".");
 
-				
+        StringBuffer sb = new StringBuffer();
 
-		} catch (IOException ex)
+        // System.out.println("# of tokens " + st.countTokens());
 
-		{
+        int index = 0;
 
-			throw ex;
+        int numTokens = st.countTokens();
 
-		}		
+        if (numTokens == 1) {
 
-		finally
+            return st.nextToken();
+        }
 
-		{
+        String token = null;
 
-			try
+        while (st.hasMoreTokens()) {
 
-			{
+            // System.out.println("token # " + index);
 
-				bw.close();
+            token = st.nextToken();
 
-				bw = null;
+            if (index < numTokens - 1) {
 
-			} catch(Exception ex)
+                sb.append(token + ".");
+            }
 
-			{
+            index++;
 
-				// do nothing
+        }
 
-			}
+        sb.deleteCharAt(sb.length() - 1);
 
-		}		
+        return sb.toString();
 
-	}
+    }
 
-	
+    /**
+     * Creates temporary file in a temporary directory under user.home dir.
+     *
+     * @param   filename  the Name of the temp file to be created
+     * @param   is        the InputStream which is read to put the file content
+     *
+     * @return  full path of the temporary file created
+     *
+     * @throws  IOException  If temporary file cannot be created for any reason
+     */
 
-	/**
+    public static String createTempFile(final String filename, final InputStream is) throws IOException {
 
-	 * Gets prefix for the filename
+        if (is == null) {
 
-	 * <br>Anything till the last "." in the filename is considered Prefix
+            throw new IOException("InputStream is null");
+        }
 
-	 * @param filename the Name of the file
+        FileOutputStream fos = null;
 
-	 * @return the prefix for the filename
+        File tempFile = null;
 
-	 */
+        try {
 
-	public static String getPrefix(String filename)
+            String userHome = System.getProperty("user.home");
 
-	{
+            File f = new File(userHome + File.separator + "temp");
 
-		StringTokenizer st = new StringTokenizer(filename, ".");
+            f.mkdirs();
 
-		StringBuffer sb = new StringBuffer();
+            if ((filename == null) || (filename.trim().equals(""))) {
 
-		
+                tempFile = f.createTempFile("file1", ".tmp");
+            } else {
 
-		//System.out.println("# of tokens " + st.countTokens());
+                tempFile = f.createTempFile(filename, "");
+            }
 
-		int index = 0;
+            fos = new FileOutputStream(tempFile);
 
-		int numTokens = st.countTokens();
+            byte[] buffer = new byte[8192];
 
-		
+            int bytesRead = 0;
 
-		if (numTokens == 1)
+            while ((bytesRead = is.read(buffer, 0, 8192)) != -1) {
 
-			return st.nextToken();
+                fos.write(buffer, 0, bytesRead);
+            }
 
-		
+        } finally {
 
-		String token = null;
+            if (fos != null) {
 
-		while(st.hasMoreTokens())
+                fos.close();
 
-		{
+                fos = null;
 
-			//System.out.println("token # " + index);			
+            }
 
-			token = st.nextToken();
+        }
 
-			
+        return tempFile.getCanonicalPath();
 
-			if(index<numTokens-1)			
+    }
 
-				sb.append(token + ".");
+    /**
+     * Main method for debugging purpose only.
+     */
 
-				
+    public static void main(final String[] args) {
 
-			index++;
+        /*
+         *
+         * Tests writing list of String to the File
+         *
+         * List list = new ArrayList();
+         *
+         *
+         *
+         * list.add("Ritesh");
+         *
+         * list.add("Trivedi");
+         *
+         * list.add("EOF");
+         *
+         *
+         *
+         * try
+         *
+         * {
+         *
+         *      FileUtil.writeListAsStr("tempfile.txt", list);
+         *
+         * } catch (Exception ex)
+         *
+         * {
+         *
+         *      ex.printStackTrace();
+         *
+         * }
+         *
+         */
 
-		}
+        /*
+         *
+         * Tests the Prefix
+         *
+         */
 
-		sb.deleteCharAt(sb.length()-1);
+        System.out.println(FileUtil.getPrefix("test3.txt.out"));
 
-		
-
-		return sb.toString();
-
-	}
-
-	
-
-	/**
-
-	 * Creates temporary file in a temporary directory under user.home dir
-
-	 * @param filename the Name of the temp file to be created
-
-	 * @param is the InputStream which is read to put the file content
-
-	 * @return full path of the temporary file created
-
-	 * @throws IOException If temporary file cannot be created for any reason
-
-	 */
-
-	public static String createTempFile(String filename, InputStream is)
-
-		throws IOException
-
-	{
-
-		if (is == null)
-
-			throw new IOException("InputStream is null");
-
-			
-
-		FileOutputStream fos = null;
-
-		File tempFile = null;
-
-		
-
-		try
-
-		{
-
-			String userHome = System.getProperty("user.home");
-
-			File f = new File(userHome + File.separator + "temp");		
-
-			f.mkdirs();
-
-			
-
-			if ((filename == null) || (filename.trim().equals("")))
-
-				tempFile = f.createTempFile("file1", ".tmp");
-
-			else
-
-				tempFile = f.createTempFile(filename, "");
-
-		
-
-			fos = new FileOutputStream(tempFile);
-
-			byte[] buffer = new byte[8192];
-
-			int bytesRead = 0;
-
-			
-
-			while((bytesRead = is.read(buffer, 0, 8192)) != -1)			
-
-				fos.write(buffer, 0, bytesRead);
-
-			
-
-		}
-
-		finally
-
-		{
-
-			if (fos != null)
-
-			{
-
-				fos.close();
-
-				fos = null;
-
-			}
-
-		}
-
-		
-
-		return tempFile.getCanonicalPath();				
-
-	}
-
-
-
-	/**
-
-	 * Main method for debugging purpose only
-
-	 */	
-
-	public static void main(String[] args)
-
-	{
-
-		/*
-
-		 * Tests writing list of String to the File
-
-		List list = new ArrayList();
-
-		
-
-		list.add("Ritesh");
-
-		list.add("Trivedi");
-
-		list.add("EOF");
-
-		
-
-		try
-
-		{
-
-			FileUtil.writeListAsStr("tempfile.txt", list);
-
-		} catch (Exception ex)
-
-		{
-
-			ex.printStackTrace();
-
-		}
-
-		*/
-
-		
-
-		/*
-
-		 * Tests the Prefix
-
-		 */
-
-		System.out.println(FileUtil.getPrefix("test3.txt.out"));
-
-	}
+    }
 
 }
