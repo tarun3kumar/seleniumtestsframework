@@ -1,4 +1,4 @@
-# seleniumtestsframework
+# SeleniumTestsFramework
 
 STF (SeleniumTestsFramework) is step by step test test reporting and automation framework for selenium.
 Refer STF [How-To guide](http://www.seleniumtests.com/2013/10/announcing-selenium-tests-automation.html) to learn more about STF features 
