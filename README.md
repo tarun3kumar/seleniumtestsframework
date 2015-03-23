@@ -12,5 +12,5 @@ In case you don't see any tests running then you may to have first clean up the 
 
 Depending on how you execute the projects, step by step selenium report after test execution would be available -
 
-1. <your home directory>/seleniumtestsframework/test-output/SeleniumTestReport.html when executing tests using eclipse testng plugin, or
-2. <your home directory>/seleniumtestsframework/target/surefire-reports/SeleniumTestReport.html when executing tests using maven command as stated above
+1. ```<your home directory>/seleniumtestsframework/test-output/SeleniumTestReport.html``` when executing tests using eclipse testng plugin, or
+2. ```<your home directory>/seleniumtestsframework/target/surefire-reports/SeleniumTestReport.html``` when executing tests using maven command as stated above
