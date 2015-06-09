@@ -129,6 +129,8 @@ public class PageObject extends BasePage implements IPage {
             populateAndCapturePageSnapshot();
         }
 
+        assertCurrentPage(false);
+
         try {
             this.windowHandle = driver.getWindowHandle();
         } catch (Exception ex) {
