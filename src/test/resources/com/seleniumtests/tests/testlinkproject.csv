@@ -1,0 +1,2 @@
+TestEntity.TestCaseId,TestEntity.TestMethod,TestEntity.TestTitle,User.UserID,User.Password,TestLinkProject.createFromExisting,TestLinkProject.name,TestLinkProject.testCaseIDPrefix,TestLinkProject.projectDescription,TestLinkProject.enableRequirementFeature
+testcaseid1,createTestProject,createTestProject,admin,admin,No,sample test,seleniumtests,First TestLink Project, Yes
