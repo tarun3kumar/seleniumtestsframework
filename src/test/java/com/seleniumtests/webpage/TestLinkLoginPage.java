@@ -15,7 +15,7 @@ package com.seleniumtests.webpage;
 
 import org.openqa.selenium.By;
 
-import com.seleniumtests.core.CustomAssertion;
+import com.seleniumtests.core.SeleniumTestsContextManager;
 
 import com.seleniumtests.dataobject.User;
 
@@ -30,8 +30,6 @@ import com.seleniumtests.webelements.TextFieldElement;
  * <p/>Date: 10/2/13 Time: 6:15 PM
  */
 public class TestLinkLoginPage extends PageObject {
-
-    private static final String PAGE_URL = "http://www.seleniumtests.com/2013/08/demo-test-link-site.html";
 
     // Page identifier field is set to seleniumtests.com as TestLink appears in iframe
     private static LinkElement seleniumTrainingLink = new LinkElement("Selenium Training LinkElement",
@@ -52,7 +50,7 @@ public class TestLinkLoginPage extends PageObject {
      * @throws  Exception
      */
     public TestLinkLoginPage(final boolean openPageUrl) throws Exception {
-        super(seleniumTrainingLink, openPageUrl ? PAGE_URL : null, true);
+        super(seleniumTrainingLink, openPageUrl ? SeleniumTestsContextManager.getThreadContext().getAppURL() : null);
         getDriver().switchTo().frame(getDriver().findElement(By.id("testlink"))); // Switch to test link frame
     }
 
@@ -96,10 +94,10 @@ public class TestLinkLoginPage extends PageObject {
         return this;
     }
 
-    public TestLinkLoginPage verifyLoginBoxPresence() {
+    public boolean isLoginBoxDisplayed() {
         getDriver().switchTo().frame(getDriver().findElement(By.id("testlink")));
-        CustomAssertion.assertTrue(isElementPresent(loginTextBox.getBy()),
-            "Invalid credentials don't block user from logging in");
-        return this;
+
+        boolean isDisplayed = loginTextBox.isDisplayed();
+        return isDisplayed;
     }
 }

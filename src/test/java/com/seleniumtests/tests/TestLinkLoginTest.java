@@ -13,6 +13,10 @@
 
 package com.seleniumtests.tests;
 
+import static org.hamcrest.CoreMatchers.is;
+
+import static com.seleniumtests.core.CustomAssertion.assertThat;
+
 import java.lang.reflect.Method;
 
 import java.util.Iterator;
@@ -31,6 +35,7 @@ import com.seleniumtests.dataobject.User;
 import com.seleniumtests.util.SpreadSheetHelper;
 import com.seleniumtests.util.internal.entity.TestEntity;
 
+import com.seleniumtests.webpage.AdminHomePage;
 import com.seleniumtests.webpage.TestLinkLoginPage;
 
 /**
@@ -63,7 +68,9 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
     @Test(groups = {"loginAsValidUser"}, dataProvider = "loginData", description = "Logs in to TestLink as admin")
     public void loginAsValidUser(final TestEntity testEntity, final User user) throws Exception {
 
-        new TestLinkLoginPage(true).loginAsValidUser(user).verifyDocumentationDropDown();
+        AdminHomePage adminHomePage = new TestLinkLoginPage(true).loginAsValidUser(user);
+        assertThat("Documentation drop down is missing!!!", adminHomePage.isDocumentationDropdownDisplayed(), is(true));
+
     }
 
     /**
@@ -80,7 +87,8 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
     )
     public void loginAsInvalidUser(final TestEntity testEntity, final User user) throws Exception {
 
-        new TestLinkLoginPage(true).loginAsInvalidUser(user).verifyLoginBoxPresence();
+        TestLinkLoginPage testLinkLoginPage = new TestLinkLoginPage(true).loginAsInvalidUser(user);
+        assertThat("Login box is missing!!!", testLinkLoginPage.isLoginBoxDisplayed(), is(true));
     }
 
     /**
@@ -94,11 +102,12 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
     @Test(groups = {"testForFailure"}, dataProvider = "loginData", description = "This test is bound to fail")
     public void testForFailure(final TestEntity testEntity, final User user) throws Exception {
 
-        new TestLinkLoginPage(true).loginAsValidUser(user).verifyDocumentationDropDownFail();
+        AdminHomePage adminHomePage = new TestLinkLoginPage(true).loginAsValidUser(user);
+        assertThat("Deliberate test failure!!!", adminHomePage.isDocumentationDropdownDisplayed(), is(false));
     }
 
     /**
-     * A failed test.
+     * A skipped test.
      *
      * @param   testEntity
      * @param   user
@@ -111,6 +120,6 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
     )
     public void testsSkippedMethod(final TestEntity testEntity, final User user) throws Exception {
 
-        new TestLinkLoginPage(true).loginAsValidUser(user).verifyDocumentationDropDownFail();
+        new TestLinkLoginPage(true).loginAsValidUser(user);
     }
 }

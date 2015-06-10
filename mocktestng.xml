@@ -1,0 +1,98 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="Selenium Framework Test Suite" parallel="methods"
+	verbose="1" thread-count="5">
+	<listeners>
+		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
+		<!--<listener class-name="com.seleniumtests.core.TestRetryListener" />-->
+	</listeners>
+
+	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
+	<parameter name="browser" value="*iexplore" />  <!--"*firefox, *chrome, *iexplore"-->
+	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
+    <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
+
+    To start grid on a machine use following command -
+    java -jar selenium-server-standalone-<version>.jar -role hub
+
+    To execute tests on firefox using selenium grid, start node running firefox as -
+    java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register
+    -browser  browserName=firefox platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true,
+    ignoreProtectedModeSettings=true, ignoreZoomSetting=true, takesScreenshot=true
+
+    To execute tests on chrome using selenium grid, start node running chrome as -
+    java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register -browser  browserName
+    =chrome platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true, ignoreProtectedModeSettings=true,
+    ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.chrome.driver="<path to chrome driver exe on node machine>\chromedriver.exe"
+
+    To execute tests on internet explorer using selenium grid, start node running internet explorer as -
+    java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register -browser  browserName
+    ="internet explorer" platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true, ignoreProtectedModeSettings=true,
+    ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.ie.driver="<path to internet explorer driver on node machine>\IEDriverServer.exe"
+    -->
+
+	<parameter name="webDriverGrid" value="http://localhost:4444/wd/hub" />
+	<parameter name="webSessionTimeOut" value="120000" />
+	<parameter name="openReportInBrowser" value="firefox" />
+	<parameter name="maxConcurrentWebSessions" value="5" />
+	<parameter name="captureSnapshot" value="true" />
+	<parameter name="softAssertEnabled" value="true" />
+    <parameter name="useFirefoxDefaultProfile" value="false"/>
+
+	<test name="Retry Test1" parallel="methods">
+		<groups>
+			<run>
+				<include name="retryTest1" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.seleniumtests.tests.RetryTest1" />
+		</classes>
+	</test>
+	<test name="Never Retry Test" parallel="methods">
+		<groups>
+			<run>
+				<include name="retryTest2" />
+			</run>
+		</groups>
+		<classes>
+			<class name="com.seleniumtests.tests.RetryTest2" />
+		</classes>
+	</test>
+
+    <test name="Soft CustomAssertion Test" parallel="methods">
+        <groups>
+            <run>
+                <include name="softAssertionTest" />
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.tests.SoftAssertionTest" />
+        </classes>
+    </test> 
+
+    <test name="Test Link Login Test" parallel="false">
+        <parameter name="browser" value="*chrome" />
+        <groups>
+            <run>
+                <include name="loginAsValidUser" />
+                <include name="loginAsInvalidUser"/>
+                <include name="testForFailure"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
+        </classes>
+    </test>
+
+    <test name="Test LinkElement Navigation Test" parallel="methods">
+        <groups>
+            <run>
+                <include name="createTestProject" />
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
+        </classes>
+    </test>
+
+</suite> 
