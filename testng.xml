@@ -1,13 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="methods"
+<suite name="Selenium Framework Test Suite" parallel="tests"
 	verbose="1" thread-count="5">
 	<listeners>
 		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
-		<!--<listener class-name="com.seleniumtests.core.TestRetryListener" />-->
+		<listener class-name="com.seleniumtests.core.TestRetryListener" />
 	</listeners>
 
 	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
-	<parameter name="browser" value="*iexplore" />  <!--"*firefox, *chrome, *iexplore"-->
+	<parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore"-->
 	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -38,61 +38,28 @@
 	<parameter name="softAssertEnabled" value="true" />
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-	<!--<test name="Retry Test1" parallel="methods">
-		<groups>
-			<run>
-				<include name="retryTest1" />
-			</run>
-		</groups>
+	<test name="Multiple assertion failures">
 		<classes>
-			<class name="com.seleniumtests.tests.RetryTest1" />
-		</classes>
-	</test>
-	<test name="Never Retry Test" parallel="methods">
-		<groups>
-			<run>
-				<include name="retryTest2" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.seleniumtests.tests.RetryTest2" />
+			<class name="com.seleniumtests.tests.RetryTest" />
 		</classes>
 	</test>
 
-    <test name="Soft CustomAssertion Test" parallel="methods">
-        <groups>
-            <run>
-                <include name="softAssertionTest" />
-            </run>
-        </groups>
+    <test name="Soft CustomAssertion Test">
         <classes>
             <class name="com.seleniumtests.tests.SoftAssertionTest" />
         </classes>
-    </test> -->
+    </test> 
 
-    <test name="Test Link Login Test" parallel="false">
-        <parameter name="browser" value="*chrome" />
-        <groups>
-            <run>
-                <!--<include name="loginAsValidUser" />-->
-                <include name="loginAsInvalidUser"/>
-                <!--<include name="testForFailure"/>-->
-            </run>
-        </groups>
+    <test name="Test Link Login Test">
         <classes>
             <class name="com.seleniumtests.tests.TestLinkLoginTest" />
         </classes>
     </test>
 
-   <!-- <test name="Test LinkElement Navigation Test" parallel="methods">
-        <groups>
-            <run>
-                <include name="createTestProject" />
-            </run>
-        </groups>
+    <test name="Test LinkElement Navigation Test">
         <classes>
             <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
-    </test>-->
+    </test>
 
 </suite> 
