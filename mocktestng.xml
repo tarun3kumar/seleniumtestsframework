@@ -38,56 +38,11 @@
 	<parameter name="softAssertEnabled" value="true" />
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-	<test name="Retry Test1" parallel="methods">
-		<groups>
-			<run>
-				<include name="retryTest1" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.seleniumtests.tests.RetryTest1" />
-		</classes>
-	</test>
-	<test name="Never Retry Test" parallel="methods">
-		<groups>
-			<run>
-				<include name="retryTest2" />
-			</run>
-		</groups>
-		<classes>
-			<class name="com.seleniumtests.tests.RetryTest2" />
-		</classes>
-	</test>
-
-    <test name="Soft CustomAssertion Test" parallel="methods">
-        <groups>
-            <run>
-                <include name="softAssertionTest" />
-            </run>
-        </groups>
-        <classes>
-            <class name="com.seleniumtests.tests.SoftAssertionTest" />
-        </classes>
-    </test> 
-
     <test name="Test Link Login Test" parallel="false">
         <parameter name="browser" value="*chrome" />
         <groups>
             <run>
-                <include name="loginAsValidUser" />
-                <include name="loginAsInvalidUser"/>
-                <include name="testForFailure"/>
-            </run>
-        </groups>
-        <classes>
-            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
-        </classes>
-    </test>
-
-    <test name="Test LinkElement Navigation Test" parallel="methods">
-        <groups>
-            <run>
-                <include name="createTestProject" />
+                <include name="createTestProject"/>
             </run>
         </groups>
         <classes>
