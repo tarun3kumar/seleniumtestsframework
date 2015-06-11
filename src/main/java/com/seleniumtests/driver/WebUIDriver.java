@@ -44,6 +44,9 @@ public class WebUIDriver {
     private static ThreadLocal<WebDriver> driverSession = new ThreadLocal<WebDriver>();
     private static ThreadLocal<WebUIDriver> uxDriverSession = new ThreadLocal<WebUIDriver>();
     private String node;
+    private DriverConfig config = new DriverConfig();
+    private WebDriver driver;
+    private IWebDriverFactory webDriverBuilder;
 
     public String getNode() {
         return node;
@@ -75,7 +78,7 @@ public class WebUIDriver {
     }
 
     /**
-     * Get native WebDriver which can be converted to RemoteWebDriver.
+     * Returns native WebDriver which can be converted to RemoteWebDriver.
      *
      * @return  webDriver
      */
@@ -92,20 +95,30 @@ public class WebUIDriver {
         return getWebDriver(false);
     }
 
+    /**
+     * Returns WebDriver instance Creates a new WebDriver Instance if it is null and isCreate is true.
+     *
+     * @param   isCreate  create webdriver or not
+     *
+     * @return
+     */
     public static WebDriver getWebDriver(final Boolean isCreate) {
         if (driverSession.get() == null && isCreate) {
             try {
                 getWebUIDriver().createWebDriver();
             } catch (Exception e) {
-                System.out.println("Capture customexception when create web driver");
                 e.printStackTrace();
-                throw new RuntimeException(e);
             }
         }
 
         return driverSession.get();
     }
 
+    /**
+     * Returns WebUIDriver instance Creates new WebUIDriver instance if it is null.
+     *
+     * @return
+     */
     public static WebUIDriver getWebUIDriver() {
         if (uxDriverSession.get() == null) {
             uxDriverSession.set(new WebUIDriver());
@@ -114,6 +127,11 @@ public class WebUIDriver {
         return uxDriverSession.get();
     }
 
+    /**
+     * Lets user set their own driver This can be retrieved as WebUIDriver.getWebDriver().
+     *
+     * @param  driver
+     */
     public static void setWebDriver(final WebDriver driver) {
         if (driver == null) {
             driverSession.remove();
@@ -125,10 +143,6 @@ public class WebUIDriver {
             driverSession.set(driver);
         }
     }
-
-    private DriverConfig config = new DriverConfig();
-    private WebDriver driver;
-    private IWebDriverFactory webDriverBuilder;
 
     public WebUIDriver() {
         init();
@@ -568,5 +582,4 @@ public class WebUIDriver {
     public void setWebSessionTimeout(final int webSessionTimeout) {
         config.setWebSessionTimeout(webSessionTimeout);
     }
-
 }
