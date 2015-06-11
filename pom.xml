@@ -7,8 +7,31 @@
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>seleniumtestsframework</name>
+	<name>selenium tests framework</name>
+    <description>Step by step test reporting framework based on webdriver and testng</description>
 	<url>http://www.seleniumtests.com</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Tarun Kumar</name>
+            <email>tkumarb@seleniumtests.com</email>
+            <organization>seleniumtests</organization>
+            <organizationUrl>http://www.seleniumtests.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:TestingForum/seleniumtestsframework.git</connection>
+        <developerConnection>scm:git:git@github.com:TestingForum/seleniumtestsframework.git</developerConnection>
+        <url>git@github.com:TestingForum/seleniumtestsframework.git</url>
+    </scm>
 
     <repositories>
         <repository>
@@ -138,6 +161,30 @@
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
