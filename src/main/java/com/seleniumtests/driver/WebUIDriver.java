@@ -54,9 +54,9 @@ public class WebUIDriver {
     }
 
     public static void cleanUp() {
-        IWebDriverFactory b = getWebUXDriver().webDriverBuilder;
-        if (b != null) {
-            b.cleanUp();
+        IWebDriverFactory iWebDriverFactory = getWebUIDriver().webDriverBuilder;
+        if (iWebDriverFactory != null) {
+            iWebDriverFactory.cleanUp();
         } else {
             WebDriver driver = driverSession.get();
             if (driver != null) {
@@ -95,7 +95,7 @@ public class WebUIDriver {
     public static WebDriver getWebDriver(final Boolean isCreate) {
         if (driverSession.get() == null && isCreate) {
             try {
-                getWebUXDriver().createWebDriver();
+                getWebUIDriver().createWebDriver();
             } catch (Exception e) {
                 System.out.println("Capture customexception when create web driver");
                 e.printStackTrace();
@@ -106,7 +106,7 @@ public class WebUIDriver {
         return driverSession.get();
     }
 
-    public static WebUIDriver getWebUXDriver() {
+    public static WebUIDriver getWebUIDriver() {
         if (uxDriverSession.get() == null) {
             uxDriverSession.set(new WebUIDriver());
         }
@@ -118,7 +118,7 @@ public class WebUIDriver {
         if (driver == null) {
             driverSession.remove();
         } else {
-            if (getWebUXDriver() == null) {
+            if (getWebUIDriver() == null) {
                 new WebUIDriver();
             }
 
