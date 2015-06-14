@@ -51,15 +51,7 @@ public class CSVHelper {
      * Reads data from csv formatted file. Keep csv file in the same folder as the test case class and specify class as
      * <code>this.getClass()</code>.
      *
-     * @param   clazz
-     * @param   filename
-     * @param   fields
-     * @param   filter
-     * @param   readHeaders
      *
-     * @return
-     *
-     * @throws  Exception
      */
     public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename,
             final String[] fields, final Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
@@ -220,7 +212,7 @@ public class CSVHelper {
      * Get headers from a csv file.
      *
      * @param   clazz      - null means use the absolute file path, otherwise use relative path under the class
-     * @param   filename
+     * @param   filename - name of file
      * @param   delimiter  - null means ","
      *
      * @return
@@ -270,10 +262,6 @@ public class CSVHelper {
     /**
      * Parses line.
      *
-     * @param   line
-     * @param   delim
-     *
-     * @return
      */
     public static String[] parseLine(final String line, final String delim) {
         if (line == null || line.trim().length() == 0) {
@@ -320,11 +308,6 @@ public class CSVHelper {
     /**
      * Parses file and returns a String[][] object.
      *
-     * @param   file
-     *
-     * @return
-     *
-     * @throws  IOException
      */
     public static String[][] read(final File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
@@ -337,10 +320,6 @@ public class CSVHelper {
 
     /**
      * Parses an input stream and returns a String[][] object.
-     *
-     * @param   is
-     *
-     * @return
      *
      * @throws  IOException
      */
@@ -379,11 +358,6 @@ public class CSVHelper {
     /**
      * Parses URL and returns a String[][] object.
      *
-     * @param   url
-     *
-     * @return
-     *
-     * @throws  IOException
      */
     public static String[][] read(final URL url) throws IOException {
         URLConnection con = url.openConnection();
