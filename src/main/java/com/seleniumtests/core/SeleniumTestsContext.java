@@ -118,7 +118,9 @@ public class SeleniumTestsContext {
                 new File(screenShot.getFullImagePath()).delete();
                 screenshots.remove(size - 1);
             }
-        } catch (Exception ex) { }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public ScreenShot getExceptionScreenShot() {
