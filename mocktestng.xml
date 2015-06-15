@@ -34,7 +34,6 @@
 	<parameter name="webSessionTimeOut" value="120000" />
 	<parameter name="openReportInBrowser" value="firefox" />
 	<parameter name="maxConcurrentWebSessions" value="5" />
-	<parameter name="captureSnapshot" value="true" />
 	<parameter name="softAssertEnabled" value="true" />
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
@@ -42,11 +41,11 @@
         <parameter name="browser" value="*chrome" />
         <groups>
             <run>
-                <include name="createTestProject"/>
+                <include name="loginAsValidUser"/>
             </run>
         </groups>
         <classes>
-            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
+            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
         </classes>
     </test>
 
