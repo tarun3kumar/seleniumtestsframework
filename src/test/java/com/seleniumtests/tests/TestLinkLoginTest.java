@@ -69,7 +69,7 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
     public void loginAsValidUser(final TestEntity testEntity, final User user) throws Exception {
 
         AdminHomePage adminHomePage = new TestLinkLoginPage(true).loginAsValidUser(user);
-        assertThat("Documentation drop down is missing!!!", adminHomePage.isDocumentationDropdownDisplayed(), is(true));
+        assertThat("Test plan drop down is missing!!!", adminHomePage.isTestPlanDropdownDisplayed(), is(true));
 
     }
 
@@ -103,7 +103,7 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
     public void testForFailure(final TestEntity testEntity, final User user) throws Exception {
 
         AdminHomePage adminHomePage = new TestLinkLoginPage(true).loginAsValidUser(user);
-        assertThat("Deliberate test failure!!!", adminHomePage.isDocumentationDropdownDisplayed(), is(false));
+        assertThat("Deliberate test failure!!!", adminHomePage.isTestPlanDropdownDisplayed(), is(false));
     }
 
     /**
