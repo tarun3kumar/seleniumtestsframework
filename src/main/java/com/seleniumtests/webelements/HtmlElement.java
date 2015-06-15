@@ -66,10 +66,10 @@ public class HtmlElement {
         XPATH,
     }
 
-    private static final int EXPLICIT_WAIT_TIME_OUT = WebUIDriver.getWebUXDriver().getExplicitWait();
+    private static final int EXPLICIT_WAIT_TIME_OUT = WebUIDriver.getWebUIDriver().getExplicitWait();
     protected static final Logger logger = TestLogging.getLogger(HtmlElement.class);
     protected WebDriver driver = WebUIDriver.getWebDriver();
-    protected WebUIDriver webUXDriver = WebUIDriver.getWebUXDriver();
+    protected WebUIDriver webUXDriver = WebUIDriver.getWebUIDriver();
     protected WebElement element = null;
     private String label = null;
     private String locator = null;
@@ -119,7 +119,7 @@ public class HtmlElement {
     public void click() {
         findElement();
 
-        BrowserType browser = WebUIDriver.getWebUXDriver().getConfig().getBrowser();
+        BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
         if (browser != BrowserType.Opera) {
             try {
                 element.click();
@@ -153,7 +153,7 @@ public class HtmlElement {
     }
 
     protected void handleLeaveAlert() {
-        BrowserType browser = WebUIDriver.getWebUXDriver().getConfig().getBrowser();
+        BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
 
         // Handle Confirm Navigation pop up for Chrome and IE
         if (browser == BrowserType.Chrome || browser == BrowserType.InternetExplore) {
@@ -197,7 +197,7 @@ public class HtmlElement {
         }
 
         try {
-            BrowserType type = WebUIDriver.getWebUXDriver().getConfig().getBrowser();
+            BrowserType type = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
             if ((type == BrowserType.Chrome || type == BrowserType.InternetExplore)
                     && this.getDriver().switchTo().alert().getText().contains("leave")) {
                 this.getDriver().switchTo().alert().accept();

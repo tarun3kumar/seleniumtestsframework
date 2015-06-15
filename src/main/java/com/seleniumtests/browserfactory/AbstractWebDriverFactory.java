@@ -41,7 +41,7 @@ public abstract class AbstractWebDriverFactory {
                     driver.quit();
                 } catch (WebDriverException ex) {
                     TestLogging.log("Exception encountered when quiting driver: "
-                            + WebUIDriver.getWebUXDriver().getConfig().getBrowser().name() + ":" + ex.getMessage());
+                            + WebUIDriver.getWebUIDriver().getConfig().getBrowser().name() + ":" + ex.getMessage());
                 }
 
                 driver = null;

@@ -46,9 +46,9 @@ import com.thoughtworks.selenium.webdriven.Windows;
 public abstract class BasePage {
 
     protected WebDriver driver = WebUIDriver.getWebDriver();
-    protected final WebUIDriver webUXDriver = WebUIDriver.getWebUXDriver();
-    private int explictWaitTimeout = WebUIDriver.getWebUXDriver().getExplicitWait();
-    private int sessionTimeout = WebUIDriver.getWebUXDriver().getWebSessionTimeout();
+    protected final WebUIDriver webUXDriver = WebUIDriver.getWebUIDriver();
+    private int explictWaitTimeout = WebUIDriver.getWebUIDriver().getExplicitWait();
+    private int sessionTimeout = WebUIDriver.getWebUIDriver().getWebSessionTimeout();
 
     public BasePage() { }
 
@@ -318,7 +318,7 @@ public abstract class BasePage {
 
         WebElement body = driver.findElement(By.tagName("body"));
 
-        if (WebUIDriver.getWebUXDriver().getBrowser().equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType())) {
+        if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType())) {
             return body.getText().contains(text);
         }
 

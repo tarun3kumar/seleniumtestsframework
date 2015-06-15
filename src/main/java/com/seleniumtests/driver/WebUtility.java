@@ -45,7 +45,7 @@ public class WebUtility {
 
     public void maximizeWindow() {
         try {
-            BrowserType browser = BrowserType.getBrowserType(WebUIDriver.getWebUXDriver().getBrowser());
+            BrowserType browser = BrowserType.getBrowserType(WebUIDriver.getWebUIDriver().getBrowser());
             if (browser == BrowserType.Android || browser == BrowserType.IPad || browser == BrowserType.IPhone) {
                 return;
             }
@@ -63,8 +63,8 @@ public class WebUtility {
     }
 
     public static void main(final String[] args) {
-        WebUIDriver.getWebUXDriver().setMode("ExistingGrid");
-        WebUIDriver.getWebUXDriver().setHubUrl(" ");
+        WebUIDriver.getWebUIDriver().setMode("ExistingGrid");
+        WebUIDriver.getWebUIDriver().setHubUrl(" ");
 
         WebDriver driver = WebUIDriver.getWebDriver(true);
         System.out.print(driver.manage().window().getSize().width + ":" + driver.manage().window().getSize().height);

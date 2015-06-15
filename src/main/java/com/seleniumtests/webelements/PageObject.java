@@ -309,7 +309,7 @@ public class PageObject extends BasePage implements IPage {
             driver.close();
         } catch (WebDriverException ignore) { }
 
-        if (WebUIDriver.getWebUXDriver().getMode().equalsIgnoreCase("LOCAL")) {
+        if (WebUIDriver.getWebUIDriver().getMode().equalsIgnoreCase("LOCAL")) {
             try {
                 Thread.sleep(1000 * 2);
             } catch (InterruptedException e) { }
@@ -386,7 +386,7 @@ public class PageObject extends BasePage implements IPage {
      * @return  jsErrors in format "line number, errorLogger message, source name; "
      */
     public String getJSErrors() {
-        if (WebUIDriver.getWebUXDriver().isAddJSErrorCollectorExtension()) {
+        if (WebUIDriver.getWebUIDriver().isAddJSErrorCollectorExtension()) {
             List<JavaScriptError> jsErrorList = JavaScriptError.readErrors(driver);
             if (!jsErrorList.isEmpty()) {
                 String jsErrors = "";
@@ -616,7 +616,7 @@ public class PageObject extends BasePage implements IPage {
                     return false;
                 }
             }.wait(String.format("Timed out waiting for page to load"),
-                WebUIDriver.getWebUXDriver().getWebSessionTimeout());
+                WebUIDriver.getWebUIDriver().getWebSessionTimeout());
         } catch (WaitTimedOutException ex) { }
 
         // populate page info

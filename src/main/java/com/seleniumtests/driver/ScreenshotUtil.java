@@ -41,13 +41,13 @@ public class ScreenshotUtil {
         try {
 
             // Don't capture snapshot for htmlunit
-            if (WebUIDriver.getWebUXDriver().getBrowser().equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType())) {
+            if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType())) {
                 return null;
             }
 
             // Opera has bug after upgrade selenium
             // 2.33.0,https://code.google.com/p/selenium/issues/detail?id=847
-            if (WebUIDriver.getWebUXDriver().getBrowser().equalsIgnoreCase(BrowserType.Opera.getBrowserType())) {
+            if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.Opera.getBrowserType())) {
                 return null;
             }
 
