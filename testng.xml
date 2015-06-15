@@ -35,6 +35,7 @@
 	<parameter name="openReportInBrowser" value="firefox" />
 	<parameter name="maxConcurrentWebSessions" value="5" />
 	<parameter name="softAssertEnabled" value="true" />
+    <!-- For soft assert, use assert APIs from  com.seleniumtests.core.CustomAssertion class-->
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
 	<test name="Multiple assertion failures">
