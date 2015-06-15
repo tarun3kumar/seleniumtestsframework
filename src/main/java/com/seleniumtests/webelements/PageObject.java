@@ -459,8 +459,6 @@ public class PageObject extends BasePage implements IPage {
         }
 
         setUrl(url);
-        TestLogging.logWebStep(url, "Launch application URL: <a href='" + url + "'>" + url + "</a>", false);
-
         try {
             driver.navigate().to(url);
         } catch (UnreachableBrowserException e) {

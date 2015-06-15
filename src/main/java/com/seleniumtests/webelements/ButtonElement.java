@@ -29,7 +29,6 @@ public class ButtonElement extends HtmlElement {
 
     @Override
     public void click() {
-        captureSnapshot("Before clicking");
         TestLogging.logWebStep(null, "click on " + toHTML(), false);
 
         BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
@@ -42,7 +41,6 @@ public class ButtonElement extends HtmlElement {
     }
 
     public void submit() {
-        captureSnapshot("Before form submission");
         TestLogging.logWebStep(null, "Submit form by clicking on " + toHTML(), false);
         findElement();
         element.submit();

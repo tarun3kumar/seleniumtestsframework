@@ -182,7 +182,6 @@ public class HtmlElement {
      * @param  value
      */
     public void clickAt(final String value) {
-        captureSnapshot("before clicking");
         TestLogging.logWebStep(null, "click on " + toHTML(), false);
         findElement();
 

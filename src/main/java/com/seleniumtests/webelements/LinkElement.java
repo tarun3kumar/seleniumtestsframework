@@ -25,7 +25,6 @@ public class LinkElement extends HtmlElement {
 
     @Override
     public void click() {
-        captureSnapshot("before clicking");
         TestLogging.logWebStep(null, "click on " + toHTML(), false);
         super.click();
     }
