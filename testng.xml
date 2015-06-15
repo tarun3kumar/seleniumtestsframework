@@ -34,11 +34,10 @@
 	<parameter name="webSessionTimeOut" value="120000" />
 	<parameter name="openReportInBrowser" value="firefox" />
 	<parameter name="maxConcurrentWebSessions" value="5" />
-	<parameter name="captureSnapshot" value="true" />
 	<parameter name="softAssertEnabled" value="true" />
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-	<!--<test name="Multiple assertion failures">
+	<test name="Multiple assertion failures">
 		<classes>
 			<class name="com.seleniumtests.tests.RetryTest" />
 		</classes>
@@ -57,9 +56,10 @@
     </test>
 
     <test name="Test LinkElement Navigation Test">
+        <parameter name="browser" value="*firefox" />
         <classes>
             <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
-    </test>-->
+    </test>
 
 </suite> 
