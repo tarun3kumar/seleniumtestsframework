@@ -26,7 +26,7 @@ import com.seleniumtests.webelements.SelectList;
  */
 public class AdminHomePage extends PageObject {
 
-    private static SelectList documentationDropDown = new SelectList("Documentation drop down", By.name("docs"));
+    private static SelectList testPLanDropDown = new SelectList("Documentation drop down", By.name("testplan"));
 
     public AdminHomePage() throws Exception {
         // No check on page identification
@@ -59,11 +59,11 @@ public class AdminHomePage extends PageObject {
         return this;
     }
 
-    public boolean isDocumentationDropdownDisplayed() {
+    public boolean isTestPlanDropdownDisplayed() {
         switchToTestLinkFrame();
         switchToMainFrame();
 
-        boolean isDisplayed = documentationDropDown.isDisplayed();
+        boolean isDisplayed = testPLanDropDown.isElementPresent();
         getDriver().switchTo().defaultContent();
         return isDisplayed;
     }
