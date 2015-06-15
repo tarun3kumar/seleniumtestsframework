@@ -38,7 +38,7 @@
 	<parameter name="softAssertEnabled" value="true" />
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-	<test name="Multiple assertion failures">
+	<!--<test name="Multiple assertion failures">
 		<classes>
 			<class name="com.seleniumtests.tests.RetryTest" />
 		</classes>
@@ -60,6 +60,6 @@
         <classes>
             <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
-    </test>
+    </test>-->
 
 </suite> 

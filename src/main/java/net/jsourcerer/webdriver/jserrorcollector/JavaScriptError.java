@@ -67,7 +67,7 @@ public class JavaScriptError {
      * If Firebug is installed and active, this will contain the content of the Firebug Console since the previous
      * JavaScript errorLogger.
      *
-     * @return
+     * @return console value
      */
     public String getConsole() {
         return console;
@@ -170,13 +170,11 @@ public class JavaScriptError {
      * Adds the Firefox extension collecting JS errors to the profile what allows later use of
      * {@link #readErrors(WebDriver)}.
      *
-     * <p/>Example:<br>
+     * <p>Example:<br>
      * <code>
-     * <pre>
        final FirefoxProfile profile = new FirefoxProfile();
        JavaScriptError.addExtension(profile);
        final WebDriver driver = new FirefoxDriver(profile);
-     * </pre>
      * </code>
      *
      * @param   ffProfile  the Firefox profile to which the extension should be added.
