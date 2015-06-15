@@ -493,7 +493,7 @@ public class SeleniumTestsContext {
     }
 
     /**
-     * Set Suite SeleniumTestsContext Attributes. This is eCAF Platform internal. Should not be accessed from outside.
+     * Set Suite SeleniumTestsContext Attributes.
      *
      * @param  context
      * @param  attributeName
