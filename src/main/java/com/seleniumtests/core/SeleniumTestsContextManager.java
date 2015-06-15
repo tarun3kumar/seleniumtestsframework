@@ -36,22 +36,22 @@ import com.seleniumtests.helper.XMLUtility;
  */
 public class SeleniumTestsContextManager {
 
-    // Customized Contex Attribute
-    private static List<IContextAttributeListener> contexAttributeListenerList = Collections.synchronizedList(
+    // context listener
+    private static List<IContextAttributeListener> contextAttributeListeners = Collections.synchronizedList(
             new ArrayList<IContextAttributeListener>());
 
-    // define the global level context
+    // global level context
     private static SeleniumTestsContext globalContext;
 
-    // define the test level context
+    // test level context
     private static Map<String, SeleniumTestsContext> testLevelContext = Collections.synchronizedMap(
             new HashMap<String, SeleniumTestsContext>());
 
-    // define the thread level SeleniumTestsContext
+    // thread level SeleniumTestsContext
     private static ThreadLocal<SeleniumTestsContext> threadLocalContext = new ThreadLocal<SeleniumTestsContext>();
 
-    public static void addContexAttributeListener(final IContextAttributeListener listener) {
-        contexAttributeListenerList.add(listener);
+    public static void addContextAttributeListener(final IContextAttributeListener listener) {
+        contextAttributeListeners.add(listener);
     }
 
     public static SeleniumTestsContext getGlobalContext() {
@@ -66,9 +66,6 @@ public class SeleniumTestsContextManager {
     public static SeleniumTestsContext getTestLevelContext(final ITestContext testContext) {
         if (testContext != null && testContext.getCurrentXmlTest() != null) {
             if (testLevelContext.get(testContext.getCurrentXmlTest().getName()) == null) {
-
-                // sometimes getTestLevelContext is called before @BeforeTest in
-                // SeleniumTestPlan
                 initTestLevelContext(testContext, testContext.getCurrentXmlTest());
             }
 
@@ -173,8 +170,8 @@ public class SeleniumTestsContextManager {
 
     private static void loadCustomizedContextAttribute(final ITestContext testNGCtx,
             final SeleniumTestsContext seleniumTestsCtx) {
-        for (int i = 0; i < contexAttributeListenerList.size(); i++) {
-            contexAttributeListenerList.get(i).load(testNGCtx, seleniumTestsCtx);
+        for (int i = 0; i < contextAttributeListeners.size(); i++) {
+            contextAttributeListeners.get(i).load(testNGCtx, seleniumTestsCtx);
         }
     }
 
