@@ -165,10 +165,6 @@
 							<name>usedefaultlisteners</name>
 							<value>false</value>
 						</property>
-						<property>
-							<name>listener</name>
-							<value>com.seleniumtests.reporter.SeleniumTestsReporter</value>
-						</property>
 					</properties>
 				</configuration>
 			</plugin>
