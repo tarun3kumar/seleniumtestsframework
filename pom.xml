@@ -21,7 +21,7 @@
     <developers>
         <developer>
             <name>Tarun Kumar</name>
-            <email>tkumarb@seleniumtests.com</email>
+            <email>tkumarb@gmail.com</email>
             <organization>seleniumtests</organization>
             <organizationUrl>http://www.seleniumtests.com</organizationUrl>
         </developer>
@@ -205,9 +205,11 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-						<configuration> <!-- add this to disable checking for java 8-->
+<!--
+						<configuration> &lt;!&ndash; add this to disable checking for java 8&ndash;&gt;
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
+-->
 					</execution>
 				</executions>
 			</plugin>
