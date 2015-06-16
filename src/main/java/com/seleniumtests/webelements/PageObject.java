@@ -49,7 +49,6 @@ import com.seleniumtests.helper.WaitHelper;
 
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
-import com.thoughtworks.selenium.webdriven.Windows;
 
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 
@@ -57,7 +56,6 @@ public class PageObject extends BasePage implements IPage {
 
     private static final Logger logger = Logger.getLogger(PageObject.class);
     private static final int MAX_WAIT_TIME_FOR_REDIRECTION = 3;
-    private boolean popupFlag = false;
     private boolean frameFlag = false;
     private HtmlElement pageIdentifierElement = null;
     private String popupWindowName = null;
@@ -73,28 +71,33 @@ public class PageObject extends BasePage implements IPage {
     private String imageFilePath = null;
 
     /**
-     * Constructor for non-entry point page.
+     * Constructor for non-entry point page. The control is supposed to have reached the page from other API call.
      *
      * @throws  Exception
      */
     public PageObject() throws Exception {
-        this(false, null, null, null, true, false);
+        this(null, null);
     }
 
-    public PageObject(final boolean isPopup, final String popUpWindowName) throws Exception {
-        this(isPopup, popUpWindowName, null, null, true, false);
+    /**
+     * Constructor for non-entry point page. The control is supposed to have reached the page from other API call.
+     *
+     * @param   pageIdentifierElement
+     *
+     * @throws  Exception
+     */
+    public PageObject(final HtmlElement pageIdentifierElement) throws Exception {
+        this(pageIdentifierElement, null);
     }
 
     /**
      * Base Constructor.
      *
      * @param   url
-     * @param   convert
      *
      * @throws  Exception
      */
-    private PageObject(final boolean isPopup, final String popupWindowName, final HtmlElement pageIdentifierElement,
-            final String url, final boolean convert, final boolean waitForRedirection) throws Exception {
+    public PageObject(final HtmlElement pageIdentifierElement, final String url) throws Exception {
         Calendar start = Calendar.getInstance();
         start.setTime(new Date());
 
@@ -105,30 +108,13 @@ public class PageObject extends BasePage implements IPage {
         }
 
         this.pageIdentifierElement = pageIdentifierElement;
-        this.popupFlag = isPopup;
-        this.popupWindowName = popupWindowName;
-
         driver = WebUIDriver.getWebDriver();
 
-        if (!popupFlag) {
-
-            if (url != null) {
-                open(url);
-            }
-
-            waitForPageToLoad();
-
-        } else {
-            TestLogging.logWebStep(null, "wait for popup to load.", false);
-            waitForPopup(popupWindowName);
-
-            Windows windows = new Windows(driver);
-            windows.selectWindow(driver, "name=" + popupWindowName);
-
-            // populate page info
-            populateAndCapturePageSnapshot();
+        if (url != null) {
+            open(url);
         }
 
+        waitForPageToLoad();
         assertCurrentPage(false);
 
         try {
@@ -147,70 +133,6 @@ public class PageObject extends BasePage implements IPage {
         if ((endTime - startTime) / 1000 > 0) {
             TestLogging.log("Open web page in :" + (endTime - startTime) / 1000 + "seconds");
         }
-    }
-
-    /**
-     * Constructor for non-entry point page.
-     *
-     * @param   pageIdentifierElement
-     *
-     * @throws  Exception
-     */
-    public PageObject(final HtmlElement pageIdentifierElement) throws Exception {
-        this(false, null, pageIdentifierElement, null, true, false);
-    }
-
-    /**
-     * Constructor for non-entry point page after redirection.
-     *
-     * @param   pageIdentifierElement
-     * @param   waitForRedirection
-     *
-     * @throws  Exception
-     */
-    public PageObject(final HtmlElement pageIdentifierElement, final boolean waitForRedirection) throws Exception {
-        this(false, null, pageIdentifierElement, null, true, waitForRedirection);
-    }
-
-    /**
-     * Constructor for Pop-up Pages.
-     *
-     * @param   pageIdentifierElement
-     * @param   isPopup
-     * @param   popupWindowName
-     *
-     * @throws  Exception
-     */
-    public PageObject(final HtmlElement pageIdentifierElement, final boolean isPopup, final String popupWindowName)
-        throws Exception {
-        this(isPopup, popupWindowName, pageIdentifierElement, null, true, false);
-    }
-
-    /**
-     * Constructor for Entry point page. URLs will be converted based on feature pool.
-     *
-     * @param   pageIdentifierElement
-     * @param   url
-     *
-     * @throws  Exception
-     */
-    public PageObject(final HtmlElement pageIdentifierElement, final String url) throws Exception {
-
-        this(false, null, pageIdentifierElement, url, true, false);
-    }
-
-    /**
-     * Constructor for entry point page after redirection.
-     *
-     * @param   pageIdentifierElement
-     * @param   url
-     * @param   waitForRedirection
-     *
-     * @throws  Exception
-     */
-    public PageObject(final HtmlElement pageIdentifierElement, final String url, final boolean waitForRedirection)
-        throws Exception {
-        this(false, null, pageIdentifierElement, url, false, waitForRedirection);
     }
 
     public void assertCookiePresent(final String name) {
@@ -256,7 +178,6 @@ public class PageObject extends BasePage implements IPage {
     public void assertKeywordNotPresent(final String text) {
         TestLogging.logWebStep(null, "assert text \"" + text + "\" is present in page source.", false);
         Assert.assertFalse(getHtmlSource().contains(text), "Text: {" + text + "} not found on page source.");
-
     }
 
     public void assertLocation(final String urlPattern) {
