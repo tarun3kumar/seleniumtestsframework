@@ -81,6 +81,8 @@ import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.core.TestRetryAnalyzer;
 
 import com.seleniumtests.driver.ScreenShot;
+import com.seleniumtests.driver.ScreenshotUtil;
+import com.seleniumtests.driver.WebUIDriver;
 
 import com.seleniumtests.helper.StringUtility;
 
@@ -1107,6 +1109,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             System.out.println(arg0.getMethod() + " Failed in " + testRetryAnalyzer.getCount() + " times");
             isRetryHandleNeeded.put(arg0.getTestContext().getName(), true);
+        }
+
+        // capture snap shot only for the failed web tests
+        if (WebUIDriver.getWebDriver() != null) {
+            ScreenShot screenShot = new ScreenshotUtil().captureWebPageSnapshot();
+            TestLogging.log(
+                "<div><table><tr bgcolor=\"yellow\"><td><b> Current web page screenshot with webdriver Exception--</b><td></tr></table></div>");
+            TestLogging.logWebOutput(screenShot.getTitle(), TestLogging.buildScreenshotLog(screenShot), true);
         }
     }
 
