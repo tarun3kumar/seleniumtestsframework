@@ -32,6 +32,7 @@ import java.net.URL;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,15 +183,6 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
     public void afterInvocation(final IInvokedMethod method, final ITestResult result) {
         Reporter.setCurrentTestResult(result);
-
-        ScreenShot screenShot = SeleniumTestsContextManager.getThreadContext().getExceptionScreenShot();
-
-        // Handle Last Exception for only failed test cases
-        if (!result.isSuccess() && SeleniumTestsContextManager.getThreadContext() != null && screenShot != null) {
-            TestLogging.log(
-                "<div><table><tr bgcolor=\"yellow\"><td><b> Current web page screenshot with webdriver Exception --</b><td></tr></table></div>");
-            TestLogging.logWebOutput(screenShot.getTitle(), TestLogging.buildScreenshotLog(screenShot), true);
-        }
 
         // Handle Soft CustomAssertion
         if (method.isTestMethod()) {
@@ -836,7 +828,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             VelocityContext context = new VelocityContext();
             context.put("suiteName", suiteName);
             context.put("totalRunTime", formatter.format((time_end - time_start) / 1000.) + " sec");
-            context.put("TimeStamp", new GregorianCalendar().getTime());
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE dd MMM HH:mm:ss zzz yyyy");
+            context.put("TimeStamp", simpleDateFormat.format(new GregorianCalendar().getTime()));
             context.put("tests", tests2);
             context.put("total", total);
 
