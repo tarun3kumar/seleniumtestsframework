@@ -205,11 +205,9 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-<!--
-						<configuration> &lt;!&ndash; add this to disable checking for java 8&ndash;&gt;
+						<configuration> <!-- disable checking for java 8-->
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
--->
 					</execution>
 				</executions>
 			</plugin>
