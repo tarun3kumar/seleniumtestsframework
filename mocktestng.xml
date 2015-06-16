@@ -38,15 +38,15 @@
     <!-- For soft assert, use assert APIs from  com.seleniumtests.core.CustomAssertion class-->
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-    <test name="Test Link Login Test" parallel="false">
+    <test name="Mock Test" parallel="false">
         <parameter name="browser" value="*chrome" />
         <groups>
             <run>
-                <include name="loginAsValidUser"/>
+                <include name="softAssertionTest"/>
             </run>
         </groups>
         <classes>
-            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
+            <class name="com.seleniumtests.tests.SoftAssertionTest" />
         </classes>
     </test>
 
