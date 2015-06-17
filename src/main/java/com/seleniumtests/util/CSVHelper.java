@@ -38,8 +38,6 @@ import com.seleniumtests.core.TestLogging;
 
 import com.seleniumtests.customexception.CustomSeleniumTestsException;
 
-import com.seleniumtests.util.internal.entity.TestEntity;
-
 public class CSVHelper {
     private static Logger logger = TestLogging.getLogger(CSVHelper.class);
 
@@ -50,17 +48,14 @@ public class CSVHelper {
     /**
      * Reads data from csv formatted file. Keep csv file in the same folder as the test case class and specify class as
      * <code>this.getClass()</code>.
-     *
-     *
      */
     public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename,
-            final String[] fields, final Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
-        return getDataFromCSVFile(clazz, filename, fields, filter, readHeaders, null, supportDPFilter);
+            final Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
+        return getDataFromCSVFile(clazz, filename, filter, readHeaders, null, supportDPFilter);
     }
 
-    public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename,
-            final String[] fields, Filter filter, final boolean readHeaders, final String delimiter,
-            final boolean supportDPFilter) {
+    public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename, Filter filter,
+            final boolean readHeaders, final String delimiter, final boolean supportDPFilter) {
 
         InputStream is = null;
         try {
@@ -80,14 +75,8 @@ public class CSVHelper {
             List<Object[]> sheetData = new ArrayList<Object[]>();
             if (readHeaders) {
                 List<Object> rowData = new ArrayList<Object>();
-                if (fields == null) {
-                    for (int j = 0; j < csvData[0].length; j++) {
-                        rowData.add(csvData[0][j]);
-                    }
-                } else {
-                    for (int i = 0; i < fields.length; i++) {
-                        rowData.add(fields[i]);
-                    }
+                for (int j = 0; j < csvData[0].length; j++) {
+                    rowData.add(csvData[0][j]);
                 }
 
                 sheetData.add(rowData.toArray(new Object[rowData.size()]));
@@ -95,17 +84,6 @@ public class CSVHelper {
 
             int testTitleColumnIndex = -1;
             int testSiteColumnIndex = -1;
-
-            // Search title
-            for (int i = 0; i < csvData[0].length; i++) {
-                if (testTitleColumnIndex == -1 && TestEntity.TEST_TITLE.equalsIgnoreCase(csvData[0][i])) {
-                    testTitleColumnIndex = i;
-                }
-
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
-                    break;
-                }
-            }
 
             // Check for blank rows first
             // First row is the header
@@ -162,20 +140,14 @@ public class CSVHelper {
                     rowDataMap.put(csvData[0][j], csvData[i][j]);
                 }
 
-                if (fields == null) {
-                    for (int j = 0; j < csvData[0].length; j++) {
+                for (int j = 0; j < csvData[0].length; j++) {
 
-                        // Fix for null values not getting created when number of columns in a row is less than
-                        // expected.
-                        if (csvData[i].length > j) {
-                            rowData.add(csvData[i][j]);
-                        } else {
-                            rowData.add(null);
-                        }
-                    }
-                } else {
-                    for (int k = 0; k < fields.length; k++) {
-                        rowData.add(SpreadSheetHelper.getValue(rowDataMap, fields[k]));
+                    // Fix for null values not getting created when number of columns in a row is less than
+                    // expected.
+                    if (csvData[i].length > j) {
+                        rowData.add(csvData[i][j]);
+                    } else {
+                        rowData.add(null);
                     }
                 }
 
@@ -212,7 +184,7 @@ public class CSVHelper {
      * Get headers from a csv file.
      *
      * @param   clazz      - null means use the absolute file path, otherwise use relative path under the class
-     * @param   filename - name of file
+     * @param   filename   - name of file
      * @param   delimiter  - null means ","
      *
      * @return
@@ -261,7 +233,6 @@ public class CSVHelper {
 
     /**
      * Parses line.
-     *
      */
     public static String[] parseLine(final String line, final String delim) {
         if (line == null || line.trim().length() == 0) {
@@ -307,7 +278,6 @@ public class CSVHelper {
 
     /**
      * Parses file and returns a String[][] object.
-     *
      */
     public static String[][] read(final File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
@@ -357,7 +327,6 @@ public class CSVHelper {
 
     /**
      * Parses URL and returns a String[][] object.
-     *
      */
     public static String[][] read(final URL url) throws IOException {
         URLConnection con = url.openConnection();
