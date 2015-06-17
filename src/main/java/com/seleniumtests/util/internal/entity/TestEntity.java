@@ -18,31 +18,13 @@ public class TestEntity {
     public static final String TEST_DP_TAGS = "TestEntity.TestTags";
 
     private String testCaseId = "";
-    private String testMethod = "";
-    private String testSite = "";
 
     public String getTestCaseId() {
         return testCaseId;
     }
 
-    public String getTestMethod() {
-        return testMethod;
-    }
-
-    public String getTestSite() {
-        return testSite;
-    }
-
     public void setTestCaseId(final String testCaseId) {
         this.testCaseId = testCaseId;
-    }
-
-    public void setTestMethod(final String testMethod) {
-        this.testMethod = testMethod;
-    }
-
-    public void setTestSite(final String testSite) {
-        this.testSite = testSite;
     }
 
     public String toString() {
