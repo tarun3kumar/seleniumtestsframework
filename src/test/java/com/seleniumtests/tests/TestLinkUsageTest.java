@@ -19,8 +19,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import org.testng.ITestContext;
-
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -43,7 +41,7 @@ import com.seleniumtests.webpage.TestLinkLoginPage;
 public class TestLinkUsageTest extends SeleniumTestPlan {
 
     @DataProvider(name = "testlinkproject", parallel = true)
-    public static Iterator<Object[]> getUserInfo(final Method m, final ITestContext testContext) throws Exception {
+    public static Iterator<Object[]> getUserInfo(final Method m) throws Exception {
         Filter filter = Filter.equalsIgnoreCase(TestEntity.TEST_METHOD, m.getName());
 
         LinkedHashMap<String, Class<?>> classMap = new LinkedHashMap<String, Class<?>>();
@@ -51,7 +49,7 @@ public class TestLinkUsageTest extends SeleniumTestPlan {
         classMap.put("User", User.class);
         classMap.put("TestLinkProject", TestLinkProject.class);
 
-        return SpreadSheetHelper.getEntitiesFromSpreadsheet(TestLinkLoginTest.class, classMap, "testlinkproject.csv", 0,
+        return SpreadSheetHelper.getEntitiesFromSpreadsheet(TestLinkLoginTest.class, classMap, "testlinkproject.csv",
                 filter);
     }
 
