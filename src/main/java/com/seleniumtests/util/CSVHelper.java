@@ -20,30 +20,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import java.net.URL;
-import java.net.URLConnection;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.TestLogging;
 
-import com.seleniumtests.customexception.CustomSeleniumTestsException;
-
 public class CSVHelper {
     private static Logger logger = TestLogging.getLogger(CSVHelper.class);
 
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DELIM_CHAR = ",";
-    public static final String TAB_CHAR = "	";
 
     /**
      * Reads data from csv formatted file. Keep csv file in the same folder as the test case class and specify class as
@@ -82,27 +74,6 @@ public class CSVHelper {
                 sheetData.add(rowData.toArray(new Object[rowData.size()]));
             }
 
-            int testTitleColumnIndex = -1;
-            int testSiteColumnIndex = -1;
-
-            // Check for blank rows first
-            // First row is the header
-            StringBuilder sbBlank = new StringBuilder();
-            for (int i = 1; i < csvData.length; i++) {
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1
-                        && (csvData[i][testTitleColumnIndex].trim().length() == 0
-                            || csvData[i][testSiteColumnIndex].trim().length() == 0)) {
-                    sbBlank.append(i + 1).append(',');
-                }
-            }
-
-            if (sbBlank.length() > 0) {
-                sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new CustomSeleniumTestsException("Blank TestTitle found on Row(s) " + sbBlank.toString() + ".");
-            }
-
-            Set<String> uniqueDataSet = new TreeSet<String>();
-
             // Support include tags and exclude tags
             if (supportDPFilter) {
                 Filter dpFilter = SpreadSheetHelper.getDPFilter();
@@ -118,19 +89,6 @@ public class CSVHelper {
 
             // The first row is the header data
             for (int i = 1; i < csvData.length; i++) {
-
-                // Check for duplicate Title
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
-                    String uniqueString = csvData[i][testTitleColumnIndex] + "$$$$####$$$$"
-                            + csvData[i][testSiteColumnIndex];
-                    if (uniqueDataSet.contains(uniqueString)) {
-                        throw new CustomSeleniumTestsException(
-                            "Duplicate TestTitle found in the spreadsheet with TestTitle: = {"
-                                + csvData[i][testTitleColumnIndex] + "} ");
-                    }
-
-                    uniqueDataSet.add(uniqueString);
-                }
 
                 Map<String, Object> rowDataMap = new HashMap<String, Object>();
                 List<Object> rowData = new ArrayList<Object>();
@@ -178,57 +136,6 @@ public class CSVHelper {
                 }
             }
         }
-    }
-
-    /**
-     * Get headers from a csv file.
-     *
-     * @param   clazz      - null means use the absolute file path, otherwise use relative path under the class
-     * @param   filename   - name of file
-     * @param   delimiter  - null means ","
-     *
-     * @return
-     */
-    public static ArrayList<String> getHeaderFromCSVFile(final Class<?> clazz, final String filename,
-            String delimiter) {
-        if (delimiter == null) {
-            delimiter = ",";
-        }
-
-        InputStream is = null;
-        try {
-            if (clazz != null) {
-                is = clazz.getResourceAsStream(filename);
-            } else {
-                is = new FileInputStream(filename);
-            }
-
-            if (is == null) {
-                return null;
-            }
-
-            // Get the sheet
-            String[][] csvData = read(is, delimiter);
-
-            ArrayList<String> rowData = new ArrayList<String>();
-
-            for (int j = 0; j < csvData[0].length; j++) {
-                rowData.add(csvData[0][j]);
-            }
-
-            return rowData;
-        } catch (Throwable e) {
-            throw new RuntimeException(e.getMessage());
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
     }
 
     /**
@@ -312,7 +219,9 @@ public class CSVHelper {
                 if (item != null) {
                     list.add(item);
                 }
-            } catch (Exception e) { }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         reader.close();
@@ -323,13 +232,5 @@ public class CSVHelper {
         }
 
         return result;
-    }
-
-    /**
-     * Parses URL and returns a String[][] object.
-     */
-    public static String[][] read(final URL url) throws IOException {
-        URLConnection con = url.openConnection();
-        return read(con.getInputStream());
     }
 }
