@@ -52,7 +52,7 @@ public class TestLinkUsageTest extends SeleniumTestPlan {
         classMap.put("TestLinkProject", TestLinkProject.class);
 
         return SpreadSheetHelper.getEntitiesFromSpreadsheet(TestLinkLoginTest.class, classMap, "testlinkproject.csv", 0,
-                null, filter);
+                filter);
     }
 
     /**
