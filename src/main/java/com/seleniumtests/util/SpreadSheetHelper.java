@@ -163,18 +163,15 @@ public class SpreadSheetHelper {
      * the excel sheet in the same folder as the test case and specify clazz as <code>this.getClass()</code> .
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(final Class<?> clazz, final String filename,
-            final String sheetName, final int sheetNumber, final Filter filter, final boolean readHeaders) {
-        return getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber, filter, readHeaders, true);
+            final Filter filter, final boolean readHeaders) {
+        return getDataFromSpreadsheet(clazz, filename, filter, readHeaders, true);
     }
 
     /**
-     * Reads data from spreadsheet. If sheetName and sheetNumber both are supplied the sheetName takes precedence. Put
-     * the excel sheet in the same folder as the test case and specify clazz as <code>this.getClass()</code> .
+     * Reads data from spreadsheet.
      *
      * @param   clazz
      * @param   filename
-     * @param   sheetName
-     * @param   sheetNumber
      * @param   filter
      * @param   readHeaders
      *
@@ -183,8 +180,7 @@ public class SpreadSheetHelper {
      * @throws  Exception
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(final Class<?> clazz, final String filename,
-            final String sheetName, int sheetNumber, Filter filter, final boolean readHeaders,
-            final boolean supportDPFilter) {
+            Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
 
         System.gc();
 
@@ -208,20 +204,8 @@ public class SpreadSheetHelper {
 
             w = Workbook.getWorkbook(is);
 
-            if (w.getSheetNames().length <= sheetNumber) {
-                throw new CustomSeleniumTestsException("Sheet # " + sheetNumber + " for " + filename + " not found.");
-            }
-
-            if (sheetName != null) {
-                for (int i = 0; i < w.getSheetNames().length; i++) {
-                    if (sheetName.equals(w.getSheetNames()[i])) {
-                        sheetNumber = i;
-                    }
-                }
-            }
-
-            // Get the sheet
-            Sheet sheet = w.getSheet(sheetNumber);
+            // Create multiple files when data is spread in multiple sheets
+            Sheet sheet = w.getSheet(0);
 
             // ignore blank columns
             int columnCount = sheet.getColumns();
@@ -386,38 +370,38 @@ public class SpreadSheetHelper {
      * dpTagsInclude/dpTagsExclude which is defined in testng configuration file
      */
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
-            final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final int sheetNumber,
-            final Filter filter) throws Exception {
-        return SpreadSheetHelper.getEntitiesFromSpreadsheet(clazz, entityClazzMap, filename, null, sheetNumber, filter);
+            final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final Filter filter)
+        throws Exception {
+
+        Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz, filename, filter, true);
+
+        List<Object[]> list = getEntityData(dataIterator, entityClazzMap);
+
+        return list.iterator();
     }
 
+    /* */
     /**
      * Create Entity Objects based on data in spreadsheet.
      *
      * <p/>This method is only for Data Provider. Because it also filer the data based on the
      * dpTagsInclude/dpTagsExclude which is defined in testng configuration file
      *
-     * @param   clazz
-     * @param   entityClazzMap
-     * @param   filename
-     * @param   sheetName
-     * @param   sheetNumber
-     * @param   filter
-     *
      * @return
      *
      * @throws  Exception
      */
-    public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
-            final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final String sheetName,
-            final int sheetNumber, final Filter filter) throws Exception {
-
-        Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber, filter, true);
-
-        List<Object[]> list = getEntityData(dataIterator, entityClazzMap);
-
-        return list.iterator();
-    }
+    /*
+     * public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
+     *   final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final String sheetName,
+     *   final int sheetNumber, final Filter filter) throws Exception {
+     *
+     * Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz, filename, sheetNumber, filter, true);
+     *
+     * List<Object[]> list = getEntityData(dataIterator, entityClazzMap);
+     *
+     * return list.iterator();
+     *}*/
 
     private static List<Object[]> getEntityData(final Iterator<Object[]> dataIterator,
             final LinkedHashMap<String, Class<?>> entityClazzMap) throws Exception {
