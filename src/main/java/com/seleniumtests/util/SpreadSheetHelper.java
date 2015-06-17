@@ -163,9 +163,8 @@ public class SpreadSheetHelper {
      * the excel sheet in the same folder as the test case and specify clazz as <code>this.getClass()</code> .
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(final Class<?> clazz, final String filename,
-            final String sheetName, final int sheetNumber, final String[] fields, final Filter filter,
-            final boolean readHeaders) {
-        return getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber, fields, filter, readHeaders, true);
+            final String sheetName, final int sheetNumber, final Filter filter, final boolean readHeaders) {
+        return getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber, filter, readHeaders, true);
     }
 
     /**
@@ -176,7 +175,6 @@ public class SpreadSheetHelper {
      * @param   filename
      * @param   sheetName
      * @param   sheetNumber
-     * @param   fields
      * @param   filter
      * @param   readHeaders
      *
@@ -185,14 +183,14 @@ public class SpreadSheetHelper {
      * @throws  Exception
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(final Class<?> clazz, final String filename,
-            final String sheetName, int sheetNumber, final String[] fields, Filter filter, final boolean readHeaders,
+            final String sheetName, int sheetNumber, Filter filter, final boolean readHeaders,
             final boolean supportDPFilter) {
 
         System.gc();
 
         // CSVHelper handle CSV Files
         if (filename.toLowerCase().endsWith(".csv")) {
-            return CSVHelper.getDataFromCSVFile(clazz, filename, fields, filter, readHeaders, supportDPFilter);
+            return CSVHelper.getDataFromCSVFile(clazz, filename, filter, readHeaders, supportDPFilter);
         }
 
         Workbook w = null;
@@ -240,14 +238,8 @@ public class SpreadSheetHelper {
             List<Object[]> sheetData = new ArrayList<Object[]>();
             if (readHeaders) {
                 List<Object> rowData = new ArrayList<Object>();
-                if (fields == null) {
-                    for (int j = 0; j < columnCount; j++) {
-                        rowData.add(sheet.getCell(j, 0).getContents());
-                    }
-                } else {
-                    for (int i = 0; i < fields.length; i++) {
-                        rowData.add(fields[i]);
-                    }
+                for (int j = 0; j < columnCount; j++) {
+                    rowData.add(sheet.getCell(j, 0).getContents());
                 }
 
                 sheetData.add(rowData.toArray(new Object[rowData.size()]));
@@ -255,18 +247,6 @@ public class SpreadSheetHelper {
 
             int testTitleColumnIndex = -1;
             int testSiteColumnIndex = -1;
-
-            // Search for Title
-            for (int i = 0; i < columnCount; i++) {
-                if (testTitleColumnIndex == -1
-                        && TestEntity.TEST_TITLE.equalsIgnoreCase(sheet.getCell(i, 0).getContents())) {
-                    testTitleColumnIndex = i;
-                }
-
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
-                    break;
-                }
-            }
 
             // Let's check for blank rows first
             // The first row is the header
@@ -324,14 +304,8 @@ public class SpreadSheetHelper {
                     rowDataMap.put(sheet.getCell(j, 0).getContents(), sheet.getCell(j, i).getContents());
                 }
 
-                if (fields == null) {
-                    for (int j = 0; j < columnCount; j++) {
-                        rowData.add(sheet.getCell(j, i).getContents());
-                    }
-                } else {
-                    for (int k = 0; k < fields.length; k++) {
-                        rowData.add(getValue(rowDataMap, fields[k]));
-                    }
+                for (int j = 0; j < columnCount; j++) {
+                    rowData.add(sheet.getCell(j, i).getContents());
                 }
 
                 // Support include tags and exclude tags
@@ -413,9 +387,8 @@ public class SpreadSheetHelper {
      */
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
             final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final int sheetNumber,
-            final String[] fields, final Filter filter) throws Exception {
-        return SpreadSheetHelper.getEntitiesFromSpreadsheet(clazz, entityClazzMap, filename, null, sheetNumber, fields,
-                filter);
+            final Filter filter) throws Exception {
+        return SpreadSheetHelper.getEntitiesFromSpreadsheet(clazz, entityClazzMap, filename, null, sheetNumber, filter);
     }
 
     /**
@@ -429,7 +402,6 @@ public class SpreadSheetHelper {
      * @param   filename
      * @param   sheetName
      * @param   sheetNumber
-     * @param   fields
      * @param   filter
      *
      * @return
@@ -438,10 +410,9 @@ public class SpreadSheetHelper {
      */
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
             final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final String sheetName,
-            final int sheetNumber, final String[] fields, final Filter filter) throws Exception {
+            final int sheetNumber, final Filter filter) throws Exception {
 
-        Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber, fields,
-                filter, true);
+        Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz, filename, sheetName, sheetNumber, filter, true);
 
         List<Object[]> list = getEntityData(dataIterator, entityClazzMap);
 
@@ -547,10 +518,9 @@ public class SpreadSheetHelper {
         return itemClz;
     }
 
-    public static Object getValue(final Map<String, Object> map, final String key) {
+    public static Object getValue(final Map<String, Object> map) {
         for (Entry<String, Object> entry : map.entrySet()) {
-            if ((entry.getKey() == null && key == null)
-                    || (entry.getKey() != null && entry.getKey().equalsIgnoreCase(key))) {
+            if ((entry.getKey() == null) || (entry.getKey() != null)) {
                 return entry.getValue();
             }
         }
@@ -571,7 +541,7 @@ public class SpreadSheetHelper {
     private static Object readFieldValue(final Class<?> fieldClz, final String fieldName,
             final Map<String, Object> dataMap) throws Exception {
         Object fieldValue = null;
-        String tempValue = (String) getValue(dataMap, fieldName);
+        String tempValue = (String) getValue(dataMap);
 
         // Return null when field is atomic and value is null or blank
         if ((tempValue == null || tempValue.length() == 0)
