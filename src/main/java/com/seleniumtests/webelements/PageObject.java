@@ -151,8 +151,6 @@ public class PageObject extends BasePage implements IPage {
                     new ScreenshotUtil(driver).capturePageSnapshotOnException();
                 }
             } catch (Exception e) {
-
-                // Ignore all exceptions
                 e.printStackTrace();
             }
 
@@ -311,9 +309,9 @@ public class PageObject extends BasePage implements IPage {
             List<JavaScriptError> jsErrorList = JavaScriptError.readErrors(driver);
             if (!jsErrorList.isEmpty()) {
                 String jsErrors = "";
-                for (int i = 0; i < jsErrorList.size(); i++) {
-                    jsErrors += jsErrorList.get(i).getLineNumber() + ", " + jsErrorList.get(i).getErrorMessage() + ", "
-                            + jsErrorList.get(i).getSourceName() + "; ";
+                for (JavaScriptError aJsErrorList : jsErrorList) {
+                    jsErrors += aJsErrorList.getLineNumber() + ", " + aJsErrorList.getErrorMessage() + ", "
+                            + aJsErrorList.getSourceName() + "; ";
                 }
 
                 return jsErrors;
@@ -410,26 +408,6 @@ public class PageObject extends BasePage implements IPage {
     private void populateAndCapturePageSnapshot() {
         try {
             setTitle(driver.getTitle());
-
-            /*
-             * IE driver will get timeout frequently when calling getText Logs:
-             * Line 10943: INFO | jvm 1 | 2013/06/30 17:57:56 | 17:57:56.514
-             * INFO - Executing: [find element: By.tagName: body] at URL:
-             * /session/2c3f9f68-d782-4162-9297-c628f31a50d2/element) Line
-             * 10944: INFO | jvm 1 | 2013/06/30 17:57:56 | 17:57:56.561 INFO -
-             * Done: /session/2c3f9f68-d782-4162-9297-c628f31a50d2/element Line
-             * 10945: INFO | jvm 1 | 2013/06/30 17:57:56 | 17:57:56.561 INFO -
-             * Executing: [get text: 6 org.openqa.selenium.support.events.
-             * EventFiringWebDriver$EventFiringWebElement@96812584] at URL:
-             * /session/2c3f9f68-d782-4162-9297-c628f31a50d2/element/6/text)
-             * Line 12020: INFO | jvm 1 | 2013/06/30 18:02:12 | 18:02:12.105
-             * WARN - Session 2c3f9f68-d782-4162-9297-c628f31a50d2 deleted due
-             * to in-browser timeout. Terminating driver with DeleteSession
-             * since it does not support Killable, the driver in question does
-             * not support selenium-server timeouts fully
-             *
-             * so use htmlsource to replace gettext.
-             */
             htmlSource = driver.getPageSource();
             try {
                 bodyText = driver.findElement(By.tagName("body")).getText();
