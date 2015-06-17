@@ -13,10 +13,6 @@
 
 package com.seleniumtests.core;
 
-import java.io.File;
-import java.io.IOException;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -32,20 +28,13 @@ import org.apache.log4j.PatternLayout;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
-import com.google.common.collect.Lists;
-
 import com.google.gdata.util.common.html.HtmlToText;
 
 import com.seleniumtests.driver.ScreenShot;
 
-import com.seleniumtests.helper.FileUtility;
 import com.seleniumtests.helper.StringUtility;
 
 import com.seleniumtests.reporter.PluginsHelper;
-
-import com.seleniumtests.xmldog.Config;
-import com.seleniumtests.xmldog.Differences;
-import com.seleniumtests.xmldog.XMLDog;
 
 /**
  * Log methods for test operations.
@@ -192,87 +181,4 @@ public class TestLogging {
         message = "<li><font color='#FFFF00'>" + message + "</font></li>";
         log(message, false, false);
     }
-
-    public static ArrayList<String> getRawLog(final ITestResult result) {
-        ArrayList<String> messages = Lists.newArrayList();
-        for (String line : Reporter.getOutput(result)) {
-            line = unEscape(line);
-            messages.add(line);
-        }
-
-        return messages;
-    }
-
-    private static String getXMLTitle(final String xmlString) {
-        String xmlTitle = "";
-
-        String startPattern = "<S:Body>";
-        String endPattern = "xmlns=";
-        xmlTitle = xmlString;
-
-        int startIndex = xmlString.indexOf(startPattern) + 13;
-        int endIndex = xmlString.indexOf(endPattern, startIndex);
-
-        xmlTitle = xmlTitle.substring(startIndex, endIndex);
-        xmlTitle = xmlTitle.replace('<', ' ');
-        xmlTitle = xmlTitle.replace('>', ' ');
-        xmlTitle = xmlTitle.trim();
-
-        System.out.println("XML title : " + xmlTitle);
-        return xmlTitle;
-
-    }
-
-    public static Differences compareGoldenFile(String goldenFile, final String responseXML, final String outputDir,
-            final String outputfilename, final StringBuffer sbMessage, final Config xmlCompareConfig) {
-        if (goldenFile != null && !goldenFile.isEmpty()) {
-
-            // Save API response to gold fold
-            goldenFile = goldenFile.replaceAll("\\\\", "/");
-
-            if (!new File(goldenFile).getParentFile().exists()) {
-                new File(goldenFile).getParentFile().mkdirs();
-            }
-
-            if (!new File(goldenFile).exists()) {
-                try {
-                    FileUtility.writeToFile(goldenFile, responseXML);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            String xmlOutputFile = outputDir + "/xmls/" + outputfilename + ".xml";
-            xmlOutputFile = xmlOutputFile.replaceAll("\\\\", "/");
-
-            sbMessage.append(" | <a href='file:///" + goldenFile + "' target=golden>golden</a>");
-            sbMessage.append(" | <a href=\"javascript:copyFile('" + xmlOutputFile + "','" + goldenFile
-                    + "');\">save as golden</a>");
-
-            Differences diff = null;
-            XMLDog dog = null;
-            try {
-                if (xmlCompareConfig != null) {
-                    dog = new XMLDog(xmlCompareConfig);
-                } else {
-                    dog = new XMLDog();
-                }
-
-                diff = dog.compare(goldenFile, xmlOutputFile);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            sbMessage.append(" | <a href=\"javascript:toggle('" + outputfilename + "');\" class='xmldifflnk'>xml diff ("
-                    + ((diff != null) ? diff.getDiffCount() : "UNKNOWN") + ") [+]</a>");
-            sbMessage.append(" <div id='" + outputfilename + "' class='xmldiff'> "
-                    + (diff == null ? "" : diff.getHTML()) + "</div>");
-            return diff;
-
-        } else {
-            return null;
-        }
-    }
-
 }
