@@ -53,7 +53,7 @@ public class TestLinkLoginTest extends SeleniumTestPlan {
         classMap.put("TestEntity", TestEntity.class);
         classMap.put("User", User.class);
 
-        return SpreadSheetHelper.getEntitiesFromSpreadsheet(TestLinkLoginTest.class, classMap, "loginuser.csv", 0, null,
+        return SpreadSheetHelper.getEntitiesFromSpreadsheet(TestLinkLoginTest.class, classMap, "loginuser.csv", 0,
                 filter);
     }
 
