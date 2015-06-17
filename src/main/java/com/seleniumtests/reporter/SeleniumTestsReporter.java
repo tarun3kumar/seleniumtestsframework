@@ -160,7 +160,6 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     private Map<String, IResultMap> failedTests = new HashMap<String, IResultMap>();
 
     private Map<String, IResultMap> skippedTests = new HashMap<String, IResultMap>();
-    private String m_root = "resources/images/mktree/";
     protected PrintWriter m_out;
 
     private String uuid = new GregorianCalendar().getTime().toString();
@@ -305,8 +304,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         }
     }
 
-    protected PrintWriter createWriter(final String outDir) throws IOException, FileNotFoundException,
-        FileNotFoundException {
+    protected PrintWriter createWriter(final String outDir) throws IOException, FileNotFoundException {
         System.setProperty("file.encoding", "UTF8");
         uuid = uuid.replaceAll(" ", "-").replaceAll(":", "-");
 
@@ -889,23 +887,6 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         return dim;
     }
 
-    public int getEnvConfigTestsCount(final IResultMap map) {
-        int count = 0;
-        for (ITestNGMethod tm : map.getAllMethods()) {
-            String[] groups = tm.getGroups();
-            if (groups != null) {
-                for (int i = 0; i < groups.length; i++) {
-                    if ("envt".equalsIgnoreCase(groups[i])) {
-                        count++;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return count;
-    }
-
     protected ITestResult getFailedOrSkippedResult(final ITestContext ctx, final ITestNGMethod method) {
         List<ITestResult> res = new LinkedList<ITestResult>();
         res.addAll(failedTests.get(ctx.getName()).getResults(method));
@@ -1276,6 +1257,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                 }
 
                 String img = "<img src=\"";
+                String m_root = "resources/images/mktree/";
                 img += m_root + "/test" + getFailedOrSkippedResult(ctx, m).getStatus() + ".gif";
                 img += "\"/>";
 
@@ -1316,6 +1298,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                 }
 
                 String img = "<img src=\"";
+                String m_root = "resources/images/mktree/";
                 img += m_root + "/test" + getFailedOrSkippedResult(ctx, m).getStatus() + ".gif";
                 img += "\"/>";
                 res.append(intendstr + "<li>" + img + m);
