@@ -53,7 +53,8 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
 
         // killProcess();
         if (!OSUtility.isWindows()) {
-            throw new RuntimeException("IE browser is only supported on windows!");
+            throw new RuntimeException("With gods grace IE browser is only supported on windows, Imagine a "
+                    + "situation when you have to fix IE bugs on Unix and Mac as well");
         }
 
         DriverConfig cfg = this.getWebDriverConfig();
