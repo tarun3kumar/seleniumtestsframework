@@ -42,11 +42,11 @@
         <parameter name="browser" value="*chrome" />
         <groups>
             <run>
-                <include name="softAssertionTest"/>
+                <include name="createTestProject"/>
             </run>
         </groups>
         <classes>
-            <class name="com.seleniumtests.tests.SoftAssertionTest" />
+            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
     </test>
 
