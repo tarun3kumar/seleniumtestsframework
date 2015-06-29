@@ -125,6 +125,7 @@ public class TestLinkProject {
         StringBuilder stringBuilder = new StringBuilder();
         return stringBuilder.append("TestLinkProject [Create From Existing = " + createFromExisting + ", ")
                             .append("Project Name =" + name + ", ")
-                            .append("Test case ID Prefix = " + testCaseIDPrefix + "]").toString();
+                            .append("Test case ID Prefix = " + testCaseIDPrefix + ", ")
+                            .append("Project Description =" + projectDescription + "]").toString();
     }
 }
