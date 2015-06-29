@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.net.URL;
+import java.net.URLConnection;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,15 +34,27 @@ import org.apache.log4j.Logger;
 import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.TestLogging;
 
+import com.seleniumtests.customexception.CustomSeleniumTestsException;
+
 public class CSVHelper {
     private static Logger logger = TestLogging.getLogger(CSVHelper.class);
 
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DELIM_CHAR = ",";
+    public static final String TAB_CHAR = "	";
 
     /**
      * Reads data from csv formatted file. Keep csv file in the same folder as the test case class and specify class as
      * <code>this.getClass()</code>.
+     *
+     * @param   clazz
+     * @param   filename
+     * @param   filter
+     * @param   readHeaders
+     *
+     * @return
+     *
+     * @throws  Exception
      */
     public static Iterator<Object[]> getDataFromCSVFile(final Class<?> clazz, final String filename,
             final Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
@@ -72,6 +87,15 @@ public class CSVHelper {
                 }
 
                 sheetData.add(rowData.toArray(new Object[rowData.size()]));
+            }
+
+            // Check for blank rows first
+            // First row is the header
+            StringBuilder sbBlank = new StringBuilder();
+
+            if (sbBlank.length() > 0) {
+                sbBlank.deleteCharAt(sbBlank.length() - 1);
+                throw new CustomSeleniumTestsException("Blank TestTitle found on Row(s) " + sbBlank.toString() + ".");
             }
 
             // Support include tags and exclude tags
@@ -139,7 +163,63 @@ public class CSVHelper {
     }
 
     /**
+     * Get headers from a csv file.
+     *
+     * @param   clazz      - null means use the absolute file path, otherwise use relative path under the class
+     * @param   filename
+     * @param   delimiter  - null means ","
+     *
+     * @return
+     */
+    public static ArrayList<String> getHeaderFromCSVFile(final Class<?> clazz, final String filename,
+            String delimiter) {
+        if (delimiter == null) {
+            delimiter = ",";
+        }
+
+        InputStream is = null;
+        try {
+            if (clazz != null) {
+                is = clazz.getResourceAsStream(filename);
+            } else {
+                is = new FileInputStream(filename);
+            }
+
+            if (is == null) {
+                return null;
+            }
+
+            // Get the sheet
+            String[][] csvData = read(is, delimiter);
+
+            ArrayList<String> rowData = new ArrayList<String>();
+
+            for (int j = 0; j < csvData[0].length; j++) {
+                rowData.add(csvData[0][j]);
+            }
+
+            return rowData;
+        } catch (Throwable e) {
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    /**
      * Parses line.
+     *
+     * @param   line
+     * @param   delim
+     *
+     * @return
      */
     public static String[] parseLine(final String line, final String delim) {
         if (line == null || line.trim().length() == 0) {
@@ -185,6 +265,12 @@ public class CSVHelper {
 
     /**
      * Parses file and returns a String[][] object.
+     *
+     * @param   file
+     *
+     * @return
+     *
+     * @throws  IOException
      */
     public static String[][] read(final File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
@@ -197,6 +283,10 @@ public class CSVHelper {
 
     /**
      * Parses an input stream and returns a String[][] object.
+     *
+     * @param   is
+     *
+     * @return
      *
      * @throws  IOException
      */
@@ -219,9 +309,7 @@ public class CSVHelper {
                 if (item != null) {
                     list.add(item);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) { }
         }
 
         reader.close();
@@ -232,5 +320,19 @@ public class CSVHelper {
         }
 
         return result;
+    }
+
+    /**
+     * Parses URL and returns a String[][] object.
+     *
+     * @param   url
+     *
+     * @return
+     *
+     * @throws  IOException
+     */
+    public static String[][] read(final URL url) throws IOException {
+        URLConnection con = url.openConnection();
+        return read(con.getInputStream());
     }
 }

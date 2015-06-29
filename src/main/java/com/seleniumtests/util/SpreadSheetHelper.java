@@ -13,9 +13,6 @@
 
 package com.seleniumtests.util;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -36,20 +33,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.SeleniumTestsContextManager;
 
-import com.seleniumtests.customexception.CustomSeleniumTestsException;
-
 import com.seleniumtests.util.internal.entity.TestEntity;
-
-import jxl.Sheet;
-import jxl.Workbook;
 
 public class SpreadSheetHelper {
 
@@ -163,12 +153,13 @@ public class SpreadSheetHelper {
      * the excel sheet in the same folder as the test case and specify clazz as <code>this.getClass()</code> .
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(final Class<?> clazz, final String filename,
-            final Filter filter, final boolean readHeaders) {
+            final Filter filter, final boolean readHeaders) throws Exception {
         return getDataFromSpreadsheet(clazz, filename, filter, readHeaders, true);
     }
 
     /**
-     * Reads data from spreadsheet.
+     * Reads data from spreadsheet. If sheetName and sheetNumber both are supplied the sheetName takes precedence. Put
+     * the excel sheet in the same folder as the test case and specify clazz as <code>this.getClass()</code> .
      *
      * @param   clazz
      * @param   filename
@@ -180,149 +171,15 @@ public class SpreadSheetHelper {
      * @throws  Exception
      */
     public static synchronized Iterator<Object[]> getDataFromSpreadsheet(final Class<?> clazz, final String filename,
-            Filter filter, final boolean readHeaders, final boolean supportDPFilter) {
+            final Filter filter, final boolean readHeaders, final boolean supportDPFilter) throws Exception {
 
         System.gc();
 
         // CSVHelper handle CSV Files
         if (filename.toLowerCase().endsWith(".csv")) {
             return CSVHelper.getDataFromCSVFile(clazz, filename, filter, readHeaders, supportDPFilter);
-        }
-
-        Workbook w = null;
-        InputStream is = null;
-        try {
-            if (clazz != null) {
-                is = clazz.getResourceAsStream(filename);
-            } else {
-                is = new FileInputStream(filename);
-            }
-
-            if (is == null) {
-                return new ArrayList<Object[]>().iterator();
-            }
-
-            w = Workbook.getWorkbook(is);
-
-            // Create multiple files when data is spread in multiple sheets
-            Sheet sheet = w.getSheet(0);
-
-            // ignore blank columns
-            int columnCount = sheet.getColumns();
-            for (int j = 0; j < sheet.getColumns(); j++) {
-                String content = sheet.getCell(j, 0).getContents();
-                if (content == null || content.trim().length() == 0) {
-
-                    // columnCount = j + 1;
-                    columnCount = j;
-                    break;
-                }
-            }
-
-            List<Object[]> sheetData = new ArrayList<Object[]>();
-            if (readHeaders) {
-                List<Object> rowData = new ArrayList<Object>();
-                for (int j = 0; j < columnCount; j++) {
-                    rowData.add(sheet.getCell(j, 0).getContents());
-                }
-
-                sheetData.add(rowData.toArray(new Object[rowData.size()]));
-            }
-
-            int testTitleColumnIndex = -1;
-            int testSiteColumnIndex = -1;
-
-            // Let's check for blank rows first
-            // The first row is the header
-            StringBuffer sbBlank = new StringBuffer();
-            for (int i = 1; i < sheet.getRows(); i++) {
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1
-                        && ((sheet.getCell(testTitleColumnIndex, i).getContents() == null
-                                || sheet.getCell(testTitleColumnIndex, i).getContents().trim().length() == 0)
-                            || (sheet.getCell(testSiteColumnIndex, i).getContents() == null
-                                || sheet.getCell(testSiteColumnIndex, i).getContents().trim().length() == 0))) {
-                    sbBlank.append(i + 1).append(',');
-                }
-            }
-
-            if (sbBlank.length() > 0) {
-                sbBlank.deleteCharAt(sbBlank.length() - 1);
-                throw new CustomSeleniumTestsException("Blank Test Title found on Row(s) " + sbBlank.toString() + ".");
-            }
-
-            Set<String> uniqueDataSet = new TreeSet<String>();
-
-            // Support include tags and exclude tags
-            if (supportDPFilter) {
-                Filter dpFilter = getDPFilter();
-
-                if (dpFilter != null) {
-                    if (filter == null) {
-                        filter = dpFilter;
-                    } else {
-                        filter = Filter.and(filter, dpFilter);
-                    }
-                }
-            }
-
-            // First row is the header
-            for (int i = 1; i < sheet.getRows(); i++) {
-
-                // Check for duplicate Title
-                if (testTitleColumnIndex != -1 && testSiteColumnIndex != -1) {
-                    String uniqueString = sheet.getCell(testTitleColumnIndex, i).getContents() + "$$$$####$$$$"
-                            + sheet.getCell(testSiteColumnIndex, i).getContents();
-                    if (uniqueDataSet.contains(uniqueString)) {
-                        throw new CustomSeleniumTestsException("Duplicate TestTitle found in the spreadsheet "
-                                + "with TestTitle = {" + sheet.getCell(testTitleColumnIndex, i).getContents() + "} ");
-                    }
-
-                    uniqueDataSet.add(uniqueString);
-                }
-
-                Map<String, Object> rowDataMap = new HashMap<String, Object>();
-                List<Object> rowData = new ArrayList<Object>();
-
-                // Create the mapping between headers and column data
-                for (int j = 0; j < columnCount; j++) {
-                    rowDataMap.put(sheet.getCell(j, 0).getContents(), sheet.getCell(j, i).getContents());
-                }
-
-                for (int j = 0; j < columnCount; j++) {
-                    rowData.add(sheet.getCell(j, i).getContents());
-                }
-
-                // Support include tags and exclude tags
-                if (supportDPFilter) {
-                    SpreadSheetHelper.formatDPTags(rowDataMap);
-                }
-
-                if (filter == null || filter.match(rowDataMap)) {
-                    sheetData.add(rowData.toArray(new Object[rowData.size()]));
-                }
-            }
-
-            if ((!readHeaders && sheetData.isEmpty()) || (readHeaders && sheetData.size() <= 1)) {
-                logger.warn("No matching data found on sheet: " + filename + " with filter criteria: "
-                        + filter.toString());
-            }
-
-            return sheetData.iterator();
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        } finally {
-
-            if (w != null) {
-                w.close();
-            }
-
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+        } else {
+            throw new Exception("illegal file format, only csv files are supported for now");
         }
     }
 
@@ -368,6 +225,15 @@ public class SpreadSheetHelper {
      *
      * <p/>This method is only for Data Provider. Because it also filer the data based on the
      * dpTagsInclude/dpTagsExclude which is defined in testng configuration file
+     *
+     * @param   clazz
+     * @param   entityClazzMap
+     * @param   filename
+     * @param   filter
+     *
+     * @return
+     *
+     * @throws  Exception
      */
     public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
             final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final Filter filter)
@@ -379,29 +245,6 @@ public class SpreadSheetHelper {
 
         return list.iterator();
     }
-
-    /* */
-    /**
-     * Create Entity Objects based on data in spreadsheet.
-     *
-     * <p/>This method is only for Data Provider. Because it also filer the data based on the
-     * dpTagsInclude/dpTagsExclude which is defined in testng configuration file
-     *
-     * @return
-     *
-     * @throws  Exception
-     */
-    /*
-     * public static Iterator<Object[]> getEntitiesFromSpreadsheet(final Class<?> clazz,
-     *   final LinkedHashMap<String, Class<?>> entityClazzMap, final String filename, final String sheetName,
-     *   final int sheetNumber, final Filter filter) throws Exception {
-     *
-     * Iterator<Object[]> dataIterator = getDataFromSpreadsheet(clazz, filename, sheetNumber, filter, true);
-     *
-     * List<Object[]> list = getEntityData(dataIterator, entityClazzMap);
-     *
-     * return list.iterator();
-     *}*/
 
     private static List<Object[]> getEntityData(final Iterator<Object[]> dataIterator,
             final LinkedHashMap<String, Class<?>> entityClazzMap) throws Exception {
@@ -502,9 +345,10 @@ public class SpreadSheetHelper {
         return itemClz;
     }
 
-    public static Object getValue(final Map<String, Object> map) {
+    public static Object getValue(final Map<String, Object> map, final String key) {
         for (Entry<String, Object> entry : map.entrySet()) {
-            if ((entry.getKey() == null) || (entry.getKey() != null)) {
+            if ((entry.getKey() == null && key == null)
+                    || (entry.getKey() != null && entry.getKey().equalsIgnoreCase(key))) {
                 return entry.getValue();
             }
         }
@@ -513,19 +357,13 @@ public class SpreadSheetHelper {
     }
 
     private static boolean isPrimitive(final Class<?> clz) {
-        if (clz.isPrimitive()) {
-            return true;
-        } else if (clz.getCanonicalName().equals("java.lang." + clz.getSimpleName())) {
-            return true;
-        } else {
-            return false;
-        }
+        return clz.isPrimitive() || clz.getCanonicalName().equals("java.lang." + clz.getSimpleName());
     }
 
     private static Object readFieldValue(final Class<?> fieldClz, final String fieldName,
             final Map<String, Object> dataMap) throws Exception {
         Object fieldValue = null;
-        String tempValue = (String) getValue(dataMap);
+        String tempValue = (String) getValue(dataMap, fieldName);
 
         // Return null when field is atomic and value is null or blank
         if ((tempValue == null || tempValue.length() == 0)
