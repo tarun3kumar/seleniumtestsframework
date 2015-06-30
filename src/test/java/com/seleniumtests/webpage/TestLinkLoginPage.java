@@ -32,8 +32,8 @@ import com.seleniumtests.webelements.TextFieldElement;
 public class TestLinkLoginPage extends PageObject {
 
     // Page identifier field is set to seleniumtests.com as TestLink appears in iframe
-    private static LinkElement seleniumTrainingLink = new LinkElement("Selenium Training LinkElement",
-            By.linkText("Free Selenium Training"));
+    private static LinkElement pageHeader = new LinkElement("Page Header",
+            By.cssSelector("img[alt='No Automated Testing']"));
     private static TextFieldElement loginTextBox = new TextFieldElement("Login Text Box", By.id("login"));
 
     public TestLinkLoginPage() throws Exception {
@@ -50,7 +50,7 @@ public class TestLinkLoginPage extends PageObject {
      * @throws  Exception
      */
     public TestLinkLoginPage(final boolean openPageUrl) throws Exception {
-        super(seleniumTrainingLink, openPageUrl ? SeleniumTestsContextManager.getThreadContext().getAppURL() : null);
+        super(pageHeader, openPageUrl ? SeleniumTestsContextManager.getThreadContext().getAppURL() : null);
         getDriver().switchTo().frame(getDriver().findElement(By.id("testlink"))); // Switch to test link frame
     }
 
