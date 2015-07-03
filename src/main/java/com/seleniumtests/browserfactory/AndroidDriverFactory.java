@@ -13,11 +13,19 @@
 
 package com.seleniumtests.browserfactory;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 
 import com.seleniumtests.driver.DriverConfig;
+
+import io.appium.java_client.android.AndroidDriver;
 
 /**
  * AndroidDriverFactory.
@@ -28,17 +36,33 @@ public class AndroidDriverFactory extends AbstractWebDriverFactory implements IW
         super(webDriverConfig);
     }
 
-    @Override
-    // TO Do - update API to use Selendroid APIs
-    public WebDriver createWebDriver() throws MalformedURLException {
+    protected WebDriver createNativeDriver() throws MalformedURLException {
 
-        /*AndroidDriver driver = null;
-         * DriverConfig cfg = this.getWebDriverConfig();
-         *
-         * driver = new AndroidDriver(new AndroidCapabilitiesFactory().createCapabilities(cfg));
-         *
-         *this.setWebDriver(driver);*/
-        return null;
+        return new AndroidDriver(new URL(webDriverConfig.getAppiumServerURL()), new AndroidCapabilitiesFactory()
+                    .createCapabilities(webDriverConfig));
+    }
+
+    @Override
+    public WebDriver createWebDriver() throws IOException {
+        DriverConfig cfg = this.getWebDriverConfig();
+
+        driver = createNativeDriver();
+
+        setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
+        if (cfg.getPageLoadTimeout() >= 0) {
+            setPageLoadTimeout(cfg.getPageLoadTimeout());
+        }
+
+        this.setWebDriver(driver);
+        return driver;
+    }
+
+    protected void setPageLoadTimeout(final long timeout) {
+        try {
+            driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
+        } catch (UnsupportedCommandException e) {
+            // chromedriver does not support pageLoadTimeout
+        }
     }
 
 }

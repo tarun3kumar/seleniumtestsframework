@@ -47,7 +47,7 @@ public class DriverConfig {
     private int pageLoadTimeout = DEFAULT_PAGE_LOAD_TIMEOUT;
     private String outputDirectory;
     private String browserVersion;
-    private Platform platform;
+    private Platform webPlatform;
     private String userAgentOverride;
     private String ntlmAuthTrustedUris;
     private String browserDownloadDir;
@@ -58,8 +58,19 @@ public class DriverConfig {
     private int browserWindowHeight = -1;
 
     private String proxyHost;
-    private String appName;
-    private String appVersion;
+
+    // appium properties
+    private String automationName;
+
+    // Use same platform property as the one used for browser
+    // private String platformName;
+    private String appiumServerURL;
+    private String mobilePlatformName;
+    private String mobilePlatformVersion;
+    private String deviceName;
+    private String app;
+    private String browserName;
+    private String newCommandTimeout;
 
     public ArrayList<WebDriverEventListener> getWebDriverListeners() {
         return webDriverListeners;
@@ -184,8 +195,8 @@ public class DriverConfig {
         return pageLoadTimeout;
     }
 
-    public Platform getPlatform() {
-        return platform;
+    public Platform getWebPlatform() {
+        return webPlatform;
     }
 
     public Proxy getProxy() {
@@ -314,8 +325,8 @@ public class DriverConfig {
         this.pageLoadTimeout = pageLoadTimeout;
     }
 
-    public void setPlatform(final Platform platform) {
-        this.platform = platform;
+    public void setWebPlatform(final Platform webPlatform) {
+        this.webPlatform = webPlatform;
     }
 
     public void setProxyHost(final String proxyHost) {
@@ -338,22 +349,6 @@ public class DriverConfig {
         this.webSessionTimeout = webSessionTimeout;
     }
 
-    public void setAppName(final String appName) {
-        this.appName = appName;
-    }
-
-    public String getAppName() {
-        return appName;
-    }
-
-    public void setAppVersion(final String appVersion) {
-        this.appVersion = appVersion;
-    }
-
-    public String getAppVersion() {
-        return appVersion;
-    }
-
     public int getBrowserWindowWidth() {
         return browserWindowWidth;
     }
@@ -370,4 +365,67 @@ public class DriverConfig {
         this.browserWindowHeight = browserWindowHeight;
     }
 
+    public String getAutomationName() {
+        return automationName;
+    }
+
+    public void setAutomationName(final String automationName) {
+        this.automationName = automationName;
+    }
+
+    public String getMobilePlatformVersion() {
+        return mobilePlatformVersion;
+    }
+
+    public void setMobilePlatformVersion(final String mobilePlatformVersion) {
+        this.mobilePlatformVersion = mobilePlatformVersion;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(final String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(final String app) {
+        this.app = app;
+    }
+
+    public String getBrowserName() {
+        return browserName;
+    }
+
+    public void setBrowserName(final String browserName) {
+        this.browserName = browserName;
+    }
+
+    public String getNewCommandTimeout() {
+        return newCommandTimeout;
+    }
+
+    public void setNewCommandTimeout(final String newCommandTimeout) {
+        this.newCommandTimeout = newCommandTimeout;
+    }
+
+    public String getAppiumServerURL() {
+        return appiumServerURL;
+    }
+
+    public void setAppiumServerURL(final String appiumServerURL) {
+        this.appiumServerURL = appiumServerURL;
+    }
+
+    public String getMobilePlatformName() {
+        return mobilePlatformName;
+    }
+
+    public void setMobilePlatformName(final String mobilePlatformName) {
+        this.mobilePlatformName = mobilePlatformName;
+    }
 }

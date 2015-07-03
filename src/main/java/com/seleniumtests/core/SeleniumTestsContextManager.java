@@ -94,25 +94,34 @@ public class SeleniumTestsContextManager {
         loadCustomizedContextAttribute(testNGCtx, globalContext);
     }
 
-    private static ITestContext getContextFromConfigFile(final ITestContext testContex) {
-        if (testContex != null) {
-            if (testContex.getSuite().getParameter(SeleniumTestsContext.TEST_CONFIGURATION) != null) {
-                File suiteFile = new File(testContex.getSuite().getXmlSuite().getFileName());
+    /**
+     * @param   iTestContext
+     *
+     * @return  iTestContext having parameters set from external config file
+     */
+    private static ITestContext getContextFromConfigFile(final ITestContext iTestContext) {
+        if (iTestContext != null) {
+
+            // "testConfig" parameter can be define in testng.xml file
+            // This parameter points to a config xml file which defines test configuration parameters
+            // Hence testng.xml file can focus on test
+            if (iTestContext.getSuite().getParameter(SeleniumTestsContext.TEST_CONFIGURATION) != null) {
+                File suiteFile = new File(iTestContext.getSuite().getXmlSuite().getFileName());
                 String configFile = suiteFile.getPath().replace(suiteFile.getName(), "")
-                        + testContex.getSuite().getParameter("testConfig");
+                        + iTestContext.getSuite().getParameter("testConfig");
                 NodeList nList = XMLUtility.getXMLNodes(configFile, "parameter");
-                Map<String, String> parameters = testContex.getSuite().getXmlSuite().getParameters();
+                Map<String, String> parameters = iTestContext.getSuite().getXmlSuite().getParameters();
                 for (int i = 0; i < nList.getLength(); i++) {
                     Node nNode = nList.item(i);
                     parameters.put(nNode.getAttributes().getNamedItem("name").getNodeValue(),
                         nNode.getAttributes().getNamedItem("value").getNodeValue());
                 }
 
-                testContex.getSuite().getXmlSuite().setParameters(parameters);
+                iTestContext.getSuite().getXmlSuite().setParameters(parameters);
             }
         }
 
-        return testContex;
+        return iTestContext;
     }
 
     public static void initTestLevelContext(final ITestContext testNGCtx, final XmlTest xmlTest) {

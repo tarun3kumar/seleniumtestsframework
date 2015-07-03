@@ -46,7 +46,7 @@ public class SeleniumTestsContext {
     public static final String RUN_MODE = "runMode";
     public static final String BROWSER = "browser";
     public static final String BROWSER_VERSION = "browserVersion";
-    public static final String PLATFORM = "platform";
+    public static final String WEB_PLATFORM = "webPlatform";
     public static final String FIREFOX_USER_PROFILE_PATH = "firefoxUserProfilePath";
     public static final String USE_DEFAULT_FIREFOX_PROFILE = "useFirefoxDefaultProfile";
     public static final String OPERA_USER_PROFILE_PATH = "operaUserProfilePath";
@@ -87,6 +87,18 @@ public class SeleniumTestsContext {
     public static final String PLUGIN_CONFIG_PATH = "pluginConfigPath";
 
     public static final String TEST_DATA_FILE = "testDataFile";
+
+    // Appium specific properties
+    public static final String APPIUM_SERVER_URL = "appiumServerURL";
+    public static final String AUTOMATION_NAME = "automationName";
+    public static final String MOBILE_PLATFORM_NAME = "platformName";
+    public static final String MOBILE_PLATFORM_VERSION = "platformVersion";
+    public static final String DEVICE_NAME = "deviceName";
+    public static final String APP = "app";
+
+    public static final String BROWSER_NAME = "browserName";
+    public static final String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
+
     private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
     private Map<ITestResult, List<Throwable>> verificationFailuresMap = new HashMap<ITestResult, List<Throwable>>();
 
@@ -135,7 +147,7 @@ public class SeleniumTestsContext {
         this.testNGContext = context;
 
         setContextAttribute(context, TEST_DATA_FILE, System.getProperty(TEST_DATA_FILE), "testCase");
-// setContextAttribute(context, SITE, System.getProperty(SITE), "US");
+
         setContextAttribute(context, WEB_SESSION_TIME_OUT, System.getProperty(WEB_SESSION_TIME_OUT), "90000");
         setContextAttribute(context, IMPLICIT_WAIT_TIME_OUT, System.getProperty(IMPLICIT_WAIT_TIME_OUT), "5");
         setContextAttribute(context, EXPLICIT_WAIT_TIME_OUT, System.getProperty(EXPLICIT_WAIT_TIME_OUT), "15");
@@ -145,7 +157,7 @@ public class SeleniumTestsContext {
         setContextAttribute(context, RUN_MODE, System.getProperty(RUN_MODE), "LOCAL");
         setContextAttribute(context, BROWSER, System.getProperty(BROWSER), "*firefox");
         setContextAttribute(context, BROWSER_VERSION, System.getProperty(BROWSER_VERSION), null);
-        setContextAttribute(context, PLATFORM, System.getProperty(PLATFORM), null);
+        setContextAttribute(context, WEB_PLATFORM, System.getProperty(WEB_PLATFORM), null);
 
         setContextAttribute(context, FIREFOX_USER_PROFILE_PATH, System.getProperty(FIREFOX_USER_PROFILE_PATH), null);
         setContextAttribute(context, USE_DEFAULT_FIREFOX_PROFILE, System.getProperty(USE_DEFAULT_FIREFOX_PROFILE),
@@ -184,17 +196,30 @@ public class SeleniumTestsContext {
 
         setContextAttribute(context, WEB_DRIVER_LISTENER, System.getProperty(WEB_DRIVER_LISTENER), null);
 
+        setContextAttribute(context, APPIUM_SERVER_URL, System.getProperty(APPIUM_SERVER_URL), null);
+        setContextAttribute(context, AUTOMATION_NAME, System.getProperty(AUTOMATION_NAME), "Appium");
+        setContextAttribute(context, MOBILE_PLATFORM_NAME, System.getProperty(MOBILE_PLATFORM_NAME), "Android");
+        setContextAttribute(context, MOBILE_PLATFORM_VERSION, System.getProperty(MOBILE_PLATFORM_VERSION), null);
+        setContextAttribute(context, DEVICE_NAME, System.getProperty(DEVICE_NAME), null);
+
+        // By default test is assumed to be executed on browser and not app
+        setContextAttribute(context, APP, System.getProperty(APP), "Browser");
+
+        // By default test is assumed to be executed on default browser on android emulator
+        setContextAttribute(context, BROWSER_NAME, System.getProperty(BROWSER_NAME), "Browser");
+        setContextAttribute(context, NEW_COMMAND_TIMEOUT, System.getProperty(BROWSER_NAME), "120");
+
         if (context != null) {
             setContextAttribute(OUTPUT_DIRECTORY, null, context.getOutputDirectory(), null);
 
-            // parse other parameters that defined in testng xml but not defined
+            // parse other parameters that are defined in testng xml but not defined
             // in this context
             setContextAttribute(context);
 
-            new File(context.getOutputDirectory() + "/screenshots").mkdirs(); // KEEPME
-            new File(context.getOutputDirectory() + "/htmls").mkdirs();       // KEEPME
-            new File(context.getOutputDirectory() + "/xmls").mkdirs();        // KEEPME
-            new File(context.getOutputDirectory() + "/textfiles/").mkdirs();  // KEEPME
+            new File(context.getOutputDirectory() + "/screenshots").mkdirs();
+            new File(context.getOutputDirectory() + "/htmls").mkdirs();
+            new File(context.getOutputDirectory() + "/xmls").mkdirs();
+            new File(context.getOutputDirectory() + "/textfiles/").mkdirs();
 
             String path = (String) getAttribute(PLUGIN_CONFIG_PATH);
 
@@ -345,8 +370,8 @@ public class SeleniumTestsContext {
         }
     }
 
-    public String getPlatform() {
-        return (String) getAttribute(PLATFORM);
+    public String getWebPlatform() {
+        return (String) getAttribute(WEB_PLATFORM);
     }
 
     public String getAppURL() {
@@ -443,6 +468,38 @@ public class SeleniumTestsContext {
         } catch (Exception e) {
             return 90000; // Default
         }
+    }
+
+    public String getAppiumServerURL() {
+        return (String) getAttribute(APPIUM_SERVER_URL);
+    }
+
+    public String getAutomationName() {
+        return (String) getAttribute(AUTOMATION_NAME);
+    }
+
+    public String getMobilePlatformName() {
+        return (String) getAttribute(MOBILE_PLATFORM_NAME);
+    }
+
+    public String getMobilePlatformVersion() {
+        return (String) getAttribute(MOBILE_PLATFORM_VERSION);
+    }
+
+    public String getDeviceName() {
+        return (String) getAttribute(DEVICE_NAME);
+    }
+
+    public String getApp() {
+        return (String) getAttribute(APP);
+    }
+
+    public String getBrowserName() {
+        return (String) getAttribute(BROWSER_NAME);
+    }
+
+    public String getNewCommandTimeout() {
+        return (String) getAttribute(NEW_COMMAND_TIMEOUT);
     }
 
     public boolean isUseFirefoxDefaultProfile() {

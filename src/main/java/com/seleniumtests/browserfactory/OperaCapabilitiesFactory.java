@@ -57,8 +57,8 @@ public class OperaCapabilitiesFactory implements ICapabilitiesFactory {
             capability.setVersion(cfg.getBrowserVersion());
         }
 
-        if (cfg.getPlatform() != null) {
-            capability.setPlatform(cfg.getPlatform());
+        if (cfg.getWebPlatform() != null) {
+            capability.setPlatform(cfg.getWebPlatform());
         }
 
         OperaProfile profile = getOperaProfile(cfg);

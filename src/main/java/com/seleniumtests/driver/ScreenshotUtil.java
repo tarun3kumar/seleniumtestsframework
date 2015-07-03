@@ -51,6 +51,10 @@ public class ScreenshotUtil {
                 return null;
             }
 
+            if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.Android.getBrowserType())) {
+                return null;
+            }
+
             TakesScreenshot screenShot = (TakesScreenshot) driver;
             return screenShot.getScreenshotAs(OutputType.BASE64);
         } catch (Exception ex) {

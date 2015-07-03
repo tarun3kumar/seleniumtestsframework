@@ -29,11 +29,6 @@ public class ChromeDriverFactory extends AbstractWebDriverFactory implements IWe
         super(cfg);
     }
 
-    /**
-     * create native driver instance, designed for unit testing.
-     *
-     * @return
-     */
     protected WebDriver createNativeDriver() {
         return new ChromeDriver(new ChromeCapabilitiesFactory().createCapabilities(webDriverConfig));
     }
@@ -56,9 +51,7 @@ public class ChromeDriverFactory extends AbstractWebDriverFactory implements IWe
     protected void setPageLoadTimeout(final long timeout) {
         try {
             driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
-        } catch (UnsupportedCommandException e) {
-            // chromedriver1 does not support pageLoadTimeout
-        }
+        } catch (UnsupportedCommandException e) { }
     }
 
 }

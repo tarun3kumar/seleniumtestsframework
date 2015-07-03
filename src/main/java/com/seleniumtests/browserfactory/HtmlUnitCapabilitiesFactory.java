@@ -38,8 +38,8 @@ public class HtmlUnitCapabilitiesFactory implements ICapabilitiesFactory {
             capability.setVersion(webDriverConfig.getBrowserVersion());
         }
 
-        if (webDriverConfig.getPlatform() != null) {
-            capability.setPlatform(webDriverConfig.getPlatform());
+        if (webDriverConfig.getWebPlatform() != null) {
+            capability.setPlatform(webDriverConfig.getWebPlatform());
         }
 
         if (webDriverConfig.getProxyHost() != null) {

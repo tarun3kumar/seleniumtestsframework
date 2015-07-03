@@ -13,7 +13,6 @@
 
 package com.seleniumtests.browserfactory;
 
-import org.openqa.selenium.Proxy;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -25,31 +24,22 @@ import com.seleniumtests.driver.DriverConfig;
 public class AndroidCapabilitiesFactory implements ICapabilitiesFactory {
 
     public DesiredCapabilities createCapabilities(final DriverConfig cfg) {
-        DesiredCapabilities capability = null;
-        capability = DesiredCapabilities.android();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        if (cfg.isEnableJavascript()) {
-            capability.setJavascriptEnabled(true);
-        } else {
-            capability.setJavascriptEnabled(false);
-        }
+        capabilities.setCapability("automationName", cfg.getAutomationName());
+        capabilities.setCapability("platformName", cfg.getMobilePlatformName());
 
-        capability.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
-        capability.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+        // Set up version and device name else appium server would pick the only available emulator/device
+        // Both of these are ignored for android for now
+        capabilities.setCapability("platformVersion", cfg.getMobilePlatformVersion());
+        capabilities.setCapability("deviceName", cfg.getDeviceName());
 
-        if (cfg.getBrowserVersion() != null) {
-            capability.setVersion(cfg.getBrowserVersion());
-        }
+        // Use app browser when running test on emulator
+        capabilities.setCapability("app", cfg.getApp());
 
-        if (cfg.getPlatform() != null) {
-            capability.setPlatform(cfg.getPlatform());
-        }
+        capabilities.setCapability(CapabilityType.BROWSER_NAME, cfg.getBrowserName());
+        capabilities.setCapability("newCommandTimeout", cfg.getNewCommandTimeout());
 
-        if (cfg.getProxyHost() != null) {
-            Proxy proxy = cfg.getProxy();
-            capability.setCapability(CapabilityType.PROXY, proxy);
-        }
-
-        return capability;
+        return capabilities;
     }
 }

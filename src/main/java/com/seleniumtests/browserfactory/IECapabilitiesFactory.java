@@ -89,8 +89,8 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
             capability.setVersion(cfg.getBrowserVersion());
         }
 
-        if (cfg.getPlatform() != null) {
-            capability.setPlatform(cfg.getPlatform());
+        if (cfg.getWebPlatform() != null) {
+            capability.setPlatform(cfg.getWebPlatform());
         }
 
         if (cfg.getProxyHost() != null) {

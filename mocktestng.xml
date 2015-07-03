@@ -7,7 +7,7 @@
 	</listeners>
 
 	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
-	<parameter name="browser" value="*iexplore" />  <!--"*firefox, *chrome, *iexplore"-->
+	<parameter name="browser" value="*iexplore" />  <!--"*firefox, *chrome, *iexplore, *android"-->
 	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -39,14 +39,30 @@
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
     <test name="Mock Test" parallel="false">
-        <parameter name="browser" value="*chrome" />
+        <parameter name="browser" value="*android" />
+        <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="Android"/>
+        <parameter name="mobilePlatformVersion" value="5.1"/>
+        <parameter name="deviceName" value="emulator-5554"/>
+        <!--For m-site test on default android browser and not on an app -->
+        <parameter name="app" value="Browser"/>
+
+        <!--Test on default emulator Browser
+        Set the property to "Chrome" to run test on chrome browser on android device -->
+        <parameter name="browserName" value="Browser"/>
+        <parameter name="newCommandTimeout" value="120"/>
+        
+        <parameter name="parallel" value="false"/>
+        
         <groups>
             <run>
-                <include name="createTestProject"/>
+                <include name="loginAsInvalidUser"/>
+                <include name="testForFailure"/>
             </run>
         </groups>
         <classes>
-            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
+            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
         </classes>
     </test>
 

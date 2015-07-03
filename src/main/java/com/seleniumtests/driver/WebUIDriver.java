@@ -244,7 +244,7 @@ public class WebUIDriver {
     }
 
     public String getPlatform() {
-        return config.getPlatform().name();
+        return config.getWebPlatform().name();
     }
 
     public String getBrowserVersion() {
@@ -388,9 +388,9 @@ public class WebUIDriver {
         String browserVersion = SeleniumTestsContextManager.getThreadContext().getWebBrowserVersion();
         config.setBrowserVersion(browserVersion);
 
-        String platform = SeleniumTestsContextManager.getThreadContext().getPlatform();
-        if (platform != null) {
-            config.setPlatform(Platform.valueOf(platform));
+        String webPlatform = SeleniumTestsContextManager.getThreadContext().getWebPlatform();
+        if (webPlatform != null) {
+            config.setWebPlatform(Platform.valueOf(webPlatform));
         }
 
         if ("false".equalsIgnoreCase(
@@ -444,7 +444,7 @@ public class WebUIDriver {
             listeners = listeners + DriverExceptionListener.class.getName();
         }
 
-        if (listeners != null && listeners != "") {
+        if (listeners != null && !listeners.equals("")) {
             config.setWebDriverListeners(listeners);
         } else {
             config.setWebDriverListeners("");
@@ -464,6 +464,30 @@ public class WebUIDriver {
             config.setBrowserWindowWidth(width);
             config.setBrowserWindowHeight(height);
         }
+
+        String appiumServerURL = SeleniumTestsContextManager.getThreadContext().getAppiumServerURL();
+        config.setAppiumServerURL(appiumServerURL);
+
+        String automationName = SeleniumTestsContextManager.getThreadContext().getAutomationName();
+        config.setAutomationName(automationName);
+
+        String mobilePlatformName = SeleniumTestsContextManager.getThreadContext().getMobilePlatformName();
+        config.setMobilePlatformVersion(mobilePlatformName);
+
+        String mobilePlatformVersion = SeleniumTestsContextManager.getThreadContext().getMobilePlatformVersion();
+        config.setMobilePlatformVersion(mobilePlatformVersion);
+
+        String deviceName = SeleniumTestsContextManager.getThreadContext().getDeviceName();
+        config.setDeviceName(deviceName);
+
+        String app = SeleniumTestsContextManager.getThreadContext().getApp();
+        config.setApp(app);
+
+        String browserName = SeleniumTestsContextManager.getThreadContext().getBrowserName();
+        config.setBrowserName(browserName);
+
+        String newCommandTimeOut = SeleniumTestsContextManager.getThreadContext().getNewCommandTimeout();
+        config.setNewCommandTimeout(newCommandTimeOut);
     }
 
     public static void main(final String[] args) {
@@ -504,7 +528,7 @@ public class WebUIDriver {
     }
 
     public void setPlatform(final String platform) {
-        config.setPlatform(Platform.valueOf(platform));
+        config.setWebPlatform(Platform.valueOf(platform));
     }
 
     public void setChromeBinPath(final String chromeBinPath) {
