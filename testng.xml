@@ -63,7 +63,8 @@
         </classes>
     </test>
 
-    <!--Please set up android emulator before running this test-->
+    <!--Please set up android emulator before running this test
+    http://www.seleniumtests.com/p/appium-tutorial.html-->
     <test name="Android Test" parallel="false">
         <parameter name="browser" value="*android" />
         <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
