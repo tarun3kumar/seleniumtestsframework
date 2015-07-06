@@ -94,10 +94,6 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements IWe
                             .getConstructor().newInstance()).createCapabilities(webDriverConfig);
                 break;
 
-            case Opera :
-                capability = new OperaCapabilitiesFactory().createCapabilities(webDriverConfig);
-                break;
-
             case PhantomJS :
                 capability = new PhantomJSCapabilitiesFactory().createCapabilities(webDriverConfig);
                 break;

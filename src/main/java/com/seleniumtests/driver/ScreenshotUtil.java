@@ -45,12 +45,6 @@ public class ScreenshotUtil {
                 return null;
             }
 
-            // Opera has bug after upgrade selenium
-            // 2.33.0,https://code.google.com/p/selenium/issues/detail?id=847
-            if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.Opera.getBrowserType())) {
-                return null;
-            }
-
             if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.Android.getBrowserType())) {
                 return null;
             }

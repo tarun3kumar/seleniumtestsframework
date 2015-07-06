@@ -33,8 +33,7 @@ public class ButtonElement extends HtmlElement {
 
         BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
         if (browser == BrowserType.InternetExplore) {
-            super.sendKeys(Keys.ENTER); // not stable on IE9
-            super.handleLeaveAlert();
+            super.sendKeys(Keys.ENTER);
         } else {
             super.click();
         }

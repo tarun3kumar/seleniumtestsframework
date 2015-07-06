@@ -19,7 +19,6 @@ public enum BrowserType {
     Chrome("*chrome"),
     HtmlUnit("*htmlunit"),
     Safari("*safari"),
-    Opera("*opera"),
     Android("*android"),
     IPhone("*iphone"),
     IPad("*ipad"),
@@ -42,8 +41,6 @@ public enum BrowserType {
             return BrowserType.IPhone;
         } else if (browserType.equalsIgnoreCase("*ipad") || browserType.equalsIgnoreCase("ipad")) {
             return BrowserType.IPad;
-        } else if (browserType.equalsIgnoreCase("*opera") || browserType.equalsIgnoreCase("opera")) {
-            return BrowserType.Opera;
         } else if (browserType.equalsIgnoreCase("*phantomjs") || browserType.equalsIgnoreCase("phantomjs")) {
             return BrowserType.PhantomJS;
         } else {

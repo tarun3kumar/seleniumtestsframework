@@ -1089,8 +1089,6 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         // capture snap shot only for the failed web tests
         if (WebUIDriver.getWebDriver() != null) {
             ScreenShot screenShot = new ScreenshotUtil().captureWebPageSnapshot();
-            TestLogging.log(
-                "<div><table><tr bgcolor=\"yellow\"><td><b> Current web page screenshot with webdriver Exception--</b><td></tr></table></div>");
             TestLogging.logWebOutput(screenShot.getTitle(), TestLogging.buildScreenshotLog(screenShot), true);
         }
     }

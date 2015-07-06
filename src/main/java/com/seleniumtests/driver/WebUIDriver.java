@@ -29,7 +29,6 @@ import com.seleniumtests.browserfactory.FirefoxDriverFactory;
 import com.seleniumtests.browserfactory.HtmlUnitDriverFactory;
 import com.seleniumtests.browserfactory.IEDriverFactory;
 import com.seleniumtests.browserfactory.IWebDriverFactory;
-import com.seleniumtests.browserfactory.OperaDriverFactory;
 import com.seleniumtests.browserfactory.RemoteDriverFactory;
 import com.seleniumtests.browserfactory.SafariDriverFactory;
 
@@ -190,8 +189,6 @@ public class WebUIDriver {
                                                                 "com.seleniumtests.browserfactory.IPadDriverFactory")
                                                             .getConstructor(DriverConfig.class).newInstance(
                                                                 this.config);
-            } else if (config.getBrowser() == BrowserType.Opera) {
-                webDriverBuilder = new OperaDriverFactory(this.config);
             } else {
                 throw new RuntimeException("Unsupported browser" + browser);
             }
@@ -201,22 +198,12 @@ public class WebUIDriver {
             driver = webDriverBuilder.createWebDriver();
         }
 
-        /*if (config.getBrowserWindowWidth() > 0 && config.getBrowserWindowHeight() > 0){
-         *              new WebUtility(driver).resizeWindow(config.getBrowserWindowWidth(),
-         * config.getBrowserWindowHeight());
-         *      } else {
-         *              new WebUtility(driver).maximizeWindow();
-         *      }*/
         driver = handleListeners(driver);
 
         return driver;
     }
 
     protected WebDriver handleListeners(WebDriver driver) {
-
-        // driver = new EventFiringWebDriver(driver).register(new
-        // DriverExceptionListener());
-        // Support customized listeners
         ArrayList<WebDriverEventListener> listeners = config.getWebDriverListeners();
         if (listeners != null && listeners.size() > 0) {
             for (int i = 0; i < config.getWebDriverListeners().size(); i++) {

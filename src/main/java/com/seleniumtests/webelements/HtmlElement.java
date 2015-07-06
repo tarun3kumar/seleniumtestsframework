@@ -17,18 +17,15 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
@@ -118,30 +115,7 @@ public class HtmlElement {
 
     public void click() {
         findElement();
-
-        BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
-        if (browser != BrowserType.Opera) {
-            try {
-                element.click();
-            } catch (org.openqa.selenium.TimeoutException ex) {
-                TestLogging.log("Get timeout customexception, ignore");
-            }
-        } else {
-
-            // Ignore no response on ECMAScript evaluation command for Opera
-            try {
-                element.sendKeys(Keys.ENTER);
-                WaitHelper.waitForSeconds(2);
-            } catch (WebDriverException e) { }
-        }
-
-        // IE is "too fast"
-        if (browser == BrowserType.InternetExplore) {
-            WaitHelper.waitForSeconds(2);
-        }
-
-        // Handle Confirm Navigation pop up for Chrome and IE
-        handleLeaveAlert();
+        element.click();
     }
 
     /**
@@ -149,25 +123,6 @@ public class HtmlElement {
      */
     public void clickAt() {
         clickAt("1,1");
-
-    }
-
-    protected void handleLeaveAlert() {
-        BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
-
-        // Handle Confirm Navigation pop up for Chrome and IE
-        if (browser == BrowserType.Chrome || browser == BrowserType.InternetExplore) {
-            try {
-                Alert alert = driver.switchTo().alert();
-                String text = alert.getText();
-                if (text.contains("leave")) {
-                    alert.accept();
-                    WaitHelper.waitForSeconds(2);
-                } else {
-                    System.out.println("Get alert - " + text);
-                }
-            } catch (NoAlertPresentException e) { }
-        }
 
     }
 
