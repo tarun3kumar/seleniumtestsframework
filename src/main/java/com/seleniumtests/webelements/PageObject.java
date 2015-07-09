@@ -341,6 +341,10 @@ public class PageObject extends BasePage implements IPage {
         return url;
     }
 
+    public String getCanonicalURL() {
+        return new LinkElement("Canonical URL", By.cssSelector("link[rel=canonical]")).getAttribute("href");
+    }
+
     public String getWindowHandle() {
         return windowHandle;
     }
