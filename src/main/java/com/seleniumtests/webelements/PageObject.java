@@ -348,7 +348,6 @@ public class PageObject extends BasePage implements IPage {
     public String getWindowHandle() {
         return windowHandle;
     }
-    ;
 
     public final void goBack() {
         TestLogging.logWebStep(null, "goBack", false);
