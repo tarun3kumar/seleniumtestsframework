@@ -29,6 +29,8 @@ import org.testng.xml.XmlTest;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.seleniumtests.driver.TestType;
+
 import com.seleniumtests.helper.XMLUtility;
 
 /**
@@ -190,5 +192,9 @@ public class SeleniumTestsContextManager {
 
     public static void setThreadContext(final SeleniumTestsContext ctx) {
         threadLocalContext.set(ctx);
+    }
+
+    public static boolean isWebTest() {
+        return (getThreadContext().getTestType().equalsIgnoreCase(TestType.WEB.toString()));
     }
 }

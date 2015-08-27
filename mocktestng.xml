@@ -7,7 +7,7 @@
 	</listeners>
 
 	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
-	<parameter name="browser" value="*iexplore" />  <!--"*firefox, *chrome, *iexplore, *android"-->
+	<parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore, *android"-->
 	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -38,23 +38,54 @@
     <!-- For soft assert, use assert APIs from  com.seleniumtests.core.CustomAssertion class-->
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
-    <test name="M-site test on emulator" parallel="false">
+    <test name="NonGUITest - Multiple assertion failures">
+        <parameter name="testType" value="NonGUI" />
+        <classes>
+            <class name="com.seleniumtests.tests.RetryTest" />
+        </classes>
+    </test>
+
+    <test name="NonGUITest - Soft CustomAssertion Test">
+        <parameter name="testType" value="NonGUI" />
+        <classes>
+            <class name="com.seleniumtests.tests.SoftAssertionTest" />
+        </classes>
+    </test> 
+
+    <test name="WebTest - Test Link Login Test">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
+        <parameter name="testType" value="Web" />
+        <classes>
+            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
+        </classes>
+    </test> 
+
+    <test name="WebTest - Test LinkElement Navigation Test">
+        <!--<parameter name="browser" value="*firefox" />-->
+        <parameter name="testType" value="Web" />
+        <classes>
+            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
+        </classes>
+    </test>
+
+    <test name="Android m-site Test" parallel="false">
+        <parameter name="testType" value="Web" />
         <parameter name="browser" value="*android" />
         <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
         <parameter name="automationName" value="Appium"/>
         <parameter name="platform" value="Android"/>
         <parameter name="mobilePlatformVersion" value="5.1"/>
         <parameter name="deviceName" value="emulator-5554"/>
-        <!--For m-site test on default android browser and not on an app -->
+        <!--For m-site test, set this parameter to Browser-->
         <parameter name="app" value="Browser"/>
 
         <!--Test on default emulator Browser
-        Set the property to "Chrome" to run test on chrome browser on android device -->
-        <parameter name="browserNamebrowserName" value="Browser"/>
+        Set the property to "Chrome" to run test on chrome browser on android device instead of default Browser-->
+        <parameter name="browserName" value="Browser"/>
         <parameter name="newCommandTimeout" value="120"/>
-        
+
         <parameter name="parallel" value="false"/>
-        
+
         <groups>
             <run>
                 <include name="loginAsInvalidUser"/>
@@ -66,12 +97,38 @@
         </classes>
     </test>
 
-    <!--<test name="Test LinkElement Navigation Test">
-        <parameter name="browser" value="*firefox" />
-        &lt;!&ndash;<parameter name="browserVersion" value="37.0.1" />&ndash;&gt;
+
+    <test name="Android App test" parallel="false">
+        <parameter name="browser" value="*android" />
+        <parameter name="testType" value="app" />        
+        <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="Android"/>
+        <parameter name="mobilePlatformVersion" value="5.1"/>
+        <parameter name="deviceName" value="emulator-5554"/>
+        
+        <!--Path to app-->
+        <!--To launch an app, either path to app OR appPackage and appActivity should be specified -->
+        <!--<parameter name="app" value="Path To App"/>-->
+        <!--Java package of Android app to be run-->
+        <parameter name="appPackage" value="com.android.calculator2"/>
+        <!--Activity name for Android activity to be launched from package-->
+        <parameter name="appActivity" value="com.android.calculator2.Calculator"/>
+                           
+        <!--browserName should be empty string when automating app-->
+        <parameter name="browserName" value=""/>
+        <parameter name="newCommandTimeout" value="120"/>
+
+        <parameter name="parallel" value="false"/>
+
+        <groups>
+            <run>
+                <include name="addTwoNumbers"/>
+            </run>
+        </groups>
         <classes>
-            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
+            <class name="com.seleniumtests.tests.AndroidAppTest" />
         </classes>
-    </test>-->
+    </test>
 
 </suite> 

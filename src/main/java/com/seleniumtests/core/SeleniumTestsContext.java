@@ -27,6 +27,7 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 
 import com.seleniumtests.driver.ScreenShot;
+import com.seleniumtests.driver.TestType;
 
 import com.seleniumtests.reporter.PluginsHelper;
 
@@ -88,15 +89,19 @@ public class SeleniumTestsContext {
 
     public static final String TEST_DATA_FILE = "testDataFile";
 
+    public static final String TEST_TYPE = "testType";
+
     // Appium specific properties
     public static final String APPIUM_SERVER_URL = "appiumServerURL";
     public static final String AUTOMATION_NAME = "automationName";
     public static final String MOBILE_PLATFORM_NAME = "platformName";
-    public static final String MOBILE_PLATFORM_VERSION = "platformVersion";
+    public static final String MOBILE_PLATFORM_VERSION = "mobilePlatformVersion";
     public static final String DEVICE_NAME = "deviceName";
     public static final String APP = "app";
 
     public static final String BROWSER_NAME = "browserName";
+    public static final String APP_PACKAGE = "appPackage";
+    public static final String APP_ACTIVITY = "appActivity";
     public static final String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
 
     private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
@@ -147,6 +152,7 @@ public class SeleniumTestsContext {
         this.testNGContext = context;
 
         setContextAttribute(context, TEST_DATA_FILE, System.getProperty(TEST_DATA_FILE), "testCase");
+        setContextAttribute(context, TEST_TYPE, System.getProperty(TEST_TYPE), TestType.WEB.toString());
 
         setContextAttribute(context, WEB_SESSION_TIME_OUT, System.getProperty(WEB_SESSION_TIME_OUT), "90000");
         setContextAttribute(context, IMPLICIT_WAIT_TIME_OUT, System.getProperty(IMPLICIT_WAIT_TIME_OUT), "5");
@@ -202,12 +208,13 @@ public class SeleniumTestsContext {
         setContextAttribute(context, MOBILE_PLATFORM_VERSION, System.getProperty(MOBILE_PLATFORM_VERSION), null);
         setContextAttribute(context, DEVICE_NAME, System.getProperty(DEVICE_NAME), null);
 
-        // By default test is assumed to be executed on browser and not app
-        setContextAttribute(context, APP, System.getProperty(APP), "Browser");
+        setContextAttribute(context, APP, System.getProperty(APP), "");
 
         // By default test is assumed to be executed on default browser on android emulator
         setContextAttribute(context, BROWSER_NAME, System.getProperty(BROWSER_NAME), "Browser");
-        setContextAttribute(context, NEW_COMMAND_TIMEOUT, System.getProperty(BROWSER_NAME), "120");
+        setContextAttribute(context, APP_PACKAGE, System.getProperty(APP_PACKAGE), null);
+        setContextAttribute(context, APP_ACTIVITY, System.getProperty(APP_ACTIVITY), null);
+        setContextAttribute(context, NEW_COMMAND_TIMEOUT, System.getProperty(NEW_COMMAND_TIMEOUT), "120");
 
         if (context != null) {
             setContextAttribute(OUTPUT_DIRECTORY, null, context.getOutputDirectory(), null);
@@ -412,6 +419,10 @@ public class SeleniumTestsContext {
         return (String) getAttribute(TEST_DATA_FILE);
     }
 
+    public String getTestType() {
+        return (String) getAttribute(TEST_TYPE);
+    }
+
     public String getTestMethodSignature() {
         return (String) getAttribute(TEST_METHOD_SIGNATURE);
     }
@@ -496,6 +507,14 @@ public class SeleniumTestsContext {
 
     public String getBrowserName() {
         return (String) getAttribute(BROWSER_NAME);
+    }
+
+    public String getAppPackage() {
+        return (String) getAttribute(APP_PACKAGE);
+    }
+
+    public String getAppActivity() {
+        return (String) getAttribute(APP_ACTIVITY);
     }
 
     public String getNewCommandTimeout() {
@@ -592,4 +611,9 @@ public class SeleniumTestsContext {
     public void setTestDataFile(final String testDataFile) {
         setAttribute(TEST_DATA_FILE, testDataFile);
     }
+
+    public void setTestType(final String testType) {
+        setAttribute(TEST_TYPE, testType);
+    }
+
 }
