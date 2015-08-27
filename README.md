@@ -1,6 +1,6 @@
 # SeleniumTestsFramework
 
-STF (SeleniumTestsFramework) is step by step test test reporting and automation framework for selenium.
+Selenium Tests Framework (referred as STF from here on) is a test automation framework for automated testing of Desktop web, mobile site and mobile apps. STF is based on WebDriver, Appium, TestNG and Maven. 
 Refer STF [How-To guide](https://github.com/TestingForum/seleniumtestsframework/wiki) to learn more about STF features 
 
 You can generate STF jar using following command and use it in your selenium project - 
