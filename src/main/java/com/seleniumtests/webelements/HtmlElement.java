@@ -13,7 +13,16 @@
 
 package com.seleniumtests.webelements;
 
-import java.util.List;
+import com.seleniumtests.core.TestLogging;
+
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.ScreenshotUtil;
+import com.seleniumtests.driver.WebUIDriver;
+
+import com.seleniumtests.helper.ContextHelper;
+import com.seleniumtests.helper.WaitHelper;
+
+import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
 
 import org.apache.log4j.Logger;
 
@@ -35,16 +44,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.seleniumtests.core.TestLogging;
+import java.util.List;
 
-import com.seleniumtests.driver.BrowserType;
-import com.seleniumtests.driver.ScreenshotUtil;
-import com.seleniumtests.driver.WebUIDriver;
-
-import com.seleniumtests.helper.ContextHelper;
-import com.seleniumtests.helper.WaitHelper;
-
-import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
 
 /**
  * Provides methods to interact with a web page. All HTML element (ButtonElement, LinkElement, TextFieldElement, etc.)
@@ -52,19 +53,16 @@ import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
  */
 public class HtmlElement {
 
+    private static final int EXPLICIT_WAIT_TIME_OUT = WebUIDriver
+        .getWebUIDriver().getExplicitWait();
+    protected static final Logger logger = TestLogging.getLogger(
+            HtmlElement.class);
+
     private static enum LocatorType {
-        ID,
-        NAME,
-        CLASS_NAME,
-        LINK_TEXT,
-        PARTIAL_LINK_TEXT,
-        CSS_SELECTOR,
-        TAG_NAME,
-        XPATH,
+        ID, NAME, CLASS_NAME, LINK_TEXT, PARTIAL_LINK_TEXT, CSS_SELECTOR,
+        TAG_NAME, XPATH,
     }
 
-    private static final int EXPLICIT_WAIT_TIME_OUT = WebUIDriver.getWebUIDriver().getExplicitWait();
-    protected static final Logger logger = TestLogging.getLogger(HtmlElement.class);
     protected WebDriver driver = WebUIDriver.getWebDriver();
     protected WebUIDriver webUXDriver = WebUIDriver.getWebUIDriver();
     protected WebElement element = null;
@@ -91,7 +89,8 @@ public class HtmlElement {
      * @param  label
      * @param  locator  - locator
      */
-    public HtmlElement(final String label, final String locator, final LocatorType locatorType) {
+    public HtmlElement(final String label, final String locator,
+        final LocatorType locatorType) {
         this.label = label;
         this.locator = locator;
         this.by = getLocatorBy(locator, locatorType);
@@ -143,17 +142,23 @@ public class HtmlElement {
         String[] parts = value.split(",");
         int xOffset = Integer.parseInt(parts[0]);
         int yOffset = Integer.parseInt(parts[1]);
+
         try {
-            new Actions(driver).moveToElement(element, xOffset, yOffset).click().perform();
+            new Actions(driver).moveToElement(element, xOffset, yOffset).click()
+                .perform();
         } catch (InvalidElementStateException e) {
             e.printStackTrace();
             element.click();
         }
 
         try {
-            BrowserType type = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
-            if ((type == BrowserType.Chrome || type == BrowserType.InternetExplore)
-                    && this.getDriver().switchTo().alert().getText().contains("leave")) {
+            BrowserType type = WebUIDriver.getWebUIDriver().getConfig()
+                .getBrowser();
+
+            if (((type == BrowserType.Chrome) ||
+                        (type == BrowserType.InternetExplore)) &&
+                    this.getDriver().switchTo().alert().getText().contains(
+                        "leave")) {
                 this.getDriver().switchTo().alert().accept();
             }
         } catch (NoAlertPresentException e) {
@@ -179,8 +184,9 @@ public class HtmlElement {
     public void simulateMoveToElement(final int x, final int y) {
         findElement();
         ((JavascriptExecutor) driver).executeScript(
-            "function simulate(f,c,d,e){var b,a=null;for(b in eventMatchers)if(eventMatchers[b].test(c)){a=b;break}if(!a)return!1;document.createEvent?(b=document.createEvent(a),a==\"HTMLEvents\"?b.initEvent(c,!0,!0):b.initMouseEvent(c,!0,!0,document.defaultView,0,d,e,d,e,!1,!1,!1,!1,0,null),f.dispatchEvent(b)):(a=document.createEventObject(),a.detail=0,a.screenX=d,a.screenY=e,a.clientX=d,a.clientY=e,a.ctrlKey=!1,a.altKey=!1,a.shiftKey=!1,a.metaKey=!1,a.button=1,f.fireEvent(\"on\"+c,a));return!0} var eventMatchers={HTMLEvents:/^(?:load|unload|abort|errorLogger|select|change|submit|reset|focus|blur|resize|scroll)$/,MouseEvents:/^(?:click|dblclick|mouse(?:down|up|over|move|out))$/}; "
-                + "simulate(arguments[0],\"mousemove\",arguments[1],arguments[2]);", element, x, y);
+            "function simulate(f,c,d,e){var b,a=null;for(b in eventMatchers)if(eventMatchers[b].test(c)){a=b;break}if(!a)return!1;document.createEvent?(b=document.createEvent(a),a==\"HTMLEvents\"?b.initEvent(c,!0,!0):b.initMouseEvent(c,!0,!0,document.defaultView,0,d,e,d,e,!1,!1,!1,!1,0,null),f.dispatchEvent(b)):(a=document.createEventObject(),a.detail=0,a.screenX=d,a.screenY=e,a.clientX=d,a.clientY=e,a.ctrlKey=!1,a.altKey=!1,a.shiftKey=!1,a.metaKey=!1,a.button=1,f.fireEvent(\"on\"+c,a));return!0} var eventMatchers={HTMLEvents:/^(?:load|unload|abort|errorLogger|select|change|submit|reset|focus|blur|resize|scroll)$/,MouseEvents:/^(?:click|dblclick|mouse(?:down|up|over|move|out))$/}; " +
+            "simulate(arguments[0],\"mousemove\",arguments[1],arguments[2]);",
+            element, x, y);
 
     }
 
@@ -201,9 +207,11 @@ public class HtmlElement {
      */
     public void fireEvent(final String eventName) {
         findElement();
+
         try {
             JavascriptLibrary jsLib = new JavascriptLibrary();
-            jsLib.callEmbeddedSelenium(driver, "doFireEvent", element, eventName);
+            jsLib.callEmbeddedSelenium(driver, "doFireEvent", element,
+                eventName);
         } catch (Exception ex) {
             // Handle OperaDriver
         }
@@ -216,6 +224,7 @@ public class HtmlElement {
      */
     public List<WebElement> getAllElements() {
         findElement();
+
         return driver.findElements(by);
     }
 
@@ -228,6 +237,7 @@ public class HtmlElement {
      */
     public String getAttribute(final String name) {
         findElement();
+
         return element.getAttribute(name);
     }
 
@@ -249,6 +259,7 @@ public class HtmlElement {
      */
     public String getCssValue(final String propertyName) {
         findElement();
+
         return element.getCssValue(propertyName);
     }
 
@@ -266,6 +277,7 @@ public class HtmlElement {
      */
     public WebElement getElement() {
         element = driver.findElement(by);
+
         return element;
     }
 
@@ -279,7 +291,9 @@ public class HtmlElement {
     public String getEval(final String script) {
         findElement();
 
-        String name = (String) ((JavascriptExecutor) driver).executeScript(script, element);
+        String name = (String) ((JavascriptExecutor) driver).executeScript(
+                script, element);
+
         return name;
     }
 
@@ -290,6 +304,7 @@ public class HtmlElement {
      */
     public int getHeight() {
         findElement();
+
         return element.getSize().getHeight();
     }
 
@@ -309,6 +324,7 @@ public class HtmlElement {
      */
     public Point getLocation() {
         findElement();
+
         return element.getLocation();
     }
 
@@ -321,32 +337,34 @@ public class HtmlElement {
         return locator;
     }
 
-    private By getLocatorBy(final String locator, final LocatorType locatorType) {
+    private By getLocatorBy(final String locator,
+        final LocatorType locatorType) {
+
         switch (locatorType) {
 
-            case ID :
-                return By.id(locator);
+        case ID:
+            return By.id(locator);
 
-            case NAME :
-                return By.name(locator);
+        case NAME:
+            return By.name(locator);
 
-            case CLASS_NAME :
-                return By.className(locator);
+        case CLASS_NAME:
+            return By.className(locator);
 
-            case LINK_TEXT :
-                return By.linkText(locator);
+        case LINK_TEXT:
+            return By.linkText(locator);
 
-            case PARTIAL_LINK_TEXT :
-                return By.partialLinkText(locator);
+        case PARTIAL_LINK_TEXT:
+            return By.partialLinkText(locator);
 
-            case CSS_SELECTOR :
-                return By.cssSelector(locator);
+        case CSS_SELECTOR:
+            return By.cssSelector(locator);
 
-            case TAG_NAME :
-                return By.tagName(locator);
+        case TAG_NAME:
+            return By.tagName(locator);
 
-            default :
-                return By.xpath(locator);
+        default:
+            return By.xpath(locator);
         }
     }
 
@@ -357,6 +375,7 @@ public class HtmlElement {
      */
     public Dimension getSize() {
         findElement();
+
         return element.getSize();
     }
 
@@ -367,6 +386,7 @@ public class HtmlElement {
      */
     public String getTagName() {
         findElement();
+
         return element.getTagName();
     }
 
@@ -377,6 +397,7 @@ public class HtmlElement {
      */
     public String getText() {
         findElement();
+
         return element.getText();
     }
 
@@ -387,6 +408,7 @@ public class HtmlElement {
      */
     public String getValue() {
         findElement();
+
         return element.getAttribute("value");
     }
 
@@ -397,6 +419,7 @@ public class HtmlElement {
      */
     public int getWidth() {
         findElement();
+
         return element.getSize().getWidth();
     }
 
@@ -415,10 +438,12 @@ public class HtmlElement {
      * @return
      */
     public boolean isDisplayed() {
-        findElement();
+
         try {
+            findElement();
+
             return element.isDisplayed();
-        } catch (StaleElementReferenceException e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -430,22 +455,28 @@ public class HtmlElement {
      * @return
      */
     public boolean isElementPresent() {
+
         if (WebUIDriver.getWebDriver() == null) {
-            TestLogging.log("Web Driver is terminated! Exception might caught in last action.");
-            throw new RuntimeException("Web Driver is terminated! Exception might caught in last action.");
+            TestLogging.log(
+                "Web Driver is terminated! Exception might caught in last action.");
+            throw new RuntimeException(
+                "Web Driver is terminated! Exception might caught in last action.");
         }
 
         int count = 0;
+
         try {
 
             count = WebUIDriver.getWebDriver().findElements(by).size();
         } catch (RuntimeException e) {
+
             if (e instanceof InvalidSelectorException) {
                 TestLogging.log("Got InvalidSelectorException, retry");
                 WaitHelper.waitForSeconds(2);
                 count = WebUIDriver.getWebDriver().findElements(by).size();
-            } else if (e.getMessage() != null
-                    && e.getMessage().contains("TransformedEntriesMap cannot be cast to java.util.List")) {
+            } else if ((e.getMessage() != null) &&
+                    e.getMessage().contains(
+                        "TransformedEntriesMap cannot be cast to java.util.List")) {
                 TestLogging.log("Got CastException, retry");
                 WaitHelper.waitForSeconds(2);
                 count = WebUIDriver.getWebDriver().findElements(by).size();
@@ -468,6 +499,7 @@ public class HtmlElement {
      */
     public boolean isEnabled() {
         findElement();
+
         return element.isEnabled();
     }
 
@@ -478,6 +510,7 @@ public class HtmlElement {
      */
     public boolean isSelected() {
         findElement();
+
         return element.isSelected();
     }
 
@@ -490,6 +523,7 @@ public class HtmlElement {
      */
     public boolean isTextPresent(final String text) {
         findElement();
+
         return element.getText().contains(text);
     }
 
@@ -566,16 +600,17 @@ public class HtmlElement {
      * @return
      */
     public String toHTML() {
-        return getClass().getSimpleName().toLowerCase()
-                + " <a style=\"font-style:normal;color:#8C8984;text-decoration:none;\" href=# \">" + getLabel() + ",: "
-                + getBy().toString() + "</a>";
+        return getClass().getSimpleName().toLowerCase() +
+            " <a style=\"font-style:normal;color:#8C8984;text-decoration:none;\" href=# \">" +
+            getLabel() + ",: " + getBy().toString() + "</a>";
     }
 
     /**
      * Returns a friendly string, representing the HtmlElement's Type, LabelElement and Locator.
      */
     public String toString() {
-        return getClass().getSimpleName().toLowerCase() + " " + getLabel() + ", by={" + getBy().toString() + "}";
+        return getClass().getSimpleName().toLowerCase() + " " + getLabel() +
+            ", by={" + getBy().toString() + "}";
     }
 
     /**
@@ -590,7 +625,8 @@ public class HtmlElement {
      * which needs long time to present.
      */
     public void waitForPresent(final int timeout) {
-        TestLogging.logWebStep(null, "wait for " + this.toString() + " to present.", false);
+        TestLogging.logWebStep(null,
+            "wait for " + this.toString() + " to present.", false);
 
         Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
         wait.until(new ExpectedCondition<WebElement>() {
