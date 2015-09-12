@@ -13,7 +13,10 @@
 
 package com.seleniumtests.tests;
 
+import static org.hamcrest.CoreMatchers.is;
+
 import static com.seleniumtests.core.CustomAssertion.assertEquals;
+import static com.seleniumtests.core.CustomAssertion.assertThat;
 import static com.seleniumtests.core.CustomAssertion.assertTrue;
 
 import org.testng.annotations.Test;
@@ -33,6 +36,7 @@ public class SoftAssertionTest extends SeleniumTestPlan {
      */
     @Test(groups = "softAssertionTest", description = "Continues with test execution even though assertions fail")
     public void softAssertionTest() {
+        assertThat("selenium", is("selenium"));
         assertEquals(true, false, "boolean test failure");
         assertTrue(false, "another boolean test failure");
         assertEquals("selenium", "qtp", "universal test failure :)");

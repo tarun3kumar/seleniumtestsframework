@@ -114,7 +114,12 @@ public class PageObject extends BasePage implements IPage {
             open(url);
         }
 
-        waitForPageToLoad();
+        // Wait for page load is applicable only for web test
+        // When running tests on an iframe embedded site then test will fail if this command is not used
+        if (SeleniumTestsContextManager.isWebTest()) {
+            waitForPageToLoad();
+        }
+
         assertCurrentPage(false);
 
         try {
@@ -348,7 +353,6 @@ public class PageObject extends BasePage implements IPage {
     public String getWindowHandle() {
         return windowHandle;
     }
-    ;
 
     public final void goBack() {
         TestLogging.logWebStep(null, "goBack", false);
@@ -377,17 +381,21 @@ public class PageObject extends BasePage implements IPage {
     private void open(final String url) throws Exception {
 
         if (this.getDriver() == null) {
-            TestLogging.logWebStep(url, "Launch browser", false);
+            TestLogging.logWebStep(url, "Launch application", false);
             driver = webUXDriver.createWebDriver();
         }
 
         setUrl(url);
         try {
-            driver.navigate().to(url);
+
+            // Navigate to app URL for browser test
+            if (SeleniumTestsContextManager.isWebTest()) {
+                driver.navigate().to(url);
+            }
         } catch (UnreachableBrowserException e) {
 
             // handle if the last window is closed
-            TestLogging.logWebStep(url, "Launch browser", false);
+            TestLogging.logWebStep(url, "Launch application", false);
             driver = webUXDriver.createWebDriver();
             maximizeWindow();
             driver.navigate().to(url);
@@ -406,7 +414,7 @@ public class PageObject extends BasePage implements IPage {
             throw new CustomSeleniumTestsException(e);
         }
 
-        switchToDefaultContent();
+        // switchToDefaultContent();
     }
 
     private void populateAndCapturePageSnapshot() {

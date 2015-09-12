@@ -459,7 +459,7 @@ public class WebUIDriver {
         config.setAutomationName(automationName);
 
         String mobilePlatformName = SeleniumTestsContextManager.getThreadContext().getMobilePlatformName();
-        config.setMobilePlatformVersion(mobilePlatformName);
+        config.setMobilePlatformName(mobilePlatformName);
 
         String mobilePlatformVersion = SeleniumTestsContextManager.getThreadContext().getMobilePlatformVersion();
         config.setMobilePlatformVersion(mobilePlatformVersion);
@@ -472,6 +472,12 @@ public class WebUIDriver {
 
         String browserName = SeleniumTestsContextManager.getThreadContext().getBrowserName();
         config.setBrowserName(browserName);
+
+        String appPackage = SeleniumTestsContextManager.getThreadContext().getAppPackage();
+        config.setAppPackage(appPackage);
+
+        String appActivity = SeleniumTestsContextManager.getThreadContext().getAppActivity();
+        config.setAppActivity(appActivity);
 
         String newCommandTimeOut = SeleniumTestsContextManager.getThreadContext().getNewCommandTimeout();
         config.setNewCommandTimeout(newCommandTimeOut);

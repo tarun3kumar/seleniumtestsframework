@@ -59,6 +59,8 @@ public class DriverConfig {
 
     private String proxyHost;
 
+    private String testType;
+
     // appium properties
     private String automationName;
 
@@ -69,7 +71,13 @@ public class DriverConfig {
     private String mobilePlatformVersion;
     private String deviceName;
     private String app;
+
+    // Name of mobile web browser to automate.
+    // This is irrelevant when automating an app
     private String browserName;
+
+    private String appPackage;
+    private String appActivity;
     private String newCommandTimeout;
 
     public ArrayList<WebDriverEventListener> getWebDriverListeners() {
@@ -405,6 +413,22 @@ public class DriverConfig {
         this.browserName = browserName;
     }
 
+    public String getAppPackage() {
+        return appPackage;
+    }
+
+    public void setAppPackage(final String appPackage) {
+        this.appPackage = appPackage;
+    }
+
+    public String getAppActivity() {
+        return appActivity;
+    }
+
+    public void setAppActivity(final String appActivity) {
+        this.appActivity = appActivity;
+    }
+
     public String getNewCommandTimeout() {
         return newCommandTimeout;
     }
@@ -427,5 +451,13 @@ public class DriverConfig {
 
     public void setMobilePlatformName(final String mobilePlatformName) {
         this.mobilePlatformName = mobilePlatformName;
+    }
+
+    public String getTestType() {
+        return testType;
+    }
+
+    public void setTestType(final String testType) {
+        this.testType = testType;
     }
 }

@@ -50,6 +50,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
+
 import org.apache.log4j.Logger;
 
 import org.apache.velocity.Template;
@@ -83,6 +85,7 @@ import com.seleniumtests.core.TestRetryAnalyzer;
 
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
+import com.seleniumtests.driver.TestType;
 import com.seleniumtests.driver.WebUIDriver;
 
 import com.seleniumtests.helper.StringUtility;
@@ -550,7 +553,13 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                     SeleniumTestsContext testLevelContext = SeleniumTestsContextManager.getTestLevelContext(testName);
                     if (testLevelContext != null) {
                         String appURL = testLevelContext.getAppURL();
-                        String browser = (String) testLevelContext.getAttribute("browser");
+                        String browser = testLevelContext.getWebRunBrowser();
+
+                        String app = testLevelContext.getApp();
+                        String appPackage = testLevelContext.getAppPackage();
+                        String appActivity = testLevelContext.getAppActivity();
+                        String testType = testLevelContext.getTestType();
+
                         if (browser != null) {
                             browser = browser.replace("*", "");
                         }
@@ -560,8 +569,25 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                             browser = browser + browserVersion;
                         }
 
-                        contentBuffer.append("<div><i>App URL:  <b>" + appURL + "</b>, Browser: <b>" + browser
-                                + "</b></i></div>");
+                        // Log URL for web test and app info for app test
+                        if (testType.equalsIgnoreCase(TestType.WEB.getTestType())) {
+                            contentBuffer.append("<div><i>App URL:  <b>" + appURL + "</b>, Browser: <b>" + browser
+                                    + "</b></i></div>");
+                        } else if (testType.equalsIgnoreCase(TestType.APP.getTestType())) {
+
+                            // Either app Or app package and app activity is specified to run test on app
+                            if (StringUtils.isNotBlank(app)) {
+                                contentBuffer.append("<div><i>App:  <b>" + app + "</b></i></div>");
+                            } else if (StringUtils.isNotBlank(appPackage)) {
+                                contentBuffer.append("<div><i>App Package: <b>" + appPackage
+                                        + "</b>, App Activity:  <b>" + appActivity + "</b></i></div>");
+                            }
+                        } else if (testType.equalsIgnoreCase(TestType.NON_GUI.getTestType())) {
+                            contentBuffer.append("<div><i></i></div>");
+
+                        } else {
+                            contentBuffer.append("<div><i>Invalid Test Type</i></div>");
+                        }
                     }
 
                     Object[] parameters = ans.getParameters();

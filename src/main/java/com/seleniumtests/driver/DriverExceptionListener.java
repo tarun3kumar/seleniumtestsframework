@@ -19,6 +19,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
+import com.seleniumtests.core.SeleniumTestsContextManager;
+
 import com.seleniumtests.customexception.WebSessionEndedException;
 
 public class DriverExceptionListener implements WebDriverEventListener {
@@ -113,17 +115,17 @@ public class DriverExceptionListener implements WebDriverEventListener {
 
             try {
                 System.out.println("Got customexception" + ex.getMessage());
-                new ScreenshotUtil(arg1).capturePageSnapshotOnException();
+                if (SeleniumTestsContextManager.getThreadContext().getTestType().equalsIgnoreCase(
+                            TestType.WEB.toString())) {
+                    new ScreenshotUtil(arg1).capturePageSnapshotOnException();
+                } else {
+                    System.out.println("Capture screenshot is not available for appium");
+                }
             } catch (Exception e) {
 
                 // Ignore all exceptions
                 e.printStackTrace();
             }
         }
-    }
-
-    public static void main(final String[] args) {
-        String ex = "Session [92d68b1d-7375-404d-bc32-5633c552b1c0] was terminated due to BROWSER_TIMEOUT";
-        System.out.println(ex.split("\\n")[0].matches("Session \\[(\\S)+\\] was terminated due to(.|\\n)*"));
     }
 }

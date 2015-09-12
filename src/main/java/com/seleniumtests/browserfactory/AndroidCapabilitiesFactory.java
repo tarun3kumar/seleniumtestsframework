@@ -34,8 +34,9 @@ public class AndroidCapabilitiesFactory implements ICapabilitiesFactory {
         capabilities.setCapability("platformVersion", cfg.getMobilePlatformVersion());
         capabilities.setCapability("deviceName", cfg.getDeviceName());
 
-        // Use app browser when running test on emulator
         capabilities.setCapability("app", cfg.getApp());
+        capabilities.setCapability("appPackage", cfg.getAppPackage());
+        capabilities.setCapability("appActivity", cfg.getAppActivity());
 
         capabilities.setCapability(CapabilityType.BROWSER_NAME, cfg.getBrowserName());
         capabilities.setCapability("newCommandTimeout", cfg.getNewCommandTimeout());
