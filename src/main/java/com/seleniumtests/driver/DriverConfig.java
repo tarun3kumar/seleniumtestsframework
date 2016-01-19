@@ -80,6 +80,10 @@ public class DriverConfig {
     private String appActivity;
     private String newCommandTimeout;
 
+    private String platform;
+    private String version;
+    private String sauceLabsURL;
+
     public ArrayList<WebDriverEventListener> getWebDriverListeners() {
         return webDriverListeners;
     }
@@ -459,5 +463,30 @@ public class DriverConfig {
 
     public void setTestType(final String testType) {
         this.testType = testType;
+    }
+
+    public String getPlatform() {
+
+        return platform;
+    }
+
+    public void setPlatform(final String platform) {
+        this.platform = platform;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(final String version) {
+        this.version = version;
+    }
+
+    public String getSauceLabsURL() {
+        return sauceLabsURL;
+    }
+
+    public void setSauceLabsURL(final String sauceLabsURL) {
+        this.sauceLabsURL = sauceLabsURL;
     }
 }

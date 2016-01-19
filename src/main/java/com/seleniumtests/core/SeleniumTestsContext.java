@@ -104,6 +104,11 @@ public class SeleniumTestsContext {
     public static final String APP_ACTIVITY = "appActivity";
     public static final String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
 
+    // SauceLabs specific properties
+    public static final String VERSION = "version";
+    public static final String PLATFORM = "platform";
+    public static final String SAUCELABS_URL = "sauceLabsURL";
+
     private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
     private Map<ITestResult, List<Throwable>> verificationFailuresMap = new HashMap<ITestResult, List<Throwable>>();
 
@@ -215,6 +220,10 @@ public class SeleniumTestsContext {
         setContextAttribute(context, APP_PACKAGE, System.getProperty(APP_PACKAGE), null);
         setContextAttribute(context, APP_ACTIVITY, System.getProperty(APP_ACTIVITY), null);
         setContextAttribute(context, NEW_COMMAND_TIMEOUT, System.getProperty(NEW_COMMAND_TIMEOUT), "120");
+
+        setContextAttribute(context, VERSION, System.getProperty(VERSION), null);
+        setContextAttribute(context, PLATFORM, System.getProperty(PLATFORM), null);
+        setContextAttribute(context, SAUCELABS_URL, System.getProperty(SAUCELABS_URL), null);
 
         if (context != null) {
             setContextAttribute(OUTPUT_DIRECTORY, null, context.getOutputDirectory(), null);
@@ -519,6 +528,18 @@ public class SeleniumTestsContext {
 
     public String getNewCommandTimeout() {
         return (String) getAttribute(NEW_COMMAND_TIMEOUT);
+    }
+
+    public String getVersion() {
+        return (String) getAttribute(VERSION);
+    }
+
+    public String getPlatform() {
+        return (String) getAttribute(PLATFORM);
+    }
+
+    public String getSaucelabsURL() {
+        return (String) getAttribute(SAUCELABS_URL);
     }
 
     public boolean isUseFirefoxDefaultProfile() {
