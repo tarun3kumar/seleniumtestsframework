@@ -7,7 +7,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class IOsCapabilitiesFactory implements ICapabilitiesFactory {
 
     public DesiredCapabilities createCapabilities(final DriverConfig cfg) {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        final DesiredCapabilities capabilities = new DesiredCapabilities();
 
         capabilities.setCapability("automationName", cfg.getAutomationName());
         capabilities.setCapability("platformName", cfg.getMobilePlatformName());

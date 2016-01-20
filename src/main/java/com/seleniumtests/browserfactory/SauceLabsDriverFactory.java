@@ -1,5 +1,6 @@
 package com.seleniumtests.browserfactory;
 
+import com.seleniumtests.customexception.DriverExceptions;
 import com.seleniumtests.driver.DriverConfig;
 import com.seleniumtests.driver.TestType;
 import io.appium.java_client.android.AndroidDriver;
@@ -36,10 +37,14 @@ public class SauceLabsDriverFactory extends AbstractWebDriverFactory implements 
     }
 
     @Override
-    public WebDriver createWebDriver() throws IOException {
-        DriverConfig cfg = this.getWebDriverConfig();
+    public WebDriver createWebDriver() {
+        final DriverConfig cfg = this.getWebDriverConfig();
 
-        driver = createNativeDriver();
+        try {
+            driver = createNativeDriver();
+        } catch (final MalformedURLException me){
+            throw new DriverExceptions("Problem with creating driver", me);
+        }
 
         setImplicitWaitTimeout(cfg.getImplicitWaitTimeout());
         if (cfg.getPageLoadTimeout() >= 0) {
