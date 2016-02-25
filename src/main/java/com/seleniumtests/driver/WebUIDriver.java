@@ -18,19 +18,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.seleniumtests.browserfactory.*;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.events.WebDriverEventListener;
-
-import com.seleniumtests.browserfactory.AndroidDriverFactory;
-import com.seleniumtests.browserfactory.ChromeDriverFactory;
-import com.seleniumtests.browserfactory.FirefoxDriverFactory;
-import com.seleniumtests.browserfactory.HtmlUnitDriverFactory;
-import com.seleniumtests.browserfactory.IEDriverFactory;
-import com.seleniumtests.browserfactory.IWebDriverFactory;
-import com.seleniumtests.browserfactory.RemoteDriverFactory;
-import com.seleniumtests.browserfactory.SafariDriverFactory;
 
 import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.SeleniumTestsContextManager;
@@ -173,6 +165,8 @@ public class WebUIDriver {
                 webDriverBuilder = new HtmlUnitDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.Safari) {
                 webDriverBuilder = new SafariDriverFactory(this.config);
+            } else if (config.getBrowser() == BrowserType.SauceLabs) {
+                webDriverBuilder = new SauceLabsDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.Android) {
                 webDriverBuilder = new AndroidDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.IPhone) {
@@ -481,6 +475,11 @@ public class WebUIDriver {
 
         String newCommandTimeOut = SeleniumTestsContextManager.getThreadContext().getNewCommandTimeout();
         config.setNewCommandTimeout(newCommandTimeOut);
+
+        config.setVersion(SeleniumTestsContextManager.getThreadContext().getVersion());
+        config.setPlatform(SeleniumTestsContextManager.getThreadContext().getPlatform());
+        config.setSauceLabsURL(SeleniumTestsContextManager.getThreadContext().getSaucelabsURL());
+        config.setTestType(SeleniumTestsContextManager.getThreadContext().getTestType());
     }
 
     public static void main(final String[] args) {
