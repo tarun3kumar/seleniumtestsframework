@@ -131,25 +131,24 @@
         </classes>
     </test>
 
-    <!--<test name="SauceLabs test" parallel="false">-->
-    <!--<parameter name="browser" value="*saucelabs" />-->
-    <!--&lt;!&ndash;<parameter name="testType" value="appium_web_ios" />&ndash;&gt;-->
-    <!--<parameter name="sauceLabsURL" value="add saucelabs credentials"/>-->
-    <!--<parameter name="browserName" value="chrome"/>-->
-    <!--<parameter name="platform" value="Windows 7"/>-->
-    <!--<parameter name="version" value="46.0"/>-->
+    <test name="SauceLabs test" parallel="false">
+    <parameter name="browser" value="*saucelabs" />
+    <!--<parameter name="testType" value="appium_web_ios" />-->
+    <parameter name="sauceLabsURL" value="add saucelabs credentials"/>
+    <parameter name="browserName" value="chrome"/>
+    <parameter name="platform" value="Windows 7"/>
+    <parameter name="version" value="46.0"/>
 
-        <!--<groups>-->
-            <!--<run>-->
-                <!--<include name="sauce"/>-->
-            <!--</run>-->
-        <!--</groups>-->
+        <groups>
+            <run>
+                <include name="sauce"/>
+            </run>
+        </groups>
 
-        <!--<classes>-->
-            <!--<class name="com.seleniumtests.tests.SauceLabsTest" />-->
-            <!--&lt;!&ndash;<class name="de.zalando.tests.SauceLabsTwoTest" />&ndash;&gt;-->
-        <!--</classes>-->
+        <classes>
+            <class name="com.seleniumtests.tests.SauceLabsTest" />
+        </classes>
 
-    <!--</test>-->
+    </test>
     
 </suite> 
