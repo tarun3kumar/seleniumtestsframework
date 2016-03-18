@@ -4,7 +4,7 @@
 
 	<groupId>com.seleniumtests</groupId>
 	<artifactId>seleniumtestsframework</artifactId>
-	<version>3.1</version>
+	<version>4.0</version>
 	<packaging>jar</packaging>
 
 	<name>selenium tests framework</name>
@@ -215,9 +215,9 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
-						<!--<configuration> &lt;!&ndash; disable checking for java 8&ndash;&gt;
+						<configuration> <!-- disable checking for java 8-->
 							<additionalparam>-Xdoclint:none</additionalparam>
-						</configuration>-->
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
