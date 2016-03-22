@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="false"
+<suite name="Selenium Framework Test Suite" parallel="methods"
 	verbose="1" thread-count="5">
 	<listeners>
 		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
@@ -32,16 +32,24 @@
 
 	<parameter name="webDriverGrid" value="http://localhost:4444/wd/hub" />
 	<parameter name="webSessionTimeOut" value="120000" />
-	<parameter name="openReportInBrowser" value="firefox" />
 	<parameter name="maxConcurrentWebSessions" value="5" />
 	<parameter name="softAssertEnabled" value="true" />
     <!-- For soft assert, use assert APIs from  com.seleniumtests.core.CustomAssertion class-->
-    <parameter name="useFirefoxDefaultProfile" value="false"/>
+    <parameter name="useFirefoxDefaultProfile" value="false"/>                                      
 
 
-    <test name="WebTest - Test Link Login Test">
+    <test name="WebTest - Test Link Login Test in Chrome">
         <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
+        <classes>
+            <class name="com.seleniumtests.tests.RegistrationTest" />
+        </classes>
+    </test>
+
+    <test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
+        <parameter name="testType" value="Web" />
+        <parameter name="browser" value="*firefox" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
