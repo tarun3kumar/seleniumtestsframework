@@ -1,14 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="tests"
-	verbose="1" thread-count="5">
-	<listeners>
-		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
-		<!--<listener class-name="com.seleniumtests.core.TestRetryListener" />-->
-	</listeners>
+<suite name="Selenium Framework Test Suite" parallel="false"
+       verbose="1" thread-count="5">
+    <listeners>
+        <listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
+        <listener class-name="com.seleniumtests.core.TestRetryListener" />
+    </listeners>
 
-	<parameter name="appURL" value="http://www.seleniumtests.com/2013/08/demo-test-link-site.html"/>
-	<parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore *android"-->
-	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
+    <parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
+    <parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore, *android"-->
+    <parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
     To start grid on a machine use following command -
@@ -30,13 +30,22 @@
     ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.ie.driver="<path to internet explorer driver on node machine>\IEDriverServer.exe"
     -->
 
-	<parameter name="webDriverGrid" value="http://localhost:4444/wd/hub" />
-	<parameter name="webSessionTimeOut" value="120000" />
-	<parameter name="openReportInBrowser" value="firefox" />
-	<parameter name="maxConcurrentWebSessions" value="5" />
-	<parameter name="softAssertEnabled" value="true" />
+    <parameter name="webDriverGrid" value="http://localhost:4444/wd/hub" />
+    <parameter name="webSessionTimeOut" value="120000" />
+    <parameter name="openReportInBrowser" value="firefox" />
+    <parameter name="maxConcurrentWebSessions" value="5" />
+    <parameter name="softAssertEnabled" value="true" />
     <!-- For soft assert, use assert APIs from  com.seleniumtests.core.CustomAssertion class-->
     <parameter name="useFirefoxDefaultProfile" value="false"/>
+
+
+    <test name="WebTest - Test Link Login Test">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
+        <parameter name="testType" value="Web" />
+        <classes>
+            <class name="com.seleniumtests.tests.RegistrationTest" />
+        </classes>
+    </test>
 
     <test name="NonGUITest - Multiple assertion failures">
         <parameter name="testType" value="NonGUI" />
@@ -49,22 +58,6 @@
         <parameter name="testType" value="NonGUI" />
         <classes>
             <class name="com.seleniumtests.tests.SoftAssertionTest" />
-        </classes>
-    </test>
-
-    <test name="WebTest - Test Link Login Test">
-        <!--testType parameter is optional for web test, since testType defaults to web-->
-        <parameter name="testType" value="Web" />
-        <classes>
-            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
-        </classes>
-    </test>
-
-    <test name="WebTest - Test LinkElement Navigation Test">
-        <!--<parameter name="browser" value="*firefox" />-->
-        <parameter name="testType" value="Web" />
-        <classes>
-            <class name="com.seleniumtests.tests.TestLinkUsageTest" />
         </classes>
     </test>
 
@@ -86,14 +79,8 @@
 
         <parameter name="parallel" value="false"/>
 
-        <groups>
-            <run>
-                <include name="loginAsInvalidUser"/>
-                <include name="testForFailure"/>
-            </run>
-        </groups>
         <classes>
-            <class name="com.seleniumtests.tests.TestLinkLoginTest" />
+            <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
     </test>
 
@@ -132,12 +119,12 @@
     </test>
 
     <test name="SauceLabs test" parallel="false">
-    <parameter name="browser" value="*saucelabs" />
-    <!--<parameter name="testType" value="appium_web_ios" />-->
-    <parameter name="sauceLabsURL" value="add saucelabs credentials"/>
-    <parameter name="browserName" value="chrome"/>
-    <parameter name="platform" value="Windows 7"/>
-    <parameter name="version" value="46.0"/>
+        <parameter name="browser" value="*saucelabs" />
+        <!--<parameter name="testType" value="appium_web_ios" />-->
+        <parameter name="sauceLabsURL" value="add saucelabs credentials"/>
+        <parameter name="browserName" value="chrome"/>
+        <parameter name="platform" value="Windows 7"/>
+        <parameter name="version" value="46.0"/>
 
         <groups>
             <run>
@@ -150,5 +137,5 @@
         </classes>
 
     </test>
-    
+
 </suite> 
