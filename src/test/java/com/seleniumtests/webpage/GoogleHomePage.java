@@ -18,4 +18,8 @@ public class GoogleHomePage extends PageObject {
     public GoogleHomePage() throws Exception {
         super(searchTextBox);
     }
+
+    public boolean isSearchBoxDisplayed() {
+        return searchTextBox.isDisplayed();
+    }
 }
