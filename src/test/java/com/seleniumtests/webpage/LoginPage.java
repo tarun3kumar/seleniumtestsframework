@@ -1,5 +1,7 @@
 package com.seleniumtests.webpage;
 
+import com.seleniumtests.dataobject.User;
+
 import com.seleniumtests.webelements.ButtonElement;
 import com.seleniumtests.webelements.PageObject;
 import com.seleniumtests.webelements.TextFieldElement;
@@ -51,5 +53,10 @@ public class LoginPage extends PageObject {
         submitButton.click();
 
         return new GoogleHomePage();
+    }
+
+    public GoogleHomePage enterLoginData(User user) throws Exception {
+        return enterUserName(user.getUserName()).enterPassword(
+                user.getPassword()).clickSubmitButton();
     }
 }
