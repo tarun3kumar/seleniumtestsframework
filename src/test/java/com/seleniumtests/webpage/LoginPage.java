@@ -13,7 +13,7 @@ import org.openqa.selenium.By;
 public class LoginPage extends PageObject {
 
     private static final TextFieldElement userNameTextBox =
-        new TextFieldElement("Username Textbox", By.name("username"));
+        new TextFieldElement("Username Textbox", By.name("usernameLoginPage"));
 
     private static final TextFieldElement passwordTextBox =
         new TextFieldElement("Password Textbox", By.name("psw1"));
@@ -36,6 +36,10 @@ public class LoginPage extends PageObject {
         userNameTextBox.clearAndType(password);
 
         return this;
+    }
+
+    public static boolean isUserNameDisplayed() {
+        return userNameTextBox.isDisplayed();
     }
 
     /**
