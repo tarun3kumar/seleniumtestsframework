@@ -91,7 +91,7 @@ public class RegistrationPage extends PageObject {
         return new LoginPage();
     }
 
-    public LoginPage enterRegistrationData(User user) throws Exception {
+    public LoginPage submitValidRegistrationData(User user) throws Exception {
         return enterFirstName(user.getFirstName()).enterLastName(
                 user.getLastName()).enterUserName(user.getUserName())
             .enterPassword(user.getPassword()).enterConfirmPassword(
