@@ -15,7 +15,7 @@ public class SauceLabsTest extends SeleniumTestPlan {
 
     @Test(groups = "sauce")
     public void sauceLabsTest() throws Exception {
-        SauceLabsPage page = new SauceLabsPage(true);
-        page.getMeToTheSauceLabs();
+        SauceLabsPage sauceLabsPage = new SauceLabsPage(true);
+        sauceLabsPage.getMeToTheSauceLabs();
     }
 }
