@@ -22,7 +22,8 @@ public enum BrowserType {
     Android("*android"),
     IPhone("*iphone"),
     IPad("*ipad"),
-    PhantomJS("*phantomjs");
+    PhantomJS("*phantomjs"),
+    SauceLabs("*saucelabs");
 
     public static BrowserType getBrowserType(final String browserType) {
         if (browserType.equalsIgnoreCase("*firefox") || browserType.equalsIgnoreCase("firefox")) {
@@ -43,6 +44,8 @@ public enum BrowserType {
             return BrowserType.IPad;
         } else if (browserType.equalsIgnoreCase("*phantomjs") || browserType.equalsIgnoreCase("phantomjs")) {
             return BrowserType.PhantomJS;
+        } else if (browserType.equalsIgnoreCase("*saucelabs") || browserType.equalsIgnoreCase("saucelabs")) {
+            return BrowserType.SauceLabs;
         } else {
             return BrowserType.FireFox;
         }

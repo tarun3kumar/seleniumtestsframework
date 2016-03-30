@@ -18,29 +18,49 @@ package com.seleniumtests.dataobject;
  */
 public class User {
 
-    private String userID;
+    private String firstName;
+    private String lastName;
+    private String userName;
     private String password;
 
-    public String getUserID() {
-        return userID;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setUserID(final String userID) {
-        this.userID = userID;
-    }
-
-    public void setPassword(final String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.append("User [UserId = " + userID + ", ").append("Password = " + password + "]")
-                            .toString();
+
+        return stringBuilder.append("User [firstName = " + firstName + ", ")
+            .append("lastName = " + lastName + ",").append("userName = " +
+                userName + ",").append("password " + password + "]").toString();
     }
+
 }

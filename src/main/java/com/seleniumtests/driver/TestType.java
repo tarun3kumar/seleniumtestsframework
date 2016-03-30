@@ -7,7 +7,9 @@ public enum TestType {
 
     WEB("web"),
     APP("app"),
-    NON_GUI("NonGUI");
+    NON_GUI("NonGUI"),
+    APPIUM_WEB_ANDROID("appium_web_android"),
+    APPIUM_WEB_IOS("appium_web_ios");
 
     String testType;
 
