@@ -13,7 +13,10 @@
 
 package com.seleniumtests.helper;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class StringUtility {
 
@@ -42,5 +45,43 @@ public class StringUtility {
         }
 
         return sbParam.toString();
+    }
+
+    public static String md5(final String str) {
+
+        if (str == null) {
+            return null;
+        }
+
+        MessageDigest messageDigest = null;
+
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(str.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return str;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return str;
+        }
+
+        byte[] byteArray = messageDigest.digest();
+
+        return toHexString(byteArray);
+    }
+
+    public static String toHexString(byte[] byteArray) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < byteArray.length; i++) {
+            if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
+                builder.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+            else
+                builder.append(Integer.toHexString(0xFF & byteArray[i]));
+        }
+
+        return builder.toString();
     }
 }
