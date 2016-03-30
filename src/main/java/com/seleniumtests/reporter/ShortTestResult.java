@@ -13,8 +13,6 @@
 
 package com.seleniumtests.reporter;
 
-import com.seleniumtests.helper.StringUtility;
-
 public class ShortTestResult {
 
     private String name;
@@ -30,7 +28,7 @@ public class ShortTestResult {
 
     public ShortTestResult(final String name) {
         this.name = name;
-        this.id = StringUtility.md5(name);
+        this.id = name.toLowerCase().replaceAll(" ", "_");
     }
 
     public String getId() {
