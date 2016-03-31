@@ -731,7 +731,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             Template t = ve.getTemplate("/templates/report.part.testDetail.html");
             VelocityContext context = new VelocityContext();
-            context.put("testId", StringUtility.md5(name);
+            context.put("testId", StringUtility.md5(name));
             context.put("testName", name);
             context.put("envtp", envtp);
             context.put("envtf", envtf);
@@ -808,8 +808,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             for (ISuiteResult r : tests.values()) {
 
                 ITestContext overview = r.getTestContext();
-                ShortTestResult mini = new ShortTestResult(overview.getName().replace(' ', '_').replace('(', '_')
-                            .replace(')', '_'));
+                ShortTestResult mini = new ShortTestResult(overview.getName());
                 int q;
                 q = overview.getAllTestMethods().length;
                 qty_method += q;
