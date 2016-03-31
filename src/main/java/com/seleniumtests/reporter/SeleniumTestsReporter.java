@@ -808,8 +808,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             for (ISuiteResult r : tests.values()) {
 
                 ITestContext overview = r.getTestContext();
-                ShortTestResult mini = new ShortTestResult(overview.getName().replace(' ', '_').replace('(', '_')
-                            .replace(')', '_'));
+                ShortTestResult mini = new ShortTestResult(overview.getName());
+
                 int q;
                 q = overview.getAllTestMethods().length;
                 qty_method += q;
