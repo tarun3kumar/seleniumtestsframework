@@ -731,7 +731,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             Template t = ve.getTemplate("/templates/report.part.testDetail.html");
             VelocityContext context = new VelocityContext();
-            context.put("testId", name.toLowerCase().replace(' ', '_').replace('(', '_').replace(')', '_'));
+            context.put("testId", StringUtility.md5(name));
             context.put("testName", name);
             context.put("envtp", envtp);
             context.put("envtf", envtf);
