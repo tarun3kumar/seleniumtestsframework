@@ -1,5 +1,5 @@
-TestEntity.TestCaseId,TestEntity.TestMethod,User.UserID,User.Password
-TestLinkTestCaseID1,loginAsInvalidUser,wronguserid,wrongpassword
-TestLinkTestCaseID2,loginAsValidUser,admin,admin
-TestLinkTestCaseID22,loginAsValidUser,admin,admin
-TestLinkTestCaseID3,testForFailure,admin,admin
+TestEntity.TestCaseId,TestEntity.TestMethod,User.firstName,User.lastName,User.userName,User.password,
+TestLinkTestCaseID1,registerWithValidUserData,selenium,test,seleniumtest,123456
+TestLinkTestCaseID2,registerWithValidUserData,QTP,test,qtptest,123456
+TestLinkTestCaseID22,registerWithInvalidUserData,QTP,test,qtptest,123456
+TestLinkTestCaseID222,loginTest,Hercules,spartacus,Herculesspartacus,123456

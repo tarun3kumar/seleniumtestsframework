@@ -16,7 +16,7 @@ package com.seleniumtests.core;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-public class TestRetryAnalyzer implements IRetryAnalyzer {
+public class TestRetryAnalyzer implements IRetryAnalyzer, ITestRetryAnalyzer {
 
     private static final String TEST_RETRY_COUNT = "testRetryCount";
     private int count = 1;
@@ -57,4 +57,7 @@ public class TestRetryAnalyzer implements IRetryAnalyzer {
         return false;
     }
 
+    public boolean retryPeek(final ITestResult result) {
+        return count <= maxCount;
+    }
 }
