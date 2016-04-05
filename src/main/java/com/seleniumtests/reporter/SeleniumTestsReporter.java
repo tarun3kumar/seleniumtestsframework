@@ -703,13 +703,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             // hard coded "summaryPerSuite", consider refactoring if more report configurations.
             if ("summaryPerSuite".equalsIgnoreCase(SeleniumTestsContextManager.getGlobalContext().getReportGenerationConfig())) {
-                int i = 0;
                 for (ISuite suite : suites) {
                     List<ISuite> singleSuiteList = new ArrayList<ISuite>();
                     singleSuiteList.add(suite);
                     generateSuiteSummaryReport(singleSuiteList, suite.getName());
                     generateReportsSection(singleSuiteList);
-                    i++;
                 }
             } else {
                 generateSuiteSummaryReport(suites, xml.get(0).getName());
