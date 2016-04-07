@@ -71,6 +71,7 @@ public class SeleniumTestsContext {
 
     public static final String TEST_ENTITY = "testEntity";
 
+    public static final String REPORT_GENERATION_CONFIG = "reportGenerationConfig";
     public static final String OPEN_REPORT_IN_BROWSER = "openReportInBrowser";
     public static final String CAPTURE_SNAPSHOT = "captureSnapshot";
     public static final String ENABLE_EXCEPTION_LISTENER = "enableExceptionListener";
@@ -193,6 +194,10 @@ public class SeleniumTestsContext {
         setContextAttribute(context, WEB_PROXY_ENABLED, System.getProperty(WEB_PROXY_ENABLED), "false");
         setContextAttribute(context, WEB_PROXY_TYPE, System.getProperty(WEB_PROXY_TYPE), null);
         setContextAttribute(context, WEB_PROXY_ADDRESS, System.getProperty(WEB_PROXY_ADDRESS), null);
+
+        // Set default to summaryPerSuite, by default it would generate a summary report per suite for tests in SeleniumTestReport.html
+        // if set to summaryAllSuites, only one summary report section would be generated.
+        setContextAttribute(context, REPORT_GENERATION_CONFIG, System.getProperty(REPORT_GENERATION_CONFIG), "summaryPerSuite");
 
         setContextAttribute(context, OPEN_REPORT_IN_BROWSER, System.getProperty(OPEN_REPORT_IN_BROWSER), null);
 
@@ -364,6 +369,10 @@ public class SeleniumTestsContext {
 
     public String getNtlmAuthTrustedUris() {
         return (String) getAttribute(NTLM_AUTH_TRUSTED_URIS);
+    }
+
+    public String getReportGenerationConfig() {
+        return (String) getAttribute(REPORT_GENERATION_CONFIG);
     }
 
     public String getOpenReportInBrowser() {

@@ -700,8 +700,24 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             m_out = createWriter(getOutputDirectory());
             startHtml(testCtx, m_out);
-            generateSuiteSummaryReport(suites, xml.get(0).getName());
-            generateReportsSection(suites);
+
+            // hard coded "summaryPerSuite", consider refactoring if more report configurations.
+            if ("summaryPerSuite".equalsIgnoreCase(SeleniumTestsContextManager.getGlobalContext().getReportGenerationConfig())) {
+                for (ISuite suite : suites) {
+                    List<ISuite> singleSuiteList = new ArrayList<ISuite>();
+                    singleSuiteList.add(suite);
+                    generateSuiteSummaryReport(singleSuiteList, suite.getName());
+                }
+                for (ISuite suite : suites) {
+                    List<ISuite> singleSuiteList = new ArrayList<ISuite>();
+                    singleSuiteList.add(suite);
+                    generateReportsSection(singleSuiteList);
+                }
+            } else {
+                generateSuiteSummaryReport(suites, xml.get(0).getName());
+                generateReportsSection(suites);
+            }
+
             endHtml(m_out);
             m_out.flush();
             m_out.close();
