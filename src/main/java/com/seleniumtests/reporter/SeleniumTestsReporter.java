@@ -707,6 +707,10 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                     List<ISuite> singleSuiteList = new ArrayList<ISuite>();
                     singleSuiteList.add(suite);
                     generateSuiteSummaryReport(singleSuiteList, suite.getName());
+                }
+                for (ISuite suite : suites) {
+                    List<ISuite> singleSuiteList = new ArrayList<ISuite>();
+                    singleSuiteList.add(suite);
                     generateReportsSection(singleSuiteList);
                 }
             } else {
