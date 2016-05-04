@@ -1,5 +1,7 @@
 # SeleniumTestsFramework
 
+[![Join the chat at https://gitter.im/tarun3kumar/seleniumtestsframework](https://badges.gitter.im/tarun3kumar/seleniumtestsframework.svg)](https://gitter.im/tarun3kumar/seleniumtestsframework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Selenium Tests Framework (referred as STF from here on) is a test automation framework for automated testing of Desktop web, mobile site and mobile apps. STF is based on WebDriver, Appium, TestNG and Maven. 
 Refer STF [How-To guide](http://www.seleniumtests.com/2013/10/announcing-selenium-tests-automation.html) to learn more about STF features. 
 
