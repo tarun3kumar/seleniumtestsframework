@@ -100,7 +100,7 @@
         <parameter name="platform" value="iOS"/>
         <!-- You can find the device name, version on ios by executing command "instruments -s devices" -->
         <parameter name="mobilePlatformVersion" value="8.4"/>
-        <parameter name="deviceName" value="iPad Air"/>
+        <parameter name="deviceName" value="iPhone 6"/>
         <parameter name="app" value="Safari"/>
         <parameter name="browserName" value="Safari"/>
         <parameter name="newCommandTimeout" value="120"/>
@@ -132,7 +132,6 @@
         <!--browserName should be empty string when automating app-->
         <parameter name="browserName" value=""/>
         <parameter name="newCommandTimeout" value="120"/>
-
         <parameter name="parallel" value="false"/>
 
         <groups>
@@ -142,6 +141,33 @@
         </groups>
         <classes>
             <class name="com.seleniumtests.tests.AndroidAppTest" />
+        </classes>
+    </test>
+
+    <test name="iOS App test" parallel="false">
+        <parameter name="browser" value="*iphone" />
+        <parameter name="testType" value="app" />
+        <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="iOS"/>
+        <parameter name="mobilePlatformVersion" value="8.4"/>
+        <parameter name="deviceName" value="iPhone 6"/>
+
+        <!--Path to app, if appium server is running on a different machine then this path corresponds to machine
+        where appium server is running-->
+        <parameter name="app" value="/Users/tbhadauria/Downloads/UICatalog.app"/>
+        <!--browserName should be empty string when automating app-->
+        <parameter name="browserName" value=""/>
+        <parameter name="newCommandTimeout" value="120"/>
+        <parameter name="parallel" value="false"/>
+
+        <groups>
+            <run>
+                <include name="verifyUICatalogScreen"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.tests.IOSAppTest" />
         </classes>
     </test>
 
