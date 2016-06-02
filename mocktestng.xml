@@ -98,14 +98,11 @@
         <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
         <parameter name="automationName" value="Appium"/>
         <parameter name="platform" value="iOS"/>
+        <!-- You can find the device name, version on ios by executing command "instruments -s devices" -->
         <parameter name="mobilePlatformVersion" value="8.4"/>
-        <!-- You can find the device name on ios by executing command "instruments -s devices" -->
         <parameter name="deviceName" value="iPhone 4s"/>
         <!--For m-site test, set this parameter to Browser-->
         <parameter name="app" value="Safari"/>
-
-        <!--Test on default emulator Browser
-        Set the property to "Chrome" to run test on chrome browser on android device instead of default Browser-->
         <parameter name="browserName" value="Safari"/>
         <parameter name="newCommandTimeout" value="120"/>
 
