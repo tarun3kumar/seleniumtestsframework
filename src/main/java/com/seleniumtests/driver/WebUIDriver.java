@@ -170,19 +170,7 @@ public class WebUIDriver {
             } else if (config.getBrowser() == BrowserType.Android) {
                 webDriverBuilder = new AndroidDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.IPhone) {
-
-                // webDriverBuilder = new IPhoneDriverFactory(this.config);
-                webDriverBuilder = (IWebDriverFactory) Class.forName(
-                                                                "com.seleniumtests.browserfactory.IPhoneDriverFactory")
-                                                            .getConstructor(DriverConfig.class).newInstance(
-                                                                this.config);
-            } else if (config.getBrowser() == BrowserType.IPad) {
-
-                // webDriverBuilder = new IPadDriverFactory(this.config);
-                webDriverBuilder = (IWebDriverFactory) Class.forName(
-                                                                "com.seleniumtests.browserfactory.IPadDriverFactory")
-                                                            .getConstructor(DriverConfig.class).newInstance(
-                                                                this.config);
+                webDriverBuilder = new IPhoneDriverFactory(this.config);
             } else {
                 throw new RuntimeException("Unsupported browser" + browser);
             }
