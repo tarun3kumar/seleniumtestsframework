@@ -21,7 +21,6 @@ public enum BrowserType {
     Safari("*safari"),
     Android("*android"),
     IPhone("*iphone"),
-    IPad("*ipad"),
     PhantomJS("*phantomjs"),
     SauceLabs("*saucelabs");
 
