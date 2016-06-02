@@ -45,11 +45,10 @@
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
     </test>
-
     <test name="WebTest - Test Link Login Test in Firefox">
         <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
-        <parameter name="browser" value="*firefox" />
+        <parameter name="browser" value="*chrome" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
@@ -92,6 +91,26 @@
         </classes>
     </test>
 
+    <test name="ios m-site Test" parallel="false">
+        <parameter name="testType" value="Web" />
+        <parameter name="browser" value="*iphone" />
+        <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="iOS"/>
+        <!-- You can find the device name, version on ios by executing command "instruments -s devices" -->
+        <parameter name="mobilePlatformVersion" value="8.4"/>
+        <parameter name="deviceName" value="iPhone 4s"/>
+        <!--For m-site test, set this parameter to Browser-->
+        <parameter name="app" value="Safari"/>
+        <parameter name="browserName" value="Safari"/>
+        <parameter name="newCommandTimeout" value="120"/>
+
+        <parameter name="parallel" value="false"/>
+
+        <classes>
+            <class name="com.seleniumtests.tests.RegistrationTest" />
+        </classes>
+    </test>
 
     <test name="Android App test" parallel="false">
         <parameter name="browser" value="*android" />
