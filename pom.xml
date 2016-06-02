@@ -4,7 +4,7 @@
 
 	<groupId>com.seleniumtests</groupId>
 	<artifactId>seleniumtestsframework</artifactId>
-	<version>4.0.7</version>
+	<version>4.0.8</version>
 	<packaging>jar</packaging>
 
 	<name>selenium tests framework</name>
