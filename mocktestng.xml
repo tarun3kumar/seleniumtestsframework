@@ -92,14 +92,14 @@
         </classes>
     </test>-->
 
-    <test name="ios m-site Test" parallel="false">
+    <!--<test name="ios m-site Test" parallel="false">
         <parameter name="testType" value="Web" />
-        <!--browser *iphone is used to run tests on both iphone and ipad-->
+        &lt;!&ndash;browser *iphone is used to run tests on both iphone and ipad&ndash;&gt;
         <parameter name="browser" value="*iphone" />
         <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
         <parameter name="automationName" value="Appium"/>
         <parameter name="platform" value="iOS"/>
-        <!-- You can find the device name, version on ios by executing command "instruments -s devices" -->
+        &lt;!&ndash; You can find the device name, version on ios by executing command "instruments -s devices" &ndash;&gt;
         <parameter name="mobilePlatformVersion" value="8.4"/>
         <parameter name="deviceName" value="iPad Air"/>
         <parameter name="app" value="Safari"/>
@@ -111,7 +111,7 @@
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
-    </test>
+    </test>-->
 
 
     <!--<test name="Android App test" parallel="false">
@@ -127,6 +127,7 @@
         &lt;!&ndash;To launch an app, either path to app OR appPackage and appActivity should be specified &ndash;&gt;
         &lt;!&ndash;<parameter name="app" value="Path To App"/>&ndash;&gt;
         &lt;!&ndash;Java package of Android app to be run&ndash;&gt;
+        <parameter name="app" value=""/>
         <parameter name="appPackage" value="com.android.calculator2"/>
         &lt;!&ndash;Activity name for Android activity to be launched from package&ndash;&gt;
         <parameter name="appActivity" value="com.android.calculator2.Calculator"/>
@@ -146,6 +147,33 @@
             <class name="com.seleniumtests.tests.AndroidAppTest" />
         </classes>
     </test>-->
+
+    <test name="iOS App test" parallel="false">
+        <parameter name="browser" value="*iphone" />
+        <parameter name="testType" value="app" />
+        <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="iOS"/>
+        <parameter name="mobilePlatformVersion" value="8.4"/>
+        <parameter name="deviceName" value="iPhone 6"/>
+
+        <!--Path to app, if appium server is running on a different machine then this path corresponds to machine
+        where appium server is running-->
+        <parameter name="app" value="/Users/tbhadauria/Downloads/UICatalog.app"/>
+        <!--browserName should be empty string when automating app-->
+        <parameter name="browserName" value=""/>
+        <parameter name="newCommandTimeout" value="120"/>
+        <parameter name="parallel" value="false"/>
+
+        <groups>
+            <run>
+                <include name="verifyUICatalogScreen"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.tests.IOSAppTest" />
+        </classes>
+    </test>
 
     <!--<test name="SauceLabs test" parallel="false">
         <parameter name="browser" value="*saucelabs" />
