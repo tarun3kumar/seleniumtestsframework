@@ -61,7 +61,6 @@ public class AndroidDriverFactory extends AbstractWebDriverFactory implements IW
         try {
             driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
         } catch (UnsupportedCommandException e) {
-            // chromedriver does not support pageLoadTimeout
         }
     }
 
