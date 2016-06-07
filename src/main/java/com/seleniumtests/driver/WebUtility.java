@@ -46,7 +46,7 @@ public class WebUtility {
     public void maximizeWindow() {
         try {
             BrowserType browser = BrowserType.getBrowserType(WebUIDriver.getWebUIDriver().getBrowser());
-            if (browser == BrowserType.Android || browser == BrowserType.IPad || browser == BrowserType.IPhone) {
+            if (browser == BrowserType.Android || browser == BrowserType.IPhone) {
                 return;
             }
 

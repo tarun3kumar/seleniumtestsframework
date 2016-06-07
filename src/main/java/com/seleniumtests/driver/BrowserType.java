@@ -21,7 +21,6 @@ public enum BrowserType {
     Safari("*safari"),
     Android("*android"),
     IPhone("*iphone"),
-    IPad("*ipad"),
     PhantomJS("*phantomjs"),
     SauceLabs("*saucelabs");
 
@@ -40,9 +39,7 @@ public enum BrowserType {
             return BrowserType.Android;
         } else if (browserType.equalsIgnoreCase("*iphone") || browserType.equalsIgnoreCase("iphone")) {
             return BrowserType.IPhone;
-        } else if (browserType.equalsIgnoreCase("*ipad") || browserType.equalsIgnoreCase("ipad")) {
-            return BrowserType.IPad;
-        } else if (browserType.equalsIgnoreCase("*phantomjs") || browserType.equalsIgnoreCase("phantomjs")) {
+        }else if (browserType.equalsIgnoreCase("*phantomjs") || browserType.equalsIgnoreCase("phantomjs")) {
             return BrowserType.PhantomJS;
         } else if (browserType.equalsIgnoreCase("*saucelabs") || browserType.equalsIgnoreCase("saucelabs")) {
             return BrowserType.SauceLabs;
