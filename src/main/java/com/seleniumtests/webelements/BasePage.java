@@ -473,11 +473,11 @@ public abstract class BasePage {
                 element.getBy()));
     }
 
-    public void waitForURLToChange(String url, int waitSeconds) {
+    public static void waitForURLToChange(String url, int waitSeconds) {
 
         for (int i = 0; i < waitSeconds; i++) {
 
-            if (driver.getCurrentUrl().equals(url)) {
+            if (WebUIDriver.getWebDriver().getCurrentUrl().equals(url)) {
                 break;
             } else {
                 try {
