@@ -90,7 +90,7 @@
         </classes>
     </test>
 
-    <test name="ios m-site Test" parallel="false">
+    <test name="iOS m-site Test" parallel="false">
         <parameter name="testType" value="Web" />
         <!--browser *iphone is used to run tests on both iphone and ipad-->
         <parameter name="browser" value="*iphone" />
