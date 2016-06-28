@@ -157,6 +157,8 @@ public class WebUIDriver {
         } else {
             if (config.getBrowser() == BrowserType.FireFox) {
                 webDriverBuilder = new FirefoxDriverFactory(this.config);
+            } if (config.getBrowser() == BrowserType.Marionette) {
+                webDriverBuilder = new MarionetteDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.InternetExplore) {
                 webDriverBuilder = new IEDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.Chrome) {
