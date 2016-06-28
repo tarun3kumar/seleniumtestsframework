@@ -157,7 +157,7 @@ public class WebUIDriver {
         } else {
             if (config.getBrowser() == BrowserType.FireFox) {
                 webDriverBuilder = new FirefoxDriverFactory(this.config);
-            } if (config.getBrowser() == BrowserType.Marionette) {
+            } else if (config.getBrowser() == BrowserType.Marionette) {
                 webDriverBuilder = new MarionetteDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.InternetExplore) {
                 webDriverBuilder = new IEDriverFactory(this.config);
@@ -174,7 +174,7 @@ public class WebUIDriver {
             } else if (config.getBrowser() == BrowserType.IPhone) {
                 webDriverBuilder = new IPhoneDriverFactory(this.config);
             } else {
-                throw new RuntimeException("Unsupported browser" + browser);
+                throw new RuntimeException("Unsupported browser: " + browser);
             }
         }
 
