@@ -2,7 +2,7 @@
        verbose="1" thread-count="5">
     <listeners>
         <listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
-        <!--<listener class-name="com.seleniumtests.core.TestRetryListener" />-->
+        <listener class-name="com.seleniumtests.core.TestRetryListener" />
     </listeners>
 
     <parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
