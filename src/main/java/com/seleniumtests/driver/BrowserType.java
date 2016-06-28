@@ -15,6 +15,7 @@ package com.seleniumtests.driver;
 
 public enum BrowserType {
     FireFox("*firefox"),
+    Marionette("*marionette"),
     InternetExplore("*iexplore"),
     Chrome("*chrome"),
     HtmlUnit("*htmlunit"),
@@ -27,6 +28,8 @@ public enum BrowserType {
     public static BrowserType getBrowserType(final String browserType) {
         if (browserType.equalsIgnoreCase("*firefox") || browserType.equalsIgnoreCase("firefox")) {
             return BrowserType.FireFox;
+        }if (browserType.equalsIgnoreCase("*marionette") || browserType.equalsIgnoreCase("marionette")) {
+            return BrowserType.Marionette;
         } else if (browserType.equalsIgnoreCase("*iexplore") || browserType.equalsIgnoreCase("iexplore")) {
             return BrowserType.InternetExplore;
         } else if (browserType.equalsIgnoreCase("*chrome") || browserType.equalsIgnoreCase("chrome")) {
