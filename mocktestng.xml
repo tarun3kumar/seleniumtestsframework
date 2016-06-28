@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="methods"
+<suite name="Selenium Framework Test Suite" parallel="false"
 	verbose="1" thread-count="5">
 	<listeners>
 		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
@@ -46,23 +46,23 @@
         </classes>
     </test>-->
 
-    <test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
-        <!--testType parameter is optional for web test, since testType defaults to web-->
+    <!--<test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
+        &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
         <parameter name="testType" value="Web" />
         <parameter name="browser" value="*firefox" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
-    </test>
+    </test>-->
 
-    <!-- <test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
-       &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
+     <test name="WebTest - Test Link Login Test in Marionette">
+       <!--testType parameter is optional for web test, since testType defaults to web-->
        <parameter name="testType" value="Web" />
        <parameter name="browser" value="*marionette" />
        <classes>
            <class name="com.seleniumtests.tests.RegistrationTest" />
        </classes>
-   </test>-->
+   </test>
 
     <!--<test name="NonGUITest - Multiple assertion failures">
         <parameter name="testType" value="NonGUI" />
