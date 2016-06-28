@@ -1,9 +1,8 @@
-<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="methods"
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" > <suite name="Selenium Framework Test Suite" parallel="methods"
        verbose="1" thread-count="5">
     <listeners>
         <listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
-        <listener class-name="com.seleniumtests.core.TestRetryListener" />
+        <!--<listener class-name="com.seleniumtests.core.TestRetryListener" />-->
     </listeners>
 
     <parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
@@ -91,11 +90,11 @@
         </classes>
     </test>
 
-    <test name="ios m-site Test" parallel="false">
+    <test name="iOS m-site Test" parallel="false">
         <parameter name="testType" value="Web" />
         <!--browser *iphone is used to run tests on both iphone and ipad-->
         <parameter name="browser" value="*iphone" />
-        <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
+        <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
         <parameter name="automationName" value="Appium"/>
         <parameter name="platform" value="iOS"/>
         <!-- You can find the device name, version on ios by executing command "instruments -s devices" -->
@@ -147,7 +146,7 @@
     <test name="iOS App test" parallel="false">
         <parameter name="browser" value="*iphone" />
         <parameter name="testType" value="app" />
-        <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
+        <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
         <parameter name="automationName" value="Appium"/>
         <parameter name="platform" value="iOS"/>
         <parameter name="mobilePlatformVersion" value="8.4"/>
@@ -169,6 +168,7 @@
         <classes>
             <class name="com.seleniumtests.tests.IOSAppTest" />
         </classes>
+
     </test>
 
     <test name="SauceLabs test" parallel="false">

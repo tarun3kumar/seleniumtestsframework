@@ -40,6 +40,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import org.testng.Assert;
 
+import java.util.Set;
+
 
 /**
  * Base html page abstraction. Used by PageObject and WebPageSection
@@ -469,6 +471,33 @@ public abstract class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 element.getBy()));
+    }
+
+    public static void waitForURLToChange(String url, int waitSeconds) {
+
+        for (int i = 0; i < waitSeconds; i++) {
+
+            if (WebUIDriver.getWebDriver().getCurrentUrl().equals(url)) {
+                break;
+            } else {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void switchToWindow(Set<String> allWindows,
+                                      String currentWindow) {
+
+        for (String window : allWindows) {
+
+            if (!window.equals(currentWindow)) {
+                WebUIDriver.getWebDriver().switchTo().window(window);
+            }
+        }
     }
 
     public void waitForElementToDisappear(final HtmlElement element) {
