@@ -48,7 +48,7 @@
     <test name="WebTest - Test Link Login Test in Firefox">
         <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
-        <parameter name="browser" value="*chrome" />
+        <parameter name="browser" value="*firefox" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
