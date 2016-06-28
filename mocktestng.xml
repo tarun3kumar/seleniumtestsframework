@@ -7,7 +7,7 @@
 	</listeners>
 
 	<parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
-	<parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore, *android"-->
+	<parameter name="browser" value="*chrome" />  <!--"*firefox, *marionette, *chrome, *iexplore, *android"-->
 	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -46,14 +46,23 @@
         </classes>
     </test>-->
 
-   <!-- <test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
-        &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
+    <test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
         <parameter name="browser" value="*firefox" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
-    </test>-->
+    </test>
+
+    <!-- <test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
+       &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
+       <parameter name="testType" value="Web" />
+       <parameter name="browser" value="*marionette" />
+       <classes>
+           <class name="com.seleniumtests.tests.RegistrationTest" />
+       </classes>
+   </test>-->
 
     <!--<test name="NonGUITest - Multiple assertion failures">
         <parameter name="testType" value="NonGUI" />
@@ -148,7 +157,7 @@
         </classes>
     </test>-->
 
-    <test name="iOS App test" parallel="false">
+    <!--<test name="iOS App test" parallel="false">
         <parameter name="browser" value="*iphone" />
         <parameter name="testType" value="app" />
         <parameter name="appiumServerURL" value="http://10.161.53.171:4723/wd/hub"/>
@@ -157,10 +166,10 @@
         <parameter name="mobilePlatformVersion" value="8.4"/>
         <parameter name="deviceName" value="iPhone 6"/>
 
-        <!--Path to app, if appium server is running on a different machine then this path corresponds to machine
-        where appium server is running-->
+        &lt;!&ndash;Path to app, if appium server is running on a different machine then this path corresponds to machine
+        where appium server is running&ndash;&gt;
         <parameter name="app" value="/Users/tbhadauria/Downloads/UICatalog.app"/>
-        <!--browserName should be empty string when automating app-->
+        &lt;!&ndash;browserName should be empty string when automating app&ndash;&gt;
         <parameter name="browserName" value=""/>
         <parameter name="newCommandTimeout" value="120"/>
         <parameter name="parallel" value="false"/>
@@ -173,7 +182,7 @@
         <classes>
             <class name="com.seleniumtests.tests.IOSAppTest" />
         </classes>
-    </test>
+    </test>-->
 
     <!--<test name="SauceLabs test" parallel="false">
         <parameter name="browser" value="*saucelabs" />
