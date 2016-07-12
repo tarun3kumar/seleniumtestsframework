@@ -26,6 +26,7 @@ import org.openqa.selenium.WebDriver;
 import com.seleniumtests.driver.DriverConfig;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.WebDriverException;
 
 /**
  * AndroidDriverFactory.
@@ -60,8 +61,7 @@ public class AndroidDriverFactory extends AbstractWebDriverFactory implements IW
     protected void setPageLoadTimeout(final long timeout) {
         try {
             driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
-        } catch (UnsupportedCommandException e) {
-            // chromedriver does not support pageLoadTimeout
+        } catch (WebDriverException e) {
         }
     }
 
