@@ -34,6 +34,12 @@ public class DriverExceptionListener implements WebDriverEventListener {
 
     public void afterNavigateForward(final WebDriver arg0) { }
 
+    @Override
+    public void beforeNavigateRefresh(WebDriver webDriver) {}
+
+    @Override
+    public void afterNavigateRefresh(WebDriver webDriver) {}
+
     public void afterNavigateTo(final String arg0, final WebDriver arg1) { }
 
     public void afterScript(final String arg0, final WebDriver arg1) { }

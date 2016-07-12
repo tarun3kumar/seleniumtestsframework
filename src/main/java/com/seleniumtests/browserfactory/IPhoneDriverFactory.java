@@ -13,32 +13,28 @@
 
 package com.seleniumtests.browserfactory;
 
-import java.io.IOException;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.util.concurrent.TimeUnit;
-
+import com.seleniumtests.driver.DriverConfig;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 
-import com.seleniumtests.driver.DriverConfig;
-
-import io.appium.java_client.android.AndroidDriver;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 /**
- * AndroidDriverFactory.
+ * IPhone Driver Factory
  */
-public class AndroidDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {
+public class IPhoneDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {
 
-    public AndroidDriverFactory(final DriverConfig webDriverConfig) {
+    public IPhoneDriverFactory(final DriverConfig webDriverConfig) {
         super(webDriverConfig);
     }
 
     protected WebDriver createNativeDriver() throws MalformedURLException {
 
-        return new AndroidDriver(new URL(webDriverConfig.getAppiumServerURL()), new AndroidCapabilitiesFactory()
+        return new IOSDriver(new URL(webDriverConfig.getAppiumServerURL()), new IPhoneCapabilitiesFactory()
                     .createCapabilities(webDriverConfig));
     }
 

@@ -1,5 +1,4 @@
-<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="methods"
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" > <suite name="Selenium Framework Test Suite" parallel="methods"
        verbose="1" thread-count="5">
     <listeners>
         <listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
@@ -7,7 +6,7 @@
     </listeners>
 
     <parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
-    <parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore, *android"-->
+    <parameter name="browser" value="*chrome" />  <!--"*firefox, *marionette, *chrome, *iexplore, *android"-->
     <parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -45,11 +44,19 @@
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
     </test>
-
     <test name="WebTest - Test Link Login Test in Firefox">
         <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
         <parameter name="browser" value="*firefox" />
+        <classes>
+            <class name="com.seleniumtests.tests.RegistrationTest" />
+        </classes>
+    </test>
+
+    <test name="WebTest - Test Link Login Test in Marionette">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
+        <parameter name="testType" value="Web" />
+        <parameter name="browser" value="*marionette" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
@@ -92,6 +99,26 @@
         </classes>
     </test>
 
+    <test name="iOS m-site Test" parallel="false">
+        <parameter name="testType" value="Web" />
+        <!--browser *iphone is used to run tests on both iphone and ipad-->
+        <parameter name="browser" value="*iphone" />
+        <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="iOS"/>
+        <!-- You can find the device name, version on ios by executing command "instruments -s devices" -->
+        <parameter name="mobilePlatformVersion" value="8.4"/>
+        <parameter name="deviceName" value="iPhone 6"/>
+        <parameter name="app" value="Safari"/>
+        <parameter name="browserName" value="Safari"/>
+        <parameter name="newCommandTimeout" value="120"/>
+
+        <parameter name="parallel" value="false"/>
+
+        <classes>
+            <class name="com.seleniumtests.tests.RegistrationTest" />
+        </classes>
+    </test>
 
     <test name="Android App test" parallel="false">
         <parameter name="browser" value="*android" />
@@ -113,7 +140,6 @@
         <!--browserName should be empty string when automating app-->
         <parameter name="browserName" value=""/>
         <parameter name="newCommandTimeout" value="120"/>
-
         <parameter name="parallel" value="false"/>
 
         <groups>
@@ -124,6 +150,34 @@
         <classes>
             <class name="com.seleniumtests.tests.AndroidAppTest" />
         </classes>
+    </test>
+
+    <test name="iOS App test" parallel="false">
+        <parameter name="browser" value="*iphone" />
+        <parameter name="testType" value="app" />
+        <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
+        <parameter name="automationName" value="Appium"/>
+        <parameter name="platform" value="iOS"/>
+        <parameter name="mobilePlatformVersion" value="8.4"/>
+        <parameter name="deviceName" value="iPhone 6"/>
+
+        <!--Path to app, if appium server is running on a different machine then this path corresponds to machine
+        where appium server is running-->
+        <parameter name="app" value="/Users/tbhadauria/Downloads/UICatalog.app"/>
+        <!--browserName should be empty string when automating app-->
+        <parameter name="browserName" value=""/>
+        <parameter name="newCommandTimeout" value="120"/>
+        <parameter name="parallel" value="false"/>
+
+        <groups>
+            <run>
+                <include name="verifyUICatalogScreen"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.seleniumtests.tests.IOSAppTest" />
+        </classes>
+
     </test>
 
     <test name="SauceLabs test" parallel="false">

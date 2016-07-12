@@ -13,23 +13,6 @@
 
 package com.seleniumtests.webelements;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.UnhandledAlertException;
-import org.openqa.selenium.UnsupportedCommandException;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.UnreachableBrowserException;
-
-import org.testng.Assert;
-
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 
 import com.seleniumtests.core.CustomAssertion;
@@ -51,6 +34,25 @@ import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
 import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
+
+import org.apache.log4j.Logger;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.UnhandledAlertException;
+import org.openqa.selenium.UnsupportedCommandException;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.UnreachableBrowserException;
+import org.openqa.selenium.server.browserlaunchers.Sleeper;
+
+import org.testng.Assert;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 
 public class PageObject extends BasePage implements IPage {
 
@@ -86,7 +88,8 @@ public class PageObject extends BasePage implements IPage {
      *
      * @throws  Exception
      */
-    public PageObject(final HtmlElement pageIdentifierElement) throws Exception {
+    public PageObject(final HtmlElement pageIdentifierElement)
+        throws Exception {
         this(pageIdentifierElement, null);
     }
 
@@ -97,14 +100,18 @@ public class PageObject extends BasePage implements IPage {
      *
      * @throws  Exception
      */
-    public PageObject(final HtmlElement pageIdentifierElement, final String url) throws Exception {
+    public PageObject(final HtmlElement pageIdentifierElement, final String url)
+        throws Exception {
         Calendar start = Calendar.getInstance();
         start.setTime(new Date());
 
-        if (SeleniumTestsContextManager.getGlobalContext() != null
-                && SeleniumTestsContextManager.getGlobalContext().getTestNGContext() != null) {
-            suiteName = SeleniumTestsContextManager.getGlobalContext().getTestNGContext().getSuite().getName();
-            outputDirectory = SeleniumTestsContextManager.getGlobalContext().getTestNGContext().getOutputDirectory();
+        if ((SeleniumTestsContextManager.getGlobalContext() != null) &&
+                (SeleniumTestsContextManager.getGlobalContext()
+                    .getTestNGContext() != null)) {
+            suiteName = SeleniumTestsContextManager.getGlobalContext()
+                .getTestNGContext().getSuite().getName();
+            outputDirectory = SeleniumTestsContextManager.getGlobalContext()
+                .getTestNGContext().getOutputDirectory();
         }
 
         this.pageIdentifierElement = pageIdentifierElement;
@@ -135,88 +142,115 @@ public class PageObject extends BasePage implements IPage {
 
         long startTime = start.getTimeInMillis();
         long endTime = end.getTimeInMillis();
-        if ((endTime - startTime) / 1000 > 0) {
-            TestLogging.log("Open web page in :" + (endTime - startTime) / 1000 + "seconds");
+
+        if (((endTime - startTime) / 1000) > 0) {
+            TestLogging.log("Open web page in :" +
+                ((endTime - startTime) / 1000) + "seconds");
         }
     }
 
     public void assertCookiePresent(final String name) {
-        TestLogging.logWebStep(null, "assert cookie " + name + " is present.", false);
-        assertHTML(getCookieByName(name) != null, "Cookie: {" + name + "} not found.");
+        TestLogging.logWebStep(null, "assert cookie " + name + " is present.",
+            false);
+        assertHTML(getCookieByName(name) != null,
+            "Cookie: {" + name + "} not found.");
     }
 
-    @Override
-    protected void assertCurrentPage(final boolean log) throws NotCurrentPageException {
+    @Override protected void assertCurrentPage(final boolean log)
+        throws NotCurrentPageException {
 
-        if (pageIdentifierElement == null) { }
-        else if (this.isElementPresent(pageIdentifierElement.getBy())) { }
-        else {
+        if (pageIdentifierElement == null) {
+        } else if (this.isElementPresent(pageIdentifierElement.getBy())) {
+        } else {
+
             try {
-                if (!SeleniumTestsContextManager.getThreadContext().getCaptureSnapshot()) {
+
+                if (
+                    !SeleniumTestsContextManager.getThreadContext()
+                        .getCaptureSnapshot()) {
                     new ScreenshotUtil(driver).capturePageSnapshotOnException();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            throw new NotCurrentPageException(getClass().getCanonicalName()
-                    + " is not the current page.\nPageIdentifierElement " + pageIdentifierElement.toString()
-                    + " is not found.");
+            throw new NotCurrentPageException(getClass().getCanonicalName() +
+                " is not the current page.\nPageIdentifierElement " +
+                pageIdentifierElement.toString() + " is not found.");
         }
 
         if (log) {
             TestLogging.logWebStep(null,
-                "assert \"" + getClass().getSimpleName() + "\" is the current page"
-                    + (pageIdentifierElement != null
-                        ? " (assert PageIdentifierElement " + pageIdentifierElement.toHTML() + " is present)." : "."),
-                false);
+                "assert \"" + getClass().getSimpleName() +
+                "\" is the current page" +
+                ((pageIdentifierElement != null)
+                    ? (" (assert PageIdentifierElement " +
+                        pageIdentifierElement.toHTML() + " is present).")
+                    : "."), false);
         }
     }
 
     public void assertHtmlSource(final String text) {
-        TestLogging.logWebStep(null, "assert text \"" + text + "\" is present in page source.", false);
-        assertHTML(getHtmlSource().contains(text), "Text: {" + text + "} not found on page source.");
+        TestLogging.logWebStep(null,
+            "assert text \"" + text + "\" is present in page source.", false);
+        assertHTML(getHtmlSource().contains(text),
+            "Text: {" + text + "} not found on page source.");
     }
 
     public void assertKeywordNotPresent(final String text) {
-        TestLogging.logWebStep(null, "assert text \"" + text + "\" is present in page source.", false);
-        Assert.assertFalse(getHtmlSource().contains(text), "Text: {" + text + "} not found on page source.");
+        TestLogging.logWebStep(null,
+            "assert text \"" + text + "\" is present in page source.", false);
+        Assert.assertFalse(getHtmlSource().contains(text),
+            "Text: {" + text + "} not found on page source.");
     }
 
     public void assertLocation(final String urlPattern) {
-        TestLogging.logWebStep(null, "assert location \"" + urlPattern + "\".", false);
-        assertHTML(getLocation().contains(urlPattern), "Pattern: {" + urlPattern + "} not found on page location.");
+        TestLogging.logWebStep(null, "assert location \"" + urlPattern + "\".",
+            false);
+        assertHTML(getLocation().contains(urlPattern),
+            "Pattern: {" + urlPattern + "} not found on page location.");
     }
 
     public void assertPageSectionPresent(final WebPageSection pageSection) {
-        TestLogging.logWebStep(null, "assert pagesection \"" + pageSection.getName() + "\"  is present.", false);
-        assertElementPresent(new HtmlElement(pageSection.getName(), pageSection.getBy()));
+        TestLogging.logWebStep(null,
+            "assert pagesection \"" + pageSection.getName() + "\"  is present.",
+            false);
+        assertElementPresent(new HtmlElement(pageSection.getName(),
+                pageSection.getBy()));
     }
 
     public void assertTitle(final String text) {
-        TestLogging.logWebStep(null, "assert text \"" + text + "\"  is present on title.", false);
-        assertHTML(getTitle().contains(text), "Text: {" + text + "} not found on page title.");
+        TestLogging.logWebStep(null,
+            "assert text \"" + text + "\"  is present on title.", false);
+        assertHTML(getTitle().contains(text),
+            "Text: {" + text + "} not found on page title.");
 
     }
 
     public void capturePageSnapshot() {
-        ScreenShot screenShot = new ScreenshotUtil(driver).captureWebPageSnapshot();
+        ScreenShot screenShot = new ScreenshotUtil(driver)
+            .captureWebPageSnapshot();
         this.title = screenShot.getTitle();
 
         if (screenShot.getHtmlSourcePath() != null) {
-            htmlFilePath = screenShot.getHtmlSourcePath().replace(suiteName, outputDirectory);
+            htmlFilePath = screenShot.getHtmlSourcePath().replace(suiteName,
+                    outputDirectory);
             htmlSavedToPath = screenShot.getHtmlSourcePath();
         }
 
         if (screenShot.getImagePath() != null) {
-            imageFilePath = screenShot.getImagePath().replace(suiteName, outputDirectory);
+            imageFilePath = screenShot.getImagePath().replace(suiteName,
+                    outputDirectory);
         }
 
-        TestLogging.logWebOutput(url, title + " (" + TestLogging.buildScreenshotLog(screenShot) + ")", false);
+        TestLogging.logWebOutput(url,
+            title + " (" + TestLogging.buildScreenshotLog(screenShot) + ")",
+            false);
 
     }
 
     public final void close() throws NotCurrentPageException {
+
         if (WebUIDriver.getWebDriver() == null) {
             return;
         }
@@ -225,21 +259,26 @@ public class PageObject extends BasePage implements IPage {
         TestLogging.log("close web page");
 
         boolean isMultipleWindow = false;
+
         if (driver.getWindowHandles().size() > 1) {
             isMultipleWindow = true;
         }
 
         try {
             driver.close();
-        } catch (WebDriverException ignore) { }
+        } catch (WebDriverException ignore) {
+        }
 
         if (WebUIDriver.getWebUIDriver().getMode().equalsIgnoreCase("LOCAL")) {
+
             try {
                 Thread.sleep(1000 * 2);
-            } catch (InterruptedException e) { }
+            } catch (InterruptedException e) {
+            }
         }
 
         try {
+
             if (isMultipleWindow) {
                 this.selectWindow();
             } else {
@@ -258,12 +297,15 @@ public class PageObject extends BasePage implements IPage {
      * @param  offsetX  in pixels from the current location to which the element should be moved, e.g., 70
      * @param  offsetY  in pixels from the current location to which the element should be moved, e.g., -300
      */
-    public void dragAndDrop(final HtmlElement element, final int offsetX, final int offsetY) {
+    public void dragAndDrop(final HtmlElement element, final int offsetX,
+        final int offsetY) {
         TestLogging.logWebStep(null,
-            "dragAndDrop " + element.toHTML() + " to offset(x,y): (" + offsetX + "," + offsetY + ")", false);
+            "dragAndDrop " + element.toHTML() + " to offset(x,y): (" + offsetX +
+            "," + offsetY + ")", false);
         element.captureSnapshot("before draging");
 
-        new Actions(driver).dragAndDropBy((WebElement) element.getElement(), offsetX, offsetY).perform();
+        new Actions(driver).dragAndDropBy((WebElement) element.getElement(),
+            offsetX, offsetY).perform();
         element.captureSnapshot("after dropping");
     }
 
@@ -272,6 +314,7 @@ public class PageObject extends BasePage implements IPage {
     }
 
     public final String getCookieByName(final String name) {
+
         if (driver.manage().getCookieNamed(name) == null) {
             return null;
         }
@@ -279,12 +322,14 @@ public class PageObject extends BasePage implements IPage {
         return driver.manage().getCookieNamed(name).getValue();
     }
 
-    public final int getElementCount(final HtmlElement element) throws CustomSeleniumTestsException {
+    public final int getElementCount(final HtmlElement element)
+        throws CustomSeleniumTestsException {
         return driver.findElements(element.getBy()).size();
     }
 
     public String getEval(final String expression) {
         CustomAssertion.assertTrue(false, "focus not implemented yet");
+
         return null;
     }
 
@@ -310,13 +355,18 @@ public class PageObject extends BasePage implements IPage {
      * @return  jsErrors in format "line number, errorLogger message, source name; "
      */
     public String getJSErrors() {
+
         if (WebUIDriver.getWebUIDriver().isAddJSErrorCollectorExtension()) {
-            List<JavaScriptError> jsErrorList = JavaScriptError.readErrors(driver);
+            List<JavaScriptError> jsErrorList = JavaScriptError.readErrors(
+                    driver);
+
             if (!jsErrorList.isEmpty()) {
                 String jsErrors = "";
+
                 for (JavaScriptError aJsErrorList : jsErrorList) {
-                    jsErrors += aJsErrorList.getLineNumber() + ", " + aJsErrorList.getErrorMessage() + ", "
-                            + aJsErrorList.getSourceName() + "; ";
+                    jsErrors += aJsErrorList.getLineNumber() + ", " +
+                        aJsErrorList.getErrorMessage() + ", " +
+                        aJsErrorList.getSourceName() + "; ";
                 }
 
                 return jsErrors;
@@ -335,7 +385,8 @@ public class PageObject extends BasePage implements IPage {
     }
 
     public int getTimeout() {
-        return SeleniumTestsContextManager.getThreadContext().getWebSessionTimeout();
+        return SeleniumTestsContextManager.getThreadContext()
+            .getWebSessionTimeout();
     }
 
     public String getTitle() {
@@ -347,7 +398,8 @@ public class PageObject extends BasePage implements IPage {
     }
 
     public String getCanonicalURL() {
-        return new LinkElement("Canonical URL", By.cssSelector("link[rel=canonical]")).getAttribute("href");
+        return new LinkElement("Canonical URL",
+                By.cssSelector("link[rel=canonical]")).getAttribute("href");
     }
 
     public String getWindowHandle() {
@@ -386,6 +438,7 @@ public class PageObject extends BasePage implements IPage {
         }
 
         setUrl(url);
+
         try {
 
             // Navigate to app URL for browser test
@@ -418,13 +471,16 @@ public class PageObject extends BasePage implements IPage {
     }
 
     private void populateAndCapturePageSnapshot() {
+
         try {
             setTitle(driver.getTitle());
             htmlSource = driver.getPageSource();
+
             try {
                 bodyText = driver.findElement(By.tagName("body")).getText();
             } catch (StaleElementReferenceException ignore) {
-                logger.warn("StaleElementReferenceException got in populateAndCapturePageSnapshot");
+                logger.warn(
+                    "StaleElementReferenceException got in populateAndCapturePageSnapshot");
                 bodyText = driver.findElement(By.tagName("body")).getText();
             }
 
@@ -441,6 +497,7 @@ public class PageObject extends BasePage implements IPage {
 
     public final void refresh() throws NotCurrentPageException {
         TestLogging.logWebStep(null, "refresh", false);
+
         try {
             driver.navigate().refresh();
         } catch (org.openqa.selenium.TimeoutException ex) {
@@ -459,37 +516,65 @@ public class PageObject extends BasePage implements IPage {
     }
 
     public final void selectFrame(final By by) {
-        TestLogging.logWebStep(null, "select frame, locator={\"" + by.toString() + "\"}", false);
+        TestLogging.logWebStep(null,
+            "select frame, locator={\"" + by.toString() + "\"}", false);
         driver.switchTo().frame(driver.findElement(by));
         frameFlag = true;
     }
 
     public final void selectFrame(final String locator) {
-        TestLogging.logWebStep(null, "select frame, locator={\"" + locator + "\"}", false);
+        TestLogging.logWebStep(null,
+            "select frame, locator={\"" + locator + "\"}", false);
         driver.switchTo().frame(locator);
         frameFlag = true;
     }
 
     public final void selectWindow() throws NotCurrentPageException {
-        TestLogging.logWebStep(null, "select window, locator={\"" + getPopupWindowName() + "\"}", false);
+        TestLogging.logWebStep(null,
+            "select window, locator={\"" + getPopupWindowName() + "\"}", false);
 
         // selectWindow(getPopupWindowName());
-        driver.switchTo().window((String) driver.getWindowHandles().toArray()[0]);
+        driver.switchTo().window((String)
+            driver.getWindowHandles().toArray()[0]);
         waitForSeconds(1);
 
         // Check whether it's the expected page.
         assertCurrentPage(true);
     }
 
-    public final void selectWindow(final int index) throws NotCurrentPageException {
-        TestLogging.logWebStep(null, "select window, locator={\"" + index + "\"}", false);
-        driver.switchTo().window((String) driver.getWindowHandles().toArray()[index]);
+    public final void selectWindow(final int index)
+        throws NotCurrentPageException {
+        TestLogging.logWebStep(null,
+            "select window, locator={\"" + index + "\"}", false);
+        driver.switchTo().window((String)
+            driver.getWindowHandles().toArray()[index]);
     }
 
     public final void selectNewWindow() throws NotCurrentPageException {
         TestLogging.logWebStep(null, "select new window", false);
-        driver.switchTo().window((String) driver.getWindowHandles().toArray()[1]);
+        driver.switchTo().window((String)
+            driver.getWindowHandles().toArray()[1]);
         waitForSeconds(1);
+    }
+
+    /**
+     * Waits for given URL term to appear when there is URL redirect
+     *
+     * @param urlTerm
+     * @param waitCount
+     */
+    public static void waitForGivenURLTermToAppear(String urlTerm,
+        int waitCount) {
+
+        for (int index = 0; index < waitCount; index++) {
+
+            if (WebUIDriver.getWebDriver().getCurrentUrl().contains(urlTerm)) {
+                break;
+            } else {
+                Sleeper.sleepTightInSeconds(1);
+                index = index + 1;
+            }
+        }
     }
 
     protected void setHtmlSavedToPath(final String htmlSavedToPath) {
@@ -505,28 +590,34 @@ public class PageObject extends BasePage implements IPage {
     }
 
     public void switchToDefaultContent() {
+
         try {
             driver.switchTo().defaultContent();
-        } catch (UnhandledAlertException e) { }
+        } catch (UnhandledAlertException e) {
+        }
     }
 
     private void waitForPageToLoad() throws Exception {
+
         try {
             new Wait() {
-                @Override
-                public boolean until() {
-                    try {
-                        driver.switchTo().defaultContent();
-                        return true;
-                    } catch (UnhandledAlertException ex) {
-                        WaitHelper.waitForSeconds(2);
-                    } catch (WebDriverException e) { }
+                    @Override public boolean until() {
 
-                    return false;
-                }
-            }.wait(String.format("Timed out waiting for page to load"),
+                        try {
+                            driver.switchTo().defaultContent();
+
+                            return true;
+                        } catch (UnhandledAlertException ex) {
+                            WaitHelper.waitForSeconds(2);
+                        } catch (WebDriverException e) {
+                        }
+
+                        return false;
+                    }
+                }.wait(String.format("Timed out waiting for page to load"),
                 WebUIDriver.getWebUIDriver().getWebSessionTimeout());
-        } catch (WaitTimedOutException ex) { }
+        } catch (WaitTimedOutException ex) {
+        }
 
         // populate page info
         try {
@@ -540,10 +631,12 @@ public class PageObject extends BasePage implements IPage {
 
     public WebElement getElement(final By by, final String elementName) {
         WebElement element = null;
+
         try {
             element = driver.findElement(by);
         } catch (ElementNotFoundException e) {
-            TestLogging.errorLogger(elementName + " is not found with locator - " + by.toString());
+            TestLogging.errorLogger(elementName +
+                " is not found with locator - " + by.toString());
             throw e;
         }
 
