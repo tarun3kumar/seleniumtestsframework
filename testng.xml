@@ -53,6 +53,17 @@
         </classes>
     </test>
 
+    <test name="WebTest - JS Error Test">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
+        <parameter name="appURL" value="http://webdriverjsdemo.github.io/error/"/>
+        <parameter name="eventFiringWebDriver" value="true"/>
+        <parameter name="testType" value="Web" />
+        <parameter name="browser" value="*chrome" />
+        <classes>
+            <class name="com.seleniumtests.tests.JSErrorTest" />
+        </classes>
+    </test>
+
     <test name="WebTest - Test Link Login Test in Marionette">
         <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
