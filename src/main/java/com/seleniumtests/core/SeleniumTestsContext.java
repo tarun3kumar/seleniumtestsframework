@@ -60,6 +60,7 @@ public class SeleniumTestsContext {
     public static final String Set_Assume_Untrusted_Certificate_Issuer = "setAssumeUntrustedCertificateIssuer";
     public static final String Set_Accept_Untrusted_Certificates = "setAcceptUntrustedCertificates";
     public static final String ENABLE_JAVASCRIPT = "enableJavascript";
+    public static final String EVENT_FIRING_WEB_DRIVER = "eventFiringWebDriver";
     public static final String NTLM_AUTH_TRUSTED_URIS = "ntlmAuthTrustedUris";
     public static final String BROWSER_DOWNLOAD_DIR = "browserDownloadDir";
     public static final String BROWSER_WINDOW_SIZE = "browserWindowSize";
