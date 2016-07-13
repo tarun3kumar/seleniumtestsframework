@@ -24,7 +24,7 @@ public class CheckBoxElement extends HtmlElement {
     }
 
     public void check() {
-        TestLogging.logWebStep(null, "check " + toHTML(), false);
+        TestLogging.logWebStep("check " + toHTML(), false);
         if (!isSelected()) {
             super.click();
         }
@@ -32,7 +32,7 @@ public class CheckBoxElement extends HtmlElement {
 
     @Override
     public void click() {
-        TestLogging.logWebStep(null, "click on " + toHTML(), false);
+        TestLogging.logWebStep("click on " + toHTML(), false);
         super.click();
     }
 
@@ -42,7 +42,7 @@ public class CheckBoxElement extends HtmlElement {
     }
 
     public void uncheck() {
-        TestLogging.logWebStep(null, "uncheck " + toHTML(), false);
+        TestLogging.logWebStep("uncheck " + toHTML(), false);
         if (isSelected()) {
             super.click();
         }
