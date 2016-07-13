@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.seleniumtests.browserfactory.*;
+import com.seleniumtests.core.CustomEventListener;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
 import com.seleniumtests.core.SeleniumTestsContext;
@@ -71,7 +73,7 @@ public class WebUIDriver {
     /**
      * Returns native WebDriver which can be converted to RemoteWebDriver.
      *
-     * @return  webDriver
+     * @return webDriver
      */
     public static WebDriver getNativeWebDriver() {
         return ((CustomEventFiringWebDriver) getWebDriver(false)).getWebDriver();
@@ -80,7 +82,7 @@ public class WebUIDriver {
     /**
      * Get EventFiringWebDriver.
      *
-     * @return  webDriver
+     * @return webDriver
      */
     public static WebDriver getWebDriver() {
         return getWebDriver(false);
@@ -89,8 +91,7 @@ public class WebUIDriver {
     /**
      * Returns WebDriver instance Creates a new WebDriver Instance if it is null and isCreate is true.
      *
-     * @param   isCreate  create webdriver or not
-     *
+     * @param isCreate create webdriver or not
      * @return
      */
     public static WebDriver getWebDriver(final Boolean isCreate) {
@@ -121,7 +122,7 @@ public class WebUIDriver {
     /**
      * Lets user set their own driver This can be retrieved as WebUIDriver.getWebDriver().
      *
-     * @param  driver
+     * @param driver
      */
     public static void setWebDriver(final WebDriver driver) {
         if (driver == null) {
@@ -180,10 +181,18 @@ public class WebUIDriver {
 
         synchronized (this.getClass()) {
             driver = webDriverBuilder.createWebDriver();
+            if(config.isEventFiringWebDriver()) {
+                CustomEventListener eventListener = new CustomEventListener();
+                EventFiringWebDriver eventFiringWebDriver = new EventFiringWebDriver(driver);
+                eventFiringWebDriver.register(eventListener);
+                WebUIDriver.setWebDriver(eventFiringWebDriver);
+                driverSession.set(eventFiringWebDriver);
+                driver = handleListeners(eventFiringWebDriver);
+            } else {
+                driverSession.set(driver);
+                driver = handleListeners(driver);
+            }
         }
-
-        driver = handleListeners(driver);
-
         return driver;
     }
 
@@ -203,10 +212,9 @@ public class WebUIDriver {
                 + this.getBrowser());
         driver = createRemoteWebDriver(config.getBrowser().getBrowserType(), config.getMode().name());
 
+        driverSession.set(driver);
         System.out.println(Thread.currentThread() + ":" + new Date() + ":::Finish creating web driver instance: "
                 + this.getBrowser());
-
-        driverSession.set(driver);
         return driver;
     }
 
@@ -314,6 +322,11 @@ public class WebUIDriver {
         String browser = SeleniumTestsContextManager.getThreadContext().getWebRunBrowser();
         config.setBrowser(BrowserType.getBrowserType(browser));
 
+        if ("true".equalsIgnoreCase((String) SeleniumTestsContextManager.getThreadContext()
+                .getAttribute(SeleniumTestsContext.EVENT_FIRING_WEB_DRIVER))) {
+            config.setEventFiringWebDriver(true);
+        }
+
         String mode = SeleniumTestsContextManager.getThreadContext().getWebRunMode();
         config.setMode(DriverMode.valueOf(mode));
 
@@ -365,19 +378,19 @@ public class WebUIDriver {
         }
 
         if ("false".equalsIgnoreCase(
-                    (String) SeleniumTestsContextManager.getThreadContext().getAttribute(
+                (String) SeleniumTestsContextManager.getThreadContext().getAttribute(
                         SeleniumTestsContext.Set_Assume_Untrusted_Certificate_Issuer))) {
             config.setSetAssumeUntrustedCertificateIssuer(false);
         }
 
         if ("false".equalsIgnoreCase(
-                    (String) SeleniumTestsContextManager.getThreadContext().getAttribute(
+                (String) SeleniumTestsContextManager.getThreadContext().getAttribute(
                         SeleniumTestsContext.Set_Accept_Untrusted_Certificates))) {
             config.setSetAcceptUntrustedCertificates(false);
         }
 
         if ("false".equalsIgnoreCase(
-                    (String) SeleniumTestsContextManager.getThreadContext().getAttribute(
+                (String) SeleniumTestsContextManager.getThreadContext().getAttribute(
                         SeleniumTestsContext.ENABLE_JAVASCRIPT))) {
             config.setEnableJavascript(false);
         }
@@ -430,7 +443,8 @@ public class WebUIDriver {
             try {
                 width = Integer.parseInt(size.split(",")[0].trim());
                 height = Integer.parseInt(size.split(",")[1].trim());
-            } catch (Exception ex) { }
+            } catch (Exception ex) {
+            }
 
             config.setBrowserWindowWidth(width);
             config.setBrowserWindowHeight(height);
