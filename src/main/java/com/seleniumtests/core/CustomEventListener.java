@@ -15,6 +15,8 @@ import java.util.logging.Level;
  */
 public class CustomEventListener extends AbstractWebDriverEventListener {
 
+    boolean isJSErrorFound;
+
 
     private void logErrors(String url, LogEntries logEntries) {
         if (logEntries.getAll().size() == 0) {
@@ -26,8 +28,10 @@ public class CustomEventListener extends AbstractWebDriverEventListener {
                     TestLogging.logWebStep("Time stamp: " + logEntry.getTimestamp() + ", " +
                             "Log level: " + logEntry
                             .getLevel() + ", Log message: " + logEntry.getMessage(), true);
+                    isJSErrorFound = true;
                 }
             }
+            assert !isJSErrorFound;
         }
     }
 
@@ -42,8 +46,10 @@ public class CustomEventListener extends AbstractWebDriverEventListener {
                     TestLogging.logWebStep("Time stamp: " + logEntry.getTimestamp() + ", " +
                             "Log level: " + logEntry
                             .getLevel() + ", Log message: " + logEntry.getMessage(), true);
+                    isJSErrorFound = true;
                 }
             }
+            assert !isJSErrorFound;
         }
     }
 
