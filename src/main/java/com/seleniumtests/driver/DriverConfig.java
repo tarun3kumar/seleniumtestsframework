@@ -39,9 +39,9 @@ public class DriverConfig {
     private String chromeDriverPath;
     private String chromeBinPath;
     private int webSessionTimeout = 90 * 1000;
-    public static final int DEFAULT_IMPLICIT_WAIT_TIMEOUT = 5;
-    public static final int DEFAULT_EXPLICIT_WAIT_TIME_OUT = 15;
-    public static final int DEFAULT_PAGE_LOAD_TIMEOUT = 90;
+    private static final int DEFAULT_IMPLICIT_WAIT_TIMEOUT = 5;
+    private static final int DEFAULT_EXPLICIT_WAIT_TIME_OUT = 15;
+    private static final int DEFAULT_PAGE_LOAD_TIMEOUT = 90;
     private double implicitWaitTimeout = DEFAULT_IMPLICIT_WAIT_TIMEOUT;
     private int explicitWaitTimeout = DEFAULT_EXPLICIT_WAIT_TIME_OUT;
     private int pageLoadTimeout = DEFAULT_PAGE_LOAD_TIMEOUT;
