@@ -88,7 +88,7 @@
         <parameter name="app" value="Browser"/>
 
         <!--Test on default emulator Browser
-        Set the property to "Chrome" to run test on chrome browser on android device instead of default Browser-->
+        Set the property "app" to "Chrome" to run test on chrome browser on android device instead of default Browser-->
         <parameter name="browserName" value="Browser"/>
         <parameter name="newCommandTimeout" value="120"/>
 
