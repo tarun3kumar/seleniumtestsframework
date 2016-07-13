@@ -81,7 +81,7 @@ import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.core.SeleniumTestsPageListener;
 import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.core.ITestRetryAnalyzer;
+import com.seleniumtests.core.TestRetryAnalyzer;
 
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
@@ -1113,9 +1113,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
     public synchronized void onTestFailure(final ITestResult arg0) {
         if (arg0.getMethod().getRetryAnalyzer() != null) {
-            ITestRetryAnalyzer testRetryAnalyzer = (ITestRetryAnalyzer) arg0.getMethod().getRetryAnalyzer();
+            TestRetryAnalyzer testRetryAnalyzer = (TestRetryAnalyzer) arg0.getMethod().getRetryAnalyzer();
 
-            if (testRetryAnalyzer.retryPeek(arg0)) {
+            if (testRetryAnalyzer.getCount() <= testRetryAnalyzer.getMaxCount()) {
                 arg0.setStatus(ITestResult.SKIP);
                 Reporter.setCurrentTestResult(null);
             } else {
