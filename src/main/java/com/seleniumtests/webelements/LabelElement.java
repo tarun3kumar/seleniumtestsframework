@@ -25,7 +25,7 @@ public class LabelElement extends HtmlElement {
 
     @Override
     public String getText() {
-        TestLogging.logWebStep(null, "get text from " + toHTML(), false);
+        TestLogging.logWebStep("get text from " + toHTML(), false);
         return super.getText();
     }
 
