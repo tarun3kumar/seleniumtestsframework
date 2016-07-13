@@ -41,7 +41,7 @@ public class SelectList extends HtmlElement {
      * De-selects all options in a multi-select list element.
      */
     public void deselectAll() {
-        TestLogging.logWebStep(null, "deselect all options on " + toHTML(), false);
+        TestLogging.logWebStep("deselect all options on " + toHTML(), false);
         findElement();
         if (!isMultiple()) {
             throw new UnsupportedOperationException("You may only deselect all options of a multi-select");
@@ -55,7 +55,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void deselectByIndex(final int index) {
-        TestLogging.logWebStep(null, "deselect index\"" + index + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("deselect index\"" + index + "\" on " + toHTML(), false);
         findElement();
 
         WebElement option = options.get(index);
@@ -65,7 +65,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void deselectByText(final String text) {
-        TestLogging.logWebStep(null, "deselect text\"" + text + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("deselect text\"" + text + "\" on " + toHTML(), false);
         findElement();
         for (WebElement option : options) {
             if (option.getAttribute("text").equals(text)) {
@@ -79,7 +79,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void deselectByValue(final String value) {
-        TestLogging.logWebStep(null, "deselect value\"" + value + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("deselect value\"" + value + "\" on " + toHTML(), false);
         findElement();
         for (WebElement option : options) {
             if (option.getAttribute("value").equals(value)) {
@@ -190,7 +190,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void selectByIndex(final int index) {
-        TestLogging.logWebStep(null, "make selection using index\"" + index + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("make selection using index\"" + index + "\" on " + toHTML(), false);
         findElement();
 
         WebElement option = options.get(index);
@@ -198,7 +198,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void selectByIndex(final int[] indexs) {
-        TestLogging.logWebStep(null, "make selection using indexs\"" + indexs.toString() + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("make selection using indexs\"" + indexs.toString() + "\" on " + toHTML(), false);
         findElement();
         for (int i = 0; i < indexs.length; i++) {
             WebElement option = options.get(indexs[i]);
@@ -212,7 +212,7 @@ public class SelectList extends HtmlElement {
      * @param  text
      */
     public void selectByText(final String text) {
-        TestLogging.logWebStep(null, "make selection using text\"" + text + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("make selection using text\"" + text + "\" on " + toHTML(), false);
         findElement();
         if (options == null) {
             driver.findElement(By.xpath("//li[text()='" + text + "']")).click();
@@ -235,7 +235,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void selectByText(final String[] texts) {
-        TestLogging.logWebStep(null, "make selection using texts\"" + texts + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("make selection using texts\"" + texts + "\" on " + toHTML(), false);
         findElement();
         for (int i = 0; i < texts.length; i++) {
             for (WebElement option : options) {
@@ -248,7 +248,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void selectByValue(final String value) {
-        TestLogging.logWebStep(null, "make selection using value\"" + value + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("make selection using value\"" + value + "\" on " + toHTML(), false);
         findElement();
         for (WebElement option : options) {
             if (option.getAttribute("value").equals(value)) {
@@ -259,7 +259,7 @@ public class SelectList extends HtmlElement {
     }
 
     public void selectByValue(final String[] values) {
-        TestLogging.logWebStep(null, "make selection using values\"" + values + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("make selection using values\"" + values + "\" on " + toHTML(), false);
         findElement();
         for (int i = 0; i < values.length; i++) {
             for (WebElement option : options) {
