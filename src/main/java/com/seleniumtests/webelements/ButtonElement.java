@@ -29,7 +29,7 @@ public class ButtonElement extends HtmlElement {
 
     @Override
     public void click() {
-        TestLogging.logWebStep(null, "click on " + toHTML(), false);
+        TestLogging.logWebStep("click on " + toHTML(), false);
 
         BrowserType browser = WebUIDriver.getWebUIDriver().getConfig().getBrowser();
         if (browser == BrowserType.InternetExplore) {
@@ -40,7 +40,7 @@ public class ButtonElement extends HtmlElement {
     }
 
     public void submit() {
-        TestLogging.logWebStep(null, "Submit form by clicking on " + toHTML(), false);
+        TestLogging.logWebStep("Submit form by clicking on " + toHTML(), false);
         findElement();
         element.submit();
     }
