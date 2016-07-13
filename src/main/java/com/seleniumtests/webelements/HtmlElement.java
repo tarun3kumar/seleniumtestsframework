@@ -136,7 +136,7 @@ public class HtmlElement {
      * @param  value
      */
     public void clickAt(final String value) {
-        TestLogging.logWebStep(null, "click on " + toHTML(), false);
+        TestLogging.logWebStep("click on " + toHTML(), false);
         findElement();
 
         String[] parts = value.split(",");
@@ -625,8 +625,7 @@ public class HtmlElement {
      * which needs long time to present.
      */
     public void waitForPresent(final int timeout) {
-        TestLogging.logWebStep(null,
-            "wait for " + this.toString() + " to present.", false);
+        TestLogging.logWebStep("wait for " + this.toString() + " to present.", false);
 
         Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
         wait.until(new ExpectedCondition<WebElement>() {
