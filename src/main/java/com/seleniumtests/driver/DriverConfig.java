@@ -57,6 +57,8 @@ public class DriverConfig {
     private int browserWindowWidth = -1;
     private int browserWindowHeight = -1;
 
+    private boolean eventFiringWebDriver = false;
+
     private String proxyHost;
 
     private String testType;
@@ -488,5 +490,13 @@ public class DriverConfig {
 
     public void setSauceLabsURL(final String sauceLabsURL) {
         this.sauceLabsURL = sauceLabsURL;
+    }
+
+    public boolean isEventFiringWebDriver() {
+        return eventFiringWebDriver;
+    }
+
+    public void setEventFiringWebDriver(boolean eventFiringWebDriver) {
+        this.eventFiringWebDriver = eventFiringWebDriver;
     }
 }
