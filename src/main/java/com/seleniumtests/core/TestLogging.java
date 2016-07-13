@@ -149,7 +149,7 @@ public class TestLogging {
         log("Output: " + message + "<br/>", failed, false);
     }
 
-    public static void logWebStep(final String url, final String message, final boolean failed) {
+    public static void logWebStep(final String message, final boolean failed) {
         log("<li>" + (failed ? "<b>FailedStep</b>: " : " ") + message + "</li>", failed, false);
     }
 
