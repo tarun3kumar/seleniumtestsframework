@@ -51,9 +51,9 @@ public abstract class BasePage {
     protected WebDriver driver = WebUIDriver.getWebDriver();
     protected final WebUIDriver webUXDriver = WebUIDriver.getWebUIDriver();
     private int explictWaitTimeout = WebUIDriver.getWebUIDriver()
-        .getExplicitWait();
+            .getExplicitWait();
     private int sessionTimeout = WebUIDriver.getWebUIDriver()
-        .getWebSessionTimeout();
+            .getWebSessionTimeout();
 
     public BasePage() {
     }
@@ -65,7 +65,7 @@ public abstract class BasePage {
     }
 
     public void assertAlertPresent() {
-        TestLogging.logWebStep(null, "assert alert present.", false);
+        TestLogging.logWebStep("assert alert present.", false);
 
         try {
             driver.switchTo().alert();
@@ -75,7 +75,7 @@ public abstract class BasePage {
     }
 
     public void assertAlertText(final String text) {
-        TestLogging.logWebStep(null, "assert alert text.", false);
+        TestLogging.logWebStep("assert alert text.", false);
 
         Alert alert = driver.switchTo().alert();
         String alertText = alert.getText();
@@ -83,56 +83,53 @@ public abstract class BasePage {
     }
 
     /**
-     * @param  element
-     * @param  attributeName
-     * @param  value
+     * @param element
+     * @param attributeName
+     * @param value
      */
     public void assertAttribute(final HtmlElement element,
-        final String attributeName, final String value) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " attribute = " + attributeName +
-            ", expectedValue ={" + value + "}.", false);
+                                final String attributeName, final String value) {
+        TestLogging.logWebStep("assert " + element.toHTML() + " attribute = " + attributeName +
+                ", expectedValue ={" + value + "}.", false);
 
         String attributeValue = element.getAttribute(attributeName);
 
         assertHTML((value != null) && value.equals(attributeValue),
-            element.toString() + " attribute = " + attributeName +
-            ", expectedValue = {" + value + "}" + ", attributeValue = {" +
-            attributeValue + "}");
+                element.toString() + " attribute = " + attributeName +
+                        ", expectedValue = {" + value + "}" + ", attributeValue = {" +
+                        attributeValue + "}");
     }
 
     public void assertAttributeContains(final HtmlElement element,
-        final String attributeName, final String keyword) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " attribute=" + attributeName +
-            ", contains keyword = {" + keyword + "}.", false);
+                                        final String attributeName, final String keyword) {
+        TestLogging.logWebStep("assert " + element.toHTML() + " attribute=" + attributeName +
+                ", contains keyword = {" + keyword + "}.", false);
 
         String attributeValue = element.getAttribute(attributeName);
 
         assertHTML((attributeValue != null) && (keyword != null) &&
-            attributeValue.contains(keyword),
-            element.toString() + " attribute=" + attributeName +
-            ", expected to contains keyword {" + keyword + "}" +
-            ", attributeValue = {" + attributeValue + "}");
+                        attributeValue.contains(keyword),
+                element.toString() + " attribute=" + attributeName +
+                        ", expected to contains keyword {" + keyword + "}" +
+                        ", attributeValue = {" + attributeValue + "}");
     }
 
     public void assertAttributeMatches(final HtmlElement element,
-        final String attributeName, final String regex) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " attribute=" + attributeName +
-            ", matches regex = {" + regex + "}.", false);
+                                       final String attributeName, final String regex) {
+        TestLogging.logWebStep("assert " + element.toHTML() + " attribute=" + attributeName +
+                ", matches regex = {" + regex + "}.", false);
 
         String attributeValue = element.getAttribute(attributeName);
 
         assertHTML((attributeValue != null) && (regex != null) &&
-            attributeValue.matches(regex),
-            element.toString() + " attribute=" + attributeName +
-            " expected to match regex {" + regex + "}" +
-            ", attributeValue = {" + attributeValue + "}");
+                        attributeValue.matches(regex),
+                element.toString() + " attribute=" + attributeName +
+                        " expected to match regex {" + regex + "}" +
+                        ", attributeValue = {" + attributeValue + "}");
     }
 
     public void assertConfirmationText(final String text) {
-        TestLogging.logWebStep(null, "assert confirmation text.", false);
+        TestLogging.logWebStep("assert confirmation text.", false);
 
         Alert alert = driver.switchTo().alert();
         String seenText = alert.getText();
@@ -141,54 +138,52 @@ public abstract class BasePage {
     }
 
     protected void assertCurrentPage(final boolean log)
-        throws NotCurrentPageException {
+            throws NotCurrentPageException {
     }
 
     public void assertElementNotPresent(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is not present.", false);
+        TestLogging.logWebStep("assert " + element.toHTML() + " is not present.", false);
         assertHTML(!element.isElementPresent(), element.toString() + " found.");
     }
 
     public void assertElementPresent(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is present.", false);
+        TestLogging.logWebStep("assert " + element.toHTML() + " is present.", false);
         assertHTML(element.isElementPresent(),
-            element.toString() + " not found.");
+                element.toString() + " not found.");
     }
 
     public void assertElementEnabled(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is enabled.", false);
+        TestLogging.logWebStep(
+                "assert " + element.toHTML() + " is enabled.", false);
         assertHTML(element.isEnabled(), element.toString() + " not found.");
     }
 
     public void assertElementNotEnabled(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is not enabled.", false);
+        TestLogging.logWebStep(
+                "assert " + element.toHTML() + " is not enabled.", false);
         assertHTML(!element.isEnabled(), element.toString() + " not found.");
     }
 
     public void assertElementDisplayed(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is displayed.", false);
+        TestLogging.logWebStep(
+                "assert " + element.toHTML() + " is displayed.", false);
         assertHTML(element.isDisplayed(), element.toString() + " not found.");
     }
 
     public void assertElementSelected(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is selected.", false);
+        TestLogging.logWebStep(
+                "assert " + element.toHTML() + " is selected.", false);
         assertHTML(element.isSelected(), element.toString() + " not found.");
     }
 
     public void assertElementNotSelected(final HtmlElement element) {
-        TestLogging.logWebStep(null,
-            "assert " + element.toHTML() + " is NOT selected.", false);
+        TestLogging.logWebStep(
+                "assert " + element.toHTML() + " is NOT selected.", false);
         assertHTML(!element.isSelected(), element.toString() + " not found.");
     }
 
     public void assertCondition(final boolean condition, final String message) {
-        TestLogging.logWebStep(null, "assert that " + message, false);
+        TestLogging.logWebStep("assert that " + message, false);
         assert condition;
     }
 
@@ -208,7 +203,7 @@ public abstract class BasePage {
     }
 
     public void assertPromptText(final String text) {
-        TestLogging.logWebStep(null, "assert prompt text.", false);
+        TestLogging.logWebStep("assert prompt text.", false);
 
         Alert alert = driver.switchTo().alert();
         String seenText = alert.getText();
@@ -216,65 +211,65 @@ public abstract class BasePage {
     }
 
     public void assertTable(final Table table, final int row, final int col,
-        final String text) {
-        TestLogging.logWebStep(null,
-            "assert text \"" + text + "\" equals " + table.toHTML() +
-            " at (row, col) = (" + row + ", " + col + ").", false);
+                            final String text) {
+        TestLogging.logWebStep(
+                "assert text \"" + text + "\" equals " + table.toHTML() +
+                        " at (row, col) = (" + row + ", " + col + ").", false);
 
         String content = table.getContent(row, col);
         assertHTML((content != null) && content.equals(text),
-            "Text= {" + text + "} not found on " + table.toString() +
-            " at cell(row, col) = {" + row + "," + col + "}");
+                "Text= {" + text + "} not found on " + table.toString() +
+                        " at cell(row, col) = {" + row + "," + col + "}");
     }
 
     public void assertTableContains(final Table table, final int row,
-        final int col, final String text) {
-        TestLogging.logWebStep(null,
-            "assert text \"" + text + "\" contains " + table.toHTML() +
-            " at (row, col) = (" + row + ", " + col + ").", false);
+                                    final int col, final String text) {
+        TestLogging.logWebStep(
+                "assert text \"" + text + "\" contains " + table.toHTML() +
+                        " at (row, col) = (" + row + ", " + col + ").", false);
 
         String content = table.getContent(row, col);
         assertHTML((content != null) && content.contains(text),
-            "Text= {" + text + "} not found on " + table.toString() +
-            " at cell(row, col) = {" + row + "," + col + "}");
+                "Text= {" + text + "} not found on " + table.toString() +
+                        " at cell(row, col) = {" + row + "," + col + "}");
     }
 
     public void assertTableMatches(final Table table, final int row,
-        final int col, final String text) {
-        TestLogging.logWebStep(null,
-            "assert text \"" + text + "\" matches " + table.toHTML() +
-            " at (row, col) = (" + row + ", " + col + ").", false);
+                                   final int col, final String text) {
+        TestLogging.logWebStep(
+                "assert text \"" + text + "\" matches " + table.toHTML() +
+                        " at (row, col) = (" + row + ", " + col + ").", false);
 
         String content = table.getContent(row, col);
         assertHTML((content != null) && content.matches(text),
-            "Text= {" + text + "} not found on " + table.toString() +
-            " at cell(row, col) = {" + row + "," + col + "}");
+                "Text= {" + text + "} not found on " + table.toString() +
+                        " at cell(row, col) = {" + row + "," + col + "}");
     }
 
     public void assertTextNotPresent(final String text) {
-        TestLogging.logWebStep(null,
-            "assert text \"" + text + "\" is not present.", false);
+        TestLogging.logWebStep(
+                "assert text \"" + text + "\" is not present.", false);
         assertHTML(!isTextPresent(text), "Text= {" + text + "} found.");
     }
 
     public void assertTextNotPresentIgnoreCase(final String text) {
-        TestLogging.logWebStep(null,
-            "assert text \"" + text + "\" is not present.(ignore case)", false);
+        TestLogging.logWebStep(
+                "assert text \"" + text + "\" is not present.(ignore case)", false);
         assertHTML(!getBodyText().toLowerCase().contains(text.toLowerCase()),
-            "Text= {" + text + "} found.");
+                "Text= {" + text + "} found.");
     }
 
     public void assertTextPresent(final String text) {
-        TestLogging.logWebStep(null, "assert text \"" + text + "\" is present.",
-            false);
+        TestLogging.logWebStep("assert text \"" + text + "\" is present.",
+                false);
         assertHTML(isTextPresent(text), "Text= {" + text + "} not found.");
     }
 
     public void assertTextPresentIgnoreCase(final String text) {
-        TestLogging.logWebStep(null,
-            "assert text \"" + text + "\" is present.(ignore case)", false);
+        TestLogging.logWebStep(
+                "assert text \"" + text + "\" is present.(ignore case)", false);
         assertHTML(getBodyText().toLowerCase().contains(text.toLowerCase()),
-            "Text= {" + text + "} not found.");
+                "Text= {" + text + "} not found.");
     }
 
     public String cancelConfirmation() throws NotCurrentPageException {
@@ -337,10 +332,10 @@ public abstract class BasePage {
 
             if ((e instanceof InvalidSelectorException) ||
                     ((e.getMessage() != null) &&
-                        e.getMessage().contains(
-                            "TransformedEntriesMap cannot be cast to java.util.List"))) {
+                            e.getMessage().contains(
+                                    "TransformedEntriesMap cannot be cast to java.util.List"))) {
                 TestLogging.log(
-                    "InvalidSelectorException or CastException got, retry");
+                        "InvalidSelectorException or CastException got, retry");
                 WaitHelper.waitForSeconds(2);
                 count = WebUIDriver.getWebDriver().findElements(by).size();
             } else {
@@ -362,13 +357,13 @@ public abstract class BasePage {
 
     public boolean isTextPresent(final String text) {
         CustomAssertion.assertNotNull(text,
-            "isTextPresent: text should not be null!");
+                "isTextPresent: text should not be null!");
         driver = WebUIDriver.getWebDriver();
 
         WebElement body = driver.findElement(By.tagName("body"));
 
         if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(
-                    BrowserType.HtmlUnit.getBrowserType())) {
+                BrowserType.HtmlUnit.getBrowserType())) {
             return body.getText().contains(text);
         }
 
@@ -389,20 +384,19 @@ public abstract class BasePage {
     }
 
     public void selectFrame(final By by) {
-        TestLogging.logWebStep(null,
-            "select frame, locator={\"" + by.toString() + "\"}", false);
+        TestLogging.logWebStep(
+                "select frame, locator={\"" + by.toString() + "\"}", false);
         driver.switchTo().frame(driver.findElement(by));
     }
 
     /**
      * If current window is closed then use driver.switchTo.window(handle).
      *
-     * @param   windowName
-     *
-     * @throws  com.seleniumtests.customexception.NotCurrentPageException
+     * @param windowName
+     * @throws com.seleniumtests.customexception.NotCurrentPageException
      */
     public final void selectWindow(final String windowName)
-        throws NotCurrentPageException {
+            throws NotCurrentPageException {
 
         if (windowName == null) {
             Windows windows = new Windows(driver);
@@ -421,8 +415,8 @@ public abstract class BasePage {
 
     public void waitForElementChecked(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
-        TestLogging.logWebStep(null,
-            "wait for " + element.toString() + " to be checked.", false);
+        TestLogging.logWebStep(
+                "wait for " + element.toString() + " to be checked.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.elementToBeSelected(element.getBy()));
@@ -430,24 +424,24 @@ public abstract class BasePage {
 
     public void waitForElementEditable(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
-        TestLogging.logWebStep(null,
-            "wait for " + element.toString() + " to be editable.", false);
+        TestLogging.logWebStep(
+                "wait for " + element.toString() + " to be editable.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.elementToBeClickable(element.getBy()));
     }
 
     public void waitForElementPresent(final By by) {
-        TestLogging.logWebStep(null,
-            "wait for " + by.toString() + " to be present.", false);
+        TestLogging.logWebStep(
+                "wait for " + by.toString() + " to be present.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     public void waitForElementPresent(final By by, final int timeout) {
-        TestLogging.logWebStep(null,
-            "wait for " + by.toString() + " to be present.", false);
+        TestLogging.logWebStep(
+                "wait for " + by.toString() + " to be present.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, timeout);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
@@ -455,8 +449,8 @@ public abstract class BasePage {
 
     public void waitForElementPresent(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
-        TestLogging.logWebStep(null,
-            "wait for " + element.toString() + " to be present.", false);
+        TestLogging.logWebStep(
+                "wait for " + element.toString() + " to be present.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -465,8 +459,8 @@ public abstract class BasePage {
 
     public void waitForElementToBeVisible(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
-        TestLogging.logWebStep(null,
-            "wait for " + element.toString() + " to be visible.", false);
+        TestLogging.logWebStep(
+                "wait for " + element.toString() + " to be visible.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -502,8 +496,8 @@ public abstract class BasePage {
 
     public void waitForElementToDisappear(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
-        TestLogging.logWebStep(null,
-            "wait for " + element.toString() + " to disappear.", false);
+        TestLogging.logWebStep(
+                "wait for " + element.toString() + " to disappear.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
@@ -525,24 +519,25 @@ public abstract class BasePage {
         }
 
         new Wait() {
-                @Override public boolean until() {
+            @Override
+            public boolean until() {
 
-                    try {
+                try {
 
-                        if ("_blank".equals(windowID)) {
-                            windows.selectBlankWindow(driver);
-                        } else {
-                            driver.switchTo().window(windowID);
-                        }
-
-                        return !"about:blank".equals(driver.getCurrentUrl());
-                    } catch (SeleniumException e) {
-                    } catch (NoSuchWindowException e) {
+                    if ("_blank".equals(windowID)) {
+                        windows.selectBlankWindow(driver);
+                    } else {
+                        driver.switchTo().window(windowID);
                     }
 
-                    return false;
+                    return !"about:blank".equals(driver.getCurrentUrl());
+                } catch (SeleniumException e) {
+                } catch (NoSuchWindowException e) {
                 }
-            }.wait(String.format("Timed out waiting for %s. Waited %s",
+
+                return false;
+            }
+        }.wait(String.format("Timed out waiting for %s. Waited %s",
                 windowID, timeout), millis);
 
         driver.switchTo().window(current);
@@ -552,17 +547,17 @@ public abstract class BasePage {
     /**
      * Wait For seconds. Provide a value less than WebSessionTimeout i.e. 180 Seconds
      *
-     * @param  seconds
+     * @param seconds
      */
     protected void waitForSeconds(final int seconds) {
         WaitHelper.waitForSeconds(seconds);
     }
 
     public void waitForTextPresent(final HtmlElement element,
-        final String text) {
+                                   final String text) {
         Assert.assertNotNull(text, "Text can't be null");
-        TestLogging.logWebStep(null,
-            "wait for text \"" + text + "\" to be present.", false);
+        TestLogging.logWebStep(
+                "wait for text \"" + text + "\" to be present.", false);
 
         WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(ExpectedConditions.textToBePresentInElement(element.getBy(),
@@ -571,13 +566,13 @@ public abstract class BasePage {
 
     public void waitForTextPresent(final String text) {
         Assert.assertNotNull(text, "Text can't be null");
-        TestLogging.logWebStep(null,
-            "wait for text \"" + text + "\" to be present.", false);
+        TestLogging.logWebStep(
+                "wait for text \"" + text + "\" to be present.", false);
 
         boolean b = false;
 
         for (int millisec = 0; millisec < (explictWaitTimeout * 1000);
-                millisec += 1000) {
+             millisec += 1000) {
 
             try {
 
@@ -597,18 +592,18 @@ public abstract class BasePage {
         }
 
         assertHTML(b,
-            "Timed out waiting for text \"" + text + "\" to be there.");
+                "Timed out waiting for text \"" + text + "\" to be there.");
     }
 
     public void waitForTextToDisappear(final String text) {
         Assert.assertNotNull(text, "Text can't be null");
-        TestLogging.logWebStep(null,
-            "wait for text \"" + text + "\" to disappear.", false);
+        TestLogging.logWebStep(
+                "wait for text \"" + text + "\" to disappear.", false);
 
         boolean textPresent = true;
 
         for (int millisec = 0; millisec < (explictWaitTimeout * 1000);
-                millisec += 1000) {
+             millisec += 1000) {
 
             try {
 
@@ -628,19 +623,19 @@ public abstract class BasePage {
         }
 
         assertHTML(!textPresent,
-            "Timed out waiting for text \"" + text + "\" to be gone.");
+                "Timed out waiting for text \"" + text + "\" to be gone.");
     }
 
     public void waitForTextToDisappear(final String text,
-        int explicitWaitTimeout) {
+                                       int explicitWaitTimeout) {
         Assert.assertNotNull(text, "Text can't be null");
-        TestLogging.logWebStep(null,
-            "wait for text \"" + text + "\" to disappear.", false);
+        TestLogging.logWebStep(
+                "wait for text \"" + text + "\" to disappear.", false);
 
         boolean textPresent = true;
 
         for (int millisec = 0; millisec < (explicitWaitTimeout * 1000);
-                millisec += 1000) {
+             millisec += 1000) {
 
             try {
 
@@ -660,7 +655,7 @@ public abstract class BasePage {
         }
 
         assertHTML(!textPresent,
-            "Timed out waiting for text \"" + text + "\" to be gone.");
+                "Timed out waiting for text \"" + text + "\" to be gone.");
     }
 
 }
