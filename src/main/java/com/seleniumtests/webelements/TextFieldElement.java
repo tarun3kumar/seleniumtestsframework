@@ -23,7 +23,7 @@ public class TextFieldElement extends HtmlElement {
     }
 
     public void clear() {
-        TestLogging.logWebStep(null, "Remove data From " + toHTML(), false);
+        TestLogging.logWebStep("Remove data From " + toHTML(), false);
         findElement();
         if (!element.getAttribute("type").equalsIgnoreCase("file")) {
             element.clear();
@@ -31,7 +31,7 @@ public class TextFieldElement extends HtmlElement {
     }
 
     public void sendKeys(final String keysToSend) {
-        TestLogging.logWebStep(null, "Enter data: \"" + keysToSend + "\" on " + toHTML(), false);
+        TestLogging.logWebStep("Enter data: \"" + keysToSend + "\" on " + toHTML(), false);
         findElement();
         element.sendKeys(keysToSend);
     }
