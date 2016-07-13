@@ -24,13 +24,13 @@ public class RadioButtonElement extends HtmlElement {
     }
 
     public void check() {
-        TestLogging.logWebStep(null, "check " + toHTML(), false);
+        TestLogging.logWebStep("check " + toHTML(), false);
         super.click();
     }
 
     @Override
     public void click() {
-        TestLogging.logWebStep(null, "click on " + toHTML(), false);
+        TestLogging.logWebStep("click on " + toHTML(), false);
         super.click();
     }
 
