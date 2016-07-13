@@ -7,7 +7,8 @@
 	</listeners>
 
 	<parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
-	<parameter name="browser" value="*chrome" />  <!--"*firefox, *marionette, *chrome, *iexplore, *android"-->
+	<parameter name="browser" value="*chrome" />  <!--"*firefox, *marionette, *chrome, *iexplore,
+	*android"-->
 	<parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -41,10 +42,28 @@
     <!--<test name="WebTest - Test Link Login Test in Chrome">
         &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
         <parameter name="testType" value="Web" />
+		<parameter name="eventFiringWebDriver" value="true"/>
+		<groups>
+			<run>
+				<include name="registerWithValidUserData"/>
+			</run>
+		</groups>
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
     </test>-->
+
+	<test name="WebTest - JS Error Test">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
+		<parameter name="appURL" value="http://webdriverjsdemo.github.io/error/"/>
+		<parameter name="eventFiringWebDriver" value="true"/>
+		<parameter name="testType" value="Web" />
+        <parameter name="browser" value="*chrome" />
+        <classes>
+            <class name="com.seleniumtests.tests.JSErrorTest" />
+        </classes>
+    </test>
+
 
     <!--<test name="WebTest - Test Link Login Test in Firefox                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
         &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
@@ -55,14 +74,14 @@
         </classes>
     </test>-->
 
-     <test name="WebTest - Test Link Login Test in Marionette">
-       <!--testType parameter is optional for web test, since testType defaults to web-->
+     <!--<test name="WebTest - Test Link Login Test in Marionette">
+       &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
        <parameter name="testType" value="Web" />
        <parameter name="browser" value="*marionette" />
        <classes>
            <class name="com.seleniumtests.tests.RegistrationTest" />
        </classes>
-   </test>
+   </test>-->
 
     <!--<test name="NonGUITest - Multiple assertion failures">
         <parameter name="testType" value="NonGUI" />
