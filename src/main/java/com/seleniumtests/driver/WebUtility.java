@@ -35,7 +35,7 @@ public class WebUtility {
      */
     public void resizeWindow(final int width, final int height) {
         try {
-            TestLogging.logWebStep(null, "Resize browser window to width " + width + " height " + height, false);
+            TestLogging.logWebStep("Resize browser window to width " + width + " height " + height, false);
 
             Dimension size = new Dimension(width, height);
             driver.manage().window().setPosition(new Point(0, 0));
