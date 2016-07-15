@@ -64,7 +64,6 @@ public class SeleniumTestsContext {
     public static final String NTLM_AUTH_TRUSTED_URIS = "ntlmAuthTrustedUris";
     public static final String BROWSER_DOWNLOAD_DIR = "browserDownloadDir";
     public static final String BROWSER_WINDOW_SIZE = "browserWindowSize";
-    public static final String ADD_JS_ERROR_COLLECTOR_EXTENSION = "addJSErrorCollectorExtension";
 
     public static final String WEB_PROXY_ENABLED = "webProxyEnabled";
     public static final String WEB_PROXY_TYPE = "webProxyType";
@@ -189,9 +188,6 @@ public class SeleniumTestsContext {
         setContextAttribute(context, NTLM_AUTH_TRUSTED_URIS, System.getProperty(NTLM_AUTH_TRUSTED_URIS), null);
         setContextAttribute(context, BROWSER_DOWNLOAD_DIR, System.getProperty(BROWSER_DOWNLOAD_DIR), null);
         setContextAttribute(context, BROWSER_WINDOW_SIZE, System.getProperty(BROWSER_WINDOW_SIZE), null);
-        setContextAttribute(context, ADD_JS_ERROR_COLLECTOR_EXTENSION,
-            System.getProperty(ADD_JS_ERROR_COLLECTOR_EXTENSION), "false");
-
         setContextAttribute(context, WEB_PROXY_ENABLED, System.getProperty(WEB_PROXY_ENABLED), "false");
         setContextAttribute(context, WEB_PROXY_TYPE, System.getProperty(WEB_PROXY_TYPE), null);
         setContextAttribute(context, WEB_PROXY_ADDRESS, System.getProperty(WEB_PROXY_ADDRESS), null);
@@ -275,10 +271,6 @@ public class SeleniumTestsContext {
             failures.add(failure);
             this.addVerificationFailures(result, failures);
         }
-    }
-
-    public String getAddJSErrorCollectorExtension() {
-        return (String) getAttribute(ADD_JS_ERROR_COLLECTOR_EXTENSION);
     }
 
     public Object getAttribute(final String name) {

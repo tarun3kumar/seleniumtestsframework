@@ -403,11 +403,6 @@ public class WebUIDriver {
             config.setBrowserDownloadDir(SeleniumTestsContextManager.getThreadContext().getBrowserDownloadDir());
         }
 
-        if (SeleniumTestsContextManager.getThreadContext().getAddJSErrorCollectorExtension() != null) {
-            config.setAddJSErrorCollectorExtension(Boolean.parseBoolean(
-                    SeleniumTestsContextManager.getThreadContext().getAddJSErrorCollectorExtension()));
-        }
-
         String ua = null;
         if (SeleniumTestsContextManager.getThreadContext().getUserAgent() != null) {
             ua = SeleniumTestsContextManager.getThreadContext().getUserAgent();
@@ -492,14 +487,6 @@ public class WebUIDriver {
 
     public boolean isSetAcceptUntrustedCertificates() {
         return config.isSetAcceptUntrustedCertificates();
-    }
-
-    public boolean isAddJSErrorCollectorExtension() {
-        return config.isAddJSErrorCollectorExtension();
-    }
-
-    public void setAddJSErrorCollectorExtension(final Boolean addJSErrorCollectorExtension) {
-        config.setAddJSErrorCollectorExtension(addJSErrorCollectorExtension);
     }
 
     public boolean isSetAssumeUntrustedCertificateIssuer() {

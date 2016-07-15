@@ -21,8 +21,6 @@ public interface IPage {
 
     String getHtmlSource();
 
-    String getJSErrors();
-
     String getLocation();
 
     String getTitle();

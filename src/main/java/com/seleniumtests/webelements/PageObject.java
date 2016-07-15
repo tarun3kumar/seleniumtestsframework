@@ -33,8 +33,6 @@ import com.seleniumtests.helper.WaitHelper;
 import com.thoughtworks.selenium.Wait;
 import com.thoughtworks.selenium.Wait.WaitTimedOutException;
 
-import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
-
 import org.apache.log4j.Logger;
 
 import org.openqa.selenium.By;
@@ -345,33 +343,6 @@ public class PageObject extends BasePage implements IPage {
 
     public String getImageFilePath() {
         return imageFilePath;
-    }
-
-    /**
-     * Get JS Error by JSErrorCollector which only supports Firefox browser.
-     *
-     * @return jsErrors in format "line number, errorLogger message, source name; "
-     */
-    public String getJSErrors() {
-
-        if (WebUIDriver.getWebUIDriver().isAddJSErrorCollectorExtension()) {
-            List<JavaScriptError> jsErrorList = JavaScriptError.readErrors(
-                    driver);
-
-            if (!jsErrorList.isEmpty()) {
-                String jsErrors = "";
-
-                for (JavaScriptError aJsErrorList : jsErrorList) {
-                    jsErrors += aJsErrorList.getLineNumber() + ", " +
-                            aJsErrorList.getErrorMessage() + ", " +
-                            aJsErrorList.getSourceName() + "; ";
-                }
-
-                return jsErrors;
-            }
-        }
-
-        return null;
     }
 
     public String getLocation() {

@@ -20,7 +20,6 @@ import com.seleniumtests.driver.DriverMode;
 import com.seleniumtests.helper.FileUtility;
 import com.seleniumtests.helper.OSUtility;
 import com.seleniumtests.resources.WebDriverExternalResources;
-import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
@@ -59,16 +58,6 @@ public class MarionetteCapabilitiesFactory implements ICapabilitiesFactory {
 
         if (!webDriverConfig.isEnableJavascript()) {
             profile.setPreference("javascript.enabled", false);
-        } else {
-
-            // Add Firefox extension to collect JS Error
-            if (webDriverConfig.isAddJSErrorCollectorExtension()) {
-                try {
-                    JavaScriptError.addExtension(profile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         // fix permission denied issues

@@ -30,8 +30,6 @@ import com.seleniumtests.driver.DriverConfig;
 import com.seleniumtests.helper.FileUtility;
 import com.seleniumtests.helper.OSUtility;
 
-import net.jsourcerer.webdriver.jserrorcollector.JavaScriptError;
-
 public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
     private static boolean isProfileCreated = false;
     private static Object lockProfile = new Object();
@@ -62,16 +60,6 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 
         if (!webDriverConfig.isEnableJavascript()) {
             profile.setPreference("javascript.enabled", false);
-        } else {
-
-            // Add Firefox extension to collect JS Error
-            if (webDriverConfig.isAddJSErrorCollectorExtension()) {
-                try {
-                    JavaScriptError.addExtension(profile);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         // fix permission denied issues

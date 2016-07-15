@@ -51,7 +51,6 @@ public class DriverConfig {
     private String userAgentOverride;
     private String ntlmAuthTrustedUris;
     private String browserDownloadDir;
-    private boolean addJSErrorCollectorExtension = false;
     private ArrayList<WebDriverEventListener> webDriverListeners;
     private boolean useFirefoxDefaultProfile = true;
     private int browserWindowWidth = -1;
@@ -239,10 +238,6 @@ public class DriverConfig {
         return webSessionTimeout;
     }
 
-    public boolean isAddJSErrorCollectorExtension() {
-        return addJSErrorCollectorExtension;
-    }
-
     public boolean isUseFirefoxDefaultProfile() {
         return this.useFirefoxDefaultProfile;
     }
@@ -261,10 +256,6 @@ public class DriverConfig {
 
     public boolean isSetAssumeUntrustedCertificateIssuer() {
         return setAssumeUntrustedCertificateIssuer;
-    }
-
-    public void setAddJSErrorCollectorExtension(final boolean addJSErrorCollectorExtension) {
-        this.addJSErrorCollectorExtension = addJSErrorCollectorExtension;
     }
 
     public void setBrowser(final BrowserType browser) {
