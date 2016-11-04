@@ -108,6 +108,7 @@ public abstract class SeleniumTestPlan {
 
         WebUIDriver.cleanUp();
         logger.info(Thread.currentThread() + " Finish method " + method.getName());
+        TestRetryAnalyzer.resetCount();
     }
 
     private String buildMethodSignature(final Method method, final Object[] parameters) {
