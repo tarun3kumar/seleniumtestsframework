@@ -13,28 +13,20 @@
 
 package com.seleniumtests.core;
 
+import com.google.inject.Injector;
+import org.testng.*;
+import org.testng.internal.annotations.IAnnotationFinder;
+import org.testng.xml.XmlSuite;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.testng.IInvokedMethod;
-import org.testng.IObjectFactory;
-import org.testng.IObjectFactory2;
-import org.testng.ISuite;
-import org.testng.ISuiteResult;
-import org.testng.ITestNGListener;
-import org.testng.ITestNGMethod;
-import org.testng.SuiteRunState;
-
-import org.testng.internal.annotations.IAnnotationFinder;
-
-import org.testng.xml.XmlSuite;
-
 public class SeleniumTestsDefaultSuite implements ISuite {
 
     private static final long serialVersionUID = -152933123712833411L;
-    private XmlSuite xmlSuite;
+    private final XmlSuite xmlSuite;
 
     public SeleniumTestsDefaultSuite() {
         this.xmlSuite = new DefaultXmlSuite();
@@ -78,6 +70,16 @@ public class SeleniumTestsDefaultSuite implements ISuite {
         return null;
     }
 
+    @Override
+    public String getParentModule() {
+        return null;
+    }
+
+    @Override
+    public String getGuiceStage() {
+        return null;
+    }
+
     public String getParameter(final String parameterName) {
         return null;
     }
@@ -117,6 +119,16 @@ public class SeleniumTestsDefaultSuite implements ISuite {
     }
 
     public void addListener(final ITestNGListener listener) { }
+
+    @Override
+    public Injector getParentInjector() {
+        return null;
+    }
+
+    @Override
+    public void setParentInjector(final Injector injector) {
+
+    }
 
     public List<ITestNGMethod> getAllMethods() {
         return null;
