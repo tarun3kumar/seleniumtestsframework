@@ -13,20 +13,15 @@
 
 package com.seleniumtests.core;
 
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import org.testng.*;
+import org.testng.xml.XmlTest;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import org.testng.IResultMap;
-import org.testng.ISuite;
-import org.testng.ITestContext;
-import org.testng.ITestNGMethod;
-
-import org.testng.xml.XmlTest;
-
-import com.google.inject.Injector;
-import com.google.inject.Module;
 
 public class DefaultTestNGContext implements ITestContext {
 
@@ -130,6 +125,11 @@ public class DefaultTestNGContext implements ITestContext {
     public void addGuiceModule(final Class<? extends Module> cls, final Module module) { }
 
     public Injector getInjector(final List<Module> moduleInstances) {
+        return null;
+    }
+
+    @Override
+    public Injector getInjector(final IClass iClass) {
         return null;
     }
 
