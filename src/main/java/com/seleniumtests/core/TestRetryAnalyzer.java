@@ -15,46 +15,34 @@ package com.seleniumtests.core;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 
 public class TestRetryAnalyzer implements IRetryAnalyzer {
 
-    private static final String TEST_RETRY_COUNT = "testRetryCount";
-    private int count = 1;
-    private int maxCount = 2;
-
-    public TestRetryAnalyzer() {
-        String retryMaxCount = System.getProperty(TEST_RETRY_COUNT);
-        if (retryMaxCount != null) {
-            maxCount = Integer.parseInt(retryMaxCount);
-        }
-    }
-
-    public void setMaxCount(final int count) {
-        this.maxCount = count;
-    }
-
     public int getCount() {
-        return this.count;
+        return count;
     }
 
-    public int getMaxCount() {
-        return this.maxCount;
+    public static final int MAX_RETRY_COUNT = 3;
+
+    private int count = MAX_RETRY_COUNT;
+
+    private boolean isRetryAvailable() {
+        return (count > 0);
     }
 
-    public synchronized boolean retry(final ITestResult result) {
-        String testClassName = String.format("%s.%s", result.getMethod().getRealClass().toString(),
-                result.getMethod().getMethodName());
+    public void resetCount() {
+        count = MAX_RETRY_COUNT;
+    }
 
-        if (count <= maxCount) {
-            result.setAttribute("RETRY", new Integer(count));
-
-            TestLogging.log("[RETRYING] " + testClassName + " FAILED, " + "Retrying " + count + " time", true);
-
-            count += 1;
-            return true;
+    @Override
+    public boolean retry(final ITestResult result) {
+        boolean retry = false;
+        if (isRetryAvailable()) {
+            TestLogging.log("<br> Going to retry test case: " + result.getMethod() + ", " + (MAX_RETRY_COUNT - count + 1) + " out of " + MAX_RETRY_COUNT + "</br>");
+            retry = true;
+            count = count-1;
         }
-
-        return false;
+        return retry;
     }
-
 }
