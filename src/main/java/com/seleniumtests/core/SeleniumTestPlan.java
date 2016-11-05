@@ -13,26 +13,16 @@
 
 package com.seleniumtests.core;
 
-import java.io.IOException;
-
-import java.lang.reflect.Method;
-
-import java.util.Date;
-import java.util.List;
-
+import com.seleniumtests.driver.WebUIDriver;
 import org.apache.log4j.Logger;
-
 import org.testng.ITestContext;
-
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-
+import org.testng.annotations.*;
 import org.testng.xml.XmlTest;
 
-import com.seleniumtests.driver.WebUIDriver;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class initializes context, sets up and tears down and clean up drivers An STF test should extend this class.
@@ -99,16 +89,15 @@ public abstract class SeleniumTestPlan {
     @AfterMethod(alwaysRun = true)
     public void afterTestMethod(final Object[] parameters, final Method method, final ITestContext testContex,
             final XmlTest xmlTest) {
-        List<TearDownService> serviceList = SeleniumTestsContextManager.getThreadContext().getTearDownServices();
+        final List<TearDownService> serviceList = SeleniumTestsContextManager.getThreadContext().getTearDownServices();
         if (serviceList != null && !serviceList.isEmpty()) {
-            for (TearDownService service : serviceList) {
+            for (final TearDownService service : serviceList) {
                 service.tearDown();
             }
         }
 
         WebUIDriver.cleanUp();
         logger.info(Thread.currentThread() + " Finish method " + method.getName());
-        TestRetryAnalyzer.resetCount();
     }
 
     private String buildMethodSignature(final Method method, final Object[] parameters) {
@@ -124,7 +113,7 @@ public abstract class SeleniumTestPlan {
      * @return
      */
     private String buildParameterString(final Object[] parameters) {
-        StringBuffer parameter = new StringBuffer();
+        final StringBuffer parameter = new StringBuffer();
 
         if (parameters != null) {
             for (int i = 0; i < parameters.length; i++) {
