@@ -91,21 +91,21 @@
     <test name="NonGUITest - Multiple assertion failures1">
         <parameter name="testType" value="NonGUI" />
         <classes>
-            <class name="com.seleniumtests.tests.RetryTest2" />
+            <class name="com.seleniumtests.tests.RetryTest1" />
         </classes>
     </test>
 
     <test name="NonGUITest - Multiple assertion failures2">
         <parameter name="testType" value="NonGUI" />
         <classes>
-            <class name="com.seleniumtests.tests.RetryTest3" />
+            <class name="com.seleniumtests.tests.RetryTest2" />
         </classes>
     </test>
 
     <test name="NonGUITest - Multiple assertion failures3">
         <parameter name="testType" value="NonGUI" />
         <classes>
-            <class name="com.seleniumtests.tests.RetryTest" />
+            <class name="com.seleniumtests.tests.RetryTest3" />
         </classes>
     </test>
 
