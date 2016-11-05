@@ -13,16 +13,13 @@
 
 package com.seleniumtests.tests;
 
-import static org.hamcrest.CoreMatchers.is;
-
-import static com.seleniumtests.core.CustomAssertion.assertEquals;
-import static com.seleniumtests.core.CustomAssertion.assertThat;
-import static com.seleniumtests.core.CustomAssertion.assertTrue;
-
-import org.testng.annotations.Test;
-
+import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.SeleniumTestPlan;
 import com.seleniumtests.core.TestLogging;
+import org.testng.annotations.Test;
+
+import static com.seleniumtests.core.CustomAssertion.*;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  * Demonstrate test execution continues even though assertions fail.
@@ -43,5 +40,7 @@ public class SoftAssertionTest extends SeleniumTestPlan {
         assertTrue(1 == 1, "never fails");
         TestLogging.log(
             "This message is logged after initial assertion failures. Hence test execution continues even in the wake of test failures");
+        // With out asserting verification failures, test would not be marked as fail 
+        assert CustomAssertion.getVerificationFailures().isEmpty():"Verification Errors";
     }
 }
