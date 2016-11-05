@@ -13,91 +13,40 @@
 
 package com.seleniumtests.reporter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import java.lang.reflect.Method;
-
-import java.net.URISyntaxException;
-import java.net.URL;
-
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-
-import org.testng.IInvokedMethod;
-import org.testng.IInvokedMethodListener;
-import org.testng.IReporter;
-import org.testng.IResultMap;
-import org.testng.ISuite;
-import org.testng.ISuiteResult;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
-import org.testng.ITestNGMethod;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-
-import org.testng.internal.ResultMap;
-import org.testng.internal.TestResult;
-import org.testng.internal.Utils;
-
-import org.testng.xml.XmlSuite;
-
-import com.seleniumtests.core.CustomAssertion;
-import com.seleniumtests.core.SeleniumTestsContext;
-import com.seleniumtests.core.SeleniumTestsContextManager;
-import com.seleniumtests.core.SeleniumTestsPageListener;
-import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.core.TestRetryAnalyzer;
-
+import com.seleniumtests.core.*;
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.driver.TestType;
 import com.seleniumtests.driver.WebUIDriver;
-
 import com.seleniumtests.helper.StringUtility;
-
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.Type;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.testng.*;
+import org.testng.internal.ResultMap;
+import org.testng.internal.TestResult;
+import org.testng.internal.Utils;
+import org.testng.xml.XmlSuite;
+
+import java.io.*;
+import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class SeleniumTestsReporter implements IReporter, ITestListener, IInvokedMethodListener {
 
-    private static Logger logger = TestLogging.getLogger(SeleniumTestsReporter.class);
+    private static final Logger logger = TestLogging.getLogger(SeleniumTestsReporter.class);
 
     protected class TestMethodSorter<T extends ITestNGMethod> implements Comparator<T> {
 
@@ -120,8 +69,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
          * Arrange methods by class and method name.
          */
         public int compare(final T o1, final T o2) {
-            String sig1 = StringUtility.constructMethodSignature(o1.getMethod().getMethod(), o1.getParameters());
-            String sig2 = StringUtility.constructMethodSignature(o2.getMethod().getMethod(), o2.getParameters());
+            final String sig1 = StringUtility.constructMethodSignature(o1.getMethod().getMethod(), o1.getParameters());
+            final String sig2 = StringUtility.constructMethodSignature(o2.getMethod().getMethod(), o2.getParameters());
             return sig1.compareTo(sig2);
         }
     }
@@ -136,16 +85,16 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
     public static void writeResourceToFile(final File file, final String resourceName, final Class<?> aClass)
         throws IOException {
-        InputStream inputStream = aClass.getResourceAsStream("/" + resourceName);
+        final InputStream inputStream = aClass.getResourceAsStream("/" + resourceName);
         if (inputStream == null) {
             logger.error("can not find resource on the class path: " + resourceName);
         } else {
 
             try {
-                FileOutputStream outputStream = new FileOutputStream(file);
+                final FileOutputStream outputStream = new FileOutputStream(file);
                 try {
                     int i;
-                    byte[] buffer = new byte[4096];
+                    final byte[] buffer = new byte[4096];
                     while (0 < (i = inputStream.read(buffer))) {
                         outputStream.write(buffer, 0, i);
                     }
@@ -158,11 +107,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         }
     }
 
-    private Map<String, Boolean> isRetryHandleNeeded = new HashMap<String, Boolean>();
+    private final Map<String, Boolean> isRetryHandleNeeded = new HashMap<String, Boolean>();
 
-    private Map<String, IResultMap> failedTests = new HashMap<String, IResultMap>();
+    private final Map<String, IResultMap> failedTests = new HashMap<String, IResultMap>();
 
-    private Map<String, IResultMap> skippedTests = new HashMap<String, IResultMap>();
+    private final Map<String, IResultMap> skippedTests = new HashMap<String, IResultMap>();
     protected PrintWriter m_out;
 
     private String uuid = new GregorianCalendar().getTime().toString();
@@ -188,9 +137,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
         // Handle Soft CustomAssertion
         if (method.isTestMethod()) {
-            List<Throwable> verificationFailures = CustomAssertion.getVerificationFailures();
+            final List<Throwable> verificationFailures = CustomAssertion.getVerificationFailures();
 
-            int size = verificationFailures.size();
+            final int size = verificationFailures.size();
             if (size == 0) {
                 return;
             } else if (result.getStatus() == TestResult.FAILURE) {
@@ -204,23 +153,23 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             } else {
 
                 // create failure message with all failures and stack traces barring last failure)
-                StringBuilder failureMessage = new StringBuilder("!!! Many Test Failures (").append(size).append(
-                        "):nn");
+                final StringBuilder failureMessage = new StringBuilder("!!! Many Test Failures (").append(size).append(
+                        ")\n");
                 for (int i = 0; i < size - 1; i++) {
-                    failureMessage.append("Failure ").append(i + 1).append(" of ").append(size).append(":n");
+                    failureMessage.append("Failure ").append(i + 1).append(" of ").append(size).append("\n");
 
-                    Throwable t = verificationFailures.get(i);
-                    String fullStackTrace = Utils.stackTrace(t, false)[1];
-                    failureMessage.append(fullStackTrace).append("nn");
+                    final Throwable t = verificationFailures.get(i);
+                    final String fullStackTrace = Utils.stackTrace(t, false)[1];
+                    failureMessage.append(fullStackTrace).append("\n");
                 }
 
                 // final failure
-                Throwable last = verificationFailures.get(size - 1);
+                final Throwable last = verificationFailures.get(size - 1);
                 failureMessage.append("Failure ").append(size).append(" of ").append(size).append(":n");
                 failureMessage.append(last.toString());
 
                 // set merged throwable
-                Throwable merged = new Throwable(failureMessage.toString());
+                final Throwable merged = new Throwable(failureMessage.toString());
                 merged.setStackTrace(last.getStackTrace());
 
                 result.setThrowable(merged);
@@ -243,7 +192,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                 + "yukontoolbox").mkdir();
         new File(outputDirectory + File.separator + "resources" + File.separator + "js").mkdir();
 
-        List<String> resources = new ArrayList<String>();
+        final List<String> resources = new ArrayList<String>();
         resources.add("reporter" + File.separator + "css" + File.separator + "report.css");
         resources.add("reporter" + File.separator + "css" + File.separator + "jquery.lightbox-0.5.css");
         resources.add("reporter" + File.separator + "css" + File.separator + "mktree.css");
@@ -300,7 +249,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         resources.add("reporter" + File.separator + "js" + File.separator + "browserdetect.js");
 
         for (String resourceName : resources) {
-            File f = new File(outputDirectory, resourceName.replace("reporter", "resources"));
+            final File f = new File(outputDirectory, resourceName.replace("reporter", "resources"));
             resourceName = resourceName.replaceAll("\\\\", "/");
             logger.debug("Begin to write resource " + resourceName + " to file " + f.getAbsolutePath());
             writeResourceToFile(f, resourceName, SeleniumTestsReporter.class);
@@ -311,12 +260,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         System.setProperty("file.encoding", "UTF8");
         uuid = uuid.replaceAll(" ", "-").replaceAll(":", "-");
 
-        File f = new File(outDir, "SeleniumTestReport.html");
+        final File f = new File(outDir, "SeleniumTestReport.html");
         logger.info("generating report " + f.getAbsolutePath());
         report = f;
 
-        OutputStream out = new FileOutputStream(f);
-        Writer writer = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+        final OutputStream out = new FileOutputStream(f);
+        final Writer writer = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
         return new PrintWriter(writer);
 
     }
@@ -331,8 +280,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     public void executeCmd(final String browserPath, final String theUrl) {
-        String cmdLine;
-        String osName = System.getProperty("os.name");
+        final String cmdLine;
+        final String osName = System.getProperty("os.name");
 
         if (osName.startsWith("Windows")) {
             cmdLine = "rundll32 SHELL32.DLL,ShellExec_RunDLL " + browserPath + " " + theUrl;
@@ -347,7 +296,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
         try {
             Runtime.getRuntime().exec(cmdLine);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.info(e);
         }
     }
@@ -359,12 +308,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
     protected void generateExceptionReport(final Throwable exception, final ITestNGMethod method,
             final StringBuffer contentBuffer, final String lastline) {
-        Throwable fortile = exception;
+        final Throwable fortile = exception;
         String title = fortile.getMessage();
         if (title == null) {
             try {
                 title = fortile.getCause().getMessage();
-            } catch (Throwable e) {
+            } catch (final Throwable e) {
                 title = e.getMessage();
             }
         }
@@ -375,14 +324,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     protected void generateGlobalErrorHTML(final ITestContext testContext, final StringBuffer errorCountTabs,
             final StringBuffer errorCountHtmls) {
         try {
-            VelocityEngine ve = new VelocityEngine();
+            final VelocityEngine ve = new VelocityEngine();
             ve.setProperty("resource.loader", "class");
             ve.setProperty("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             ve.init();
 
-            List<SeleniumTestsPageListener> pageListenersList = PluginsHelper.getInstance().getPageListeners();
-            for (SeleniumTestsPageListener abstractPageListener : pageListenersList) {
+            final List<SeleniumTestsPageListener> pageListenersList = PluginsHelper.getInstance().getPageListeners();
+            for (final SeleniumTestsPageListener abstractPageListener : pageListenersList) {
 
                 // Skip creating a tab according to "testResultEffected" property of an instance of
                 // com.seleniumtests.core.SeleniumTestsPageListener
@@ -405,7 +354,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                 errorCountHtmls.append("</div>");
                 errorCountTabs.append("</font> )</span></a></li>");
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error(e.getMessage());
         }
     }
@@ -415,13 +364,13 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             final StringBuffer sbCalcount) {
         int pageCount = 0;
 
-        Set<ITestResult> testResults = new HashSet<ITestResult>();
+        final Set<ITestResult> testResults = new HashSet<ITestResult>();
 
         addAllTestResults(testResults, tc.getPassedTests());
         addAllTestResults(testResults, failedTests.get(tc.getName()));
         addAllTestResults(testResults, tc.getFailedButWithinSuccessPercentageTests());
 
-        Map<String, Map<String, List<String>>> pageListenerLogMap = TestLogging.getPageListenerLog(
+        final Map<String, Map<String, List<String>>> pageListenerLogMap = TestLogging.getPageListenerLog(
                 abstractPageListener.getClass().getCanonicalName());
         if (pageListenerLogMap == null || pageListenerLogMap.isEmpty()) {
             res.append("<div class='method passed'><div class='yuk_goldgrad_tl'><div class='yuk_goldgrad_tr'>"
@@ -431,21 +380,21 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                     + "<div class='yuk_grey_bm_footer'><div class='yuk_grey_br'>"
                     + "<div class='yuk_grey_bl'></div></div></div></div>");
         } else {
-            for (Entry<String, Map<String, List<String>>> pageEntry : pageListenerLogMap.entrySet()) {
-                StringBuilder contentBuffer = new StringBuilder();
+            for (final Entry<String, Map<String, List<String>>> pageEntry : pageListenerLogMap.entrySet()) {
+                final StringBuilder contentBuffer = new StringBuilder();
                 contentBuffer.append(
                     "<table  class='ex' width='90%'><thead><tr><th>TestMethod</th><th>Errors</th></thead><tbody>");
 
-                Map<String, List<String>> errorMap = pageEntry.getValue();
+                final Map<String, List<String>> errorMap = pageEntry.getValue();
 
                 boolean found = false;
-                for (ITestResult testResult : testResults) {
-                    Method method = testResult.getMethod().getMethod();
-                    String methodInstance = StringUtility.constructMethodSignature(method, testResult.getParameters());
+                for (final ITestResult testResult : testResults) {
+                    final Method method = testResult.getMethod().getMethod();
+                    final String methodInstance = StringUtility.constructMethodSignature(method, testResult.getParameters());
                     if (errorMap.containsKey(methodInstance)) {
                         found = true;
                         contentBuffer.append("<tr><td>" + methodInstance + "</td><td>");
-                        for (String message : errorMap.get(methodInstance)) {
+                        for (final String message : errorMap.get(methodInstance)) {
                             contentBuffer.append(message);
                             contentBuffer.append("<br>");
                         }
@@ -458,16 +407,16 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                     contentBuffer.append("</tbody></table>");
 
                     try {
-                        Template t = ve.getTemplate("/templates/report.part.singlePageError.html");
-                        VelocityContext context = new VelocityContext();
+                        final Template t = ve.getTemplate("/templates/report.part.singlePageError.html");
+                        final VelocityContext context = new VelocityContext();
                         context.put("status", style);
                         context.put("pageName", pageEntry.getKey());
                         context.put("content", contentBuffer.toString());
 
-                        StringWriter writer = new StringWriter();
+                        final StringWriter writer = new StringWriter();
                         t.merge(context, writer);
                         res.append(writer.toString());
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         logger.error("errorLogger creating a singlePageError." + e.getMessage());
                     }
 
@@ -482,9 +431,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     protected String generateHTML(final ITestContext tc, final boolean envt, final ISuite suite,
             final ITestContext ctx) {
 
-        StringBuffer res = new StringBuffer();
+        final StringBuffer res = new StringBuffer();
         try {
-            VelocityEngine ve = new VelocityEngine();
+            final VelocityEngine ve = new VelocityEngine();
             ve.setProperty("resource.loader", "class");
             ve.setProperty("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -507,7 +456,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                 generatePanel(ve, skippedTests.get(tc.getName()), res, "skipped", suite, ctx, envt);
                 generatePanel(ve, tc.getPassedTests(), res, "passed", suite, ctx, envt);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error(e.getMessage());
             e.printStackTrace();
         }
@@ -518,11 +467,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     protected void generatePanel(final VelocityEngine ve, final IResultMap map, final StringBuffer res,
             final String style, final ISuite suite, final ITestContext ctx, final boolean envt) {
 
-        Collection<ITestNGMethod> methodSet = getMethodSet(map);
+        final Collection<ITestNGMethod> methodSet = getMethodSet(map);
 
-        for (ITestNGMethod method : methodSet) {
+        for (final ITestNGMethod method : methodSet) {
 
-            boolean methodIsValid;
+            final boolean methodIsValid;
             if (envt) {
                 methodIsValid = Arrays.asList(method.getGroups()).contains("envt");
             } else {
@@ -531,40 +480,40 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             if (methodIsValid) {
 
-                Collection<ITestResult> resultSet = getResultSet(map, method);
+                final Collection<ITestResult> resultSet = getResultSet(map, method);
                 String content;
-                for (ITestResult ans : resultSet) {
-                    StringBuffer contentBuffer = new StringBuffer();
+                for (final ITestResult ans : resultSet) {
+                    final StringBuffer contentBuffer = new StringBuffer();
                     String testName = "";
                     if (ans.getMethod().getXmlTest() != null) {
                         testName = ans.getMethod().getXmlTest().getName();
                     } else {
                         try {
                             testName = ans.getTestContext().getCurrentXmlTest().getName();
-                        } catch (Exception ex) {
+                        } catch (final Exception ex) {
                             ex.printStackTrace();
                             continue;
-                        } catch (Error e) {
+                        } catch (final Error e) {
                             e.printStackTrace();
                             continue;
                         }
                     }
 
-                    SeleniumTestsContext testLevelContext = SeleniumTestsContextManager.getTestLevelContext(testName);
+                    final SeleniumTestsContext testLevelContext = SeleniumTestsContextManager.getTestLevelContext(testName);
                     if (testLevelContext != null) {
-                        String appURL = testLevelContext.getAppURL();
+                        final String appURL = testLevelContext.getAppURL();
                         String browser = testLevelContext.getWebRunBrowser();
 
-                        String app = testLevelContext.getApp();
-                        String appPackage = testLevelContext.getAppPackage();
-                        String appActivity = testLevelContext.getAppActivity();
-                        String testType = testLevelContext.getTestType();
+                        final String app = testLevelContext.getApp();
+                        final String appPackage = testLevelContext.getAppPackage();
+                        final String appActivity = testLevelContext.getAppActivity();
+                        final String testType = testLevelContext.getTestType();
 
                         if (browser != null) {
                             browser = browser.replace("*", "");
                         }
 
-                        String browserVersion = (String) testLevelContext.getAttribute("browserVersion");
+                        final String browserVersion = (String) testLevelContext.getAttribute("browserVersion");
                         if (browserVersion != null) {
                             browser = browser + browserVersion;
                         }
@@ -590,12 +539,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         }
                     }
 
-                    Object[] parameters = ans.getParameters();
-                    List<String> msgs = Reporter.getOutput(ans);
+                    final Object[] parameters = ans.getParameters();
+                    final List<String> msgs = Reporter.getOutput(ans);
 
-                    boolean hasReporterOutput = msgs.size() > 0;
-                    Throwable exception = ans.getThrowable();
-                    boolean hasThrowable = exception != null;
+                    final boolean hasReporterOutput = msgs.size() > 0;
+                    final Throwable exception = ans.getThrowable();
+                    final boolean hasThrowable = exception != null;
                     if (hasReporterOutput || hasThrowable) {
                         contentBuffer.append("<div class='leftContent' style='float: left; width: 100%;'>");
                         contentBuffer.append("<h4><a href='javascript:void(0);' class='testloglnk'>Test Steps "
@@ -603,8 +552,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         contentBuffer.append("<div class='testlog' "
                                 + (style.equals("passed") ? "style='display:none'" : "") + ">");
                         contentBuffer.append("<ol>");
-                        for (String line : msgs) {
-                            ElaborateLog logLine = new ElaborateLog(line, outputDirectory);
+                        for (final String line : msgs) {
+                            final ElaborateLog logLine = new ElaborateLog(line, outputDirectory);
                             String htmllog;
                             if (logLine.getHref() != null) {
                                 htmllog = "<a href='" + logLine.getHref() + "' title='" + logLine.getLocation() + "' >"
@@ -637,7 +586,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         contentBuffer.append("</div></div>");
                     }
 
-                    String treeId = "tree" + m_treeId;
+                    final String treeId = "tree" + m_treeId;
                     m_treeId++;
                     if (ans.getStatus() == 3) {
                         contentBuffer.append("<br>method skipped, because of its dependencies :<br>");
@@ -648,12 +597,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                     content = contentBuffer.toString();
 
                     try {
-                        Template t = ve.getTemplate("/templates/report.part.singleTest.html");
-                        VelocityContext context = new VelocityContext();
+                        final Template t = ve.getTemplate("/templates/report.part.singleTest.html");
+                        final VelocityContext context = new VelocityContext();
                         context.put("status", style);
 
-                        String javadoc = getJavadocComments(method);
-                        String desc = method.getDescription();
+                        final String javadoc = getJavadocComments(method);
+                        final String desc = method.getDescription();
 
                         String toDisplay = "neither javadoc nor description for this method.";
                         if (!"".equals(javadoc) && javadoc != null) {
@@ -662,7 +611,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                             toDisplay = desc;
                         }
 
-                        String methodSignature = StringUtility.constructMethodSignature(method.getMethod(), parameters);
+                        final String methodSignature = StringUtility.constructMethodSignature(method.getMethod(), parameters);
                         if (methodSignature.length() > 500) {
                             context.put("methodName", methodSignature.substring(0, 500) + "...");
                         } else {
@@ -673,10 +622,10 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         context.put("content", content);
                         context.put("time", "Time: " + ((ans.getEndMillis() - ans.getStartMillis()) / 1000) + "sec.");
 
-                        StringWriter writer = new StringWriter();
+                        final StringWriter writer = new StringWriter();
                         t.merge(context, writer);
                         res.append(writer.toString());
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         logger.error("Exception creating a singleTest." + e.getMessage());
                         e.printStackTrace();
                     }
@@ -687,13 +636,13 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     public void generateReport(final List<XmlSuite> xml, final List<ISuite> suites, final String outdir) {
-        ITestContext testCtx = SeleniumTestsContextManager.getGlobalContext().getTestNGContext();
+        final ITestContext testCtx = SeleniumTestsContextManager.getGlobalContext().getTestNGContext();
         if (testCtx == null) {
             logger.error("Looks like your class does not extend from SeleniumTestPlan!");
             return;
         }
 
-        File f = new File(SeleniumTestsContextManager.getGlobalContext().getOutputDirectory());
+        final File f = new File(SeleniumTestsContextManager.getGlobalContext().getOutputDirectory());
         setOutputDirectory(f.getParentFile().getAbsolutePath());
         setResources(getOutputDirectory() + "\\resources");
         try {
@@ -703,13 +652,13 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             // hard coded "summaryPerSuite", consider refactoring if more report configurations.
             if ("summaryPerSuite".equalsIgnoreCase(SeleniumTestsContextManager.getGlobalContext().getReportGenerationConfig())) {
-                for (ISuite suite : suites) {
-                    List<ISuite> singleSuiteList = new ArrayList<ISuite>();
+                for (final ISuite suite : suites) {
+                    final List<ISuite> singleSuiteList = new ArrayList<ISuite>();
                     singleSuiteList.add(suite);
                     generateSuiteSummaryReport(singleSuiteList, suite.getName());
                 }
-                for (ISuite suite : suites) {
-                    List<ISuite> singleSuiteList = new ArrayList<ISuite>();
+                for (final ISuite suite : suites) {
+                    final List<ISuite> singleSuiteList = new ArrayList<ISuite>();
                     singleSuiteList.add(suite);
                     generateReportsSection(singleSuiteList);
                 }
@@ -724,12 +673,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             copyResources();
             logger.info("Completed Report Generation.");
 
-            String browserPath = (String) SeleniumTestsContextManager.getGlobalContext().getAttribute(
+            final String browserPath = (String) SeleniumTestsContextManager.getGlobalContext().getAttribute(
                     SeleniumTestsContext.OPEN_REPORT_IN_BROWSER);
             if (browserPath != null && browserPath.trim().length() > 0) {
                 executeCmd(browserPath, getReportLocation().getAbsolutePath());
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error("output file", e);
         }
 
@@ -739,14 +688,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             final int testp, final int testf, final int tests, final String envthtml, final String testhtml,
             final String globalErrorTabs, final String globalErrorHtmls) {
         try {
-            VelocityEngine ve = new VelocityEngine();
+            final VelocityEngine ve = new VelocityEngine();
             ve.setProperty("resource.loader", "class");
             ve.setProperty("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             ve.init();
 
-            Template t = ve.getTemplate("/templates/report.part.testDetail.html");
-            VelocityContext context = new VelocityContext();
+            final Template t = ve.getTemplate("/templates/report.part.testDetail.html");
+            final VelocityContext context = new VelocityContext();
             context.put("testId", StringUtility.md5(name));
             context.put("testName", name);
             context.put("envtp", envtp);
@@ -760,11 +709,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             context.put("globalerrortabs", globalErrorTabs);
             context.put("globalerrorhtmls", globalErrorHtmls);
 
-            StringWriter writer = new StringWriter();
+            final StringWriter writer = new StringWriter();
             t.merge(context, writer);
             m_out.write(writer.toString());
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error(e.getMessage());
         }
 
@@ -774,27 +723,27 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
         m_out.println("<div id='reports'>");
 
-        for (ISuite suite : suites) {
-            Map<String, ISuiteResult> r = suite.getResults();
-            for (ISuiteResult r2 : r.values()) {
+        for (final ISuite suite : suites) {
+            final Map<String, ISuiteResult> r = suite.getResults();
+            for (final ISuiteResult r2 : r.values()) {
 
-                ITestContext tc = r2.getTestContext();
+                final ITestContext tc = r2.getTestContext();
 
-                int envtp = getNbInstanceForGroup(true, tc.getPassedTests());
+                final int envtp = getNbInstanceForGroup(true, tc.getPassedTests());
                 int envtf = getNbInstanceForGroup(true, failedTests.get(tc.getName()));
                 int envts = getNbInstanceForGroup(true, skippedTests.get(tc.getName()));
                 envtf += getNbInstanceForGroup(true, tc.getFailedConfigurations());
                 envts += getNbInstanceForGroup(true, tc.getSkippedConfigurations());
 
-                int testp = getNbInstanceForGroup(false, tc.getPassedTests());
-                int testf = getNbInstanceForGroup(false, failedTests.get(tc.getName()));
-                int tests = getNbInstanceForGroup(false, skippedTests.get(tc.getName()));
+                final int testp = getNbInstanceForGroup(false, tc.getPassedTests());
+                final int testf = getNbInstanceForGroup(false, failedTests.get(tc.getName()));
+                final int tests = getNbInstanceForGroup(false, skippedTests.get(tc.getName()));
 
-                String envthtml = generateHTML(tc, true, suite, tc);
-                String testhtml = generateHTML(tc, false, suite, tc);
+                final String envthtml = generateHTML(tc, true, suite, tc);
+                final String testhtml = generateHTML(tc, false, suite, tc);
 
-                StringBuffer globalErrorTabs = new StringBuffer();
-                StringBuffer globalErrorHtmls = new StringBuffer();
+                final StringBuffer globalErrorTabs = new StringBuffer();
+                final StringBuffer globalErrorHtmls = new StringBuffer();
 
                 generateGlobalErrorHTML(tc, globalErrorTabs, globalErrorHtmls);
 
@@ -810,7 +759,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     public void generateSuiteSummaryReport(final List<ISuite> suites, final String suiteName) {
-        NumberFormat formatter = new DecimalFormat("#,##0.0");
+        final NumberFormat formatter = new DecimalFormat("#,##0.0");
         int qty_method = 0;
         int qty_pass_s = 0;
         int qty_skip = 0;
@@ -818,13 +767,13 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         long time_start = Long.MAX_VALUE;
         long time_end = Long.MIN_VALUE;
 
-        List<ShortTestResult> tests2 = new ArrayList<ShortTestResult>();
-        for (ISuite suite : suites) {
-            Map<String, ISuiteResult> tests = suite.getResults();
-            for (ISuiteResult r : tests.values()) {
+        final List<ShortTestResult> tests2 = new ArrayList<ShortTestResult>();
+        for (final ISuite suite : suites) {
+            final Map<String, ISuiteResult> tests = suite.getResults();
+            for (final ISuiteResult r : tests.values()) {
 
-                ITestContext overview = r.getTestContext();
-                ShortTestResult mini = new ShortTestResult(overview.getName());
+                final ITestContext overview = r.getTestContext();
+                final ShortTestResult mini = new ShortTestResult(overview.getName());
 
                 int q;
                 q = overview.getAllTestMethods().length;
@@ -851,34 +800,34 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             }
         }
 
-        ShortTestResult total = new ShortTestResult("total");
+        final ShortTestResult total = new ShortTestResult("total");
         total.setTotalMethod(qty_method);
         total.setInstancesPassed(qty_pass_s);
         total.setInstancesFailed(qty_fail);
         total.setInstancesSkipped(qty_skip);
 
         try {
-            VelocityEngine ve = new VelocityEngine();
+            final VelocityEngine ve = new VelocityEngine();
             ve.setProperty("resource.loader", "class");
             ve.setProperty("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             ve.init();
 
-            Template t = ve.getTemplate("/templates/report.part.summary.html");
-            VelocityContext context = new VelocityContext();
+            final Template t = ve.getTemplate("/templates/report.part.summary.html");
+            final VelocityContext context = new VelocityContext();
             context.put("suiteName", suiteName);
             context.put("totalRunTime", formatter.format((time_end - time_start) / 1000.) + " sec");
 
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE dd MMM HH:mm:ss zzz yyyy");
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE dd MMM HH:mm:ss zzz yyyy");
             context.put("TimeStamp", simpleDateFormat.format(new GregorianCalendar().getTime()));
             context.put("tests", tests2);
             context.put("total", total);
 
-            StringWriter writer = new StringWriter();
+            final StringWriter writer = new StringWriter();
             t.merge(context, writer);
             m_out.write(writer.toString());
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error(e.getMessage());
         }
 
@@ -891,7 +840,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
         contentBuffer.append("<div class='exception' style='display:none'>");
 
-        StackTraceElement[] s1 = exception.getStackTrace();
+        final StackTraceElement[] s1 = exception.getStackTrace();
         Throwable t2 = exception.getCause();
         if (t2 == exception) {
             t2 = null;
@@ -909,9 +858,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     protected Collection<ITestNGMethod> getAllMethods(final ISuite suite) {
-        Set<ITestNGMethod> all = new LinkedHashSet<ITestNGMethod>();
-        Map<String, Collection<ITestNGMethod>> methods = suite.getMethodsByGroups();
-        for (Entry<String, Collection<ITestNGMethod>> group : methods.entrySet()) {
+        final Set<ITestNGMethod> all = new LinkedHashSet<ITestNGMethod>();
+        final Map<String, Collection<ITestNGMethod>> methods = suite.getMethodsByGroups();
+        for (final Entry<String, Collection<ITestNGMethod>> group : methods.entrySet()) {
             all.addAll(methods.get(group.getKey()));
         }
 
@@ -930,7 +879,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     protected ITestResult getFailedOrSkippedResult(final ITestContext ctx, final ITestNGMethod method) {
-        List<ITestResult> res = new LinkedList<ITestResult>();
+        final List<ITestResult> res = new LinkedList<ITestResult>();
         res.addAll(failedTests.get(ctx.getName()).getResults(method));
         if (res.size() != 0) {
             return res.get(0);
@@ -950,17 +899,17 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     protected JavaDocBuilder getJavaDocBuilder(final Class clz) throws URISyntaxException {
-        String projectPath = new File("").getAbsolutePath();
-        String packagePath = clz.getPackage().getName().replaceAll("\\.", "/");
+        final String projectPath = new File("").getAbsolutePath();
+        final String packagePath = clz.getPackage().getName().replaceAll("\\.", "/");
         if (builder == null) {
             builder = new JavaDocBuilder();
 
-            URL resource = Thread.currentThread().getContextClassLoader().getResource(packagePath);
-            File src = new File(resource.toURI());
+            final URL resource = Thread.currentThread().getContextClassLoader().getResource(packagePath);
+            final File src = new File(resource.toURI());
             builder.addSourceTree(src);
 
             // project source folder
-            File realFolder = new File(projectPath + "/src/main/java/" + packagePath);
+            final File realFolder = new File(projectPath + "/src/main/java/" + packagePath);
             if (realFolder.exists()) {
                 builder.addSourceTree(realFolder);
             }
@@ -972,21 +921,21 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     protected String getJavadocComments(final ITestNGMethod method) {
 
         try {
-            Method m = method.getMethod();
-            String javaClass = m.getDeclaringClass().getName();
-            String javaMethod = m.getName();
-            JavaClass jc = getJavaDocBuilder(m.getDeclaringClass()).getClassByName(javaClass);
-            Class<?>[] types = method.getMethod().getParameterTypes();
-            Type[] qdoxTypes = new Type[types.length];
+            final Method m = method.getMethod();
+            final String javaClass = m.getDeclaringClass().getName();
+            final String javaMethod = m.getName();
+            final JavaClass jc = getJavaDocBuilder(m.getDeclaringClass()).getClassByName(javaClass);
+            final Class<?>[] types = method.getMethod().getParameterTypes();
+            final Type[] qdoxTypes = new Type[types.length];
             for (int i = 0; i < types.length; i++) {
-                String type = getType(types[i]);
-                int dim = getDim(types[i]);
+                final String type = getType(types[i]);
+                final int dim = getDim(types[i]);
                 qdoxTypes[i] = new Type(type, dim);
             }
 
-            JavaMethod jm = jc.getMethodBySignature(javaMethod, qdoxTypes);
+            final JavaMethod jm = jc.getMethodBySignature(javaMethod, qdoxTypes);
             return jm.getComment();
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
             logger.error("Exception loading the javadoc comments for : " + method.getMethodName() + e);
             return null;
         }
@@ -999,7 +948,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
      * @return
      */
     protected Collection<ITestNGMethod> getMethodSet(final IResultMap tests) {
-        Set<ITestNGMethod> r = new TreeSet<ITestNGMethod>(new TestMethodSorter<ITestNGMethod>());
+        final Set<ITestNGMethod> r = new TreeSet<ITestNGMethod>(new TestMethodSorter<ITestNGMethod>());
         r.addAll(tests.getAllMethods());
         return r;
     }
@@ -1007,9 +956,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     protected int getNbInstanceForGroup(final boolean envt, final IResultMap tests) {
         int res = 0;
 
-        for (ITestResult result : tests.getAllResults()) {
+        for (final ITestResult result : tests.getAllResults()) {
 
-            boolean resultIsAnEnvtRes = Arrays.asList(result.getMethod().getGroups()).contains("envt");
+            final boolean resultIsAnEnvtRes = Arrays.asList(result.getMethod().getGroups()).contains("envt");
 
             if (resultIsAnEnvtRes) {
                 if (envt) {
@@ -1043,8 +992,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
      * @return
      */
     protected Collection<ITestResult> getResultSet(final IResultMap tests, final ITestNGMethod method) {
-        Set<ITestResult> r = new TreeSet<ITestResult>(new TestResultSorter<ITestResult>());
-        for (ITestResult result : tests.getAllResults()) {
+        final Set<ITestResult> r = new TreeSet<ITestResult>(new TestResultSorter<ITestResult>());
+        for (final ITestResult result : tests.getAllResults()) {
             if (result.getMethod().getMethodName().equals(method.getMethodName())) {
                 r.add(result);
             }
@@ -1054,17 +1003,17 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     }
 
     protected ITestNGMethod getTestNGMethod(final ITestContext ctx, final String method) {
-        Collection<ITestNGMethod> methods = new HashSet<ITestNGMethod>();
+        final Collection<ITestNGMethod> methods = new HashSet<ITestNGMethod>();
 
-        int index = method.substring(0, method.lastIndexOf(".")).lastIndexOf(".");
-        String localMethod = method.substring(index + 1);
+        final int index = method.substring(0, method.lastIndexOf(".")).lastIndexOf(".");
+        final String localMethod = method.substring(index + 1);
 
-        ITestNGMethod[] all = ctx.getAllTestMethods();
+        final ITestNGMethod[] all = ctx.getAllTestMethods();
         for (int i = 0; i < all.length; i++) {
             methods.add(all[i]);
         }
 
-        for (ITestNGMethod m : methods) {
+        for (final ITestNGMethod m : methods) {
 
             if (m.toString().startsWith(localMethod)) {
                 return m;
@@ -1113,24 +1062,24 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
     public synchronized void onTestFailure(final ITestResult arg0) {
         if (arg0.getMethod().getRetryAnalyzer() != null) {
-            TestRetryAnalyzer testRetryAnalyzer = (TestRetryAnalyzer) arg0.getMethod().getRetryAnalyzer();
+            final TestRetryAnalyzer testRetryAnalyzer = (TestRetryAnalyzer) arg0.getMethod().getRetryAnalyzer();
 
-            if (testRetryAnalyzer.getCount() <= testRetryAnalyzer.getMaxCount()) {
+            if (1 <= testRetryAnalyzer.getCount()) {
                 arg0.setStatus(ITestResult.SKIP);
                 Reporter.setCurrentTestResult(null);
             } else {
-                IResultMap rMap = failedTests.get(arg0.getTestContext().getName());
+                final IResultMap rMap = failedTests.get(arg0.getTestContext().getName());
                 rMap.addResult(arg0, arg0.getMethod());
                 failedTests.put(arg0.getTestContext().getName(), rMap);
             }
 
-            System.out.println(arg0.getMethod() + " Failed in " + testRetryAnalyzer.getCount() + " times");
+            System.out.println(arg0.getMethod() + " Failed in " + TestRetryAnalyzer.MAX_RETRY_COUNT + " times");
             isRetryHandleNeeded.put(arg0.getTestContext().getName(), true);
         }
 
         // capture snap shot only for the failed web tests
         if (WebUIDriver.getWebDriver() != null) {
-            ScreenShot screenShot = new ScreenshotUtil().captureWebPageSnapshot();
+            final ScreenShot screenShot = new ScreenshotUtil().captureWebPageSnapshot();
             TestLogging.logWebOutput(screenShot.getTitle(), TestLogging.buildScreenshotLog(screenShot), true);
         }
     }
@@ -1149,12 +1098,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
      * @return
      */
     private void removeFailedTestsInTestNG(final ITestContext tc) {
-        IResultMap returnValue = tc.getFailedTests();
+        final IResultMap returnValue = tc.getFailedTests();
 
-        ResultMap removeMap = new ResultMap();
-        for (ITestResult result : returnValue.getAllResults()) {
+        final ResultMap removeMap = new ResultMap();
+        for (final ITestResult result : returnValue.getAllResults()) {
             boolean isFailed = false;
-            for (ITestResult resultToCheck : failedTests.get(tc.getName()).getAllResults()) {
+            for (final ITestResult resultToCheck : failedTests.get(tc.getName()).getAllResults()) {
                 if (result.getMethod().equals(resultToCheck.getMethod())
                         && result.getEndMillis() == resultToCheck.getEndMillis()) {
                     isFailed = true;
@@ -1168,9 +1117,9 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             }
         }
 
-        for (ITestResult result : removeMap.getAllResults()) {
+        for (final ITestResult result : removeMap.getAllResults()) {
             ITestResult removeResult = null;
-            for (ITestResult resultToCheck : returnValue.getAllResults()) {
+            for (final ITestResult resultToCheck : returnValue.getAllResults()) {
                 if (result.getMethod().equals(resultToCheck.getMethod())
                         && result.getEndMillis() == resultToCheck.getEndMillis()) {
                     removeResult = resultToCheck;
@@ -1193,18 +1142,18 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
      * @return
      */
     private void removeIncorrectlySkippedTests(final ITestContext tc, final IResultMap map) {
-        List<ITestNGMethod> failsToRemove = new ArrayList<ITestNGMethod>();
-        IResultMap returnValue = tc.getSkippedTests();
+        final List<ITestNGMethod> failsToRemove = new ArrayList<ITestNGMethod>();
+        final IResultMap returnValue = tc.getSkippedTests();
 
-        for (ITestResult result : returnValue.getAllResults()) {
-            for (ITestResult resultToCheck : map.getAllResults()) {
+        for (final ITestResult result : returnValue.getAllResults()) {
+            for (final ITestResult resultToCheck : map.getAllResults()) {
                 if (resultToCheck.getMethod().equals(result.getMethod())) {
                     failsToRemove.add(resultToCheck.getMethod());
                     break;
                 }
             }
 
-            for (ITestResult resultToCheck : tc.getPassedTests().getAllResults()) {
+            for (final ITestResult resultToCheck : tc.getPassedTests().getAllResults()) {
                 if (resultToCheck.getMethod().equals(result.getMethod())) {
                     failsToRemove.add(resultToCheck.getMethod());
                     break;
@@ -1212,7 +1161,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             }
         }
 
-        for (ITestNGMethod method : failsToRemove) {
+        for (final ITestNGMethod method : failsToRemove) {
             returnValue.removeResult(method);
         }
 
@@ -1237,42 +1186,42 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
      */
     protected void startHtml(final ITestContext ctx, final PrintWriter out) {
         try {
-            VelocityEngine ve = new VelocityEngine();
+            final VelocityEngine ve = new VelocityEngine();
             ve.setProperty("resource.loader", "class");
             ve.setProperty("class.resource.loader.class",
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
             ve.init();
 
-            Template t = ve.getTemplate("/templates/report.part.header.html");
-            VelocityContext context = new VelocityContext();
+            final Template t = ve.getTemplate("/templates/report.part.header.html");
+            final VelocityContext context = new VelocityContext();
 
-            String userName = System.getProperty("user.name");
+            final String userName = System.getProperty("user.name");
             context.put("userName", userName);
             context.put("currentDate", new Date().toString());
 
-            String mode = SeleniumTestsContextManager.getGlobalContext().getWebRunMode();
-            String hubUrl = SeleniumTestsContextManager.getGlobalContext().getWebDriverGrid();
+            final String mode = SeleniumTestsContextManager.getGlobalContext().getWebRunMode();
+            final String hubUrl = SeleniumTestsContextManager.getGlobalContext().getWebDriverGrid();
             context.put("gridHub", "<a href='" + hubUrl + "' target=hub>" + hubUrl + "</a>");
 
             context.put("mode", mode);
 
-            StringBuilder sbGroups = new StringBuilder();
+            final StringBuilder sbGroups = new StringBuilder();
             sbGroups.append("envt,test");
 
-            List<SeleniumTestsPageListener> pageListenerList = PluginsHelper.getInstance().getPageListeners();
+            final List<SeleniumTestsPageListener> pageListenerList = PluginsHelper.getInstance().getPageListeners();
             if (pageListenerList != null && !pageListenerList.isEmpty()) {
-                for (SeleniumTestsPageListener abstractPageListener : pageListenerList) {
+                for (final SeleniumTestsPageListener abstractPageListener : pageListenerList) {
                     sbGroups.append(",").append(abstractPageListener.getClass().getSimpleName());
                 }
             }
 
             context.put("groups", sbGroups.toString());
 
-            StringWriter writer = new StringWriter();
+            final StringWriter writer = new StringWriter();
             t.merge(context, writer);
             out.write(writer.toString());
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             logger.error(e.getMessage());
         }
 
@@ -1287,17 +1236,17 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             res.append("<ul class=\"mktree\" id=\"" + treeId + "\">");
         }
 
-        String[] methStr = method.getMethodsDependedUpon();
+        final String[] methStr = method.getMethodsDependedUpon();
         if (methStr.length != 0) {
             for (int i = 0; i < methStr.length; i++) {
-                ITestNGMethod m = getTestNGMethod(ctx, methStr[i]);
+                final ITestNGMethod m = getTestNGMethod(ctx, methStr[i]);
                 String intendstr = "";
                 for (int j = 0; j < indent; j++) {
                     intendstr += "\t";
                 }
 
                 String img = "<img src=\"";
-                String m_root = "resources/images/mktree/";
+                final String m_root = "resources/images/mktree/";
                 img += m_root + "/test" + getFailedOrSkippedResult(ctx, m).getStatus() + ".gif";
                 img += "\"/>";
 
@@ -1319,10 +1268,10 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
             }
 
-            String dependentGroup = method.getGroupsDependedUpon()[i];
+            final String dependentGroup = method.getGroupsDependedUpon()[i];
 
-            Set<ITestNGMethod> methods = new LinkedHashSet<ITestNGMethod>();
-            Collection<ITestNGMethod> c = suite.getMethodsByGroups().get(dependentGroup);
+            final Set<ITestNGMethod> methods = new LinkedHashSet<ITestNGMethod>();
+            final Collection<ITestNGMethod> c = suite.getMethodsByGroups().get(dependentGroup);
 
             if (c != null) {
                 methods.addAll(c);
@@ -1331,14 +1280,14 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
             res.append("<li><u>Group " + dependentGroup + "</u>");
             res.append("<ul>");
 
-            for (ITestNGMethod m : methods) {
+            for (final ITestNGMethod m : methods) {
                 String intendstr = "";
                 for (int j = 0; j < indent; j++) {
                     intendstr += "\t";
                 }
 
                 String img = "<img src=\"";
-                String m_root = "resources/images/mktree/";
+                final String m_root = "resources/images/mktree/";
                 img += m_root + "/test" + getFailedOrSkippedResult(ctx, m).getStatus() + ".gif";
                 img += "\"/>";
                 res.append(intendstr + "<li>" + img + m);
