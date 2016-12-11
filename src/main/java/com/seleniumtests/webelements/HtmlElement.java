@@ -14,28 +14,13 @@
 package com.seleniumtests.webelements;
 
 import com.seleniumtests.core.TestLogging;
-
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.driver.WebUIDriver;
-
 import com.seleniumtests.helper.ContextHelper;
 import com.seleniumtests.helper.WaitHelper;
-
-import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
-
 import org.apache.log4j.Logger;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.InvalidElementStateException;
-import org.openqa.selenium.InvalidSelectorException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Mouse;
@@ -139,20 +124,20 @@ public class HtmlElement {
         TestLogging.logWebStep("click on " + toHTML(), false);
         findElement();
 
-        String[] parts = value.split(",");
-        int xOffset = Integer.parseInt(parts[0]);
-        int yOffset = Integer.parseInt(parts[1]);
+        final String[] parts = value.split(",");
+        final int xOffset = Integer.parseInt(parts[0]);
+        final int yOffset = Integer.parseInt(parts[1]);
 
         try {
             new Actions(driver).moveToElement(element, xOffset, yOffset).click()
                 .perform();
-        } catch (InvalidElementStateException e) {
+        } catch (final InvalidElementStateException e) {
             e.printStackTrace();
             element.click();
         }
 
         try {
-            BrowserType type = WebUIDriver.getWebUIDriver().getConfig()
+            final BrowserType type = WebUIDriver.getWebUIDriver().getConfig()
                 .getBrowser();
 
             if (((type == BrowserType.Chrome) ||
@@ -161,7 +146,7 @@ public class HtmlElement {
                         "leave")) {
                 this.getDriver().switchTo().alert().accept();
             }
-        } catch (NoAlertPresentException e) {
+        } catch (final NoAlertPresentException e) {
             e.printStackTrace();
         }
     }
@@ -169,13 +154,13 @@ public class HtmlElement {
     public void simulateClick() {
         findElement();
 
-        String mouseOverScript =
+        final String mouseOverScript =
             "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        final JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(mouseOverScript, element);
         WaitHelper.waitForSeconds(2);
 
-        String clickScript =
+        final String clickScript =
             "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('click', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onclick');}";
         js.executeScript(clickScript, element);
         WaitHelper.waitForSeconds(2);
@@ -198,23 +183,6 @@ public class HtmlElement {
     protected void findElement() {
         driver = WebUIDriver.getWebDriver();
         element = driver.findElement(by);
-    }
-
-    /**
-     * Fires a Javascript event on the underlying element.
-     *
-     * @param  eventName
-     */
-    public void fireEvent(final String eventName) {
-        findElement();
-
-        try {
-            JavascriptLibrary jsLib = new JavascriptLibrary();
-            jsLib.callEmbeddedSelenium(driver, "doFireEvent", element,
-                eventName);
-        } catch (Exception ex) {
-            // Handle OperaDriver
-        }
     }
 
     /**
@@ -291,7 +259,7 @@ public class HtmlElement {
     public String getEval(final String script) {
         findElement();
 
-        String name = (String) ((JavascriptExecutor) driver).executeScript(
+        final String name = (String) ((JavascriptExecutor) driver).executeScript(
                 script, element);
 
         return name;
@@ -443,7 +411,7 @@ public class HtmlElement {
             findElement();
 
             return element.isDisplayed();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return false;
         }
     }
@@ -468,7 +436,7 @@ public class HtmlElement {
         try {
 
             count = WebUIDriver.getWebDriver().findElements(by).size();
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
 
             if (e instanceof InvalidSelectorException) {
                 TestLogging.log("Got InvalidSelectorException, retry");
@@ -534,7 +502,7 @@ public class HtmlElement {
         TestLogging.log("MouseDown " + this.toString());
         findElement();
 
-        Mouse mouse = ((HasInputDevices) driver).getMouse();
+        final Mouse mouse = ((HasInputDevices) driver).getMouse();
         mouse.mouseDown(null);
     }
 
@@ -548,8 +516,8 @@ public class HtmlElement {
         // build and perform the mouseOver with Advanced User Interactions API
         // Actions builder = new Actions(driver);
         // builder.moveToElement(element).build().perform();
-        Locatable hoverItem = (Locatable) element;
-        Mouse mouse = ((HasInputDevices) driver).getMouse();
+        final Locatable hoverItem = (Locatable) element;
+        final Mouse mouse = ((HasInputDevices) driver).getMouse();
         mouse.mouseMove(hoverItem.getCoordinates());
     }
 
@@ -559,9 +527,9 @@ public class HtmlElement {
     public void simulateMouseOver() {
         findElement();
 
-        String mouseOverScript =
+        final String mouseOverScript =
             "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        final JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(mouseOverScript, element);
     }
 
@@ -572,7 +540,7 @@ public class HtmlElement {
         TestLogging.log("MouseUp " + this.toString());
         findElement();
 
-        Mouse mouse = ((HasInputDevices) driver).getMouse();
+        final Mouse mouse = ((HasInputDevices) driver).getMouse();
         mouse.mouseUp(null);
     }
 
@@ -627,7 +595,7 @@ public class HtmlElement {
     public void waitForPresent(final int timeout) {
         TestLogging.logWebStep("wait for " + this.toString() + " to present.", false);
 
-        Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
+        final Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
         wait.until(new ExpectedCondition<WebElement>() {
                 public WebElement apply(final WebDriver driver) {
                     return driver.findElement(by);
