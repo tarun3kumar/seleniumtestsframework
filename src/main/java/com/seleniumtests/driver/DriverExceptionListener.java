@@ -13,20 +13,26 @@
 
 package com.seleniumtests.driver;
 
+import com.seleniumtests.core.SeleniumTestsContextManager;
+import com.seleniumtests.customexception.WebSessionEndedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
-import com.seleniumtests.core.SeleniumTestsContextManager;
-
-import com.seleniumtests.customexception.WebSessionEndedException;
-
 public class DriverExceptionListener implements WebDriverEventListener {
-    public void afterChangeValueOf(final WebElement arg0, final WebDriver arg1) { }
-
     public void afterClickOn(final WebElement arg0, final WebDriver arg1) { }
+
+    @Override
+    public void beforeChangeValueOf(final WebElement webElement, final WebDriver webDriver, final CharSequence[] charSequences) {
+        
+    }
+
+    @Override
+    public void afterChangeValueOf(final WebElement webElement, final WebDriver webDriver, final CharSequence[] charSequences) {
+
+    }
 
     public void afterFindBy(final By arg0, final WebElement arg1, final WebDriver arg2) { }
 
@@ -35,16 +41,14 @@ public class DriverExceptionListener implements WebDriverEventListener {
     public void afterNavigateForward(final WebDriver arg0) { }
 
     @Override
-    public void beforeNavigateRefresh(WebDriver webDriver) {}
+    public void beforeNavigateRefresh(final WebDriver webDriver) {}
 
     @Override
-    public void afterNavigateRefresh(WebDriver webDriver) {}
+    public void afterNavigateRefresh(final WebDriver webDriver) {}
 
     public void afterNavigateTo(final String arg0, final WebDriver arg1) { }
 
     public void afterScript(final String arg0, final WebDriver arg1) { }
-
-    public void beforeChangeValueOf(final WebElement arg0, final WebDriver arg1) { }
 
     public void beforeClickOn(final WebElement arg0, final WebDriver arg1) { }
 
@@ -74,7 +78,7 @@ public class DriverExceptionListener implements WebDriverEventListener {
 
             // customexception
             for (int i = 0; i < ex.getStackTrace().length; i++) {
-                String method = ex.getStackTrace()[i].getMethodName();
+                final String method = ex.getStackTrace()[i].getMethodName();
                 if (method.contains("getTitle") || method.contains("getWindowHandle") || method.contains("click")
                         || method.contains("getPageSource")) {
                     return;
@@ -97,7 +101,7 @@ public class DriverExceptionListener implements WebDriverEventListener {
         } else if (ex instanceof org.openqa.selenium.UnsupportedCommandException) {
             return;
         } else {
-            String message = ex.getMessage().split("\\n")[0];
+            final String message = ex.getMessage().split("\\n")[0];
             System.out.println("Got customexception:" + message);
             if (message.matches("Session (/S*) was terminated due to(.|\\n)*")
                     || message.matches("cannot forward the request Connection to(.|\\n)*")) {
@@ -111,7 +115,7 @@ public class DriverExceptionListener implements WebDriverEventListener {
 
         for (int i = 0; i < ex.getStackTrace().length; i++) // avoid dead loop
         {
-            String method = ex.getStackTrace()[i].getMethodName();
+            final String method = ex.getStackTrace()[i].getMethodName();
             if (method.contains("getScreenshotAs") || method.contains("captureWebPageSnapshot")) {
                 return;
             }
@@ -127,7 +131,7 @@ public class DriverExceptionListener implements WebDriverEventListener {
                 } else {
                     System.out.println("Capture screenshot is not available for appium");
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
 
                 // Ignore all exceptions
                 e.printStackTrace();
