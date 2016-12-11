@@ -4,7 +4,7 @@
 
 	<groupId>com.seleniumtests</groupId>
 	<artifactId>seleniumtestsframework</artifactId>
-	<version>4.0.17</version>
+	<version>4.0.18</version>
 	<packaging>jar</packaging>
 
 	<name>selenium tests framework</name>
@@ -116,7 +116,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-server</artifactId>
-			<version>2.53.1</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
