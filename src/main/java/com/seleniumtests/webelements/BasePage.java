@@ -16,13 +16,8 @@ package com.seleniumtests.webelements;
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customexception.NotCurrentPageException;
-import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.helper.WaitHelper;
-import com.thoughtworks.selenium.SeleniumException;
-import com.thoughtworks.selenium.Wait;
-import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
-import com.thoughtworks.selenium.webdriven.Windows;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -105,11 +100,11 @@ public abstract class BasePage {
         final String attributeValue = element.getAttribute(attributeName);
 
         assertHTML(
-            (attributeValue != null) && (keyword != null) &&
-                attributeValue.contains(keyword),
-            element.toString() + " attribute=" + attributeName +
-                ", expected to contains keyword {" + keyword + "}" +
-                ", attributeValue = {" + attributeValue + "}"
+                (attributeValue != null) && (keyword != null) &&
+                        attributeValue.contains(keyword),
+                element.toString() + " attribute=" + attributeName +
+                        ", expected to contains keyword {" + keyword + "}" +
+                        ", attributeValue = {" + attributeValue + "}"
         );
     }
 
@@ -125,11 +120,11 @@ public abstract class BasePage {
         final String attributeValue = element.getAttribute(attributeName);
 
         assertHTML(
-            (attributeValue != null) && (regex != null) &&
-                attributeValue.matches(regex),
-            element.toString() + " attribute=" + attributeName +
-                " expected to match regex {" + regex + "}" +
-                ", attributeValue = {" + attributeValue + "}"
+                (attributeValue != null) && (regex != null) &&
+                        attributeValue.matches(regex),
+                element.toString() + " attribute=" + attributeName +
+                        " expected to match regex {" + regex + "}" +
+                        ", attributeValue = {" + attributeValue + "}"
         );
     }
 
@@ -397,34 +392,13 @@ public abstract class BasePage {
 
     public boolean isTextPresent(final String text) {
         CustomAssertion.assertNotNull(
-            text,
-            "isTextPresent: text should not be null!"
+                text,
+                "isTextPresent: text should not be null!"
         );
         driver = WebUIDriver.getWebDriver();
 
         final WebElement body = driver.findElement(By.tagName("body"));
-
-        if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(
-            BrowserType.HtmlUnit.getBrowserType()
-        )) {
-            return body.getText().contains(text);
-        }
-
-        Boolean result = false;
-
-        if (body.getText().contains(text)) {
-            return true;
-        }
-
-        final JavascriptLibrary js = new JavascriptLibrary();
-        final String script = js.getSeleniumScript("isTextPresent.js");
-
-        result = (Boolean) ((JavascriptExecutor) driver).executeScript(
-            "return (" + script + ")(arguments[0]);", text
-        );
-
-        // Handle the null case
-        return Boolean.TRUE == result;
+        return body.getText().contains(text);
     }
 
     public void selectFrame(final By by) {
@@ -445,18 +419,12 @@ public abstract class BasePage {
         throws NotCurrentPageException {
 
         if (windowName == null) {
-            final Windows windows = new Windows(driver);
-
             try {
-                windows.selectBlankWindow(driver);
-            } catch (final SeleniumException e) {
+                driver.switchTo().window(windowName);
+            } catch (final Exception e) {
                 driver.switchTo().defaultContent();
             }
-
-        } else {
-            final Windows windows = new Windows(driver);
-            windows.selectWindow(driver, "name=" + windowName);
-        }
+        }    
     }
 
     public void waitForElementChecked(final HtmlElement element) {
@@ -506,7 +474,7 @@ public abstract class BasePage {
         final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(
             ExpectedConditions.presenceOfElementLocated(
-                element.getBy()
+                    element.getBy()
             )
         );
     }
@@ -568,54 +536,10 @@ public abstract class BasePage {
 
         final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
         wait.until(
-            ExpectedConditions.invisibilityOfElementLocated(
-                element.getBy()
-            )
+                ExpectedConditions.invisibilityOfElementLocated(
+                        element.getBy()
+                )
         );
-    }
-
-    public void waitForPopup(final String locator) throws Exception {
-        waitForPopUp(locator, sessionTimeout + "");
-    }
-
-    public void waitForPopUp(final String windowID, final String timeout) {
-        final long millis = Long.parseLong(timeout);
-        final String current = driver.getWindowHandle();
-        final Windows windows = new Windows(driver);
-
-        if (webUXDriver.getConfig().getBrowser() ==
-            BrowserType.InternetExplore) {
-            waitForSeconds(3);
-        }
-
-        new Wait() {
-            @Override
-            public boolean until() {
-
-                try {
-
-                    if ("_blank".equals(windowID)) {
-                        windows.selectBlankWindow(driver);
-                    } else {
-                        driver.switchTo().window(windowID);
-                    }
-
-                    return !"about:blank".equals(driver.getCurrentUrl());
-                } catch (final SeleniumException e) {
-                } catch (final NoSuchWindowException e) {
-                }
-
-                return false;
-            }
-        }.wait(
-            String.format(
-                "Timed out waiting for %s. Waited %s",
-                windowID, timeout
-            ), millis
-        );
-
-        driver.switchTo().window(current);
-
     }
 
     /**
