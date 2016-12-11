@@ -14,42 +14,24 @@
 package com.seleniumtests.webelements;
 
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.SeleniumTestsContextManager;
 import com.seleniumtests.core.SeleniumTestsPageListener;
 import com.seleniumtests.core.TestLogging;
-
 import com.seleniumtests.customexception.CustomSeleniumTestsException;
 import com.seleniumtests.customexception.NotCurrentPageException;
-
 import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.driver.WebUtility;
-
-import com.seleniumtests.helper.WaitHelper;
-
-import com.thoughtworks.selenium.Wait;
-import com.thoughtworks.selenium.Wait.WaitTimedOutException;
-
 import org.apache.log4j.Logger;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.UnhandledAlertException;
-import org.openqa.selenium.UnsupportedCommandException;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.UnreachableBrowserException;
-import org.openqa.selenium.server.browserlaunchers.Sleeper;
-
 import org.testng.Assert;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 
 public class PageObject extends BasePage implements IPage {
@@ -58,7 +40,7 @@ public class PageObject extends BasePage implements IPage {
     private static final int MAX_WAIT_TIME_FOR_REDIRECTION = 3;
     private boolean frameFlag = false;
     private HtmlElement pageIdentifierElement = null;
-    private String popupWindowName = null;
+    private final String popupWindowName = null;
     private String windowHandle = null;
     private String title = null;
     private String url = null;
@@ -98,7 +80,7 @@ public class PageObject extends BasePage implements IPage {
      */
     public PageObject(final HtmlElement pageIdentifierElement, final String url)
             throws Exception {
-        Calendar start = Calendar.getInstance();
+        final Calendar start = Calendar.getInstance();
         start.setTime(new Date());
 
         if ((SeleniumTestsContextManager.getGlobalContext() != null) &&
@@ -127,17 +109,17 @@ public class PageObject extends BasePage implements IPage {
 
         try {
             this.windowHandle = driver.getWindowHandle();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             // Ignore for OperaDriver
         }
 
         SeleniumTestsPageListener.informPageLoad(this);
 
-        Calendar end = Calendar.getInstance();
+        final Calendar end = Calendar.getInstance();
         start.setTime(new Date());
 
-        long startTime = start.getTimeInMillis();
-        long endTime = end.getTimeInMillis();
+        final long startTime = start.getTimeInMillis();
+        final long endTime = end.getTimeInMillis();
 
         if (((endTime - startTime) / 1000) > 0) {
             TestLogging.log("Open web page in :" +
@@ -167,7 +149,7 @@ public class PageObject extends BasePage implements IPage {
                                 .getCaptureSnapshot()) {
                     new ScreenshotUtil(driver).capturePageSnapshotOnException();
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
             }
 
@@ -224,7 +206,7 @@ public class PageObject extends BasePage implements IPage {
     }
 
     public void capturePageSnapshot() {
-        ScreenShot screenShot = new ScreenshotUtil(driver)
+        final ScreenShot screenShot = new ScreenshotUtil(driver)
                 .captureWebPageSnapshot();
         this.title = screenShot.getTitle();
 
@@ -262,14 +244,14 @@ public class PageObject extends BasePage implements IPage {
 
         try {
             driver.close();
-        } catch (WebDriverException ignore) {
+        } catch (final WebDriverException ignore) {
         }
 
         if (WebUIDriver.getWebUIDriver().getMode().equalsIgnoreCase("LOCAL")) {
 
             try {
                 Thread.sleep(1000 * 2);
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
             }
         }
 
@@ -280,7 +262,7 @@ public class PageObject extends BasePage implements IPage {
             } else {
                 WebUIDriver.setWebDriver(null);
             }
-        } catch (UnreachableBrowserException ex) {
+        } catch (final UnreachableBrowserException ex) {
             WebUIDriver.setWebDriver(null);
 
         }
@@ -414,24 +396,24 @@ public class PageObject extends BasePage implements IPage {
             if (SeleniumTestsContextManager.isWebTest()) {
                 driver.navigate().to(url);
             }
-        } catch (UnreachableBrowserException e) {
+        } catch (final UnreachableBrowserException e) {
 
             // handle if the last window is closed
             TestLogging.logWebStep("Launch application", false);
             driver = webUXDriver.createWebDriver();
             maximizeWindow();
             driver.navigate().to(url);
-        } catch (UnsupportedCommandException e) {
+        } catch (final UnsupportedCommandException e) {
             TestLogging.log("get UnsupportedCommandException, retry");
             driver = webUXDriver.createWebDriver();
             maximizeWindow();
             driver.navigate().to(url);
-        } catch (org.openqa.selenium.TimeoutException ex) {
+        } catch (final org.openqa.selenium.TimeoutException ex) {
             TestLogging.log("got time out when loading " + url + ", ignored");
-        } catch (org.openqa.selenium.UnhandledAlertException ex) {
+        } catch (final org.openqa.selenium.UnhandledAlertException ex) {
             TestLogging.log("got UnhandledAlertException, retry");
             driver.navigate().to(url);
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
             e.printStackTrace();
             throw new CustomSeleniumTestsException(e);
         }
@@ -447,17 +429,17 @@ public class PageObject extends BasePage implements IPage {
 
             try {
                 bodyText = driver.findElement(By.tagName("body")).getText();
-            } catch (StaleElementReferenceException ignore) {
+            } catch (final StaleElementReferenceException ignore) {
                 logger.warn(
                         "StaleElementReferenceException got in populateAndCapturePageSnapshot");
                 bodyText = driver.findElement(By.tagName("body")).getText();
             }
 
-        } catch (UnreachableBrowserException e) { // throw
+        } catch (final UnreachableBrowserException e) { // throw
 
             // UnreachableBrowserException
             throw new WebDriverException(e);
-        } catch (WebDriverException e) {
+        } catch (final WebDriverException e) {
             throw e;
         }
 
@@ -469,7 +451,7 @@ public class PageObject extends BasePage implements IPage {
 
         try {
             driver.navigate().refresh();
-        } catch (org.openqa.selenium.TimeoutException ex) {
+        } catch (final org.openqa.selenium.TimeoutException ex) {
             TestLogging.log("got time out customexception, ignore");
         }
     }
@@ -532,15 +514,19 @@ public class PageObject extends BasePage implements IPage {
      * @param urlTerm
      * @param waitCount
      */
-    public static void waitForGivenURLTermToAppear(String urlTerm,
-                                                   int waitCount) {
+    public static void waitForGivenURLTermToAppear(final String urlTerm,
+                                                   final int waitCount) {
 
         for (int index = 0; index < waitCount; index++) {
 
             if (WebUIDriver.getWebDriver().getCurrentUrl().contains(urlTerm)) {
                 break;
             } else {
-                Sleeper.sleepTightInSeconds(1);
+                try {
+                    Thread.sleep(1000);
+                } catch (final InterruptedException e) {
+                    e.printStackTrace();
+                }
                 index = index + 1;
             }
         }
@@ -562,37 +548,14 @@ public class PageObject extends BasePage implements IPage {
 
         try {
             driver.switchTo().defaultContent();
-        } catch (UnhandledAlertException e) {
+        } catch (final UnhandledAlertException e) {
         }
     }
 
     private void waitForPageToLoad() throws Exception {
-
-        try {
-            new Wait() {
-                @Override
-                public boolean until() {
-
-                    try {
-                        driver.switchTo().defaultContent();
-
-                        return true;
-                    } catch (UnhandledAlertException ex) {
-                        WaitHelper.waitForSeconds(2);
-                    } catch (WebDriverException e) {
-                    }
-
-                    return false;
-                }
-            }.wait(String.format("Timed out waiting for page to load"),
-                    WebUIDriver.getWebUIDriver().getWebSessionTimeout());
-        } catch (WaitTimedOutException ex) {
-        }
-
-        // populate page info
         try {
             populateAndCapturePageSnapshot();
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
 
             // ex.printStackTrace();
             throw ex;
@@ -604,7 +567,7 @@ public class PageObject extends BasePage implements IPage {
 
         try {
             element = driver.findElement(by);
-        } catch (ElementNotFoundException e) {
+        } catch (final ElementNotFoundException e) {
             TestLogging.errorLogger(elementName +
                     " is not found with locator - " + by.toString());
             throw e;
