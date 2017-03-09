@@ -32,7 +32,7 @@ public abstract class BasePage {
 
     protected WebDriver driver = WebUIDriver.getWebDriver();
     protected final WebUIDriver webUXDriver = WebUIDriver.getWebUIDriver();
-    private final int explictWaitTimeout = WebUIDriver.getWebUIDriver()
+    private static final int EXPLICT_WAIT_TIMEOUT = WebUIDriver.getWebUIDriver()
         .getExplicitWait();
     private final int sessionTimeout = WebUIDriver.getWebUIDriver()
         .getWebSessionTimeout();
@@ -433,7 +433,7 @@ public abstract class BasePage {
             "wait for " + element.toString() + " to be checked.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeSelected(element.getBy()));
     }
 
@@ -443,7 +443,7 @@ public abstract class BasePage {
             "wait for " + element.toString() + " to be editable.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeClickable(element.getBy()));
     }
 
@@ -452,7 +452,7 @@ public abstract class BasePage {
             "wait for " + by.toString() + " to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
@@ -471,7 +471,7 @@ public abstract class BasePage {
             "wait for " + element.toString() + " to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
         wait.until(
             ExpectedConditions.presenceOfElementLocated(
                     element.getBy()
@@ -479,13 +479,13 @@ public abstract class BasePage {
         );
     }
 
-    public void waitForElementToBeVisible(final HtmlElement element) {
+    public static void waitForElementToBeVisible(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
         TestLogging.logWebStep(
             "wait for " + element.toString() + " to be visible.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(
             ExpectedConditions.visibilityOfElementLocated(
                 element.getBy()
@@ -534,7 +534,7 @@ public abstract class BasePage {
             "wait for " + element.toString() + " to disappear.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
         wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(
                         element.getBy()
@@ -560,7 +560,7 @@ public abstract class BasePage {
             "wait for text \"" + text + "\" to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, explictWaitTimeout);
+        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
         wait.until(
             ExpectedConditions.textToBePresentInElement(
                 element.getBy(),
@@ -578,7 +578,7 @@ public abstract class BasePage {
         boolean b = false;
 
         for (
-            int millisec = 0; millisec < (explictWaitTimeout * 1000);
+            int millisec = 0; millisec < (EXPLICT_WAIT_TIMEOUT * 1000);
             millisec += 1000
             ) {
 
@@ -614,7 +614,7 @@ public abstract class BasePage {
         boolean textPresent = true;
 
         for (
-            int millisec = 0; millisec < (explictWaitTimeout * 1000);
+            int millisec = 0; millisec < (EXPLICT_WAIT_TIMEOUT * 1000);
             millisec += 1000
             ) {
 
