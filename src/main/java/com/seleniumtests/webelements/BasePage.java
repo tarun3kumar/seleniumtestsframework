@@ -426,6 +426,17 @@ public abstract class BasePage {
             }
         }    
     }
+    
+    public void refreshPageTillTextAppears(final String text, final int waitPeriodInSec) throws InterruptedException {
+        for(int i=0;i<=waitPeriodInSec;i++){
+            if(!driver.getPageSource().contains(text)) {
+                Thread.sleep(1000);
+                driver.navigate().refresh();
+            } else {
+                break;
+            }
+        }
+    }
 
     public void waitForElementChecked(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
