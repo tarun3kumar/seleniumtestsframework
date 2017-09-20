@@ -242,4 +242,14 @@
 
     </test>
 
+    <test name="Zalenium tests" parallel="false">
+        <parameter name="browser" value="*zalenium" />
+        <parameter name="zaleniumURL" value="http://localhost:4444/wd/hub" />
+        <parameter name="platform" value="linux" />
+
+        <classes>
+            <class name="com.seleniumtests.tests.ZaleniumTest" />
+        </classes>
+    </test>
+
 </suite> 
