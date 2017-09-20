@@ -174,6 +174,8 @@ public class WebUIDriver {
                 webDriverBuilder = new AndroidDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.IPhone) {
                 webDriverBuilder = new IPhoneDriverFactory(this.config);
+            } else if (config.getBrowser() == BrowserType.Zalenium) {
+                webDriverBuilder = new ZaleniumDriverFactory(this.config);
             } else {
                 throw new RuntimeException("Unsupported browser: " + browser);
             }
@@ -479,6 +481,8 @@ public class WebUIDriver {
         config.setPlatform(SeleniumTestsContextManager.getThreadContext().getPlatform());
         config.setSauceLabsURL(SeleniumTestsContextManager.getThreadContext().getSaucelabsURL());
         config.setTestType(SeleniumTestsContextManager.getThreadContext().getTestType());
+
+        config.setZaleniumURL(SeleniumTestsContextManager.getThreadContext().getZaleniumUrl());
     }
 
     public static void main(final String[] args) {

@@ -110,6 +110,9 @@ public class SeleniumTestsContext {
     public static final String PLATFORM = "platform";
     public static final String SAUCELABS_URL = "sauceLabsURL";
 
+    // Zalenium specific properties
+    public static final String ZALENIUM_URL= "zaleniumURL";
+
     private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
     private Map<ITestResult, List<Throwable>> verificationFailuresMap = new HashMap<ITestResult, List<Throwable>>();
 
@@ -543,6 +546,8 @@ public class SeleniumTestsContext {
     public String getSaucelabsURL() {
         return (String) getAttribute(SAUCELABS_URL);
     }
+
+    public String getZaleniumUrl() { return (String) getAttribute(ZALENIUM_URL); }
 
     public boolean isUseFirefoxDefaultProfile() {
         try {

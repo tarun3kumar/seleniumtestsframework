@@ -85,6 +85,8 @@ public class DriverConfig {
     private String version;
     private String sauceLabsURL;
 
+    private String zaleniumURL;
+
     public ArrayList<WebDriverEventListener> getWebDriverListeners() {
         return webDriverListeners;
     }
@@ -489,5 +491,13 @@ public class DriverConfig {
 
     public void setEventFiringWebDriver(boolean eventFiringWebDriver) {
         this.eventFiringWebDriver = eventFiringWebDriver;
+    }
+
+    public String getZaleniumURL() {
+        return zaleniumURL;
+    }
+
+    public void setZaleniumURL(final String zaleniumURL) {
+        this.zaleniumURL = zaleniumURL;
     }
 }
