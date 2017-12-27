@@ -16,6 +16,8 @@ package com.seleniumtests.browserfactory;
 import java.io.File;
 import java.io.IOException;
 
+import com.seleniumtests.driver.DriverMode;
+import com.seleniumtests.resources.WebDriverExternalResources;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
@@ -67,7 +69,6 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
         profile.setPreference("capability.policy.default.Window.frameElement.get", "allAccess");
         profile.setPreference("capability.policy.default.HTMLDocument.compatMode.get", "allAccess");
         profile.setPreference("capability.policy.default.Document.compatMode.get", "allAccess");
-        profile.setEnableNativeEvents(false);
         profile.setPreference("dom.max_chrome_script_run_time", 0);
         profile.setPreference("dom.max_script_run_time", 0);
     }
@@ -105,8 +106,50 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
             capability.setCapability(CapabilityType.PROXY, webDriverConfig.getProxy());
         }
 
+        // Set FirefoxDriver for local mode
+        if (webDriverConfig.getMode() == DriverMode.LOCAL) {
+            String firefoxDriverPath = webDriverConfig.getChromeDriverPath();
+            if (firefoxDriverPath == null) {
+                try {
+                    if (System.getenv("webdriver.gecko.driver") != null) {
+                        System.out.println("get gecko driver from property:"
+                                + System.getenv("webdriver.gecko.driver"));
+                        System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
+                    } else {
+                        handleExtractResources();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                System.setProperty("webdriver.gecko.driver", firefoxDriverPath);
+            }
+        }
+
         return capability;
     }
+
+    public void handleExtractResources() throws IOException {
+        String dir = this.getClass().getResource("/").getPath();
+        dir = FileUtility.decodePath(dir);
+
+        if (!new File(dir).exists()) {
+            System.out.println("extracting marionette resources in " + dir);
+            FileUtility.extractJar(dir, WebDriverExternalResources.class);
+        }
+
+        if (!new File(dir + OSUtility.getSlash() + "geckodriver.exe").exists()) {
+            FileUtility.extractJar(dir, WebDriverExternalResources.class);
+        }
+
+        if (OSUtility.isWindows()) {
+            System.setProperty("webdriver.gecko.driver", dir + "\\geckodriver.exe");
+        } else {
+            System.setProperty("webdriver.gecko.driver", dir + "/geckodriver");
+            new File(dir + "/wires").setExecutable(true);
+        }
+    }
+
 
     protected FirefoxProfile createFirefoxProfile(final String path) {
         if (path != null) {
