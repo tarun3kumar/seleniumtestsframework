@@ -6,7 +6,7 @@
     </listeners>
 
     <parameter name="appURL" value="http://www.seleniumtests.com/2015/12/test-registration-page.html"/>
-    <parameter name="browser" value="*chrome" />  <!--"*firefox, *marionette, *chrome, *iexplore, *android"-->
+    <parameter name="browser" value="*chrome" />  <!--"*firefox, *chrome, *iexplore, *android"-->
     <parameter name="runMode" value="LOCAL" /> <!--LOCAL or ExistingGrid -->
     <!--if parameter runMode is set to ExistingGrid then parameter webDriverGrid should have value set to system running grid
 
@@ -67,15 +67,6 @@
         <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
         <parameter name="browser" value="*firefox" />
-        <classes>
-            <class name="com.seleniumtests.tests.RegistrationTest" />
-        </classes>
-    </test>
-
-    <test name="WebTest - Test Link Login Test in Marionette">
-        <!--testType parameter is optional for web test, since testType defaults to web-->
-        <parameter name="testType" value="Web" />
-        <parameter name="browser" value="*marionette" />
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
