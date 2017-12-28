@@ -4,7 +4,7 @@
 
 	<groupId>com.seleniumtests</groupId>
 	<artifactId>seleniumtestsframework</artifactId>
-	<version>4.0.20</version>
+	<version>5.0</version>
 	<packaging>jar</packaging>
 
 	<name>selenium tests framework</name>
@@ -76,7 +76,11 @@
 						<groupId>org.seleniumhq.selenium</groupId>
 						<artifactId>selenium-java</artifactId>
 				</exclusion>
-			</exclusions>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -162,7 +166,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
+            <version>23.0</version>
         </dependency>
     </dependencies>
 
