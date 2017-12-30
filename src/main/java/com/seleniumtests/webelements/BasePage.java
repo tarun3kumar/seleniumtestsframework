@@ -505,20 +505,20 @@ public abstract class BasePage {
     }
 
     public static void waitForURLToChange(
-        final String url,
+        final String match,
         final int waitSeconds,
         final boolean partialMatch
     ) {
 
         for (int i = 0; i < waitSeconds; i++) {
             if (partialMatch) {
-                if (WebUIDriver.getWebDriver().getCurrentUrl().contains(url)) {
+                if (WebUIDriver.getWebDriver().getCurrentUrl().contains(match)) {
                     break;
                 } else {
                     WaitHelper.waitForSeconds(1);
                 }
             } else {
-                if (WebUIDriver.getWebDriver().getCurrentUrl().equals(url)) {
+                if (WebUIDriver.getWebDriver().getCurrentUrl().equals(match)) {
                     break;
                 } else {
                     WaitHelper.waitForSeconds(1);                }
