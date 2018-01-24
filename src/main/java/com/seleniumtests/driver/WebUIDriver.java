@@ -23,6 +23,7 @@ import com.seleniumtests.core.CustomEventListener;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
@@ -193,6 +194,9 @@ public class WebUIDriver {
                 driver = handleListeners(driver);
             }
         }
+
+        String browserVersion = ((RemoteWebDriver)(getWebDriverBuilder().getWebDriver())).getCapabilities().getVersion();
+        SeleniumTestsContextManager.getTestLevelContext(SeleniumTestsContextManager.getGlobalContext().getTestNGContext()).setBrowserVersion(browserVersion);
         return driver;
     }
 
@@ -213,6 +217,7 @@ public class WebUIDriver {
         driver = createRemoteWebDriver(config.getBrowser().getBrowserType(), config.getMode().name());
 
         driverSession.set(driver);
+
         System.out.println(Thread.currentThread() + ":" + new Date() + ":::Finish creating web driver instance: "
                 + this.getBrowser());
         return driver;
