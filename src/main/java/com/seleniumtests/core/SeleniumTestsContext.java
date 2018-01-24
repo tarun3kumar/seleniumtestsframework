@@ -37,78 +37,78 @@ import com.seleniumtests.reporter.PluginsHelper;
 public class SeleniumTestsContext {
 
     /* configuration defined in testng.xml */
-    public static final String TEST_CONFIGURATION = "testConfig";
-    public static final String APP_URL = "appURL";
-    public static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
-    public static final String IMPLICIT_WAIT_TIME_OUT = "implicitWaitTimeOut";
-    public static final String EXPLICIT_WAIT_TIME_OUT = "explicitWaitTimeOut";
-    public static final String PAGE_LOAD_TIME_OUT = "pageLoadTimeout";
-    public static final String WEB_DRIVER_GRID = "webDriverGrid";
-    public static final String RUN_MODE = "runMode";
-    public static final String BROWSER = "browser";
-    public static final String BROWSER_VERSION = "browserVersion";
-    public static final String WEB_PLATFORM = "webPlatform";
-    public static final String FIREFOX_USER_PROFILE_PATH = "firefoxUserProfilePath";
-    public static final String USE_DEFAULT_FIREFOX_PROFILE = "useFirefoxDefaultProfile";
-    public static final String OPERA_USER_PROFILE_PATH = "operaUserProfilePath";
-    public static final String FIREFOX_BINARY_PATH = "firefoxBinaryPath";
-    public static final String CHROME_DRIVER_PATH = "chromeDriverPath";
-    public static final String CHROME_BINARY_PATH = "chromeBinaryPath";
-    public static final String IE_DRIVER_PATH = "ieDriverPath";
-    public static final String USER_AGENT = "userAgent";
+    static final String TEST_CONFIGURATION = "testConfig";
+    private static final String APP_URL = "appURL";
+    private static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
+    private static final String IMPLICIT_WAIT_TIME_OUT = "implicitWaitTimeOut";
+    private static final String EXPLICIT_WAIT_TIME_OUT = "explicitWaitTimeOut";
+    private static final String PAGE_LOAD_TIME_OUT = "pageLoadTimeout";
+    private static final String WEB_DRIVER_GRID = "webDriverGrid";
+    private static final String RUN_MODE = "runMode";
+    private static final String BROWSER = "browser";
+    private static final String BROWSER_VERSION = "browserVersion";
+    private static final String WEB_PLATFORM = "webPlatform";
+    private static final String FIREFOX_USER_PROFILE_PATH = "firefoxUserProfilePath";
+    private static final String USE_DEFAULT_FIREFOX_PROFILE = "useFirefoxDefaultProfile";
+    private static final String OPERA_USER_PROFILE_PATH = "operaUserProfilePath";
+    private static final String FIREFOX_BINARY_PATH = "firefoxBinaryPath";
+    private static final String CHROME_DRIVER_PATH = "chromeDriverPath";
+    private static final String CHROME_BINARY_PATH = "chromeBinaryPath";
+    private static final String IE_DRIVER_PATH = "ieDriverPath";
+    private static final String USER_AGENT = "userAgent";
 
     public static final String Set_Assume_Untrusted_Certificate_Issuer = "setAssumeUntrustedCertificateIssuer";
     public static final String Set_Accept_Untrusted_Certificates = "setAcceptUntrustedCertificates";
     public static final String ENABLE_JAVASCRIPT = "enableJavascript";
     public static final String EVENT_FIRING_WEB_DRIVER = "eventFiringWebDriver";
-    public static final String NTLM_AUTH_TRUSTED_URIS = "ntlmAuthTrustedUris";
-    public static final String BROWSER_DOWNLOAD_DIR = "browserDownloadDir";
-    public static final String BROWSER_WINDOW_SIZE = "browserWindowSize";
+    private static final String NTLM_AUTH_TRUSTED_URIS = "ntlmAuthTrustedUris";
+    private static final String BROWSER_DOWNLOAD_DIR = "browserDownloadDir";
+    private static final String BROWSER_WINDOW_SIZE = "browserWindowSize";
 
-    public static final String WEB_PROXY_ENABLED = "webProxyEnabled";
-    public static final String WEB_PROXY_TYPE = "webProxyType";
-    public static final String WEB_PROXY_ADDRESS = "webProxyAddress";
+    private static final String WEB_PROXY_ENABLED = "webProxyEnabled";
+    private static final String WEB_PROXY_TYPE = "webProxyType";
+    private static final String WEB_PROXY_ADDRESS = "webProxyAddress";
 
-    public static final String TEST_ENTITY = "testEntity";
+    private static final String TEST_ENTITY = "testEntity";
 
-    public static final String REPORT_GENERATION_CONFIG = "reportGenerationConfig";
+    private static final String REPORT_GENERATION_CONFIG = "reportGenerationConfig";
     public static final String OPEN_REPORT_IN_BROWSER = "openReportInBrowser";
     public static final String CAPTURE_SNAPSHOT = "captureSnapshot";
-    public static final String ENABLE_EXCEPTION_LISTENER = "enableExceptionListener";
+    private static final String ENABLE_EXCEPTION_LISTENER = "enableExceptionListener";
 
-    public static final String DP_TAGS_INCLUDE = "dpTagsInclude";
-    public static final String DP_TAGS_EXCLUDE = "dpTagsExclude";
+    private static final String DP_TAGS_INCLUDE = "dpTagsInclude";
+    private static final String DP_TAGS_EXCLUDE = "dpTagsExclude";
 
-    public static final String SSH_COMMAND_WAIT = "sshCommandWait";
-    public static final String SOFT_ASSERT_ENABLED = "softAssertEnabled";
+    private static final String SSH_COMMAND_WAIT = "sshCommandWait";
+    private static final String SOFT_ASSERT_ENABLED = "softAssertEnabled";
 
-    public static final String OUTPUT_DIRECTORY = "outputDirectory";
-    public static final String WEB_DRIVER_LISTENER = "webDriverListener";
+    private static final String OUTPUT_DIRECTORY = "outputDirectory";
+    private static final String WEB_DRIVER_LISTENER = "webDriverListener";
 
     public static final String TEST_METHOD_SIGNATURE = "testMethodSignature";
-    public static final String PLUGIN_CONFIG_PATH = "pluginConfigPath";
+    private static final String PLUGIN_CONFIG_PATH = "pluginConfigPath";
 
-    public static final String TEST_DATA_FILE = "testDataFile";
+    private static final String TEST_DATA_FILE = "testDataFile";
 
-    public static final String TEST_TYPE = "testType";
+    private static final String TEST_TYPE = "testType";
 
     // Appium specific properties
-    public static final String APPIUM_SERVER_URL = "appiumServerURL";
-    public static final String AUTOMATION_NAME = "automationName";
-    public static final String MOBILE_PLATFORM_NAME = "platformName";
-    public static final String MOBILE_PLATFORM_VERSION = "mobilePlatformVersion";
-    public static final String DEVICE_NAME = "deviceName";
-    public static final String APP = "app";
+    private static final String APPIUM_SERVER_URL = "appiumServerURL";
+    private static final String AUTOMATION_NAME = "automationName";
+    private static final String MOBILE_PLATFORM_NAME = "platformName";
+    private static final String MOBILE_PLATFORM_VERSION = "mobilePlatformVersion";
+    private static final String DEVICE_NAME = "deviceName";
+    private static final String APP = "app";
 
-    public static final String BROWSER_NAME = "browserName";
-    public static final String APP_PACKAGE = "appPackage";
-    public static final String APP_ACTIVITY = "appActivity";
-    public static final String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
+    private static final String BROWSER_NAME = "browserName";
+    private static final String APP_PACKAGE = "appPackage";
+    private static final String APP_ACTIVITY = "appActivity";
+    private static final String NEW_COMMAND_TIMEOUT = "newCommandTimeout";
 
     // SauceLabs specific properties
-    public static final String VERSION = "version";
-    public static final String PLATFORM = "platform";
-    public static final String SAUCELABS_URL = "sauceLabsURL";
+    private static final String VERSION = "version";
+    private static final String PLATFORM = "platform";
+    private static final String SAUCELABS_URL = "sauceLabsURL";
 
     private LinkedList<TearDownService> tearDownServices = new LinkedList<TearDownService>();
     private Map<ITestResult, List<Throwable>> verificationFailuresMap = new HashMap<ITestResult, List<Throwable>>();
@@ -168,7 +168,6 @@ public class SeleniumTestsContext {
         setContextAttribute(context, WEB_DRIVER_GRID, System.getProperty(WEB_DRIVER_GRID), null);
         setContextAttribute(context, RUN_MODE, System.getProperty(RUN_MODE), "LOCAL");
         setContextAttribute(context, BROWSER, System.getProperty(BROWSER), "*firefox");
-        setContextAttribute(context, BROWSER_VERSION, System.getProperty(BROWSER_VERSION), null);
         setContextAttribute(context, WEB_PLATFORM, System.getProperty(WEB_PLATFORM), null);
 
         setContextAttribute(context, FIREFOX_USER_PROFILE_PATH, System.getProperty(FIREFOX_USER_PROFILE_PATH), null);
@@ -625,6 +624,10 @@ public class SeleniumTestsContext {
 
     public void setImplicitWaitTimeout(final double timeout) {
         setAttribute(IMPLICIT_WAIT_TIME_OUT, timeout);
+    }
+
+    public void setBrowserVersion(final String browserVersion) {
+        setAttribute(BROWSER_VERSION, browserVersion);
     }
 
     public void setPageLoadTimeout(final int timeout) {
