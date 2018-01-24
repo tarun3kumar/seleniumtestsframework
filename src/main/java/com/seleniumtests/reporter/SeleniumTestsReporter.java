@@ -14,10 +14,7 @@
 package com.seleniumtests.reporter;
 
 import com.seleniumtests.core.*;
-import com.seleniumtests.driver.ScreenShot;
-import com.seleniumtests.driver.ScreenshotUtil;
-import com.seleniumtests.driver.TestType;
-import com.seleniumtests.driver.WebUIDriver;
+import com.seleniumtests.driver.*;
 import com.seleniumtests.helper.StringUtility;
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -28,6 +25,8 @@ import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.*;
 import org.testng.internal.ResultMap;
 import org.testng.internal.TestResult;
@@ -508,20 +507,25 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         final String appPackage = testLevelContext.getAppPackage();
                         final String appActivity = testLevelContext.getAppActivity();
                         final String testType = testLevelContext.getTestType();
+                        final String browserVersion = (String) testLevelContext.getAttribute("browserVersion");
+
 
                         if (browser != null) {
                             browser = browser.replace("*", "");
                         }
 
-                        final String browserVersion = (String) testLevelContext.getAttribute("browserVersion");
                         if (browserVersion != null) {
-                            browser = browser + browserVersion;
+                            browser = browser +" " +browserVersion;
                         }
 
                         // Log URL for web test and app info for app test
                         if (testType.equalsIgnoreCase(TestType.WEB.getTestType())) {
-                            contentBuffer.append("<div><i>App URL:  <b>" + appURL + "</b>, Browser: <b>" + browser
-                                    + "</b></i></div>");
+                            contentBuffer
+                                    .append("<div><i>App URL:  <b>")
+                                    .append(appURL)
+                                    .append("</b>, Browser: <b>")
+                                    .append(browser)
+                                    .append("</b></i></div>");
                         } else if (testType.equalsIgnoreCase(TestType.APP.getTestType())) {
 
                             // Either app Or app package and app activity is specified to run test on app
