@@ -108,6 +108,8 @@ public class ChromeCapabilitiesFactory implements ICapabilitiesFactory {
 
         if (OSUtility.isWindows()) {
             System.setProperty("webdriver.chrome.driver", dir + "\\chromedriver.exe");
+        } else if (OSUtility.isMac()) {
+            System.setProperty("webdriver.chrome.driver", dir + "/mac/chromedriver");
         } else {
             System.setProperty("webdriver.chrome.driver", dir + "/chromedriver");
             new File(dir + "/chromedriver").setExecutable(true);

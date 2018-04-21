@@ -144,9 +144,10 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 
         if (OSUtility.isWindows()) {
             System.setProperty("webdriver.gecko.driver", dir + "\\geckodriver.exe");
+        } else if (OSUtility.isMac()) {
+            System.setProperty("webdriver.gecko.driver", dir + "/mac/geckodriver");
         } else {
             System.setProperty("webdriver.gecko.driver", dir + "/geckodriver");
-            new File(dir + "/wires").setExecutable(true);
         }
     }
 
