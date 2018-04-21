@@ -70,10 +70,6 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements IWe
                 capability = new ChromeCapabilitiesFactory().createCapabilities(webDriverConfig);
                 break;
 
-            case HtmlUnit :
-                capability = new HtmlUnitCapabilitiesFactory().createCapabilities(webDriverConfig);
-                break;
-
             case Safari :
                 capability = new SafariCapabilitiesFactory().createCapabilities(webDriverConfig);
                 break;
@@ -86,10 +82,6 @@ public class RemoteDriverFactory extends AbstractWebDriverFactory implements IWe
                 capability =
                     ((ICapabilitiesFactory) Class.forName("com.seleniumtests.browserfactory.IPhoneCapabilitiesFactory")
                             .getConstructor().newInstance()).createCapabilities(webDriverConfig);
-                break;
-
-            case PhantomJS :
-                capability = new PhantomJSCapabilitiesFactory().createCapabilities(webDriverConfig);
                 break;
 
             default :

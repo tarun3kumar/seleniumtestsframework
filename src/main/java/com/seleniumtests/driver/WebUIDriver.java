@@ -159,14 +159,10 @@ public class WebUIDriver {
         } else {
             if (config.getBrowser() == BrowserType.FireFox) {
                 webDriverBuilder = new FirefoxDriverFactory(this.config);
-            } else if (config.getBrowser() == BrowserType.Marionette) {
-                webDriverBuilder = new MarionetteDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.InternetExplore) {
                 webDriverBuilder = new IEDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.Chrome) {
                 webDriverBuilder = new ChromeDriverFactory(this.config);
-            } else if (config.getBrowser() == BrowserType.HtmlUnit) {
-                webDriverBuilder = new HtmlUnitDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.Safari) {
                 webDriverBuilder = new SafariDriverFactory(this.config);
             } else if (config.getBrowser() == BrowserType.SauceLabs) {
