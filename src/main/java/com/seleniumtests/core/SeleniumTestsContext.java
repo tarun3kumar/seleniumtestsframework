@@ -395,6 +395,10 @@ public class SeleniumTestsContext {
         return (String) getAttribute(APP_URL);
     }
 
+    public void setAppURL(String appURL) {
+        setAttribute(APP_URL, appURL);
+    }
+
     public int getSshCommandWait() {
         try {
             return Integer.parseInt((String) getAttribute(SSH_COMMAND_WAIT));
