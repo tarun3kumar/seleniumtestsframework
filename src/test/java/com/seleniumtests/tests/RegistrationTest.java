@@ -57,7 +57,7 @@ public class RegistrationTest extends SeleniumTestPlan {
                 RegistrationTest.class, classMap, "loginuser.csv", filter);
     }
 
-    /*@Test(
+    @Test(
         groups = { "registerWithValidUserData" },
         dataProvider = "loginData",
         description = "Register with valid login data"
@@ -86,7 +86,7 @@ public class RegistrationTest extends SeleniumTestPlan {
             "User Name text box is shown despite not completing registration process!!!",
             LoginPage.isUserNameDisplayed(), is(true));
 
-    }*/
+    }
 
     @Test(
         groups = { "loginTest" },
