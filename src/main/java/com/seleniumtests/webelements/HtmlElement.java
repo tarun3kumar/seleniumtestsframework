@@ -409,7 +409,9 @@ public class HtmlElement {
 
         try {
             findElement();
-
+            return element.isDisplayed();
+        } catch (final StaleElementReferenceException e) {
+            findElement();
             return element.isDisplayed();
         } catch (final Exception e) {
             return false;
