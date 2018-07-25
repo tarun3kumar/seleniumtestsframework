@@ -630,6 +630,10 @@ public class SeleniumTestsContext {
         setAttribute(IMPLICIT_WAIT_TIME_OUT, timeout);
     }
 
+    public void setWebRunBrowser(final String browser) {
+        setAttribute(BROWSER, browser);
+    }
+
     public void setBrowserVersion(final String browserVersion) {
         setAttribute(BROWSER_VERSION, browserVersion);
     }
