@@ -31,7 +31,9 @@ public class TextFieldElement extends HtmlElement {
     }
 
     public void sendKeys(final CharSequence... keysToSend) {
-        TestLogging.logWebStep("Enter data: \"" + keysToSend + "\" on " + toHTML(), false);
+        for(CharSequence charSequence: keysToSend) {
+            TestLogging.logWebStep("Enter data: \"" + charSequence.toString() + "\" on " + toHTML(), false);
+        }
         findElement();
         element.sendKeys(keysToSend);
     }
