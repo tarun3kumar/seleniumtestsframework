@@ -549,11 +549,11 @@ public class HtmlElement {
     /**
      * Sends the indicated CharSequence to the WebElement.
      *
-     * @param  arg0
+     * @param  arg
      */
-    public void sendKeys(final CharSequence arg0) {
+    public void sendKeys(final CharSequence... arg) {
         findElement();
-        element.sendKeys(arg0);
+        element.sendKeys(arg);
     }
 
     /**
