@@ -523,10 +523,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         if (testType.equalsIgnoreCase(TestType.WEB.getTestType())) {
                             contentBuffer
                                     .append("<div><i>")
-                                    .append("<b><a target=\"_blank\" rel=\"noopener noreferrer\" href=").append(appURL).append(">App URL, </a></b>")
-                                    .append("Browser: <b>")
+                                    .append("<b><a target=\"_blank\" rel=\"noopener noreferrer\" href=").append(appURL).append(">App URL,</a></b>")
+                                    .append(" Browser: <b>")
                                     .append(browser)
-                                    .append("</b> <b> <a target=\"_blank\" rel=\"noopener noreferrer\" href=").append(executionURL).append(">, Execution URL</a></b>")
+                                    .append(", ")
+                                    .append("</b> <b> <a target=\"_blank\" rel=\"noopener noreferrer\" href=").append(executionURL).append(">Execution URL</a></b>")
                                     .append("</i></div>");
                         } else if (testType.equalsIgnoreCase(TestType.APP.getTestType())) {
 
