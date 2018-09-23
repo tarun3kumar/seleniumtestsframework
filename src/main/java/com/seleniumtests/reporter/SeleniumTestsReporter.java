@@ -501,6 +501,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                     final SeleniumTestsContext testLevelContext = SeleniumTestsContextManager.getTestLevelContext(testName);
                     if (testLevelContext != null) {
                         final String appURL = testLevelContext.getAppURL();
+                        final String executionURL = testLevelContext.getExecutionURL();
                         String browser = testLevelContext.getWebRunBrowser();
 
                         final String app = testLevelContext.getApp();
@@ -523,8 +524,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                             contentBuffer
                                     .append("<div><i>App URL:  <b>")
                                     .append(appURL)
+                                    .append("<a href=").append(appURL).append(">App URL</a>")
                                     .append("</b>, Browser: <b>")
                                     .append(browser)
+                                    .append(browser)
+                                    .append("</b> <a href=").append(executionURL).append(">Execution URL</a>")
                                     .append("</b></i></div>");
                         } else if (testType.equalsIgnoreCase(TestType.APP.getTestType())) {
 
