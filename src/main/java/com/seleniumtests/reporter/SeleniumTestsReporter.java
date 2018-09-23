@@ -522,14 +522,12 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                         // Log URL for web test and app info for app test
                         if (testType.equalsIgnoreCase(TestType.WEB.getTestType())) {
                             contentBuffer
-                                    .append("<div><i>App URL:  <b>")
-                                    .append(appURL)
-                                    .append("<a href=").append(appURL).append(">App URL</a>")
-                                    .append("</b>, Browser: <b>")
+                                    .append("<div><i>")
+                                    .append("<b><a target=\"_blank\" rel=\"noopener noreferrer\" href=").append(appURL).append(">App URL, </a></b>")
+                                    .append("Browser: <b>")
                                     .append(browser)
-                                    .append(browser)
-                                    .append("</b> <a href=").append(executionURL).append(">Execution URL</a>")
-                                    .append("</b></i></div>");
+                                    .append("</b> <b> <a target=\"_blank\" rel=\"noopener noreferrer\" href=").append(executionURL).append(">, Execution URL</a></b>")
+                                    .append("</i></div>");
                         } else if (testType.equalsIgnoreCase(TestType.APP.getTestType())) {
 
                             // Either app Or app package and app activity is specified to run test on app
