@@ -39,6 +39,8 @@ public class SeleniumTestsContext {
     /* configuration defined in testng.xml */
     static final String TEST_CONFIGURATION = "testConfig";
     private static final String APP_URL = "appURL";
+    // Browser Stack or Sauce Lab URLs
+    private static final String EXECUTION_URL = "executionURL";
     private static final String WEB_SESSION_TIME_OUT = "webSessionTimeOut";
     private static final String IMPLICIT_WAIT_TIME_OUT = "implicitWaitTimeOut";
     private static final String EXPLICIT_WAIT_TIME_OUT = "explicitWaitTimeOut";
@@ -397,6 +399,14 @@ public class SeleniumTestsContext {
 
     public void setAppURL(String appURL) {
         setAttribute(APP_URL, appURL);
+    }
+
+    public String getExecutionURL() {
+        return (String) getAttribute(EXECUTION_URL);
+    }
+
+    public void setExecutionURL(String executionURL) {
+        setAttribute(EXECUTION_URL, executionURL);
     }
 
     public int getSshCommandWait() {
