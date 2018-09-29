@@ -691,4 +691,13 @@ public abstract class BasePage {
         );
     }
 
+    public void waitForURLToBeginWith(String regex, int waitCount) throws InterruptedException {
+        for (int i = 0; i < waitCount; i++) {
+            if (getDriver().getCurrentUrl().matches(regex)) {
+                break;
+            } else {
+                Thread.sleep(1000);
+            }
+        }
+    }
 }
