@@ -390,14 +390,13 @@ public abstract class BasePage {
         return false;
     }
 
-    public boolean isTextPresent(final String text) {
+    public static boolean isTextPresent(final String text) {
         CustomAssertion.assertNotNull(
                 text,
                 "isTextPresent: text should not be null!"
         );
-        driver = WebUIDriver.getWebDriver();
 
-        final WebElement body = driver.findElement(By.tagName("body"));
+        final WebElement body = WebUIDriver.getWebDriver().findElement(By.tagName("body"));
         return body.getText().contains(text);
     }
 
