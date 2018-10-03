@@ -539,13 +539,13 @@ public abstract class BasePage {
         }
     }
 
-    public void waitForElementToDisappear(final HtmlElement element) {
+    public static void waitForElementToDisappear(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
         TestLogging.logWebStep(
             "wait for " + element.toString() + " to disappear.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(
                 ExpectedConditions.invisibilityOfElementLocated(
                         element.getBy()
