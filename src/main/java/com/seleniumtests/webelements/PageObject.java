@@ -515,9 +515,15 @@ public class PageObject extends BasePage implements IPage {
      * @param waitCount
      */
     public static void waitForGivenURLTermToAppear(final String urlTerm,
-                                                   final int waitCount) {
+                                                   final int... waitCount) {
+        int counter;
+        if(waitCount.length == 0) {
+            counter = 60;
+        } else {
+            counter = waitCount[0];
+        }
 
-        for (int index = 0; index < waitCount; index++) {
+        for (int index = 0; index < counter; index++) {
 
             if (WebUIDriver.getWebDriver().getCurrentUrl().contains(urlTerm)) {
                 break;
@@ -531,6 +537,7 @@ public class PageObject extends BasePage implements IPage {
             }
         }
     }
+
 
     protected void setHtmlSavedToPath(final String htmlSavedToPath) {
         this.htmlSavedToPath = htmlSavedToPath;
