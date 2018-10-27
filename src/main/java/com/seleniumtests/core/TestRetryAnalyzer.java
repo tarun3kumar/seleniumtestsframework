@@ -24,13 +24,13 @@ public class TestRetryAnalyzer implements IRetryAnalyzer {
 
     public static final int MAX_RETRY_COUNT = 3;
 
-    private int count = MAX_RETRY_COUNT;
+    private static int count = MAX_RETRY_COUNT;
 
     private boolean isRetryAvailable() {
         return (count > 0);
     }
 
-    public void resetCount() {
+    public static void resetCount() {
         count = MAX_RETRY_COUNT;
     }
 
