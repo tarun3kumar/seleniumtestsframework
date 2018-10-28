@@ -16,31 +16,32 @@ package com.seleniumtests.core;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class TestRetryAnalyzer implements IRetryAnalyzer {
 
-    public int getCount() {
-        return count;
-    }
-
     public static final int MAX_RETRY_COUNT = 3;
-
-    private static int count = MAX_RETRY_COUNT;
-
-    private boolean isRetryAvailable() {
-        return (count > 0);
-    }
+    private static final AtomicInteger count = new AtomicInteger(MAX_RETRY_COUNT);
 
     public static void resetCount() {
-        count = MAX_RETRY_COUNT;
+        count.set(MAX_RETRY_COUNT);
+    }
+
+    public int getCount() {
+        return count.get();
+    }
+
+    private boolean isRetryAvailable() {
+        return (count.get() > 0);
     }
 
     @Override
-    public boolean retry(final ITestResult result) {
+    public boolean retry(ITestResult result) {
         boolean retry = false;
         if (isRetryAvailable()) {
-            TestLogging.log("<br> Going to retry test case: " + result.getMethod() + ", " + (MAX_RETRY_COUNT - count + 1) + " out of " + MAX_RETRY_COUNT + "</br>");
+            System.out.println("Going to retry test case: " + result.getMethod() + ", " + (((MAX_RETRY_COUNT - count.get()) + 1)) + " out of " + MAX_RETRY_COUNT);
             retry = true;
-            count = count-1;
+            count.decrementAndGet();
         }
         return retry;
     }
