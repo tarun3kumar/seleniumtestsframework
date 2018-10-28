@@ -30,5 +30,4 @@ public class TestRetryListener implements IAnnotationTransformer {
             annotation.setRetryAnalyzer(TestRetryAnalyzer.class);
         }
     }
-
 }
