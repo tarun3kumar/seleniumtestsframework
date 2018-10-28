@@ -103,7 +103,6 @@ public abstract class SeleniumTestPlan {
     @AfterClass(alwaysRun = true)
     public void afterTest(){
         TestRetryAnalyzer.resetCount();
-
     }
 
     private String buildMethodSignature(final Method method, final Object[] parameters) {
