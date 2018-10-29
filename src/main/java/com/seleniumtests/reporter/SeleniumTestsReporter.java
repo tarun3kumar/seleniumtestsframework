@@ -25,8 +25,6 @@ import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.*;
 import org.testng.internal.ResultMap;
 import org.testng.internal.TestResult;
@@ -68,8 +66,8 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
          * Arrange methods by class and method name.
          */
         public int compare(final T o1, final T o2) {
-            final String sig1 = StringUtility.constructMethodSignature(o1.getMethod().getMethod(), o1.getParameters());
-            final String sig2 = StringUtility.constructMethodSignature(o2.getMethod().getMethod(), o2.getParameters());
+            final String sig1 = StringUtility.constructMethodSignature(o1.getMethod().getConstructorOrMethod().getMethod(), o1.getParameters());
+            final String sig2 = StringUtility.constructMethodSignature(o2.getMethod().getConstructorOrMethod().getMethod(), o2.getParameters());
             return sig1.compareTo(sig2);
         }
     }
@@ -388,7 +386,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
 
                 boolean found = false;
                 for (final ITestResult testResult : testResults) {
-                    final Method method = testResult.getMethod().getMethod();
+                    final Method method = testResult.getMethod().getConstructorOrMethod().getMethod();
                     final String methodInstance = StringUtility.constructMethodSignature(method, testResult.getParameters());
                     if (errorMap.containsKey(methodInstance)) {
                         found = true;
@@ -618,7 +616,7 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
                             toDisplay = desc;
                         }
 
-                        final String methodSignature = StringUtility.constructMethodSignature(method.getMethod(), parameters);
+                        final String methodSignature = StringUtility.constructMethodSignature(method.getConstructorOrMethod().getMethod(), parameters);
                         if (methodSignature.length() > 500) {
                             context.put("methodName", methodSignature.substring(0, 500) + "...");
                         } else {
@@ -928,11 +926,11 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     protected String getJavadocComments(final ITestNGMethod method) {
 
         try {
-            final Method m = method.getMethod();
+            final Method m = method.getConstructorOrMethod().getMethod();
             final String javaClass = m.getDeclaringClass().getName();
             final String javaMethod = m.getName();
             final JavaClass jc = getJavaDocBuilder(m.getDeclaringClass()).getClassByName(javaClass);
-            final Class<?>[] types = method.getMethod().getParameterTypes();
+            final Class<?>[] types = method.getConstructorOrMethod().getMethod().getParameterTypes();
             final Type[] qdoxTypes = new Type[types.length];
             for (int i = 0; i < types.length; i++) {
                 final String type = getType(types[i]);
