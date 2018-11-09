@@ -1068,17 +1068,19 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
     public synchronized void onTestFailure(final ITestResult arg0) {
         if (arg0.getMethod().getRetryAnalyzer() != null) {
             final TestRetryAnalyzer testRetryAnalyzer = (TestRetryAnalyzer) arg0.getMethod().getRetryAnalyzer();
-
             if (1 <= testRetryAnalyzer.getCount()) {
+//            if (testRetryAnalyzer.getCount() <= testRetryAnalyzer.getMaxCount()) {
                 arg0.setStatus(ITestResult.SKIP);
-                Reporter.setCurrentTestResult(null);
+                Reporter.setCurrentTestResult(arg0);
+                /*final IResultMap skippedTestsResultMap = skippedTests.get(arg0.getTestContext().getName());
+                skippedTestsResultMap.addResult(arg0, arg0.getMethod());
+                skippedTests.put(arg0.getTestContext().getName(), skippedTestsResultMap);*/
             } else {
                 final IResultMap rMap = failedTests.get(arg0.getTestContext().getName());
                 rMap.addResult(arg0, arg0.getMethod());
                 failedTests.put(arg0.getTestContext().getName(), rMap);
             }
 
-            System.out.println(arg0.getMethod() + " Failed in " + TestRetryAnalyzer.MAX_RETRY_COUNT + " times");
             isRetryHandleNeeded.put(arg0.getTestContext().getName(), true);
         }
 
