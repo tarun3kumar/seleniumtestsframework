@@ -100,11 +100,6 @@ public abstract class SeleniumTestPlan {
         logger.info(Thread.currentThread() + " Finish method " + method.getName());
     }
 
-    @AfterClass(alwaysRun = true)
-    public void afterTest(){
-        TestRetryAnalyzer.resetCount();
-    }
-
     private String buildMethodSignature(final Method method, final Object[] parameters) {
         return method.getDeclaringClass().getCanonicalName() + "." + method.getName() + "("
                 + buildParameterString(parameters) + ")";
