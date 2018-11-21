@@ -24,6 +24,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Base html page abstraction. Used by PageObject and WebPageSection
@@ -698,5 +699,23 @@ public abstract class BasePage {
                 Thread.sleep(1000);
             }
         }
+    }
+
+    /**
+     * Closes all windows except the one supplied
+     *
+     * @param windowStream
+     * @param windowToRemainOpen
+     * @return BasePage
+     */
+    public BasePage closeOtherWindows(Stream<String>windowStream, String windowToRemainOpen) {
+        windowStream
+                .filter(windowHandle -> !windowHandle.equals(windowToRemainOpen))
+                .forEach(windowHandle -> getDriver()
+                        .switchTo()
+                        .window(windowHandle)
+                        .close()
+                );
+        return this;
     }
 }
