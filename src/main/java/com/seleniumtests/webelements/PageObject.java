@@ -344,8 +344,8 @@ public class PageObject extends BasePage implements IPage {
         return driver.getTitle();
     }
 
-    public String getUrl() {
-        return url;
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 
     public String getCanonicalURL() {
