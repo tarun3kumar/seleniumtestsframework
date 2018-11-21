@@ -716,6 +716,7 @@ public abstract class BasePage {
                         .window(windowHandle)
                         .close()
                 );
+        getDriver().switchTo().window(windowToRemainOpen);
         return this;
     }
 }
