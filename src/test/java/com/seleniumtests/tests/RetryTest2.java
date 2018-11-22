@@ -33,6 +33,12 @@ public class RetryTest2 extends SeleniumTestPlan {
         assert CustomAssertion.getVerificationFailures().isEmpty():"Verification Errors";
     }
 
+    @Test(groups = "retryFailedTest22")
+    public void retryFailedTest22() {
+        assert false : "this fails";
+    }
+
+
     private int count = 0;
 
     @Test

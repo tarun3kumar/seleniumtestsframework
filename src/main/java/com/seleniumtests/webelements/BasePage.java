@@ -719,4 +719,19 @@ public abstract class BasePage {
         getDriver().switchTo().window(windowToRemainOpen);
         return this;
     }
+
+    public BasePage waitForGivenWindowCount(int windowCount, int... waitPeriodInSec) throws InterruptedException {
+        int defaultWaitPeriod = 10;
+        if(waitPeriodInSec.length>0) {
+            defaultWaitPeriod = waitPeriodInSec[0];
+        }
+            for(int i=0; i<defaultWaitPeriod;i++) {
+                if(getDriver().getWindowHandles().size() == windowCount){
+                    break;
+                } else {
+                    Thread.sleep(1000);
+                }
+            }
+        return this;
+    }
 }

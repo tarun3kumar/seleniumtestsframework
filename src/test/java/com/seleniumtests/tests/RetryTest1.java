@@ -23,19 +23,26 @@ import org.testng.annotations.Test;
  */
 public class RetryTest1 extends SeleniumTestPlan {
 
-    @Test
+    @Test(groups = "retryFailedTest")
     public void retryFailedTest() {
-        CustomAssertion.assertThat("Soft failure", false);
+        assert false:"this fails";
+//        CustomAssertion.assertThat("Soft failure", false);
+/*
         CustomAssertion.assertThat("Soft failure 2, executed despite first failure", false);
         CustomAssertion.assertThat("This never fails", true);
         CustomAssertion.assertThat("This fails again", false);
+*/
         // with out assertion check, soft failures would not be caught
         assert CustomAssertion.getVerificationFailures().isEmpty():"Verification Errors";
     }
 
-    private int count = 0;
+    @Test(groups = "retryFailedTest11")
+    public void retryFailedTest11() {
+        assert false : "this fails";
+    }
 
-    @Test
+        private int count = 0;
+
     public void test() {
         count++;
         if (count % 3 != 0) {
