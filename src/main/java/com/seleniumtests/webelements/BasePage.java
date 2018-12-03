@@ -438,51 +438,51 @@ public abstract class BasePage {
         }
     }
 
-    public void waitForElementChecked(final HtmlElement element) {
+    public static void waitForElementChecked(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
         TestLogging.logWebStep(
             "wait for " + element.toString() + " to be checked.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeSelected(element.getBy()));
     }
 
-    public void waitForElementEditable(final HtmlElement element) {
+    public static void waitForElementEditable(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
         TestLogging.logWebStep(
             "wait for " + element.toString() + " to be editable.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(ExpectedConditions.elementToBeClickable(element.getBy()));
     }
 
-    public void waitForElementPresent(final By by) {
+    public static void waitForElementPresent(final By by) {
         TestLogging.logWebStep(
             "wait for " + by.toString() + " to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
-    public void waitForElementPresent(final By by, final int timeout) {
+    public static void waitForElementPresent(final By by, final int timeout) {
         TestLogging.logWebStep(
             "wait for " + by.toString() + " to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, timeout);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), timeout);
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
-    public void waitForElementPresent(final HtmlElement element) {
+    public static void waitForElementPresent(final HtmlElement element) {
         Assert.assertNotNull(element, "Element can't be null");
         TestLogging.logWebStep(
             "wait for " + element.toString() + " to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(
             ExpectedConditions.presenceOfElementLocated(
                     element.getBy()
@@ -562,7 +562,7 @@ public abstract class BasePage {
         WaitHelper.waitForSeconds(seconds);
     }
 
-    public void waitForTextPresent(
+    public static void waitForTextPresent(
         final HtmlElement element,
         final String text
     ) {
@@ -571,9 +571,9 @@ public abstract class BasePage {
             "wait for text \"" + text + "\" to be present.", false
         );
 
-        final WebDriverWait wait = new WebDriverWait(driver, EXPLICT_WAIT_TIMEOUT);
+        final WebDriverWait wait = new WebDriverWait(WebUIDriver.getWebDriver(), EXPLICT_WAIT_TIMEOUT);
         wait.until(
-            ExpectedConditions.textToBePresentInElement(
+            ExpectedConditions.textToBePresentInElementLocated(
                 element.getBy(),
                 text
             )
