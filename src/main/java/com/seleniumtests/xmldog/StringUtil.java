@@ -13,15 +13,7 @@
 
 package com.seleniumtests.xmldog;
 
-/**
- * StringUtil.java. To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates. To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation. $Id$
- */
-
-/**
- * StringUtil class containing utility functions related to Strings.
- */
+import java.util.UUID;
 
 public class StringUtil {
 
@@ -61,32 +53,11 @@ public class StringUtil {
 
     }
 
-    /**
-     * Main method for debugging purpose only.
-     */
-
-    public static void main(final String[] args) {
-
-        /*
-         *
-         * NULL value checking for instanceof operator
-         *
-         */
-
-        /*
-         *
-         * StringUtil su = null;
-         *
-         * if (su instanceof StringUtil)
-         *
-         *  System.out.println(" null can be instance of anything");
-         *
-         * else
-         *
-         *  System.out.println(" null cannot be instance of anything");
-         *
-         */
-
+    public static String generateRandomString(boolean... split) {
+        if(split.length>0) {
+            return UUID.randomUUID().toString().split("-")[0];
+        } else {
+            return UUID.randomUUID().toString();
+        }
     }
-
 }
