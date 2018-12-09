@@ -104,9 +104,7 @@ public class HtmlElement {
 
     public void check() {
         findElement();
-        if(element.isSelected()) {
-            // Do nothing, since element is checked
-        } else {
+        if(!element.isSelected()) {
             element.click();
         }
     }
