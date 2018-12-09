@@ -23,9 +23,16 @@ public class RadioButtonElement extends HtmlElement {
         super(label, by);
     }
 
+    @Override
     public void check() {
         TestLogging.logWebStep("check " + toHTML(), false);
         super.check();
+    }
+
+    @Override
+    public void uncheck() {
+        TestLogging.logWebStep("uncheck " + toHTML(), false);
+        super.uncheck();
     }
 
     @Override

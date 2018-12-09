@@ -109,6 +109,13 @@ public class HtmlElement {
         }
     }
 
+    public void uncheck() {
+        findElement();
+        if(element.isSelected()) {
+            element.click();
+        }
+    }
+
     /**
      * Click element in native way by Actions.
      */
