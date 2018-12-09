@@ -25,9 +25,7 @@ public class CheckBoxElement extends HtmlElement {
 
     public void check() {
         TestLogging.logWebStep("check " + toHTML(), false);
-        if (!isSelected()) {
-            super.click();
-        }
+        super.check();
     }
 
     @Override
