@@ -102,6 +102,15 @@ public class HtmlElement {
         element.click();
     }
 
+    public void check() {
+        findElement();
+        if(element.isSelected()) {
+            // Do nothing, since element is checked
+        } else {
+            element.click();
+        }
+    }
+
     /**
      * Click element in native way by Actions.
      */
