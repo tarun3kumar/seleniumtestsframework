@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="Selenium Framework Test Suite" parallel="false"
-	verbose="1" thread-count="1">
+<suite name="Selenium Framework Test Suite" parallel="tests"
+	verbose="1" thread-count="5">
 	<listeners>
 		<listener class-name="com.seleniumtests.reporter.SeleniumTestsReporter" />
 		<listener class-name="com.seleniumtests.core.TestRetryListener" />
@@ -45,13 +45,56 @@
 		<parameter name="eventFiringWebDriver" value="true"/>
 		<groups>
 			<run>
-				<include name="registerWithValidUserData"/>
+				<include name="retryFailedTest"/>
+				<include name="retryFailedTest11"/>
+				<include name="retryFailedTest22"/>
+				<!--<include name="webTest"/>-->
 			</run>
 		</groups>
         <classes>
-            <class name="com.seleniumtests.tests.RegistrationTest" />
+            <class name="com.seleniumtests.tests.RetryTest1" />
+			<class name="com.seleniumtests.tests.RetryTest2" />
+			<!--<class name="com.seleniumtests.tests.RegistrationTest" />-->
         </classes>
     </test>
+
+	<test name="WebTest - Test Link Login Test in Chrome 1">
+		<!--testType parameter is optional for web test, since testType defaults to web-->
+		<parameter name="testType" value="Web" />
+		<parameter name="eventFiringWebDriver" value="true"/>
+		<groups>
+			<run>
+				<include name="retryFailedTest"/>
+				<include name="retryFailedTest11"/>
+				<include name="retryFailedTest22"/>
+				<!--<include name="webTest"/>-->
+			</run>
+		</groups>
+		<classes>
+			<class name="com.seleniumtests.tests.RetryTest1" />
+			<class name="com.seleniumtests.tests.RetryTest2" />
+			<!--<class name="com.seleniumtests.tests.RegistrationTest" />-->
+		</classes>
+	</test>
+
+	<test name="WebTest - Test Link Login Test in Chrome 2">
+		<!--testType parameter is optional for web test, since testType defaults to web-->
+		<parameter name="testType" value="Web" />
+		<parameter name="eventFiringWebDriver" value="true"/>
+		<groups>
+			<run>
+				<include name="retryFailedTest"/>
+				<include name="retryFailedTest11"/>
+				<include name="retryFailedTest22"/>
+				<!--<include name="webTest"/>-->
+			</run>
+		</groups>
+		<classes>
+			<class name="com.seleniumtests.tests.RetryTest1" />
+			<class name="com.seleniumtests.tests.RetryTest2" />
+			<!--<class name="com.seleniumtests.tests.RegistrationTest" />-->
+		</classes>
+	</test>
 
 	<!--<test name="WebTest - JS Error Test">
         &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
