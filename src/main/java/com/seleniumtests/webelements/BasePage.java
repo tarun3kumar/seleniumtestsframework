@@ -729,7 +729,7 @@ public abstract class BasePage {
                 if(getDriver().getWindowHandles().size() == windowCount){
                     break;
                 } else {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 }
             }
         return this;
