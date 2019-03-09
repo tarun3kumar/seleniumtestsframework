@@ -33,18 +33,12 @@ import com.seleniumtests.helper.HashCodeGenerator;
 public class ScreenshotUtil {
     private static final Logger logger = Logger.getLogger(ScreenshotUtil.class);
 
-    public static String captureEntirePageScreenshotToString(final WebDriver driver, final String arg0) {
+    public static String captureEntirePageScreenshotToString(final WebDriver driver) {
         if (driver == null) {
             return "";
         }
 
         try {
-
-            // Don't capture snapshot for htmlunit
-            if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.HtmlUnit.getBrowserType())) {
-                return null;
-            }
-
             if (WebUIDriver.getWebUIDriver().getBrowser().equalsIgnoreCase(BrowserType.Android.getBrowserType())) {
                 return null;
             }
@@ -112,7 +106,7 @@ public class ScreenshotUtil {
 
     private void handleImage(final ScreenShot screenShot) {
         try {
-            String screenshotString = captureEntirePageScreenshotToString(WebUIDriver.getWebDriver(), "");
+            String screenshotString = captureEntirePageScreenshotToString(WebUIDriver.getWebDriver());
 
             if (screenshotString != null && !screenshotString.equalsIgnoreCase("")) {
                 byte[] byteArray = screenshotString.getBytes();
@@ -213,7 +207,7 @@ public class ScreenshotUtil {
             String filename = HashCodeGenerator.getRandomHashCode("HtmlElement");
             StringBuffer sbMessage = new StringBuffer();
             try {
-                String img = ScreenshotUtil.captureEntirePageScreenshotToString(WebUIDriver.getWebDriver(), "");
+                String img = ScreenshotUtil.captureEntirePageScreenshotToString(WebUIDriver.getWebDriver());
                 if (img == null) {
                     return;
                 }

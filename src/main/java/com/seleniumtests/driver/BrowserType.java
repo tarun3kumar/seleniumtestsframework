@@ -18,7 +18,6 @@ public enum BrowserType {
     Marionette("*marionette"),
     InternetExplore("*iexplore"),
     Chrome("*chrome"),
-    HtmlUnit("*htmlunit"),
     Safari("*safari"),
     Android("*android"),
     IPhone("*iphone"),
@@ -34,8 +33,6 @@ public enum BrowserType {
             return BrowserType.InternetExplore;
         } else if (browserType.equalsIgnoreCase("*chrome") || browserType.equalsIgnoreCase("chrome")) {
             return BrowserType.Chrome;
-        } else if (browserType.equalsIgnoreCase("*htmlunit") || browserType.equalsIgnoreCase("htmlunit")) {
-            return BrowserType.HtmlUnit;
         } else if (browserType.equalsIgnoreCase("*safari") || browserType.equalsIgnoreCase("safari")) {
             return BrowserType.Safari;
         } else if (browserType.equalsIgnoreCase("*android") || browserType.equalsIgnoreCase("android")) {
