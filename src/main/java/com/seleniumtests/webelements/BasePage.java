@@ -418,7 +418,7 @@ public abstract class BasePage {
     public final void selectWindow(final String windowName)
         throws NotCurrentPageException {
 
-        if (windowName == null) {
+        if (windowName != null) {
             try {
                 driver.switchTo().window(windowName);
             } catch (final Exception e) {
