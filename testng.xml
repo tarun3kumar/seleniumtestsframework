@@ -21,12 +21,12 @@
     To execute tests on chrome using selenium grid, start node running chrome as -
     java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register -browser  browserName
     =chrome platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true, ignoreProtectedModeSettings=true,
-    ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.chrome.driver="<path to chrome driver exe on node machine>\chromedriver.exe"
+    ignoreZoomSetting=true, takesScreenshot=true
 
     To execute tests on internet explorer using selenium grid, start node running internet explorer as -
     java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register -browser  browserName
     ="internet explorer" platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true, ignoreProtectedModeSettings=true,
-    ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.ie.driver="<path to internet explorer driver on node machine>\IEDriverServer.exe"
+    ignoreZoomSetting=true, takesScreenshot=true
     -->
 
     <parameter name="webDriverGrid" value="http://localhost:4444/wd/hub" /> 
@@ -37,8 +37,8 @@
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
 
-    <!--<test name="WebTest - Test Link Login Test in Chrome">
-        &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
+    <test name="WebTest - Test Link Login Test in Chrome">
+        <!--testType parameter is optional for web test, since testType defaults to web-->
         <parameter name="testType" value="Web" />
         <parameter name="eventFiringWebDriver" value="true"/>
         <groups>
@@ -49,7 +49,7 @@
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
-    </test>-->
+    </test>
 
     <!--<test name="WebTest - JS Error Test">
         &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;

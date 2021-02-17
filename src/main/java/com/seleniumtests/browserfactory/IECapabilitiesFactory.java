@@ -24,7 +24,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.seleniumtests.driver.DriverConfig;
 import com.seleniumtests.driver.DriverMode;
 import com.seleniumtests.helper.FileUtility;
-import com.seleniumtests.helper.OSUtility;
 import com.seleniumtests.resources.WebDriverExternalResources;
 
 public class IECapabilitiesFactory implements ICapabilitiesFactory {
@@ -35,17 +34,6 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
         if (!new File(dir).exists()) {
             FileUtility.extractJar(dir, WebDriverExternalResources.class);
         }
-
-        if (!new File(dir + "\\IEDriverServer.exe").exists()) {
-            if (OSUtility.getIEVersion() < 10) {
-                FileUtility.copyFile(dir + "\\IEDriverServer_x64.exe", dir + "\\IEDriverServer.exe");
-            } else {
-                FileUtility.copyFile(dir + "\\IEDriverServer_Win32.exe", dir + "\\IEDriverServer.exe"); // Win32
-            }
-        }
-
-        System.setProperty("webdriver.ie.driver", dir + "\\IEDriverServer.exe");
-        System.out.println(dir + "\\IEDriverServer.exe");
     }
 
     public DesiredCapabilities createCapabilities(final DriverConfig cfg) {

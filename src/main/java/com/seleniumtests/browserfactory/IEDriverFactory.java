@@ -69,16 +69,4 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
         this.setWebDriver(driver);
         return driver;
     }
-
-    private void killProcess() {
-        if (OSUtility.isWindows()) {
-            try {
-                Runtime.getRuntime().exec("taskkill /F /IM IEDriverServer.exe");
-                Runtime.getRuntime().exec("taskkill /F /IM Iexplore.exe");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

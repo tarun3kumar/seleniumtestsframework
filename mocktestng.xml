@@ -23,12 +23,12 @@
     To execute tests on chrome using selenium grid, start node running chrome as -
     java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register -browser  browserName
     =chrome platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true, ignoreProtectedModeSettings=true,
-    ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.chrome.driver="<path to chrome driver exe on node machine>\chromedriver.exe"
+    ignoreZoomSetting=true, takesScreenshot=true"
 
     To execute tests on internet explorer using selenium grid, start node running internet explorer as -
     java -jar selenium-server-standalone-<version>.jar -role node  -hub http://localhost:4444/grid/register -browser  browserName
     ="internet explorer" platform=WINDOWS, ensureCleanSession=true, javascriptEnabled=true, acceptSslCerts=true, ignoreProtectedModeSettings=true,
-    ignoreZoomSetting=true, takesScreenshot=true -Dwebdriver.ie.driver="<path to internet explorer driver on node machine>\IEDriverServer.exe"
+    ignoreZoomSetting=true, takesScreenshot=true"
     -->
 
 	<parameter name="webDriverGrid" value="http://localhost:4444/wd/hub" />
