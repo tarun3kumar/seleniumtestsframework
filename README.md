@@ -1,6 +1,5 @@
 # SeleniumTestsFramework
 
-[![Join the chat at https://gitter.im/tarun3kumar/seleniumtestsframework](https://badges.gitter.im/tarun3kumar/seleniumtestsframework.svg)](https://gitter.im/tarun3kumar/seleniumtestsframework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Javadocs](http://www.javadoc.io/badge/com.seleniumtests/seleniumtestsframework.svg)](http://www.javadoc.io/doc/com.seleniumtests/seleniumtestsframework)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.seleniumtests/seleniumtestsframework/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.seleniumtests/seleniumtestsframework)
 
