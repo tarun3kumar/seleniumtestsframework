@@ -25,7 +25,7 @@ Selenium Tests Framework (referred as STF from here on) is a test automation fra
 If you are looking for a sample project which uses STF then you should clone [seleniumtests](https://github.com/TestingForum/seleniumtests) project and not this project. [seleniumtests](https://github.com/TestingForum/seleniumtests) uses STF and demonstrates its features.
 
 ## I have a question
-Have a question or feature request? post it in [STF Features](http://www.seleniumtests.com/2013/10/announcing-selenium-tests-automation.html)
+Have a question or feature request? Post it under comment section of [STF Features](http://www.seleniumtests.com/2013/10/announcing-selenium-tests-automation.html)
 
 ## I want to contribute
 Clone the project and submit pull request :)
