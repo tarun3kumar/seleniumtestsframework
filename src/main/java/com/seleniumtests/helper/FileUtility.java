@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,7 +14,6 @@
 package com.seleniumtests.helper;
 
 import java.awt.image.BufferedImage;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -29,11 +28,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-
 import java.net.URLDecoder;
-
 import java.nio.channels.FileLock;
-
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +41,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-
 import org.apache.log4j.Logger;
 
 public class FileUtility {
@@ -317,7 +313,7 @@ public class FileUtility {
             }
 
             fileOutputStream = new FileOutputStream(path);
-            outputStreamWriter = new OutputStreamWriter(fileOutputStream, "UTF8");
+            outputStreamWriter = new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8);
             bw = new BufferedWriter(outputStreamWriter);
             bw.write(content);
         } finally {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,30 +14,24 @@
 package com.seleniumtests.browserfactory;
 
 import java.lang.reflect.InvocationTargetException;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.concurrent.TimeUnit;
 
 import org.apache.http.HttpHost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHttpEntityEnclosingRequest;
 import org.apache.http.util.EntityUtils;
-
 import org.json.JSONObject;
-
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.seleniumtests.core.TestLogging;
-
 import com.seleniumtests.driver.BrowserType;
 import com.seleniumtests.driver.DriverConfig;
 import com.seleniumtests.driver.ScreenShotRemoteWebDriver;
-
 import com.seleniumtests.helper.WaitHelper;
 
 public class RemoteDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {

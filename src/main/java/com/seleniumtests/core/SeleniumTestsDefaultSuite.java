@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,15 +13,23 @@
 
 package com.seleniumtests.core;
 
-import com.google.inject.Injector;
-import org.testng.*;
-import org.testng.internal.annotations.IAnnotationFinder;
-import org.testng.xml.XmlSuite;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.testng.IInvokedMethod;
+import org.testng.IObjectFactory;
+import org.testng.IObjectFactory2;
+import org.testng.ISuite;
+import org.testng.ISuiteResult;
+import org.testng.ITestNGListener;
+import org.testng.ITestNGMethod;
+import org.testng.SuiteRunState;
+import org.testng.internal.annotations.IAnnotationFinder;
+import org.testng.xml.XmlSuite;
+
+import com.google.inject.Injector;
 
 public class SeleniumTestsDefaultSuite implements ISuite {
 

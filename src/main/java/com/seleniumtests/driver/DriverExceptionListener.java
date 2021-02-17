@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,13 +13,14 @@
 
 package com.seleniumtests.driver;
 
-import com.seleniumtests.core.SeleniumTestsContextManager;
-import com.seleniumtests.customexception.WebSessionEndedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
+
+import com.seleniumtests.core.SeleniumTestsContextManager;
+import com.seleniumtests.customexception.WebSessionEndedException;
 
 public class DriverExceptionListener implements WebDriverEventListener {
     public void afterClickOn(final WebElement arg0, final WebDriver arg1) { }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,7 +14,6 @@
 package com.seleniumtests.browserfactory;
 
 import java.io.IOException;
-
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -22,8 +21,8 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import com.seleniumtests.driver.DriverConfig;
-
 import com.seleniumtests.helper.OSUtility;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {
 
@@ -58,7 +57,7 @@ public class IEDriverFactory extends AbstractWebDriverFactory implements IWebDri
         }
 
         DriverConfig cfg = this.getWebDriverConfig();
-
+        WebDriverManager.iedriver().setup();
         driver = new InternetExplorerDriver(new IECapabilitiesFactory().createCapabilities(cfg));
 
         // Implicit Waits to handle dynamic element. The default value is 5 seconds.

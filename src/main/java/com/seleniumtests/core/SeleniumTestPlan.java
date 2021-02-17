@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,16 +13,21 @@
 
 package com.seleniumtests.core;
 
-import com.seleniumtests.driver.WebUIDriver;
-import org.apache.log4j.Logger;
-import org.testng.ITestContext;
-import org.testng.annotations.*;
-import org.testng.xml.XmlTest;
-
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.testng.ITestContext;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+import org.testng.xml.XmlTest;
+
+import com.seleniumtests.driver.WebUIDriver;
 
 /**
  * This class initializes context, sets up and tears down and clean up drivers An STF test should extend this class.

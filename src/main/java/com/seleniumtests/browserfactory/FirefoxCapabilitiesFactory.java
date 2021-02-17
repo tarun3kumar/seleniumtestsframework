@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,19 +16,15 @@ package com.seleniumtests.browserfactory;
 import java.io.File;
 import java.io.IOException;
 
-import com.seleniumtests.driver.DriverMode;
-import com.seleniumtests.resources.WebDriverExternalResources;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.seleniumtests.core.TestLogging;
-
 import com.seleniumtests.customFFprofile.FireFoxProfileMarker;
-
 import com.seleniumtests.driver.DriverConfig;
-
+import com.seleniumtests.driver.DriverMode;
 import com.seleniumtests.helper.FileUtility;
 import com.seleniumtests.helper.OSUtility;
 
@@ -108,49 +104,11 @@ public class FirefoxCapabilitiesFactory implements ICapabilitiesFactory {
 
         // Set FirefoxDriver for local mode
         if (webDriverConfig.getMode() == DriverMode.LOCAL) {
-            String firefoxDriverPath = webDriverConfig.getChromeDriverPath();
-            if (firefoxDriverPath == null) {
-                try {
-                    if (System.getenv("webdriver.gecko.driver") != null) {
-                        System.out.println("get gecko driver from property:"
-                                + System.getenv("webdriver.gecko.driver"));
-                        System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
-                    } else {
-                        handleExtractResources();
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            } else {
-                System.setProperty("webdriver.gecko.driver", firefoxDriverPath);
-            }
+            // Do nothing as WebDriver manager takes care of setting driver
         }
 
         return capability;
     }
-
-    public void handleExtractResources() throws IOException {
-        String dir = this.getClass().getResource("/").getPath();
-        dir = FileUtility.decodePath(dir);
-
-        if (!new File(dir).exists()) {
-            System.out.println("extracting marionette resources in " + dir);
-            FileUtility.extractJar(dir, WebDriverExternalResources.class);
-        }
-
-        if (!new File(dir + OSUtility.getSlash() + "geckodriver.exe").exists()) {
-            FileUtility.extractJar(dir, WebDriverExternalResources.class);
-        }
-
-        if (OSUtility.isWindows()) {
-            System.setProperty("webdriver.gecko.driver", dir + "\\geckodriver.exe");
-        } else if (OSUtility.isMac()) {
-            System.setProperty("webdriver.gecko.driver", dir + "/mac/geckodriver");
-        } else {
-            System.setProperty("webdriver.gecko.driver", dir + "/geckodriver");
-        }
-    }
-
 
     protected FirefoxProfile createFirefoxProfile(final String path) {
         if (path != null) {

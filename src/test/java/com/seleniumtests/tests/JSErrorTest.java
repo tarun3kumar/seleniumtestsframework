@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,24 +13,10 @@
 
 package com.seleniumtests.tests;
 
-import com.seleniumtests.core.Filter;
-import com.seleniumtests.core.SeleniumTestPlan;
-import com.seleniumtests.dataobject.User;
-import com.seleniumtests.util.SpreadSheetHelper;
-import com.seleniumtests.util.internal.entity.TestEntity;
-import com.seleniumtests.webpage.GoogleHomePage;
-import com.seleniumtests.webpage.JSErrorPage;
-import com.seleniumtests.webpage.LoginPage;
-import com.seleniumtests.webpage.RegistrationPage;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-
-import static com.seleniumtests.core.CustomAssertion.assertThat;
-import static org.hamcrest.CoreMatchers.is;
+import com.seleniumtests.core.SeleniumTestPlan;
+import com.seleniumtests.webpage.JSErrorPage;
 
 
 public class JSErrorTest extends SeleniumTestPlan {

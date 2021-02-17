@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,16 +24,12 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import com.google.gdata.util.common.html.HtmlToText;
-
 import com.seleniumtests.driver.ScreenShot;
-
 import com.seleniumtests.helper.StringUtility;
-
 import com.seleniumtests.reporter.PluginsHelper;
 
 /**
@@ -154,7 +150,7 @@ public class TestLogging {
     }
 
     public static String buildScreenshotLog(final ScreenShot screenShot) {
-        StringBuffer sbMessage = new StringBuffer("");
+        StringBuffer sbMessage = new StringBuffer();
         if (screenShot.getLocation() != null) {
             sbMessage.append("<a href='" + screenShot.getLocation() + "' target=url>Application URL</a>");
         }

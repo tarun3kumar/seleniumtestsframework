@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,10 +19,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import java.net.URL;
 import java.net.URLConnection;
-
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,7 +32,6 @@ import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.Filter;
 import com.seleniumtests.core.TestLogging;
-
 import com.seleniumtests.customexception.CustomSeleniumTestsException;
 
 public class CSVHelper {
@@ -296,7 +294,7 @@ public class CSVHelper {
         List<String[]> list = new ArrayList<String[]>();
         String inputLine;
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         while ((inputLine = reader.readLine()) != null) {
             try {
                 String[] item;

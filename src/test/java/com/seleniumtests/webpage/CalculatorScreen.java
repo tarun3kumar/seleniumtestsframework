@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,7 +16,6 @@ package com.seleniumtests.webpage;
 import org.openqa.selenium.By;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
-
 import com.seleniumtests.webelements.ButtonElement;
 import com.seleniumtests.webelements.LabelElement;
 import com.seleniumtests.webelements.PageObject;

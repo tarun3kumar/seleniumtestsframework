@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,18 +13,23 @@
 
 package com.seleniumtests.webelements;
 
+import java.util.Set;
+import java.util.stream.Stream;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.TestLogging;
 import com.seleniumtests.customexception.NotCurrentPageException;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.helper.WaitHelper;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-
-import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * Base html page abstraction. Used by PageObject and WebPageSection
@@ -379,11 +384,7 @@ public abstract class BasePage {
             }
         }
 
-        if (count == 0) {
-            return false;
-        }
-
-        return true;
+        return count != 0;
 
     }
 

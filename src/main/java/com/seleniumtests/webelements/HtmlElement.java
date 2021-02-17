@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,14 +13,19 @@
 
 package com.seleniumtests.webelements;
 
-import com.seleniumtests.core.TestLogging;
-import com.seleniumtests.driver.BrowserType;
-import com.seleniumtests.driver.ScreenshotUtil;
-import com.seleniumtests.driver.WebUIDriver;
-import com.seleniumtests.helper.ContextHelper;
-import com.seleniumtests.helper.WaitHelper;
+import java.util.List;
+
 import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.InvalidElementStateException;
+import org.openqa.selenium.InvalidSelectorException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Mouse;
@@ -29,7 +34,12 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
+import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.driver.BrowserType;
+import com.seleniumtests.driver.ScreenshotUtil;
+import com.seleniumtests.driver.WebUIDriver;
+import com.seleniumtests.helper.ContextHelper;
+import com.seleniumtests.helper.WaitHelper;
 
 
 /**
@@ -43,9 +53,44 @@ public class HtmlElement {
     protected static final Logger logger = TestLogging.getLogger(
             HtmlElement.class);
 
-    private static enum LocatorType {
-        ID, NAME, CLASS_NAME, LINK_TEXT, PARTIAL_LINK_TEXT, CSS_SELECTOR,
-        TAG_NAME, XPATH,
+    /**
+     * Searches for the element using the BY locator, and indicates whether or not it exists in the page. This can be
+     * used to look for hidden objects, whereas isDisplayed() only looks for things that are visible to the user
+     *
+     * @return
+     */
+    public boolean isElementPresent() {
+
+        if (WebUIDriver.getWebDriver() == null) {
+            TestLogging.log(
+                    "Web Driver is terminated! Exception might caught in last action.");
+            throw new RuntimeException(
+                    "Web Driver is terminated! Exception might caught in last action.");
+        }
+
+        int count = 0;
+
+        try {
+
+            count = WebUIDriver.getWebDriver().findElements(by).size();
+        } catch (final RuntimeException e) {
+
+            if (e instanceof InvalidSelectorException) {
+                TestLogging.log("Got InvalidSelectorException, retry");
+                WaitHelper.waitForSeconds(2);
+                count = WebUIDriver.getWebDriver().findElements(by).size();
+            } else if ((e.getMessage() != null) &&
+                    e.getMessage().contains(
+                            "TransformedEntriesMap cannot be cast to java.util.List")) {
+                TestLogging.log("Got CastException, retry");
+                WaitHelper.waitForSeconds(2);
+                count = WebUIDriver.getWebDriver().findElements(by).size();
+            } else {
+                throw e;
+            }
+        }
+
+        return count != 0;
     }
 
     protected WebDriver driver = WebUIDriver.getWebDriver();
@@ -432,48 +477,9 @@ public class HtmlElement {
         }
     }
 
-    /**
-     * Searches for the element using the BY locator, and indicates whether or not it exists in the page. This can be
-     * used to look for hidden objects, whereas isDisplayed() only looks for things that are visible to the user
-     *
-     * @return
-     */
-    public boolean isElementPresent() {
-
-        if (WebUIDriver.getWebDriver() == null) {
-            TestLogging.log(
-                "Web Driver is terminated! Exception might caught in last action.");
-            throw new RuntimeException(
-                "Web Driver is terminated! Exception might caught in last action.");
-        }
-
-        int count = 0;
-
-        try {
-
-            count = WebUIDriver.getWebDriver().findElements(by).size();
-        } catch (final RuntimeException e) {
-
-            if (e instanceof InvalidSelectorException) {
-                TestLogging.log("Got InvalidSelectorException, retry");
-                WaitHelper.waitForSeconds(2);
-                count = WebUIDriver.getWebDriver().findElements(by).size();
-            } else if ((e.getMessage() != null) &&
-                    e.getMessage().contains(
-                        "TransformedEntriesMap cannot be cast to java.util.List")) {
-                TestLogging.log("Got CastException, retry");
-                WaitHelper.waitForSeconds(2);
-                count = WebUIDriver.getWebDriver().findElements(by).size();
-            } else {
-                throw e;
-            }
-        }
-
-        if (count == 0) {
-            return false;
-        }
-
-        return true;
+    private enum LocatorType {
+        ID, NAME, CLASS_NAME, LINK_TEXT, PARTIAL_LINK_TEXT, CSS_SELECTOR,
+        TAG_NAME, XPATH,
     }
 
     /**

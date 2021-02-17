@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,10 +23,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.seleniumtests.driver.DriverConfig;
 import com.seleniumtests.driver.DriverMode;
-
 import com.seleniumtests.helper.FileUtility;
 import com.seleniumtests.helper.OSUtility;
-
 import com.seleniumtests.resources.WebDriverExternalResources;
 
 public class IECapabilitiesFactory implements ICapabilitiesFactory {
@@ -54,20 +52,7 @@ public class IECapabilitiesFactory implements ICapabilitiesFactory {
 
         // Set IEDriver for Local Mode
         if (cfg.getMode() == DriverMode.LOCAL) {
-            if (cfg.getIeDriverPath() != null) {
-                System.setProperty("webdriver.ie.driver", cfg.getIeDriverPath());
-            } else {
-                if (System.getenv("webdriver.ie.driver") != null) {
-                    System.out.println("Get IE Driver from property:" + System.getenv("webdriver.ie.driver"));
-                    System.setProperty("webdriver.ie.driver", System.getenv("webdriver.ie.driver"));
-                } else {
-                    try {
-                        handleExtractResources();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            // Do nothing as WebDriverManager takes care of driver set up
 
         }
 

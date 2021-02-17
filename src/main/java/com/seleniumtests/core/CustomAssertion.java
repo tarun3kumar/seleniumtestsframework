@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +18,6 @@ import java.util.List;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
-
 import org.testng.Assert;
 import org.testng.Reporter;
 

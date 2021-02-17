@@ -49,9 +49,9 @@
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
-    </test>
+    </test>-->
 
-    <test name="WebTest - JS Error Test">
+    <!--<test name="WebTest - JS Error Test">
         &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
         <parameter name="appURL" value="http://webdriverjsdemo.github.io/error/"/>
         <parameter name="eventFiringWebDriver" value="true"/>

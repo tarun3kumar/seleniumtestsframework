@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,50 +13,122 @@
 
 package com.seleniumtests.reporter;
 
-import com.seleniumtests.core.*;
-import com.seleniumtests.driver.*;
-import com.seleniumtests.helper.StringUtility;
-import com.thoughtworks.qdox.JavaDocBuilder;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaMethod;
-import com.thoughtworks.qdox.model.Type;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Method;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.testng.*;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
+import org.testng.IReporter;
+import org.testng.IResultMap;
+import org.testng.ISuite;
+import org.testng.ISuiteResult;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestNGMethod;
+import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.internal.ResultMap;
 import org.testng.internal.TestResult;
 import org.testng.internal.Utils;
 import org.testng.xml.XmlSuite;
 
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
+import com.seleniumtests.core.CustomAssertion;
+import com.seleniumtests.core.SeleniumTestsContext;
+import com.seleniumtests.core.SeleniumTestsContextManager;
+import com.seleniumtests.core.SeleniumTestsPageListener;
+import com.seleniumtests.core.TestLogging;
+import com.seleniumtests.core.TestRetryAnalyzer;
+import com.seleniumtests.driver.ScreenShot;
+import com.seleniumtests.driver.ScreenshotUtil;
+import com.seleniumtests.driver.TestType;
+import com.seleniumtests.driver.WebUIDriver;
+import com.seleniumtests.helper.StringUtility;
+import com.thoughtworks.qdox.JavaDocBuilder;
+import com.thoughtworks.qdox.model.JavaClass;
+import com.thoughtworks.qdox.model.JavaMethod;
+import com.thoughtworks.qdox.model.Type;
 
 public class SeleniumTestsReporter implements IReporter, ITestListener, IInvokedMethodListener {
 
     private static final Logger logger = TestLogging.getLogger(SeleniumTestsReporter.class);
 
-    protected class TestMethodSorter<T extends ITestNGMethod> implements Comparator<T> {
+    public void afterInvocation(final IInvokedMethod method, final ITestResult result) {
+        Reporter.setCurrentTestResult(result);
 
-        /**
-         * Arrange methods by class and method name.
-         */
-        public int compare(final T o1, final T o2) {
-            int r = ((T) o1).getTestClass().getName().compareTo(o2.getTestClass().getName());
-            if (r == 0) {
-                r = ((T) o1).getMethodName().compareTo(o2.getMethodName());
+        // Handle Soft CustomAssertion
+        if (method.isTestMethod()) {
+            final List<Throwable> verificationFailures = CustomAssertion.getVerificationFailures();
+
+            final int size = verificationFailures.size();
+            if (size == 0) {
+                return;
+            } else if (result.getStatus() == TestResult.FAILURE) {
+                return;
             }
 
-            return r;
+            result.setStatus(TestResult.FAILURE);
+
+            if (size == 1) {
+                result.setThrowable(verificationFailures.get(0));
+            } else {
+
+                // create failure message with all failures and stack traces barring last failure)
+                final StringBuilder failureMessage = new StringBuilder("!!! Many Test Failures (").append(size).append(
+                        ")\n");
+                for (int i = 0; i < size - 1; i++) {
+                    failureMessage.append("Failure ").append(i + 1).append(" of ").append(size).append("\n");
+
+                    final Throwable t = verificationFailures.get(i);
+                    final String fullStackTrace = Utils.longStackTrace(t, false);
+                    failureMessage.append(fullStackTrace).append("\n");
+                }
+
+                // final failure
+                final Throwable last = verificationFailures.get(size - 1);
+                failureMessage.append("Failure ").append(size).append(" of ").append(size).append(":n");
+                failureMessage.append(last.toString());
+
+                // set merged throwable
+                final Throwable merged = new Throwable(failureMessage.toString());
+                merged.setStackTrace(last.getStackTrace());
+
+                result.setThrowable(merged);
+            }
         }
     }
 
@@ -129,49 +201,18 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         }
     }
 
-    public void afterInvocation(final IInvokedMethod method, final ITestResult result) {
-        Reporter.setCurrentTestResult(result);
+    protected PrintWriter createWriter(final String outDir) throws IOException {
+        System.setProperty("file.encoding", "UTF8");
+        uuid = uuid.replaceAll(" ", "-").replaceAll(":", "-");
 
-        // Handle Soft CustomAssertion
-        if (method.isTestMethod()) {
-            final List<Throwable> verificationFailures = CustomAssertion.getVerificationFailures();
+        final File f = new File(outDir, "SeleniumTestReport.html");
+        logger.info("generating report " + f.getAbsolutePath());
+        report = f;
 
-            final int size = verificationFailures.size();
-            if (size == 0) {
-                return;
-            } else if (result.getStatus() == TestResult.FAILURE) {
-                return;
-            }
+        final OutputStream out = new FileOutputStream(f);
+        final Writer writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
+        return new PrintWriter(writer);
 
-            result.setStatus(TestResult.FAILURE);
-
-            if (size == 1) {
-                result.setThrowable(verificationFailures.get(0));
-            } else {
-
-                // create failure message with all failures and stack traces barring last failure)
-                final StringBuilder failureMessage = new StringBuilder("!!! Many Test Failures (").append(size).append(
-                        ")\n");
-                for (int i = 0; i < size - 1; i++) {
-                    failureMessage.append("Failure ").append(i + 1).append(" of ").append(size).append("\n");
-
-                    final Throwable t = verificationFailures.get(i);
-                    final String fullStackTrace = Utils.stackTrace(t, false)[1];
-                    failureMessage.append(fullStackTrace).append("\n");
-                }
-
-                // final failure
-                final Throwable last = verificationFailures.get(size - 1);
-                failureMessage.append("Failure ").append(size).append(" of ").append(size).append(":n");
-                failureMessage.append(last.toString());
-
-                // set merged throwable
-                final Throwable merged = new Throwable(failureMessage.toString());
-                merged.setStackTrace(last.getStackTrace());
-
-                result.setThrowable(merged);
-            }
-        }
     }
 
     public void beforeInvocation(final IInvokedMethod arg0, final ITestResult arg1) { }
@@ -253,18 +294,19 @@ public class SeleniumTestsReporter implements IReporter, ITestListener, IInvoked
         }
     }
 
-    protected PrintWriter createWriter(final String outDir) throws IOException, FileNotFoundException {
-        System.setProperty("file.encoding", "UTF8");
-        uuid = uuid.replaceAll(" ", "-").replaceAll(":", "-");
+    protected class TestMethodSorter<T extends ITestNGMethod> implements Comparator<T> {
 
-        final File f = new File(outDir, "SeleniumTestReport.html");
-        logger.info("generating report " + f.getAbsolutePath());
-        report = f;
+        /**
+         * Arrange methods by class and method name.
+         */
+        public int compare(final T o1, final T o2) {
+            int r = o1.getTestClass().getName().compareTo(o2.getTestClass().getName());
+            if (r == 0) {
+                r = o1.getMethodName().compareTo(o2.getMethodName());
+            }
 
-        final OutputStream out = new FileOutputStream(f);
-        final Writer writer = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
-        return new PrintWriter(writer);
-
+            return r;
+        }
     }
 
     /**

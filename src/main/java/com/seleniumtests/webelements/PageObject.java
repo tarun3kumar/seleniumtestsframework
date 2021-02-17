@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,6 +13,20 @@
 
 package com.seleniumtests.webelements;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.UnhandledAlertException;
+import org.openqa.selenium.UnsupportedCommandException;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.UnreachableBrowserException;
+import org.testng.Assert;
+
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.seleniumtests.core.CustomAssertion;
 import com.seleniumtests.core.SeleniumTestsContextManager;
@@ -24,14 +38,6 @@ import com.seleniumtests.driver.ScreenShot;
 import com.seleniumtests.driver.ScreenshotUtil;
 import com.seleniumtests.driver.WebUIDriver;
 import com.seleniumtests.driver.WebUtility;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.UnreachableBrowserException;
-import org.testng.Assert;
-
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class PageObject extends BasePage implements IPage {
@@ -282,7 +288,7 @@ public class PageObject extends BasePage implements IPage {
                         "," + offsetY + ")", false);
         element.captureSnapshot("before draging");
 
-        new Actions(driver).dragAndDropBy((WebElement) element.getElement(),
+        new Actions(driver).dragAndDropBy(element.getElement(),
                 offsetX, offsetY).perform();
         element.captureSnapshot("after dropping");
     }

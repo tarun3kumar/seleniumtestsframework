@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -1727,14 +1727,14 @@ public class Comparator implements XMLDogConstants {
                             if (!_config.isCustomDifference()) {
 
                                 differences.add("Position Mismatch: Current Node " + minDiffNR.getTestNode().getXPath()
-                                        + " at position " + Integer.toString(minDiffNR.getTestNode().getPosition())
+                                        + " at position " + minDiffNR.getTestNode().getPosition()
                                         +
 
                                         " matches " + (minDiffNR.isExactMatch() ? "" : "closely")
                                         +
 
                                         " with Golden Node " + minDiffNR.getControlNode().getXPath() + " at position "
-                                        + Integer.toString(minDiffNR.getControlNode().getPosition()));
+                                        + minDiffNR.getControlNode().getPosition());
 
                             } else {
 
@@ -1766,14 +1766,14 @@ public class Comparator implements XMLDogConstants {
                             if (!_config.isCustomDifference()) {
 
                                 differences.add("Position Mismatch: Current Node " + nr.getTestNode().getXPath()
-                                        + " at position " + Integer.toString(nr.getTestNode().getPosition())
+                                        + " at position " + nr.getTestNode().getPosition()
                                         +
 
                                         " matches " + (nr.isExactMatch() ? "" : "closely")
                                         +
 
                                         " with Golden Node " + nr.getControlNode().getXPath() + " at position "
-                                        + Integer.toString(nr.getControlNode().getPosition()));
+                                        + nr.getControlNode().getPosition());
 
                             } else {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,13 +29,11 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.log4j.Logger;
 
 import com.seleniumtests.core.SeleniumTestsPageListener;
-
 import com.seleniumtests.reporter.pluginmodel.Method;
 import com.seleniumtests.reporter.pluginmodel.Page;
 import com.seleniumtests.reporter.pluginmodel.Plugin;
 import com.seleniumtests.reporter.pluginmodel.SeleniumTestsPlugins;
 import com.seleniumtests.reporter.pluginmodel.Test;
-
 import com.seleniumtests.webelements.IPage;
 
 public class PluginsHelper {

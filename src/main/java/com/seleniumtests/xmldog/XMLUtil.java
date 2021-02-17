@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -795,7 +795,7 @@ public class XMLUtil
 
                 sb.append(node.getNodeName());
 
-                Attr attrs[] = sortAttributes(node.getAttributes());
+                Attr[] attrs = sortAttributes(node.getAttributes());
 
                 for (int i = 0; i < attrs.length; i++)
 
@@ -1122,7 +1122,7 @@ public class XMLUtil
 
                         str.append("&#");
 
-                        str.append(Integer.toString(ch));
+                        str.append(ch);
 
                         str.append(';');
 
@@ -1166,7 +1166,7 @@ public class XMLUtil
 
         int len = (attrs != null) ? attrs.getLength() : 0;
 
-        Attr array[] = new Attr[len];
+        Attr[] array = new Attr[len];
 
         for (int i = 0; i < len; i++)
 
@@ -1303,7 +1303,7 @@ public class XMLUtil
 
         if (index > 0)
 
-            indexStr = "[" + Integer.toString(index) + "]";
+            indexStr = "[" + index + "]";
 
 
         //printNode(node);
@@ -1426,7 +1426,7 @@ public class XMLUtil
 
         if (index > 0)
 
-            indexStr = "[" + Integer.toString(index) + "]";
+            indexStr = "[" + index + "]";
 
 
         if (node.getNodeType() == Node.DOCUMENT_NODE)
@@ -1706,13 +1706,11 @@ public class XMLUtil
 
         {
 
-            if (node1.getNodeType() == node2.getNodeType() &&
+            return node1.getNodeType() == node2.getNodeType() &&
 
                     (areNullorEqual(node1.getNodeValue(), node2.getNodeValue(), ignoreWhitespace, false)) &&
 
-                    (areNullorEqual(node1.getLocalName(), node2.getLocalName(), ignoreWhitespace, false)))
-
-                return true;
+                    (areNullorEqual(node1.getLocalName(), node2.getLocalName(), ignoreWhitespace, false));
 
         } else if ((node1.getNamespaceURI() == null) && (node2.getNamespaceURI() == null))
 
@@ -1720,13 +1718,11 @@ public class XMLUtil
 
             //System.out.println("===> Both Namespace URIs are null");
 
-            if ((node1.getNodeType() == node2.getNodeType()) &&
+            return (node1.getNodeType() == node2.getNodeType()) &&
 
                     (areNullorEqual(node1.getNodeValue(), node2.getNodeValue(), ignoreWhitespace, false)) &&
 
-                    (areNullorEqual(node1.getNodeName(), node2.getNodeName(), ignoreWhitespace, false)))
-
-                return true;
+                    (areNullorEqual(node1.getNodeName(), node2.getNodeName(), ignoreWhitespace, false));
 
         }
 
@@ -1770,21 +1766,17 @@ public class XMLUtil
 
         {
 
-            if (node1.getNodeType() == node2.getNodeType() &&
+            return node1.getNodeType() == node2.getNodeType() &&
 
-                    (areNullorEqual(node1.getLocalName(), node2.getLocalName(), ignoreWhitespace, false)))
-
-                return true;
+                    (areNullorEqual(node1.getLocalName(), node2.getLocalName(), ignoreWhitespace, false));
 
         } else if ((node1.getNamespaceURI() == null) && (node2.getNamespaceURI() == null))
 
         {
 
-            if (node1.getNodeType() == node2.getNodeType() &&
+            return node1.getNodeType() == node2.getNodeType() &&
 
-                    (areNullorEqual(node1.getNodeName(), node2.getNodeName(), ignoreWhitespace, false)))
-
-                return true;
+                    (areNullorEqual(node1.getNodeName(), node2.getNodeName(), ignoreWhitespace, false));
 
         }
 

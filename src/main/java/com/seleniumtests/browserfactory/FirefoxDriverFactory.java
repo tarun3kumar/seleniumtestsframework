@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,6 +20,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.seleniumtests.driver.DriverConfig;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class FirefoxDriverFactory extends AbstractWebDriverFactory implements IWebDriverFactory {
     private long timeout = 60;
@@ -37,6 +38,7 @@ public class FirefoxDriverFactory extends AbstractWebDriverFactory implements IW
      * @return
      */
     protected WebDriver createNativeDriver() {
+        WebDriverManager.firefoxdriver().setup();
         return new FirefoxDriver(new FirefoxCapabilitiesFactory().createCapabilities(webDriverConfig));
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,9 +17,7 @@ import static com.seleniumtests.core.Locator.locateByCSSSelector;
 import static com.seleniumtests.core.Locator.locateByName;
 
 import com.seleniumtests.core.SeleniumTestsContextManager;
-
 import com.seleniumtests.dataobject.User;
-
 import com.seleniumtests.webelements.ButtonElement;
 import com.seleniumtests.webelements.PageObject;
 import com.seleniumtests.webelements.TextFieldElement;

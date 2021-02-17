@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -19,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -171,10 +170,10 @@ public class FileUtil {
 
             if ((filename == null) || (filename.trim().equals(""))) {
 
-                tempFile = f.createTempFile("file1", ".tmp");
+                tempFile = File.createTempFile("file1", ".tmp");
             } else {
 
-                tempFile = f.createTempFile(filename, "");
+                tempFile = File.createTempFile(filename, "");
             }
 
             fos = new FileOutputStream(tempFile);

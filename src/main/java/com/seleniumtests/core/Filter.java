@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,10 +14,8 @@
 package com.seleniumtests.core;
 
 import java.math.BigDecimal;
-
 import java.text.DateFormat;
 import java.text.ParseException;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +27,7 @@ import java.util.Map.Entry;
  */
 public class Filter {
 
-    static enum Operator {
+    enum Operator {
         EQUALS,
         EQUALS_IGNORE_CASE,
         LESS_THAN,
@@ -45,7 +43,7 @@ public class Filter {
         ENDS_WITH,
         ENDS_WITH_IGNORE_CASE,
         OR,
-        AND;
+        AND
     }
 
     public static Filter and(final Filter left, final Filter right) {

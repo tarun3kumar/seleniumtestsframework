@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 www.seleniumtests.com
+ * Copyright 2021 www.seleniumtests.com
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,12 +14,9 @@
 package com.seleniumtests.driver;
 
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.seleniumtests.browserfactory.*;
-import com.seleniumtests.core.CustomEventListener;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -27,6 +24,16 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 
+import com.seleniumtests.browserfactory.AndroidDriverFactory;
+import com.seleniumtests.browserfactory.ChromeDriverFactory;
+import com.seleniumtests.browserfactory.FirefoxDriverFactory;
+import com.seleniumtests.browserfactory.IEDriverFactory;
+import com.seleniumtests.browserfactory.IPhoneDriverFactory;
+import com.seleniumtests.browserfactory.IWebDriverFactory;
+import com.seleniumtests.browserfactory.RemoteDriverFactory;
+import com.seleniumtests.browserfactory.SafariDriverFactory;
+import com.seleniumtests.browserfactory.SauceLabsDriverFactory;
+import com.seleniumtests.core.CustomEventListener;
 import com.seleniumtests.core.SeleniumTestsContext;
 import com.seleniumtests.core.SeleniumTestsContextManager;
 
