@@ -1,8 +1,5 @@
 # SeleniumTestsFramework
 
-[![Javadocs](http://www.javadoc.io/badge/com.seleniumtests/seleniumtestsframework.svg)](http://www.javadoc.io/doc/com.seleniumtests/seleniumtestsframework)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.seleniumtests/seleniumtestsframework/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.seleniumtests/seleniumtestsframework)
-
 ## Introduction
 Selenium Tests Framework (referred as STF from here on) is a test automation framework for automated testing of Desktop web, mobile site and mobile apps. STF is based on WebDriver, Appium, TestNG and Maven. 
 
