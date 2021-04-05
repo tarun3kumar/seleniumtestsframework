@@ -406,7 +406,8 @@ public abstract class BasePage {
         TestLogging.logWebStep(
             "select frame, locator={\"" + by.toString() + "\"}", false
         );
-        driver.switchTo().frame(driver.findElement(by));
+        WebElement webElement = driver.findElement(by);
+        driver.switchTo().frame(webElement);
     }
 
     /**

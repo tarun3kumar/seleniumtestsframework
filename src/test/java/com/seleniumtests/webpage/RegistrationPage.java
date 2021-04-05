@@ -29,8 +29,10 @@ import com.seleniumtests.webelements.TextFieldElement;
  */
 public class RegistrationPage extends PageObject {
 
+
+    // https://github.com/appium/appium/issues/13306 > w3c standard only declares css and xpath locators
     private static final TextFieldElement firstNameTextbox = new TextFieldElement("First name text box",
-            locateByName("firstname"));
+            locateByCSSSelector("input[name='firstname']"));
 
     private TextFieldElement lastNameTextbox = new TextFieldElement("Last name text box", locateByName("lastname"));
 

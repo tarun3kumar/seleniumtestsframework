@@ -37,8 +37,8 @@
     <parameter name="useFirefoxDefaultProfile" value="false"/>
 
 
-    <test name="WebTest - Test Link Login Test in Chrome">
-        <!--testType parameter is optional for web test, since testType defaults to web-->
+    <!--<test name="WebTest - Test Link Login Test in Chrome">
+        &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
         <parameter name="testType" value="Web" />
         <parameter name="eventFiringWebDriver" value="true"/>
         <groups>
@@ -49,7 +49,7 @@
         <classes>
             <class name="com.seleniumtests.tests.RegistrationTest" />
         </classes>
-    </test>
+    </test>-->
 
     <!--<test name="WebTest - JS Error Test">
         &lt;!&ndash;testType parameter is optional for web test, since testType defaults to web&ndash;&gt;
@@ -105,7 +105,7 @@
         <classes>
             <class name="com.seleniumtests.tests.SoftAssertionTest" />
         </classes>
-    </test>
+    </test> -->
 
     <test name="Android m-site Test" parallel="false">
         <parameter name="testType" value="Web" />
@@ -113,24 +113,20 @@
         <parameter name="appiumServerURL" value="http://localhost:4723/wd/hub"/>
         <parameter name="automationName" value="Appium"/>
         <parameter name="platform" value="Android"/>
-        <parameter name="mobilePlatformVersion" value="5.1"/>
-        <parameter name="deviceName" value="emulator-5554"/>
-        &lt;!&ndash;For m-site test, set this parameter to Browser&ndash;&gt;
-        <parameter name="app" value="Browser"/>
+        <!-- device name is displayed on command adb devices -->
+        <parameter name="deviceName" value="L2N0219828001013"/>
 
-        &lt;!&ndash;Test on default emulator Browser
-        Set the property to "Chrome" to run test on chrome browser on android device instead of default Browser&ndash;&gt;
-        <parameter name="browserName" value="Browser"/>
+        <!--Test on default emulator Browser
+        Set the property to "Chrome" to run test on chrome browser on android device instead of default Browser-->
+        <parameter name="browserName" value="Chrome"/>
         <parameter name="newCommandTimeout" value="120"/>
-
         <parameter name="parallel" value="false"/>
-
         <classes>
-            <class name="com.seleniumtests.tests.RegistrationTest" />
+            <class name="com.seleniumtests.tests.AndroidWebTest"/>
         </classes>
     </test>
 
-    <test name="ios m-site Test" parallel="false">
+    <!--<test name="ios m-site Test" parallel="false">
         <parameter name="testType" value="Web" />
         &lt;!&ndash;browser *iphone is used to run tests on both iphone and ipad&ndash;&gt;
         <parameter name="browser" value="*iphone" />

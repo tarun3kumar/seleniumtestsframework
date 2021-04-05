@@ -474,7 +474,8 @@ public class PageObject extends BasePage implements IPage {
 
     public final void selectFrame(final By by) {
         TestLogging.logWebStep("select frame, locator={\"" + by.toString() + "\"}", false);
-        driver.switchTo().frame(driver.findElement(by));
+        WebElement webElement = driver.findElement(by);
+        driver.switchTo().frame(webElement);
         frameFlag = true;
     }
 

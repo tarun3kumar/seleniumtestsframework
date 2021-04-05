@@ -14,6 +14,7 @@
 package com.seleniumtests.driver;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -50,6 +51,16 @@ public class DriverExceptionListener implements WebDriverEventListener {
     public void afterNavigateTo(final String arg0, final WebDriver arg1) { }
 
     public void afterScript(final String arg0, final WebDriver arg1) { }
+
+    @Override
+    public void beforeSwitchToWindow(String windowName, WebDriver driver) {
+
+    }
+
+    @Override
+    public void afterSwitchToWindow(String windowName, WebDriver driver) {
+
+    }
 
     public void beforeClickOn(final WebElement arg0, final WebDriver arg1) { }
 
@@ -158,5 +169,25 @@ public class DriverExceptionListener implements WebDriverEventListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public <X> void beforeGetScreenshotAs(OutputType<X> target) {
+
+    }
+
+    @Override
+    public <X> void afterGetScreenshotAs(OutputType<X> target, X screenshot) {
+
+    }
+
+    @Override
+    public void beforeGetText(WebElement element, WebDriver driver) {
+
+    }
+
+    @Override
+    public void afterGetText(WebElement element, WebDriver driver, String text) {
+
     }
 }
