@@ -62,6 +62,9 @@ public class FileUtility {
             ZipEntry entry = (ZipEntry) jarFiles.nextElement();
             String currentEntry = entry.getName();
             File destinationFile = new File(storeLocation, currentEntry);
+            if (!destinationFile.toPath().normalize().startsWith(storeLocation)) {
+                throw new IOException("Bad zip entry");
+            }
             File destinationParent = destinationFile.getParentFile();
 
             // create the parent directory structure if required
